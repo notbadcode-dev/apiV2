@@ -1,0 +1,43 @@
+{
+    "message": {},
+    "error_message": {
+        "api": {
+            "dot_env_variable_undefined": "Die Variable ist in der .env-Datei nicht definiert.",
+            "not_defined_env_variable": "Die Variable %{0} ist in der .env-Datei nicht definiert.",
+            "error_database_initialization": "Fehler bei der Initialisierung der Datenquelle '%{0}'.'"
+        },
+        "translate": {
+            "wrong_number_of_parameters": "Falsche Anzahl von Parametern für Schlüssel %{0}. Erwartet %{0}, erhalten %{0}"
+        },
+        "http": {
+            "success": "Anforderungsvorgang erfolgreich verarbeitet.",
+            "created": "Erstellungsvorgang erfolgreich verarbeitet.'",
+            "no_content": "Keine Inhalte.",
+            "bad_request": "Schlechte Anfrage.",
+            "unauthorized": "Unbefugter Zugriff.",
+            "forbidden": "Verboten.",
+            "not_found": "Nicht gefunden.",
+            "already_exists": "Existiert bereits.",
+            "internal_server_error": "Interner Serverfehler.",
+            "critical_server_error": "Kritischer Fehler.",
+            "Unauthorized": "error_message.http.Unauthorized",
+            "Forbidden": "error_message.http.Forbidden"
+        },
+        "password": {
+            "failed_encrypt": "Passwortverschlüsselung fehlgeschlagen.",
+            "failed_verify": "Passwortüberprüfung fehlgeschlagen."
+        },
+        "application": {
+            "there_is_not_application_with_id": "Es gibt keine Anwendung mit der ID: %{0}.",
+            "application_with_id_not_found": "Anwendung mit der ID: %{0} wurde nicht gefunden.",
+            "could_not_associate_application_and_user": "Anwendung %{0} und Benutzer mit dem Benutzernamen %{1} konnten nicht verknüpft werden."
+        },
+        "user": {
+            "already_exist_user_same_password": "Es existiert bereits ein Benutzer mit dem gleichen Benutzernamen.'",
+            "could_not_created_user_with_username": "Benutzer mit Benutzernamen %{0} konnte nicht erstellt werden.",
+            "user_with_id_not_found": "Benutzer mit der ID: %{0} wurde nicht gefunden.",
+            "user_with_username_not_found": "Benutzer mit dem Benutzernamen %{0} wurde nicht gefunden.",
+            "could_not_update_user": "Benutzer mit Benutzernamen %{0} konnte nicht aktualisiert werden."
+        }
+    }
+}

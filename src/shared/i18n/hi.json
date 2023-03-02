@@ -1,0 +1,43 @@
+{
+    "message": {},
+    "error_message": {
+        "api": {
+            "dot_env_variable_undefined": ".env फ़ाइल में चर अपरिभाषित है।",
+            "not_defined_env_variable": "चर %{0} .env फ़ाइल में परिभाषित नहीं है।",
+            "error_database_initialization": "डेटा स्रोत '%{0}' की प्रारंभिककरण के दौरान त्रुटि हुई।'"
+        },
+        "translate": {
+            "wrong_number_of_parameters": "कुंजी %{0} के लिए गलत पैरामीटर संख्या। %{0} अपेक्षित, %{0} प्राप्त किया गया"
+        },
+        "http": {
+            "success": "अनुरोध ऑपरेशन सफलतापूर्वक प्रसंस्कृत हुआ।",
+            "created": "नई ऑपरेशन सफलतापूर्वक प्रसंस्कृत किया गया।'",
+            "no_content": "कोई सामग्री नहीं।",
+            "bad_request": "बुरा अनुरोध।",
+            "unauthorized": "अनधिकृत।",
+            "forbidden": "निषिद्ध।",
+            "not_found": "नहीं मिला।",
+            "already_exists": "पहले से मौजूद है।",
+            "internal_server_error": "आंतरिक सर्वर त्रुटि।",
+            "critical_server_error": "गंभीर त्रुटि।",
+            "Unauthorized": "error_message.http.Unauthorized",
+            "Forbidden": "error_message.http.Forbidden"
+        },
+        "password": {
+            "failed_encrypt": "पासवर्ड एन्क्रिप्ट करने में विफल रहा।",
+            "failed_verify": "पासवर्ड सत्यापन में विफल रहा।"
+        },
+        "application": {
+            "there_is_not_application_with_id": "उस आईडी के साथ कोई एप्लिकेशन नहीं है: %{0}.",
+            "application_with_id_not_found": "आईडी %{0} के साथ एप्लिकेशन नहीं मिला.",
+            "could_not_associate_application_and_user": "एप्लिकेशन %{0} और उपयोगकर्ता %{1} को संबद्ध नहीं किया जा सकता।"
+        },
+        "user": {
+            "already_exist_user_same_password": "पहले से ही एक उपयोगकर्ता उसी उपयोगकर्ता नाम और पासवर्ड के साथ मौजूद है।'",
+            "could_not_created_user_with_username": "उपयोगकर्ता नाम %{0} के साथ उपयोगकर्ता नहीं बनाया जा सकता।",
+            "user_with_id_not_found": "आईडी %{0} के साथ उपयोगकर्ता नहीं मिला।",
+            "user_with_username_not_found": "उपयोगकर्ता नाम %{0} के साथ उपयोगकर्ता नहीं मिला।",
+            "could_not_update_user": "उपयोगकर्ता नाम %{0} को अपडेट नहीं किया जा सकता।"
+        }
+    }
+}

@@ -1,0 +1,43 @@
+{
+    "message": {},
+    "error_message": {
+        "api": {
+            "dot_env_variable_undefined": ".envファイルで変数が未定義です。",
+            "not_defined_env_variable": ".envファイルに%{0}が定義されていません。",
+            "error_database_initialization": "データソース'%{0}'の初期化中にエラーが発生しました。"
+        },
+        "translate": {
+            "wrong_number_of_parameters": "キー%{0}のパラメータの数が正しくありません。%{0}を想定していましたが、%{0}が渡されました。"
+        },
+        "http": {
+            "success": "リクエスト操作は正常に処理されました。",
+            "created": "作成操作は正常に処理されました。",
+            "no_content": "コンテンツがありません。",
+            "bad_request": "リクエストが不正です。",
+            "unauthorized": "認証に失敗しました。",
+            "forbidden": "アクセスが拒否されました。",
+            "not_found": "見つかりませんでした。",
+            "already_exists": "既に存在しています。",
+            "internal_server_error": "サーバーエラーが発生しました。",
+            "critical_server_error": "致命的なエラーが発生しました。",
+            "Unauthorized": "error_message.http.Unauthorized",
+            "Forbidden": "error_message.http.Forbidden"
+        },
+        "password": {
+            "failed_encrypt": "パスワードの暗号化に失敗しました。",
+            "failed_verify": "パスワードの検証に失敗しました。"
+        },
+        "application": {
+            "there_is_not_application_with_id": "idが%{0}のアプリケーションは存在しません。",
+            "application_with_id_not_found": "idが%{0}のアプリケーションは見つかりませんでした。",
+            "could_not_associate_application_and_user": "アプリケーション%{0}とユーザー%{1}の関連付けに失敗しました。"
+        },
+        "user": {
+            "already_exist_user_same_password": "同じユーザー名を持つユーザーが既に存在しています。",
+            "could_not_created_user_with_username": "ユーザー%{0}を作成できませんでした。",
+            "user_with_id_not_found": "idが%{0}のユーザーは見つかりませんでした。",
+            "user_with_username_not_found": "ユーザー名%{0}のユーザーは見つかりませんでした。",
+            "could_not_update_user": "ユーザー名%{0}のユーザーを更新できませんでした。"
+        }
+    }
+}
