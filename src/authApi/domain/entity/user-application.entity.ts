@@ -4,7 +4,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ApplicationEntity } from './application.entity';
 import { UserEntity } from './user.entity';
 
-@Entity({ name: 'user_application' })
+@Entity({ name: 'auth.user_application' })
 export class UserApplicationEntity extends EntityBase {
     @PrimaryGeneratedColumn('increment', { name: 'user_application_id' })
     id!: number;

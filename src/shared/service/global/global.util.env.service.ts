@@ -5,6 +5,14 @@ import { ERROR_MESSAGE_API } from '../../constant/error-message/error-message-ap
 
 @Service()
 export class GlobalUtilEnvService {
+    public static getSessionSecret(): string {
+        return this.getStringEnvironmentVariable(process.env.SESSION_SECRET);
+    }
+
+    public static getSessionExpiresIn(): string {
+        return this.getStringEnvironmentVariable(process.env.SESSION_EXPIRES_IN);
+    }
+
     public static getAuthEnvironment(): IEnvironment {
         return {
             port: this.getNumberEnvironmentVariable(process.env.API_AUTH_PORT),

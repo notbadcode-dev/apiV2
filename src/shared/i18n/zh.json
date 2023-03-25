@@ -7,7 +7,7 @@
             "error_database_initialization": "在数据源 '%{0}' 初始化时发生错误。'"
         },
         "translate": {
-            "wrong_number_of_parameters": "关键字 %{0} 的参数数量错误。预期为 %{0}，实际为 %{0}"
+            "wrong_number_of_parameters": "关键字 %{0} 的参数数量错误。预期为 %{1}，实际为 %{2}"
         },
         "http": {
             "success": "请求操作已成功处理。",
@@ -19,9 +19,7 @@
             "not_found": "未找到。",
             "already_exists": "已存在。",
             "internal_server_error": "内部服务器错误。",
-            "critical_server_error": "关键服务器错误。",
-            "Unauthorized": "error_message.http.Unauthorized",
-            "Forbidden": "error_message.http.Forbidden"
+            "critical_server_error": "关键服务器错误。"
         },
         "password": {
             "failed_encrypt": "密码加密失败。",

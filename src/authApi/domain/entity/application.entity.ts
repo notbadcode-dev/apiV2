@@ -4,7 +4,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 // eslint-disable-next-line hexagonal-architecture/enforce
 import { UserApplicationEntity } from './user-application.entity';
 
-@Entity({ name: 'application' })
+@Entity({ name: 'auth.application' })
 export class ApplicationEntity extends EntityBase {
     @PrimaryGeneratedColumn('increment', { name: 'application_id' })
     id!: number;

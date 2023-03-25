@@ -19,9 +19,7 @@
             "not_found": "찾을 수 없음.",
             "already_exists": "이미 존재합니다.",
             "internal_server_error": "내부 서버 오류.",
-            "critical_server_error": "심각한 오류가 발생했습니다.",
-            "Unauthorized": "error_message.http.Unauthorized",
-            "Forbidden": "error_message.http.Forbidden"
+            "critical_server_error": "심각한 오류가 발생했습니다."
         },
         "password": {
             "failed_encrypt": "암호를 암호화하는 데 실패했습니다.",

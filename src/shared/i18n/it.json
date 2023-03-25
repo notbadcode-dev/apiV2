@@ -7,7 +7,7 @@
             "error_database_initialization": "Errore durante l'inizializzazione del Data Source '%{0}'"
         },
         "translate": {
-            "wrong_number_of_parameters": "Numero errato di parametri per la chiave %{0}. Previsti %{0}, ricevuti %{0}"
+            "wrong_number_of_parameters": "Numero errato di parametri per la chiave %{0}. Previsti %{1}, ricevuti %{2}"
         },
         "http": {
             "success": "Operazione richiesta eseguita correttamente.",
@@ -19,9 +19,7 @@
             "not_found": "Non trovato.",
             "already_exists": "Già esistente.",
             "internal_server_error": "Errore interno del server.",
-            "critical_server_error": "Errore critico.",
-            "Unauthorized": "error_message.http.Unauthorized",
-            "Forbidden": "error_message.http.Forbidden"
+            "critical_server_error": "Errore critico."
         },
         "password": {
             "failed_encrypt": "Impossibile criptare la password.",

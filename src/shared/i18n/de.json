@@ -7,7 +7,7 @@
             "error_database_initialization": "Fehler bei der Initialisierung der Datenquelle '%{0}'.'"
         },
         "translate": {
-            "wrong_number_of_parameters": "Falsche Anzahl von Parametern für Schlüssel %{0}. Erwartet %{0}, erhalten %{0}"
+            "wrong_number_of_parameters": "Falsche Anzahl von Parametern für Schlüssel %{0}. Erwartet %{1}, erhalten %{2}"
         },
         "http": {
             "success": "Anforderungsvorgang erfolgreich verarbeitet.",
@@ -19,9 +19,7 @@
             "not_found": "Nicht gefunden.",
             "already_exists": "Existiert bereits.",
             "internal_server_error": "Interner Serverfehler.",
-            "critical_server_error": "Kritischer Fehler.",
-            "Unauthorized": "error_message.http.Unauthorized",
-            "Forbidden": "error_message.http.Forbidden"
+            "critical_server_error": "Kritischer Fehler."
         },
         "password": {
             "failed_encrypt": "Passwortverschlüsselung fehlgeschlagen.",

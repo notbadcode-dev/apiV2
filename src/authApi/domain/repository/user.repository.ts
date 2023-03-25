@@ -1,8 +1,7 @@
 import { InternalServerError } from 'routing-controllers';
 import { ERROR_MESSAGE_USER } from 'shared/constant/error-message/error-message-user.constant';
 import { NotFountError } from 'shared/error/not-found.error';
-import { loggerMethod } from 'shared/service/decorator/logger-method.decorator';
-import { GlobalUtilStringService } from 'shared/service/global/global.util.string.service';
+import { LoggerMethodDecorator } from 'shared/service/decorator/logger-method.decorator';
 import { Inject, Service } from 'typedi';
 import { DataSource, Repository } from 'typeorm';
 import { UserEntity } from '../entity/user.entity';
@@ -14,11 +13,10 @@ export class UserRepository {
     constructor(
         @Inject(UserEntity.name) private _userRepository: Repository<UserEntity>,
         @Inject() private _userUpdaterToUserEntityMapper: UserUpdaterToUserEntityMapper,
-        @Inject() private _globalUtilStringService: GlobalUtilStringService,
         @Inject() private _dataSource: DataSource
     ) {}
 
-    @loggerMethod
+    @LoggerMethodDecorator
     public async create(username: string, password: string): Promise<UserEntity> {
         const NEW_USER: UserEntity = new UserEntity();
         NEW_USER.username = username;
@@ -41,7 +39,7 @@ export class UserRepository {
         return await this.getById(SAVED_CREATED_USER.id);
     }
 
-    @loggerMethod
+    @LoggerMethodDecorator
     public async update(userUpdate: IUserUpdater): Promise<UserEntity> {
         const USER_ENTITY: UserEntity = this._userUpdaterToUserEntityMapper.map(userUpdate);
 
@@ -62,7 +60,7 @@ export class UserRepository {
         return await this.getById(USER_ENTITY.id);
     }
 
-    @loggerMethod
+    @LoggerMethodDecorator
     public async getById(userId: number): Promise<UserEntity> {
         const USER_ENTITY: UserEntity | null = await this._userRepository.findOneBy({ id: userId });
 
@@ -73,7 +71,7 @@ export class UserRepository {
         return USER_ENTITY;
     }
 
-    @loggerMethod
+    @LoggerMethodDecorator
     public async getByName(username: string, controlExists?: boolean): Promise<UserEntity | null> {
         const USER_ENTITY: UserEntity | null = await this._userRepository.findOneBy({ username: username });
 
@@ -88,7 +86,18 @@ export class UserRepository {
         return USER_ENTITY;
     }
 
-    @loggerMethod
+    @LoggerMethodDecorator
+    public async getByNameAndPassword(username: string, password: string): Promise<UserEntity | null> {
+        const USER_ENTITY: UserEntity | null = await this._userRepository.findOneBy({ username: username, password: password });
+
+        if (!USER_ENTITY || !USER_ENTITY?.id || !USER_ENTITY.username?.length) {
+            throw new NotFountError(ERROR_MESSAGE_USER.USER_WITH_USERNAME_NOT_FOUND(username));
+        }
+
+        return USER_ENTITY;
+    }
+
+    @LoggerMethodDecorator
     public async getAll(): Promise<UserEntity[]> {
         const USER_ENTITY_LIST: UserEntity[] = await this._userRepository.find();
         return USER_ENTITY_LIST;

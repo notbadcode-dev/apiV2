@@ -7,7 +7,7 @@
             "error_database_initialization": "Erreur lors de l'initialisation de la source de données '%{0}'"
         },
         "translate": {
-            "wrong_number_of_parameters": "Nombre de paramètres incorrect pour la clé %{0}. Attendu %{0}, obtenu %{0}"
+            "wrong_number_of_parameters": "Nombre de paramètres incorrect pour la clé %{0}. Attendu %{1}, obtenu %{2}"
         },
         "http": {
             "success": "Opération de demande traitée avec succès.",
@@ -19,9 +19,7 @@
             "not_found": "Non trouvé.",
             "already_exists": "Déjà existant.",
             "internal_server_error": "Erreur interne du serveur.",
-            "critical_server_error": "Erreur critique.",
-            "Unauthorized": "error_message.http.Unauthorized",
-            "Forbidden": "error_message.http.Forbidden"
+            "critical_server_error": "Erreur critique."
         },
         "password": {
             "failed_encrypt": "Échec de l'encryption du mot de passe.",

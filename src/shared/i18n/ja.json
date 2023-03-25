@@ -7,7 +7,7 @@
             "error_database_initialization": "データソース'%{0}'の初期化中にエラーが発生しました。"
         },
         "translate": {
-            "wrong_number_of_parameters": "キー%{0}のパラメータの数が正しくありません。%{0}を想定していましたが、%{0}が渡されました。"
+            "wrong_number_of_parameters": "キー%{0}のパラメータの数が正しくありません。%{1}を想定していましたが、%{2}が渡されました。"
         },
         "http": {
             "success": "リクエスト操作は正常に処理されました。",
@@ -19,9 +19,7 @@
             "not_found": "見つかりませんでした。",
             "already_exists": "既に存在しています。",
             "internal_server_error": "サーバーエラーが発生しました。",
-            "critical_server_error": "致命的なエラーが発生しました。",
-            "Unauthorized": "error_message.http.Unauthorized",
-            "Forbidden": "error_message.http.Forbidden"
+            "critical_server_error": "致命的なエラーが発生しました。"
         },
         "password": {
             "failed_encrypt": "パスワードの暗号化に失敗しました。",

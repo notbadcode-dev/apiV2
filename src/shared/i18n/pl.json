@@ -19,9 +19,7 @@
             "not_found": "Nie znaleziono.",
             "already_exists": "Już istnieje.",
             "internal_server_error": "Wewnętrzny błąd serwera.",
-            "critical_server_error": "Błąd krytyczny.",
-            "Unauthorized": "error_message.http.Unauthorized",
-            "Forbidden": "error_message.http.Forbidden"
+            "critical_server_error": "Błąd krytyczny."
         },
         "password": {
             "failed_encrypt": "Nie udało się zaszyfrować hasła.",

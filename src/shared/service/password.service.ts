@@ -1,13 +1,13 @@
 import * as bcrypt from 'bcrypt';
 import { ERROR_MESSAGE_PASSWORD } from 'shared/constant/error-message/error-message-password';
 import { Service } from 'typedi';
-import { loggerMethod } from './decorator/logger-method.decorator';
+import { LoggerMethodDecorator } from './decorator/logger-method.decorator';
 
 @Service()
 export class PasswordService {
     private saltRounds = 10;
 
-    @loggerMethod
+    @LoggerMethodDecorator
     async hashPassword(password: string): Promise<string> {
         try {
             const hash = await bcrypt.hash(password, this.saltRounds);
@@ -17,7 +17,7 @@ export class PasswordService {
         }
     }
 
-    @loggerMethod
+    @LoggerMethodDecorator
     async verifyPassword(password: string, hash: string): Promise<boolean> {
         try {
             const result = await bcrypt.compare(password, hash);

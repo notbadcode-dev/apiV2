@@ -11,6 +11,10 @@ export const ERROR_MESSAGE_API = {
         return TranslationService.translateWithParameters('error_message.api.error_database_initialization', [databaseName]);
     },
     WRONG_NUMBER_OF_PARAMETERS: (key: string, matchLength: number, parametersLength: number): string => {
-        return TranslationService.translateWithParameters('error_message.translate.wrong_number_of_parameters', [key, matchLength.toString(), parametersLength.toString()]);
+        return TranslationService.translateWithParameters('error_message.translate.wrong_number_of_parameters', [
+            key,
+            matchLength.toString(),
+            parametersLength.toString(),
+        ]);
     },
 };

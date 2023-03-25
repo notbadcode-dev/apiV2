@@ -1,4 +1,5 @@
 import translate from 'app.translate';
+import { Replacements } from 'i18n';
 import { ERROR_MESSAGE_API } from 'shared/constant/error-message/error-message-api.constant';
 import { REGEX } from 'shared/constant/regex.constant';
 import { DEFAULT_TRANSLATE_LOCATE } from 'shared/constant/translate.constant';
@@ -21,19 +22,21 @@ export class TranslationService {
     static translateWithParameters(key: string, parameterList: string[]): string {
         TranslationService.controlNumberParametersAvailable(key, parameterList);
 
-        const params = TranslationService.generateParametersFromTextList(parameterList);
+        const params: Replacements = TranslationService.generateParametersFromTextList(parameterList);
         return translate.__(key, params);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private static generateParametersFromTextList(parameterList: string[]): any {
-        const entries = parameterList.map(toString).map((value: string, index: number) => [`${index}`, value.trim().toLowerCase()]);
+        const entries = parameterList.map((value: string, index: number) => {
+            return [`${index}`, value.toString().trim().toLowerCase()];
+        });
         const params = Object.fromEntries(entries);
         return params;
     }
 
     private static controlNumberParametersAvailable(key: string, parameterList: string[]): void {
-        const match = key.match(REGEX.TRANSLATE_KEY_PARAMETER);
+        const match = this.translate(key).match(REGEX.TRANSLATE_KEY_PARAMETER);
         if (!match || match.length !== parameterList.length) {
             throw new Error(ERROR_MESSAGE_API.WRONG_NUMBER_OF_PARAMETERS(key, match?.length ?? 0, parameterList.length));
         }

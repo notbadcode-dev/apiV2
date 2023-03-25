@@ -13,7 +13,7 @@ import { ResponseInterceptor } from 'shared/service/interceptor/response.interce
 import { ErrorMiddleware } from 'shared/service/middleware/error.middleware';
 import Container from 'typedi';
 
-import { dataSource } from 'shared/database';
+import helmet from 'helmet';
 import { LoggerService } from 'shared/service/logger.service';
 import { DataSource } from 'typeorm';
 
@@ -24,6 +24,8 @@ export function initializerApplication(app: express.Application): void {
 
 export function initializerDependencies(
     app: express.Application,
+    dataSource: DataSource,
+    routePrefix: string,
     entityList: Function[],
     controllerPath: string,
     middlewareList: Function[] = new Array<Function>(),
@@ -38,7 +40,7 @@ export function initializerDependencies(
     Container.set(DataSource, dataSource);
 
     useExpressServer(app, {
-        routePrefix: process.env.API_AUTH_PATH,
+        routePrefix: routePrefix,
         controllers: [__dirname + controllerPath],
         middlewares: [ErrorMiddleware, ...middlewareList],
         interceptors: [ResponseInterceptor, ...interceptorList],
@@ -48,8 +50,10 @@ export function initializerDependencies(
 
 function initializerExpressConfiguration(app: express.Application): void {
     app.set('strict routing', true);
+    app.disable('x-powered-by');
+    app.use(helmet());
 
-    app.use(express.json({ limit: '50mb' }));
+    app.use(express.json({ limit: '100kb' }));
     app.use(express.urlencoded({ extended: true }));
 
     app.use(express.static(path.join(__dirname, '../public'), { maxAge: 31557600000 }));
@@ -57,7 +61,7 @@ function initializerExpressConfiguration(app: express.Application): void {
 
 function initializerCorsConfiguration(app: express.Application): void {
     const corsOptions = {
-        origin: 'http://localhost:3200',
+        origin: '*',
     };
     app.use(cors(corsOptions));
 }
@@ -75,6 +79,7 @@ export function initializeListener(app: express.Application, port: number, path:
     app.listen(port, () => {
         console.info();
         console.info(MESSAGE_API.CONSOLE_LINE);
-        console.info('+         ' + MESSAGE_API.STARTED(apiTitle, port) + '         +');
+        console.info('+          ' + MESSAGE_API.STARTED(apiTitle, port) + '          +');
+        LoggerService.infoLogger(MESSAGE_API.STARTED(apiTitle, port));
     });
 }

@@ -7,20 +7,20 @@
             "error_database_initialization": "Error during Data Source '%{0}' initialization'"
         },
         "translate": {
-            "wrong_number_of_parameters": "Wrong number of parameters for key %{0}. Expected %{0}, got %{0}"
+            "wrong_number_of_parameters": "Wrong number of parameters for key %{0}. Expected %{1}, got %{2}"
         },
         "http": {
             "success": "Request operation successfully processed.",
             "created": "Created operation successfully processed.'",
             "no_content": "No content.",
             "bad_request": "Bad request.",
+            "argument": "Wrong argument.",
             "unauthorized": "Unauthorized.",
             "forbidden": "Forbidden.",
             "not_found": "Not found.",
             "already_exists": "Already exists.",
             "internal_server_error": "Internal server error.",
             "critical_server_error": "Critical error.",
-            "Unauthorized": "error_message.http.Unauthorized",
             "Forbidden": "error_message.http.Forbidden"
         },
         "password": {
@@ -38,6 +38,10 @@
             "user_with_id_not_found": "User with id: %{0}, not found.",
             "user_with_username_not_found": "User with username %{0}, not found.",
             "could_not_update_user": "Could not updated user with username: %{0}"
+        },
+        "link": {
+            "wrong_name_argument": "Wrong name argument.",
+            "wrong_url_argument": "Wrong URL argument."
         }
     }
 }

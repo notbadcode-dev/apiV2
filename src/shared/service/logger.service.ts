@@ -17,6 +17,6 @@ export class LoggerService {
         logger.debug(message, { meta });
     }
     static requestLogger(req: Request): void {
-        logger.info(`[${req.method}] ${req.url}`, { headers: req.headers, body: req.body });
+        logger.info(`[${req.ip}] [${req.method}] ${req.url}`, { headers: req.headers, body: req.body });
     }
 }

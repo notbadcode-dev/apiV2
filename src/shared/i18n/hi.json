@@ -7,7 +7,7 @@
             "error_database_initialization": "डेटा स्रोत '%{0}' की प्रारंभिककरण के दौरान त्रुटि हुई।'"
         },
         "translate": {
-            "wrong_number_of_parameters": "कुंजी %{0} के लिए गलत पैरामीटर संख्या। %{0} अपेक्षित, %{0} प्राप्त किया गया"
+            "wrong_number_of_parameters": "कुंजी %{0} के लिए गलत पैरामीटर संख्या। %{1} अपेक्षित, %{1} प्राप्त किया गया"
         },
         "http": {
             "success": "अनुरोध ऑपरेशन सफलतापूर्वक प्रसंस्कृत हुआ।",
@@ -19,9 +19,7 @@
             "not_found": "नहीं मिला।",
             "already_exists": "पहले से मौजूद है।",
             "internal_server_error": "आंतरिक सर्वर त्रुटि।",
-            "critical_server_error": "गंभीर त्रुटि।",
-            "Unauthorized": "error_message.http.Unauthorized",
-            "Forbidden": "error_message.http.Forbidden"
+            "critical_server_error": "गंभीर त्रुटि।"
         },
         "password": {
             "failed_encrypt": "पासवर्ड एन्क्रिप्ट करने में विफल रहा।",

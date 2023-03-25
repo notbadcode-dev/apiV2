@@ -22,7 +22,9 @@
             "@entity/*": ["src/shared/entity/*", "src/authApi/domain/entity/*", "src/linkApi/domain/entity/*"],
             "@model/*": ["src/shared/model/*", "src/authApi/domain/model/*", "src/linkApi/domain/model/*"],
             "@error/*": ["src/shared/error/*"]
-        }
+        },
+        "typeRoots": ["./node_modules/@types", "./@types/express.d.ts"],
+        "types": ["express"]
     },
     "ts-node": {
         "require": ["tsconfig-paths/register"]

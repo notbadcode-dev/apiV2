@@ -7,7 +7,7 @@
             "error_database_initialization": "Ошибка инициализации источника данных '%{0}'"
         },
         "translate": {
-            "wrong_number_of_parameters": "Неправильное количество параметров для ключа %{0}. Ожидается %{0}, получено %{0}"
+            "wrong_number_of_parameters": "Неправильное количество параметров для ключа %{0}. Ожидается %{1}, получено %{2}"
         },
         "http": {
             "success": "Операция запроса успешно обработана.",
@@ -19,9 +19,7 @@
             "not_found": "Не найдено.",
             "already_exists": "Уже существует.",
             "internal_server_error": "Внутренняя ошибка сервера.",
-            "critical_server_error": "Критическая ошибка.",
-            "Unauthorized": "error_message.http.Unauthorized",
-            "Forbidden": "error_message.http.Forbidden"
+            "critical_server_error": "Критическая ошибка."
         },
         "password": {
             "failed_encrypt": "Не удалось зашифровать пароль.",

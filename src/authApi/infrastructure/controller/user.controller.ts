@@ -11,16 +11,6 @@ import { UserService } from '../service/user.service';
 export class UserController {
     constructor(@Inject() private userService: UserService) {}
 
-    @Get('/')
-    async getAllUsers(): Promise<IUser[]> {
-        return await this.userService.getAllUsers();
-    }
-
-    @Get('/:id')
-    async getUser(@Param('id') userId: number): Promise<IUser> {
-        return await this.userService.getUser(userId);
-    }
-
     @Post('/')
     async createUser(@Body() userCreate: IUserCreate): Promise<IUserCreated> {
         return await this.userService.createUser(userCreate);
@@ -29,5 +19,15 @@ export class UserController {
     @Put('/:id')
     async updateUser(@Param('id') userId: number, @Body() userUpdate: IUserUpdater): Promise<IUserUpdater> {
         return await this.userService.updateUser(userId, userUpdate);
+    }
+
+    @Get('/:id')
+    async getUser(@Param('id') userId: number): Promise<IUser> {
+        return await this.userService.getUser(userId);
+    }
+
+    @Get('/')
+    async getAllUsers(): Promise<IUser[]> {
+        return await this.userService.getAllUsers();
     }
 }

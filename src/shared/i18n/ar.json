@@ -19,9 +19,7 @@
             "not_found": "غير موجود.",
             "already_exists": "موجود بالفعل.",
             "internal_server_error": "خطأ في الخادم الداخلي.",
-            "critical_server_error": "خطأ حرج.",
-            "Unauthorized": "error_message.http.Unauthorized",
-            "Forbidden": "error_message.http.Forbidden"
+            "critical_server_error": "خطأ حرج."
         },
         "password": {
             "failed_encrypt": "فشل تشفير كلمة المرور.",

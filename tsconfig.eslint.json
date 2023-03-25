@@ -1,0 +1,9 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "declaration": false,
+        "outDir": "./dist",
+        "types": ["node", "express"]
+    },
+    "include": ["src", "tests", "@types", "node_modules/@types", "node_modules/express-serve-static-core"]
+}
