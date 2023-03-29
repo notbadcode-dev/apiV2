@@ -21,19 +21,19 @@ describe('LinkService', () => {
         it('NameIsEmpty_ShouldThrowArgumentError', async () => {
             // Arrange
             const linkCreateEmptyName = linkServiceTestData.getLinkCreateWithEmptyName();
+            const argumentError = linkServiceTestData.getArgumentErrorEmptyLinkName();
 
             // Act + Assert
-            await expect(linkService.createLink(linkCreateEmptyName)).rejects.toThrowError(
-                linkServiceTestData.getArgumentErrorEmptyLinkName()
-            );
+            await expect(linkService.createLink(linkCreateEmptyName)).rejects.toThrowError(argumentError);
         });
 
         it('UrlIsEmpty_ShouldThrowArgumentError', async () => {
             // Arrange
             const linkCreateEmptyUrl = linkServiceTestData.getLinkCreateWithEmptyUrl();
+            const argumentError = linkServiceTestData.getArgumentErrorEmptyLinkUrl();
 
             // Act + Assert
-            await expect(linkService.createLink(linkCreateEmptyUrl)).rejects.toThrow(linkServiceTestData.getArgumentErrorEmptyLinkUrl());
+            await expect(linkService.createLink(linkCreateEmptyUrl)).rejects.toThrow(argumentError);
         });
 
         it('CreateLinkOk_ShouldReturnLinkEntity', async () => {
