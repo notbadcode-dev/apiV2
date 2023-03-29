@@ -1,16 +1,12 @@
-# Este archivo contiene la configuración para ejecutar pruebas automatizadas en GitHub Actions
+# Este archivo contiene la configuración para ejecutar pruebas automatizadas y enviar un correo electrónico en GitHub Actions
 
-name: Jest Test
+name: Jest Test and Send Email
 
 on: [push]
 
 jobs:
-    build:
-        runs-on: ${{ matrix.os }}
-        strategy:
-            matrix:
-                os: [ubuntu-latest, macos-latest, windows-latest]
-                node-version: [16.17.0]
+    build-and-send-email:
+        runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
             - name: Cache node modules
@@ -20,9 +16,24 @@ jobs:
                   key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
                   restore-keys: |
                       ${{ runner.os }}-node-
-            - name: Use Node.js ${{ matrix.node-version }}
+            - name: Use Node.js
               uses: actions/setup-node@v2
               with:
-                  node-version: ${{ matrix.node-version }}
-            - run: npm install
-            - run: npm test
+                  node-version: 16.17.0
+            - name: Install Dependencies
+              run: npm install
+            - name: Run Tests
+              run: npm test
+            - name: Send Email
+              uses: dawidd6/action-send-mail@v2
+              with:
+                  server_address: smtp.gmail.com
+                  server_port: 587
+                  username: ${{ secrets.EMAIL_USERNAME }}
+                  password: ${{ secrets.EMAIL_PASSWORD }}
+                  subject: 'Test Results'
+                  body: 'The test results are attached.'
+                  from: ${{ secrets.EMAIL_USERNAME }}
+                  to: ${{ secrets.EMAIL_USERNAME }}
+                  attachments: |
+                      ./test-results.xml
