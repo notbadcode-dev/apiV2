@@ -30,6 +30,7 @@ jobs:
     send-email:
         runs-on: ubuntu-latest
         needs: run-test
+        if: ${{ needs.run-test.result == 'success' }}
         steps:
             - name: Download Test Results
               uses: actions/download-artifact@v2
