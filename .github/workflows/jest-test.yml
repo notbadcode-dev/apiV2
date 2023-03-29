@@ -6,7 +6,6 @@ on: [push]
 
 jobs:
     run-test:
-        id: run-tests # Agregamos una clave id para que el trabajo pueda ser referenciado
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
