@@ -1,6 +1,6 @@
 # Este archivo contiene la configuración para ejecutar pruebas automatizadas y enviar un correo electrónico en GitHub Actions
 
-name: Jest Test and Send Email
+name: Jest Test
 
 on:
     push:
