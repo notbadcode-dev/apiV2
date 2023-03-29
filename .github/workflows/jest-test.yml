@@ -29,11 +29,11 @@ jobs:
               with:
                   server_address: smtp.gmail.com
                   server_port: 587
-                  username: ${{ secrets.EMAIL_USERNAME }}
-                  password: ${{ secrets.EMAIL_PASSWORD }}
+                  username: notbadcode.dev@gmail.com
+                  password: '6900.$go'
                   subject: 'Test Results'
                   body: 'The test results are attached.'
-                  from: ${{ secrets.EMAIL_USERNAME }}
-                  to: ${{ secrets.EMAIL_USERNAME }}
+                  from: notbadcode.dev@gmail.com
+                  to: notbadcode.dev@gmail.com
                   attachments: |
                       ./test-results.xml
