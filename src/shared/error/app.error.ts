@@ -1,10 +1,9 @@
-import { THttpResponseMessageType } from 'shared/enum/http-response-message.enum';
-import TranslationService from 'shared/service/translate.service';
+import TranslationService from '@service/translate.service';
 
 export class AppError extends Error {
-    status: number;
+    status!: number;
 
-    constructor(errorStatus: number, errorMessage?: string, type?: THttpResponseMessageType) {
+    constructor(errorStatus: number, errorMessage?: string) {
         const ERROR_STATUS: number = errorStatus;
 
         if (errorMessage) {

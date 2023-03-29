@@ -1,5 +1,5 @@
-import { ERROR_MESSAGE_API } from 'shared/constant/error-message/error-message-api.constant';
-import { MESSAGE_API } from 'shared/constant/message/message.api.constant';
+import { ERROR_MESSAGE_API } from '@constant/error-message/error-message-api.constant';
+import { MESSAGE_API } from '@constant/message/message.api.constant';
 import { DataSource } from 'typeorm';
 
 // eslint-disable-next-line @typescript-eslint/ban-types

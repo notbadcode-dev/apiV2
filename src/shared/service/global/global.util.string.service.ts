@@ -1,4 +1,4 @@
-import { FORMAT_DATE } from 'shared/constant/format/format-date.constant';
+import { FORMAT_DATE } from '@constant/format/format-date.constant';
 import { Inject, Service } from 'typedi';
 
 import { GlobalUtilDateService } from './global.util.date.service';

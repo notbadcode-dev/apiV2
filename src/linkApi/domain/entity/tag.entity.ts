@@ -1,4 +1,4 @@
-import { EntityBase } from 'shared/entity/base.entity';
+import { EntityBase } from '@entity/base.entity';
 import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { GroupTagEntity } from './group-tag.entity';
 import { LinkTagEntity } from './link-tag.entity';

@@ -1,6 +1,6 @@
-import { ERROR_MESSAGE_GROUP_LINK } from 'shared/constant/error-message/error-message-group-link.constant';
-import { NotFountError } from 'shared/error/not-found.error';
-import { LoggerMethodDecorator } from 'shared/service/decorator/logger-method.decorator';
+import { ERROR_MESSAGE_GROUP_LINK } from '@constant/error-message/error-message-group-link.constant';
+import { NotFountError } from '@error/not-found.error';
+import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { Service } from 'typedi';
 import { Repository } from 'typeorm';
 import { LinkGroupRelationEntity } from '../entity/link-group-relation.entity';

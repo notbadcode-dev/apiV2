@@ -1,45 +1,39 @@
-import { LinkEntity } from 'linkApi/domain/entity/link.entity';
-import { ILinkCreate } from 'linkApi/domain/model/link/link-create.model';
-import { ILink } from 'linkApi/domain/model/link/link.model';
-import { LinkRepository } from 'linkApi/domain/repository/link.repository';
-import { ERROR_MESSAGE_LINK } from 'shared/constant/error-message/error-message-link.constant';
-import { ArgumentError } from 'shared/error/argument.error';
-import { LoggerMethodDecorator } from 'shared/service/decorator/logger-method.decorator';
-import { TokenService } from 'shared/service/token.service';
+import { ERROR_MESSAGE_LINK } from '@constant/error-message/error-message-link.constant';
+import { LinkEntity } from '@entity/link.entity';
+import { ArgumentError } from '@error/argument.error';
+import { ILinkCreate } from '@model/link/link-create.model';
+import { ILink } from '@model/link/link.model';
+import { LinkRepository } from '@repository/link.repository';
+import { TokenService } from '@service/token.service';
 import { Inject, Service } from 'typedi';
 
 @Service()
 export class LinkService {
     constructor(@Inject() private _linkRepository: LinkRepository, @Inject() private _tokenService: TokenService) {}
 
-    @LoggerMethodDecorator
-    public async createLink(createLink: ILinkCreate): Promise<ILink> {
-        this.validateArgumentForCreateLink(createLink);
+    public async createLink(linkCreate: ILinkCreate): Promise<ILink> {
+        this.validateArgumentForCreateLink(linkCreate);
 
+        const USER_ID: number = this._tokenService.getCurrentUserId();
         const LINK_ENTITY: LinkEntity = {
             id: 0,
-            name: createLink.name,
-            url: createLink.url,
+            name: linkCreate.name,
+            url: linkCreate.url,
             favorite: false,
             active: true,
-            userId: this._tokenService.getCurrentUserId(),
+            userId: USER_ID,
         };
         const LINK_CREATED_SAVED = await this._linkRepository.create(LINK_ENTITY);
 
         return LINK_CREATED_SAVED;
     }
 
-    @LoggerMethodDecorator
-    private async validateArgumentForCreateLink(createLink: ILinkCreate): Promise<void> {
-        if (createLink === null) {
-            throw new ArgumentError();
-        }
-
-        if (!createLink?.name?.length) {
+    private validateArgumentForCreateLink(linkCreate: ILinkCreate): void {
+        if (!linkCreate?.name?.trim()) {
             throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_NAME_ARGUMENT);
         }
 
-        if (!createLink?.url?.length) {
+        if (!linkCreate?.url?.trim()) {
             throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_URL_ARGUMENT);
         }
     }

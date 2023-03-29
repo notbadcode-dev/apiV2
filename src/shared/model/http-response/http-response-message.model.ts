@@ -1,4 +1,4 @@
-import { THttpResponseMessageType } from 'shared/enum/http-response-message.enum';
+import { THttpResponseMessageType } from '@app/shared/enum/http-response-message.enum';
 
 export interface IHttpResponseMessage {
     type: THttpResponseMessageType;

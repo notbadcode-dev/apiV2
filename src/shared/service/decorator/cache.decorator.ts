@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { TTL_DEFAULT } from 'shared/constant/cache.constant';
+import { TTL_DEFAULT } from '@constant/cache.constant';
 import cacheService from '../cache.service';
 import { LoggerService } from '../logger.service';
 

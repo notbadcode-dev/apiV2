@@ -1,8 +1,8 @@
-import translate from 'app.translate';
+import translate from '@app/app.translate';
+import { ERROR_MESSAGE_API } from '@constant/error-message/error-message-api.constant';
+import { REGEX } from '@constant/regex.constant';
+import { DEFAULT_TRANSLATE_LOCATE } from '@constant/translate.constant';
 import { Replacements } from 'i18n';
-import { ERROR_MESSAGE_API } from 'shared/constant/error-message/error-message-api.constant';
-import { REGEX } from 'shared/constant/regex.constant';
-import { DEFAULT_TRANSLATE_LOCATE } from 'shared/constant/translate.constant';
 import { Service } from 'typedi';
 
 @Service()

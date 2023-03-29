@@ -1,4 +1,4 @@
-import { EntityBase } from 'shared/entity/base.entity';
+import { EntityBase } from '@entity/base.entity';
 import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { LinkGroupRelationEntity } from './link-group-relation.entity';
 import { LinkOrderEntity } from './link-order.entity';

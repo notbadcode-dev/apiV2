@@ -1,4 +1,4 @@
-import { EntityBase } from 'shared/entity/base.entity';
+import { EntityBase } from '@entity/base.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 // eslint-disable-next-line hexagonal-architecture/enforce
 import { ApplicationEntity } from './application.entity';

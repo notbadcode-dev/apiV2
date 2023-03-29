@@ -1,4 +1,4 @@
-import TranslationService from 'shared/service/translate.service';
+import TranslationService from '@service/translate.service';
 
 export const ERROR_MESSAGE_USER = {
     ALREADY_EXIST_USER_SAME_USERNAME: TranslationService.translate('error_message.user.already_exist_user_same_password'),

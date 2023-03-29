@@ -2,16 +2,16 @@ import 'dotenv/config';
 import 'express-async-errors';
 import 'reflect-metadata';
 
-import { initializeListener, initializerApplication, initializerDependencies } from 'app';
-import express from 'express';
-import { INJECTED_DEPENDENCY } from 'shared/constant/injected-dependency.constant';
+import { initializeListener, initializerApplication, initializerDependencies } from '@app/app';
+import { INJECTED_DEPENDENCY } from '@constant/injected-dependency.constant';
+import express from 'express/index';
 
-import { EXECUTE_HOOK_RUN_EVERY_ALL_DAYS_00H } from 'shared/constant/hook.constant';
-import { authDataSource } from 'shared/database/auth.database';
-import { initializeDataSource } from 'shared/database/database';
-import { GlobalUtilEnvService } from 'shared/service/global/global.util.env.service';
-import hookService from 'shared/service/hook.service';
-import { LoggerService } from 'shared/service/logger.service';
+import { EXECUTE_HOOK_RUN_EVERY_ALL_DAYS_00H } from '@constant/hook.constant';
+import { GlobalUtilEnvService } from '@service/global/global.util.env.service';
+import hookService from '@service/hook.service';
+import { LoggerService } from '@service/logger.service';
+import { authDataSource } from '../../src/shared/database/auth.database';
+import { initializeDataSource } from '../../src/shared/database/database';
 import { authApiEntityList } from './domain/entity/_auth.entity.index';
 
 function authExpressApp(): void {

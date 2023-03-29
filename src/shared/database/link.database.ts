@@ -1,4 +1,4 @@
-import { authApiEntityList } from 'authApi/domain/entity/_auth.entity.index';
+import { authApiEntityList } from '@entity/_auth.entity.index';
 import { DataSource } from 'typeorm';
 
 import { linkApiEntityList } from '../../linkApi/domain/entity/_link.entity.index';

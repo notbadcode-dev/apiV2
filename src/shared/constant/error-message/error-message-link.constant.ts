@@ -1,4 +1,4 @@
-import TranslationService from 'shared/service/translate.service';
+import TranslationService from '@service/translate.service';
 
 export const ERROR_MESSAGE_LINK = {
     COULD_NOT_CREATED_LINK_WITH_NAME: (name: string): string => {

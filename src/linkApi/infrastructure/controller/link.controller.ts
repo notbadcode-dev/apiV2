@@ -1,7 +1,7 @@
-import { ILinkCreate } from 'linkApi/domain/model/link/link-create.model';
-import { ILink } from 'linkApi/domain/model/link/link.model';
+import { ILinkCreate } from '@model/link/link-create.model';
+import { ILink } from '@model/link/link.model';
+import { Authority } from '@service/decorator/authority.decorator';
 import { Body, JsonController, Post } from 'routing-controllers';
-import { Authority } from 'shared/service/decorator/authority.decorator';
 import { Inject, Service } from 'typedi';
 import { LinkService } from '../service/link.service';
 

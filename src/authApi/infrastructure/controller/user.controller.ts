@@ -1,10 +1,10 @@
-import { IUserCreate, IUserCreated } from 'authApi/domain/model/user/user-create.model';
-import { IUserUpdater } from 'authApi/domain/model/user/user-update.model';
-import { IUser } from 'authApi/domain/model/user/user.model';
+import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
+import { IUserUpdater } from '@model/user/user-update.model';
+import { IUser } from '@model/user/user.model';
 import { Body, Get, JsonController, Param, Post, Put } from 'routing-controllers';
 import { Inject, Service } from 'typedi';
 
-import { UserService } from '../service/user.service';
+import { UserService } from '@service/user.service';
 
 @Service()
 @JsonController('/user')

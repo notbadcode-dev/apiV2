@@ -2,13 +2,13 @@ import 'dotenv/config';
 import 'express-async-errors';
 import 'reflect-metadata';
 
-import { initializeListener, initializerApplication, initializerDependencies } from 'app';
-import { authApiEntityList } from 'authApi/domain/entity/_auth.entity.index';
-import express from 'express';
-import { INJECTED_DEPENDENCY } from 'shared/constant/injected-dependency.constant';
-import { initializeDataSource } from 'shared/database/database';
-import { linkDataSource } from 'shared/database/link.database';
-import { GlobalUtilEnvService } from 'shared/service/global/global.util.env.service';
+import { initializeListener, initializerApplication, initializerDependencies } from '@app/app';
+import { INJECTED_DEPENDENCY } from '@constant/injected-dependency.constant';
+import { initializeDataSource } from '@database/database';
+import { linkDataSource } from '@database/link.database';
+import { authApiEntityList } from '@entity/_auth.entity.index';
+import { GlobalUtilEnvService } from '@service/global/global.util.env.service';
+import express from 'express/index';
 import { linkApiEntityList } from './domain/entity/_link.entity.index';
 
 function linkExpressApp(): void {

@@ -1,4 +1,4 @@
-import TranslationService from 'shared/service/translate.service';
+import TranslationService from '@service/translate.service';
 
 export const ERROR_MESSAGE_GROUP_LINK = {
     GROUP_LINK_WITH_ID_NOT_FOUND: (groupLinkId: number): string => {

@@ -1,5 +1,5 @@
-import { EHttpResponseMessageType } from 'shared/enum/http-response-message.enum';
-import TranslationService from 'shared/service/translate.service';
+import TranslationService from '@service/translate.service';
+import { EHttpResponseMessageType } from '../../shared/enum/http-response-message.enum';
 
 export const HTTP_RESPONSE_STATUS = {
     SUCCESS: 200,

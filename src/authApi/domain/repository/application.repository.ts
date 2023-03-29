@@ -1,7 +1,7 @@
 // eslint-disable-next-line hexagonal-architecture/enforce
-import { ERROR_MESSAGE_APPLICATION } from 'shared/constant/error-message/error-message-application.constant';
-import { LoggerMethodDecorator } from 'shared/service/decorator/logger-method.decorator';
-import { GlobalUtilStringService } from 'shared/service/global/global.util.string.service';
+import { ERROR_MESSAGE_APPLICATION } from '@constant/error-message/error-message-application.constant';
+import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
+import { GlobalUtilStringService } from '@service/global/global.util.string.service';
 import { Inject, Service } from 'typedi';
 import { Repository } from 'typeorm';
 // eslint-disable-next-line hexagonal-architecture/enforce

@@ -1,5 +1,5 @@
+import { ILinkGroup } from '@model/group/group-link.model';
 import { LinkGroupEntity } from 'linkApi/domain/entity/link-group.entity';
-import { ILinkGroup } from 'linkApi/domain/model/group/group-link.model';
 import { Service } from 'typedi';
 
 @Service()

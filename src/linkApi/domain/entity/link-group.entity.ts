@@ -1,6 +1,6 @@
-import { EntityBase } from 'shared/entity/base.entity';
+import { EntityBase } from '@entity/base.entity';
 import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { GroupLinkGradientType } from '../../../shared/enum/group-link-gradient-type.enum';
+import { GroupLinkGradientType } from '../../../../src/shared/enum/group-link-gradient-type.enum';
 import { GroupTagEntity } from './group-tag.entity';
 import { LinkGroupRelationEntity } from './link-group-relation.entity';
 import { LinkOrderEntity } from './link-order.entity';

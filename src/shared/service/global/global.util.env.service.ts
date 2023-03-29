@@ -1,4 +1,4 @@
-import { IEnvironment } from 'shared/model/environment/environment';
+import { IEnvironment } from '@model/environment/environment';
 import { Service } from 'typedi';
 
 import { ERROR_MESSAGE_API } from '../../constant/error-message/error-message-api.constant';
@@ -11,6 +11,11 @@ export class GlobalUtilEnvService {
 
     public static getSessionExpiresIn(): string {
         return this.getStringEnvironmentVariable(process.env.SESSION_EXPIRES_IN);
+    }
+
+    public static getRunTest(): boolean {
+        const runTest: string = this.getStringEnvironmentVariable(process.env.RUN_TEST);
+        return runTest === 'true';
     }
 
     public static getAuthEnvironment(): IEnvironment {

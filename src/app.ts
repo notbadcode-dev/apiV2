@@ -3,18 +3,18 @@ import 'dotenv/config';
 import 'express-async-errors';
 import 'reflect-metadata';
 
+import { HTTP_RESPONSE_STATUS } from '@constant/http.constant';
+import { MESSAGE_API } from '@constant/message/message.api.constant';
+import { ResponseInterceptor } from '@service/interceptor/response.interceptor';
+import { ErrorMiddleware } from '@service/middleware/error.middleware';
 import cors from 'cors';
-import express from 'express';
+import express from 'express/index';
 import path from 'path';
 import { useContainer, useExpressServer } from 'routing-controllers';
-import { HTTP_RESPONSE_STATUS } from 'shared/constant/http.constant';
-import { MESSAGE_API } from 'shared/constant/message/message.api.constant';
-import { ResponseInterceptor } from 'shared/service/interceptor/response.interceptor';
-import { ErrorMiddleware } from 'shared/service/middleware/error.middleware';
 import Container from 'typedi';
 
+import { LoggerService } from '@service/logger.service';
 import helmet from 'helmet';
-import { LoggerService } from 'shared/service/logger.service';
 import { DataSource } from 'typeorm';
 
 export function initializerApplication(app: express.Application): void {

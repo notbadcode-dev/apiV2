@@ -1,4 +1,4 @@
-import TranslationService from 'shared/service/translate.service';
+import TranslationService from '@service/translate.service';
 
 export const ERROR_MESSAGE_APPLICATION = {
     THERE_IS_NOT_APPLICATION_WITH_ID: (applicationId: number): string => {

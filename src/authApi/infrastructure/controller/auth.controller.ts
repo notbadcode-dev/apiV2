@@ -1,5 +1,5 @@
-import { IAuthSignIn } from 'authApi/domain/model/auth/auth-sign-in.model';
-import { IUserCreate } from 'authApi/domain/model/user/user-create.model';
+import { IAuthSignIn } from '@model/auth/auth-sign-in.model';
+import { IUserCreate } from '@model/user/user-create.model';
 import { Body, JsonController, Post } from 'routing-controllers';
 import { Inject, Service } from 'typedi';
 import { AuthService } from '../service/auth.service';

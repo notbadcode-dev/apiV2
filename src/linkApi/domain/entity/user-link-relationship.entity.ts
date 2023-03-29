@@ -1,4 +1,4 @@
-import { UserEntity } from 'authApi/domain/entity/user.entity';
+import { UserEntity } from '@entity/user.entity';
 import { Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { GroupTagEntity } from './group-tag.entity';
 import { LinkGroupRelationEntity } from './link-group-relation.entity';

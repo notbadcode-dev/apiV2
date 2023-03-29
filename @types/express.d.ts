@@ -1,5 +1,9 @@
+import 'express';
+
 declare module 'express' {
-    interface Request {
+    interface Request extends Request {
         ip: string;
+        method: string;
+        url: string;
     }
 }

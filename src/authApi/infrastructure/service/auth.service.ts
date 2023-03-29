@@ -1,11 +1,11 @@
-import { IAuthSignIn } from 'authApi/domain/model/auth/auth-sign-in.model';
-import { IUserCreate } from 'authApi/domain/model/user/user-create.model';
-import { UserRepository } from 'authApi/domain/repository/user.repository';
-import { ERROR_MESSAGE_PASSWORD } from 'shared/constant/error-message/error-message-password';
-import { UnauthorizedError } from 'shared/error/unauthorized.error';
-import { LoggerMethodDecorator } from 'shared/service/decorator/logger-method.decorator';
-import { PasswordService } from 'shared/service/password.service';
-import { TokenService } from 'shared/service/token.service';
+import { ERROR_MESSAGE_PASSWORD } from '@constant/error-message/error-message-password';
+import { UnauthorizedError } from '@error/unauthorized.error';
+import { IAuthSignIn } from '@model/auth/auth-sign-in.model';
+import { IUserCreate } from '@model/user/user-create.model';
+import { UserRepository } from '@repository/user.repository';
+import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
+import { PasswordService } from '@service/password.service';
+import { TokenService } from '@service/token.service';
 import { Inject, Service } from 'typedi';
 import { UserService } from './user.service';
 

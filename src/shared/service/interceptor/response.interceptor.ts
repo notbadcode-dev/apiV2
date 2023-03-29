@@ -1,6 +1,6 @@
+import { HTTP_RESPONSE_MESSAGE, HTTP_RESPONSE_MESSAGE_TYPE, HTTP_RESPONSE_STATUS } from '@constant/http.constant';
+import { IHttpResponse } from '@model/http-response/http-response.model';
 import { Action, Interceptor, InterceptorInterface } from 'routing-controllers';
-import { HTTP_RESPONSE_MESSAGE, HTTP_RESPONSE_MESSAGE_TYPE, HTTP_RESPONSE_STATUS } from 'shared/constant/http.constant';
-import { IHttpResponse } from 'shared/model/http-response/http-response.model';
 import { Service } from 'typedi';
 
 @Interceptor()

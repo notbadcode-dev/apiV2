@@ -1,6 +1,6 @@
+import { ILinkGroup } from '@model/group/group-link.model';
 import { LinkGroupEntity } from 'linkApi/domain/entity/link-group.entity';
 import { TagEntity } from 'linkApi/domain/entity/tag.entity';
-import { ILinkGroup } from 'linkApi/domain/model/group/group-link.model';
 import { Inject, Service } from 'typedi';
 import { LinkOrderEntity } from '../../entity/link-order.entity';
 import { LinkEntity } from '../../entity/link.entity';

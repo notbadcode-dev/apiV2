@@ -1,5 +1,5 @@
+import { ERROR_MESSAGE_PASSWORD } from '@constant/error-message/error-message-password';
 import * as bcrypt from 'bcrypt';
-import { ERROR_MESSAGE_PASSWORD } from 'shared/constant/error-message/error-message-password';
 import { Service } from 'typedi';
 import { LoggerMethodDecorator } from './decorator/logger-method.decorator';
 

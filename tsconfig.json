@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "baseUrl": "src",
+        "baseUrl": "./",
         "module": "commonjs",
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
@@ -17,18 +17,24 @@
         "strictPropertyInitialization": true,
         "paths": {
             "@constant/*": ["src/shared/constant/*"],
-            "@service/*": ["src/shared/service/*", "src/authApi/app/service/*", "src/linkApi/app/service/*"],
+            "@service/*": ["src/shared/service/*", "src/authApi/infrastructure/service/*", "src/linkApi/infrastructure/service/*"],
             "@middleware/*": ["src/shared/service/middleware/*"],
             "@entity/*": ["src/shared/entity/*", "src/authApi/domain/entity/*", "src/linkApi/domain/entity/*"],
             "@model/*": ["src/shared/model/*", "src/authApi/domain/model/*", "src/linkApi/domain/model/*"],
-            "@error/*": ["src/shared/error/*"]
+            "@repository/*": ["src/authApi/domain/repository/*", "src/linkApi/domain/repository/*"],
+            "@decorator/*": ["src/shared/service/decorator/*"],
+            "@database/*": ["src/shared/database/*"],
+            "@mapper/*": ["src/authApi/domain/mapper/*", "src/linkApi/domain/mapper/*"],
+            "@error/*": ["src/shared/error/*"],
+            "@app/*": ["src/*"],
+            "@testData/*": ["tests/data/*"]
         },
         "typeRoots": ["./node_modules/@types", "./@types/express.d.ts"],
-        "types": ["express"]
+        "types": ["express", "jest"]
     },
     "ts-node": {
         "require": ["tsconfig-paths/register"]
     },
-    "include": ["src/**/*.ts", "swagger.ts"],
-    "exclude": ["node_modules", ".prettierrc.json", ".gitignore", "readme.md", "package-lock.json", ".env", "src/**/*.test.ts", "src/**/*.spec.ts"]
+    "include": ["./**/*.ts", "swagger.ts", "./tests/**/*.ts", "jest.setup.ts"],
+    "exclude": ["node_modules", ".prettierrc.json", ".gitignore", "readme.md", "package-lock.json", ".env", "src/**/*.spec.ts"]
 }

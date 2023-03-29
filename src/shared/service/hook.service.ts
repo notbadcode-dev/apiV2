@@ -1,5 +1,5 @@
+import { EXECUTE_HOOK_ZONE } from '@constant/hook.constant';
 import { CronJob } from 'cron';
-import { EXECUTE_HOOK_ZONE } from 'shared/constant/hook.constant';
 import { LoggerMethodDecorator } from './decorator/logger-method.decorator';
 
 class HookService {

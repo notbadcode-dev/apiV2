@@ -1,5 +1,5 @@
-import { UserEntity } from 'authApi/domain/entity/user.entity';
-import { IUserUpdater } from 'authApi/domain/model/user/user-update.model';
+import { UserEntity } from '@entity/user.entity';
+import { IUserUpdater } from '@model/user/user-update.model';
 import { Service } from 'typedi';
 
 @Service()

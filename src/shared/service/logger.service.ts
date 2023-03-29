@@ -1,4 +1,4 @@
-import logger from 'app.logger';
+import logger from '@app/app.logger';
 import { Request } from 'express';
 import { Service } from 'typedi';
 
