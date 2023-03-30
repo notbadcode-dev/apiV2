@@ -50,6 +50,6 @@ jobs:
                   subject: 'Test Results'
                   body: 'The test results are attached.'
                   from: ${{ secrets.EMAIL_USERNAME }}
-                  to: ${{ secrets.EMAIL_RECIPIENT }}
+                  to: ${{ secrets.EMAIL_USERNAME }}
                   attachments: |
                       ./tests/report/test_report.html
