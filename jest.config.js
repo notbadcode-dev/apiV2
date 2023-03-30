@@ -54,8 +54,12 @@ module.exports = {
     },
     reporters: [
         "default",
-        ["jest-html-reporter", {
-            "outputPath": "tests/report/test_report.html"
-        }]
+        [
+            "jest-html-reporter", {
+                "outputPath": "tests/report/test_report.html",
+                "expand": true,
+                "openReport": true
+            }
+        ]
     ]
 };
