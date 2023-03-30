@@ -2,13 +2,6 @@ require('dotenv').config();
 
 process.on("unhandledRejection", () => { });
 
-global.process.on('uncaughtException', (err) => {
-    console.error('Excepción no manejada:', err);
-    throw err;
-});
-
-const { HTMLReporter } = require('jest-html-reporter');
-
 module.exports = {
     preset: 'ts-jest',
     testEnvironment: 'node',
