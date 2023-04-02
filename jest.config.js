@@ -12,6 +12,7 @@ module.exports = {
     },
     testMatch: ['**/*.test.ts'],
     moduleNameMapper: {
+        '^reflect-metadata$': '<rootDir>/node_modules/reflect-metadata/Reflect.js',
         '^src/(.*)$': ['<rootDir>/src/$1'],
         '^@constant/(.*)$': [
             '<rootDir>/src/shared/constant/$1',
@@ -50,15 +51,17 @@ module.exports = {
         ],
         '^@error/(.*)$': ['<rootDir>/src/shared/error/$1'],
         '^@app/(.*)$': ['<rootDir>/src/$1'],
-        '^@testData/(.*)$': ['<rootDir>/test/data/$1'],
+        '^@testData/(.*)$': ['<rootDir>/tests/data/$1',],
     },
     reporters: [
         "default",
         [
             "jest-html-reporter", {
+                "pageTitle": "Test Report",
                 "outputPath": "tests/report/test_report.html",
                 "expand": true,
-                "openReport": true
+                "openReport": true,
+                "dateFormat": "dd/mm/yyyy HH:MM"
             }
         ]
     ]

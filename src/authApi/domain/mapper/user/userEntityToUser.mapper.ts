@@ -13,4 +13,16 @@ export class UserEntityToUserMapper {
 
         return USER;
     }
+
+    public mapList(userEntityList: UserEntity[]): IUser[] {
+        if (!userEntityList.length) {
+            return new Array<IUser>();
+        }
+
+        const USER_LIST: IUser[] = userEntityList.map((userEntity: UserEntity) => {
+            return this.map(userEntity);
+        });
+
+        return USER_LIST;
+    }
 }

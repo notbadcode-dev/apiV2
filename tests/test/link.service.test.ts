@@ -36,7 +36,7 @@ describe('LinkService', () => {
             await expect(linkService.createLink(linkCreateEmptyUrl)).rejects.toThrow(argumentError);
         });
 
-        it('CreateLinkOk_ShouldReturnLinkEntity', async () => {
+        it('LinkCreateOk_ShouldReturnLinkEntity', async () => {
             // Arrange
             const linkCreate = linkServiceTestData.getLinkCreate();
             const linkEntity = linkServiceTestData.getLinkEntity();

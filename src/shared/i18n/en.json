@@ -48,5 +48,10 @@
 		}
 	},
 	"Link name must not be empty": "Link name must not be empty",
-	"Wrong name argument.": "Wrong name argument."
+	"Wrong name argument.": "Wrong name argument.",
+	"Already exists user with same username": {
+		"'": "Already exists user with same username.'"
+	},
+	"There is no application with the id": " %{0}.",
+	"User with id": " %{0}, not found."
 }

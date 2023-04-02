@@ -1,7 +1,6 @@
 // eslint-disable-next-line hexagonal-architecture/enforce
 import { ERROR_MESSAGE_APPLICATION } from '@constant/error-message/error-message-application.constant';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
-import { GlobalUtilStringService } from '@service/global/global.util.string.service';
 import { Inject, Service } from 'typedi';
 import { Repository } from 'typeorm';
 // eslint-disable-next-line hexagonal-architecture/enforce
@@ -9,10 +8,7 @@ import { ApplicationEntity } from '../entity/application.entity';
 
 @Service()
 export class ApplicationRepository {
-    constructor(
-        @Inject(ApplicationEntity.name) private _applicationRepository: Repository<ApplicationEntity>,
-        @Inject() private _globalUtilStringService: GlobalUtilStringService
-    ) {}
+    constructor(@Inject(ApplicationEntity.name) private _applicationRepository: Repository<ApplicationEntity>) {}
 
     @LoggerMethodDecorator
     public async getById(applicationId: number): Promise<ApplicationEntity> {
