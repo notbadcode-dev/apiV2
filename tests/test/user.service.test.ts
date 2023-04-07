@@ -92,7 +92,7 @@ describe('UserService', () => {
             when(userEntityToUserCreatedMapperMock.mapWithApplicationId(anything(), anyNumber())).thenReturn(userCreatedExpected);
 
             // Act
-            const result = await userService.createUser(userCreate);
+            const result: IUserCreated = await userService.createUser(userCreate);
 
             // Assert
             expect(result).toEqual(userCreatedExpected);
@@ -112,7 +112,7 @@ describe('UserService', () => {
             await expect(userService.updateUser(userUpdate.id, userUpdate)).rejects.toThrow(NotFountError);
         });
 
-        it('should update a user when the user exists', async () => {
+        it('UserExists_ShouldReturnUpdatedUser', async () => {
             // Arrange
             const userUpdate: IUserUpdater = userServiceTestData.getUserUpdated();
             const existingUser: IUser = userServiceTestData.getUserEntity();
@@ -126,7 +126,7 @@ describe('UserService', () => {
             });
 
             // Act
-            const result = await userService.updateUser(userUpdate.id, userUpdate);
+            const result: IUser = await userService.updateUser(userUpdate.id, userUpdate);
 
             // Assert
             expect(result).toEqual(userUpdate);
@@ -136,7 +136,7 @@ describe('UserService', () => {
     describe('getUser', () => {
         it('UserDoesNotExist_ShouldNotFoundError', async () => {
             // Arrange
-            const userId = userServiceTestData.getUserEntity()?.id;
+            const userId: number = userServiceTestData.getUserEntity()?.id;
 
             when(userRepositoryMock.getById(anyNumber())).thenCall(async () => {
                 return Promise.resolve(null);
@@ -150,7 +150,7 @@ describe('UserService', () => {
             // Arrange
             const userEntity: UserEntity = userServiceTestData.getUserEntity();
             const user: IUser = userServiceTestData.getUserEntity();
-            const userId = userEntity.id;
+            const userId: number = userEntity.id;
 
             when(userRepositoryMock.getById(anyNumber())).thenCall(async () => {
                 return Promise.resolve(userEntity);
@@ -161,7 +161,7 @@ describe('UserService', () => {
             });
 
             // Act
-            const result = await userService.getUser(userId);
+            const result: IUser = await userService.getUser(userId);
 
             // Assert
             expect(result).toEqual(user);
@@ -169,7 +169,7 @@ describe('UserService', () => {
     });
 
     describe('getAllUsers', () => {
-        it('should return a list of users', async () => {
+        it('Ok_ShouldReturnListOfUsers', async () => {
             // Arrange
             const userEntityList: UserEntity[] = userServiceTestData.getUserEntityList();
             const expectedUserList: IUser[] = userServiceTestData.getUserList();
@@ -183,13 +183,13 @@ describe('UserService', () => {
             });
 
             // Act
-            const userList = await userService.getAllUsers();
+            const userList: IUser[] = await userService.getAllUsers();
 
             // Assert
             expect(userList).toEqual(expectedUserList);
         });
 
-        it('should return an empty list if there are no users', async () => {
+        it('Ok_ShouldReturnEmptyListOfUsers', async () => {
             // Arrange
             when(userRepositoryMock.getAll()).thenCall(async () => []);
 
@@ -198,10 +198,10 @@ describe('UserService', () => {
             });
 
             // Act
-            const userList = await userService.getAllUsers();
+            const userList: IUser[] = await userService.getAllUsers();
 
             // Assert
-            expect(userList).toEqual([]);
+            expect(userList).toEqual(new Array<IUser>());
         });
     });
 });
