@@ -23,7 +23,7 @@ describe('LinkService', () => {
             const linkCreateEmptyName = linkServiceTestData.getLinkCreateWithEmptyName();
             const argumentError = linkServiceTestData.getArgumentErrorEmptyLinkName();
 
-            // Act + Assert
+            // Act & Assert
             await expect(linkService.createLink(linkCreateEmptyName)).rejects.toThrowError(argumentError);
         });
 
@@ -32,7 +32,7 @@ describe('LinkService', () => {
             const linkCreateEmptyUrl = linkServiceTestData.getLinkCreateWithEmptyUrl();
             const argumentError = linkServiceTestData.getArgumentErrorEmptyLinkUrl();
 
-            // Act + Assert
+            // Act & Assert
             await expect(linkService.createLink(linkCreateEmptyUrl)).rejects.toThrow(argumentError);
         });
 

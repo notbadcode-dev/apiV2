@@ -53,5 +53,6 @@
 		"'": "Already exists user with same username.'"
 	},
 	"There is no application with the id": " %{0}.",
-	"User with id": " %{0}, not found."
+	"User with id": " %{0}, not found.",
+	"Failed to verify password.": "Failed to verify password."
 }

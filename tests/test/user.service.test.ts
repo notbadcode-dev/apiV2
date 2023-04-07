@@ -52,7 +52,7 @@ describe('UserService', () => {
                 return Promise.resolve(userEntity);
             });
 
-            // Act + Assert
+            // Act & Assert
             await expect(userService.createUser(userCreate)).rejects.toThrowError(AlreadyExistsError);
         });
 
@@ -64,7 +64,7 @@ describe('UserService', () => {
                 return Promise.resolve(null);
             });
 
-            // Act + Assert
+            // Act & Assert
             await expect(userService.createUser(userCreate)).rejects.toThrowError(NotFountError);
         });
 
