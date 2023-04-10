@@ -8,7 +8,7 @@ import { MESSAGE_API } from '@constant/message/message.api.constant';
 import { ResponseInterceptor } from '@service/interceptor/response.interceptor';
 import { ErrorMiddleware } from '@service/middleware/error.middleware';
 import cors from 'cors';
-import express from 'express/index';
+import express, { Request } from 'express';
 import path from 'path';
 import { useContainer, useExpressServer } from 'routing-controllers';
 import Container from 'typedi';
@@ -48,7 +48,26 @@ export function initializerDependencies(
     });
 }
 
+function trustProxy(req: Request): void {
+    const headers = req.headers;
+
+    if (headers['x-forwarded-for']) {
+        const forwardedFor = Array.isArray(headers['x-forwarded-for'])
+            ? headers['x-forwarded-for'][0]
+            : headers['x-forwarded-for'].toString();
+        req.ip = forwardedFor.split(',')[0];
+    } else if (headers['x-real-ip']) {
+        const realIp = Array.isArray(headers['x-real-ip']) ? headers['x-real-ip'][0] : headers['x-real-ip'].toString();
+        req.ip = realIp.split(',')[0];
+    }
+}
+
 function initializerExpressConfiguration(app: express.Application): void {
+    app.use((req, res, next) => {
+        trustProxy(req);
+        next();
+    });
+
     app.set('strict routing', true);
     app.disable('x-powered-by');
     app.use(helmet());

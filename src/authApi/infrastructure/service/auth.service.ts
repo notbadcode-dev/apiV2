@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE_PASSWORD } from '@constant/error-message/error-message-password';
+import { ERROR_MESSAGE_PASSWORD } from '@constant/error-message/error-message-password.constant';
 import { UnauthorizedError } from '@error/unauthorized.error';
 import { IAuthSignIn } from '@model/auth/auth-sign-in.model';
 import { IUserCreate } from '@model/user/user-create.model';

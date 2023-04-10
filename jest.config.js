@@ -1,7 +1,5 @@
 require('dotenv').config();
 
-process.on("unhandledRejection", () => { });
-
 module.exports = {
     preset: 'ts-jest',
     testEnvironment: 'node',
@@ -11,6 +9,13 @@ module.exports = {
         '^.+\\.tsx?$': 'ts-jest',
     },
     testMatch: ['**/*.test.ts'],
+    coveragePathIgnorePatterns: [
+        'app.*.ts',
+        '.entity.ts',
+        '.repository.ts',
+        '.error.ts',
+        '.constant.ts'
+    ],
     moduleNameMapper: {
         '^reflect-metadata$': '<rootDir>/node_modules/reflect-metadata/Reflect.js',
         '^src/(.*)$': ['<rootDir>/src/$1'],

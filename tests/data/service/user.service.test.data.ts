@@ -78,6 +78,10 @@ export class UserServiceTestData {
         return 1;
     }
 
+    public getUserIdForceError(): number {
+        return 2;
+    }
+
     private getUserId(): number {
         return 1;
     }

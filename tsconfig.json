@@ -35,6 +35,6 @@
     "ts-node": {
         "require": ["tsconfig-paths/register"]
     },
-    "include": ["./**/*.ts", "swagger.ts", "./tests/**/*.ts", "jest.setup.ts"],
+    "include": ["./**/*.ts", "./**/*.js", "@types/*", "swagger.ts", "./tests/**/*.ts", "jest.setup.ts"],
     "exclude": ["node_modules", ".prettierrc.json", ".gitignore", "readme.md", "package-lock.json", ".env", "src/**/*.spec.ts"]
 }

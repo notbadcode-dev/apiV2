@@ -7,8 +7,8 @@ import { AuthService } from '@service/auth.service';
 import { PasswordService } from '@service/password.service';
 import { TokenService } from '@service/token.service';
 import { UserService } from '@service/user.service';
-import { AuthServiceTestData } from '@testData/auth.service.test.data';
-import { UserServiceTestData } from '@testData/user.service.test.data';
+import { AuthServiceTestData } from '@testData/service/auth.service.test.data';
+import { UserServiceTestData } from '@testData/service/user.service.test.data';
 import { instance, mock, when } from 'ts-mockito';
 
 describe('AuthService', () => {

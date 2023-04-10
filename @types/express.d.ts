@@ -1,9 +1,12 @@
 import 'express';
 
-declare module 'express' {
-    interface Request extends Request {
-        ip: string;
-        method: string;
-        url: string;
+declare global {
+    namespace Express {
+        interface Request {
+            ip?: string;
+            method?: string;
+            url?: string;
+            authorization?: string;
+        }
     }
 }

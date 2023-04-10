@@ -6,6 +6,12 @@
             "not_defined_env_variable": "La variable %{0} no está definida en el archivo .env.",
             "error_database_initialization": "Error durante la inicialización de la fuente de datos '%{0}'"
         },
+        "util_number": {
+            "parsed_value_is_nan": "El valor %{0}, no se puede convertir a numerico.",
+            "values_not_same_type": "Los valores no son del mismo tipo",
+            "invalid_number_conversion": "El valor proporcionado no se puede convertir en un número válido.",
+            "not_match_param_id_body_id": "Los IDs proporcionados no coinciden."
+        },
         "translate": {
             "wrong_number_of_parameters": "Número incorrecto de parámetros para la clave %{0}. Se esperaban %{1}, se obtuvieron %{2}"
         },

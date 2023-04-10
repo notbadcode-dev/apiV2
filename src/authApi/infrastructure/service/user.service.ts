@@ -11,6 +11,7 @@ import { IUserUpdater } from '@model/user/user-update.model';
 import { ApplicationRepository } from '@repository/application.repository';
 import { UserApplicationRepository } from '@repository/user-application.repository';
 import { UserRepository } from '@repository/user.repository';
+import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
 import { Inject, Service } from 'typedi';
 
 import { ApplicationEntity } from '../../domain/entity/application.entity';
@@ -23,7 +24,8 @@ export class UserService {
         @Inject() private _applicationRepository: ApplicationRepository,
         @Inject() private _userApplicationRepository: UserApplicationRepository,
         @Inject() private _userEntityToUserMapper: UserEntityToUserMapper,
-        @Inject() private _userEntityToUserCreatedMapper: UserEntityToUserCreatedMapper
+        @Inject() private _userEntityToUserCreatedMapper: UserEntityToUserCreatedMapper,
+        @Inject() private _globalUtilValidateService: GlobalUtilValidateService
     ) {}
 
     @LoggerMethodDecorator
@@ -45,6 +47,7 @@ export class UserService {
 
     @LoggerMethodDecorator
     public async updateUser(userId: number, userUpdate: IUserUpdater): Promise<IUserUpdater> {
+        this._globalUtilValidateService.controlSameIdOnParamAndBody(userId, userUpdate.id);
         await this.controlExistsUser(userId);
         const USER_UPDATED = await this._userRepository.update(userUpdate);
         return USER_UPDATED;

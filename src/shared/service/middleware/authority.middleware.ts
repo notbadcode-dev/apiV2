@@ -8,7 +8,13 @@ import Container from 'typedi';
 import { TokenService } from '../token.service';
 
 export async function verifyTokenMiddleware(req: Request): Promise<any | void> {
-    const token: string | undefined = req.headers['authorization']?.toString();
+    const headersAuthorization: string | null = req?.headers?.authorization ?? null;
+
+    if (!headersAuthorization) {
+        throw new UnauthorizedError();
+    }
+
+    const token: string | null = headersAuthorization?.toString() ?? null;
 
     if (!token) {
         throw new UnauthorizedError();

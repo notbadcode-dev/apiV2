@@ -6,6 +6,12 @@
 			"not_defined_env_variable": "The %{0} variable is not defined in the .env file.",
 			"error_database_initialization": "Error during Data Source '%{0}' initialization'"
 		},
+		"util_number": {
+			"parsed_value_is_nan": "The value %{0} cannot be converted to numeric.",
+			"values_not_same_type": "The values are not of the same type",
+			"invalid_number_conversion": "Provided value cannot be converted to a valid number.",
+			"not_match_param_id_body_id": "The provided IDs do not match."
+		},
 		"translate": {
 			"wrong_number_of_parameters": "Wrong number of parameters for key %{0}. Expected %{1}, got %{2}"
 		},
@@ -54,5 +60,6 @@
 	},
 	"There is no application with the id": " %{0}.",
 	"User with id": " %{0}, not found.",
-	"Failed to verify password.": "Failed to verify password."
+	"Failed to verify password.": "Failed to verify password.",
+	"The value %{0} cannot be converted to numeric.": "The value %{0} cannot be converted to numeric."
 }

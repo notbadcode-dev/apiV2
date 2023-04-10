@@ -9,8 +9,9 @@ import { IUser } from '@model/user/user.model';
 import { ApplicationRepository } from '@repository/application.repository';
 import { UserApplicationRepository } from '@repository/user-application.repository';
 import { UserRepository } from '@repository/user.repository';
+import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
 import { UserService } from '@service/user.service';
-import { UserServiceTestData } from '@testData/user.service.test.data';
+import { UserServiceTestData } from '@testData/service/user.service.test.data';
 import { anyNumber, anyString, anything, instance, mock, when } from 'ts-mockito';
 
 describe('UserService', () => {
@@ -22,6 +23,7 @@ describe('UserService', () => {
     let userApplicationRepositoryMock: UserApplicationRepository;
     let userEntityToUserMapperMock: UserEntityToUserMapper;
     let userEntityToUserCreatedMapperMock: UserEntityToUserCreatedMapper;
+    let globalUtilValidateServiceMock: GlobalUtilValidateService;
 
     beforeEach(() => {
         userRepositoryMock = mock(UserRepository);
@@ -29,12 +31,15 @@ describe('UserService', () => {
         userApplicationRepositoryMock = mock(UserApplicationRepository);
         userEntityToUserMapperMock = mock(UserEntityToUserMapper);
         userEntityToUserCreatedMapperMock = mock(UserEntityToUserCreatedMapper);
+        globalUtilValidateServiceMock = mock(GlobalUtilValidateService);
+
         userService = new UserService(
             instance(userRepositoryMock),
             instance(applicationRepositoryMock),
             instance(userApplicationRepositoryMock),
             instance(userEntityToUserMapperMock),
-            instance(userEntityToUserCreatedMapperMock)
+            instance(userEntityToUserCreatedMapperMock),
+            instance(globalUtilValidateServiceMock)
         );
     });
 

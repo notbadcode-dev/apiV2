@@ -1,8 +1,8 @@
 import { LinkRepository } from '@repository/link.repository';
 import { LinkService } from '@service/link.service';
 import { TokenService } from '@service/token.service';
+import { LinkServiceTestData } from '@testData/service/link.service.test.data';
 import { anything, instance, mock, when } from 'ts-mockito';
-import { LinkServiceTestData } from '../data/link.service.test.data';
 
 describe('LinkService', () => {
     const linkServiceTestData: LinkServiceTestData = new LinkServiceTestData();
