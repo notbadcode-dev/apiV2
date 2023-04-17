@@ -10,8 +10,14 @@ dist
 # Http request
 http
 
-##Logs
+# Logs
 logs
 
 # SQL
 *.sql
+
+
+#Tests
+coverage
+coverage/clover.xml
+coverage/coverage-final.json

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { TTL_DEFAULT } from '@constant/cache.constant';
-import cacheService from '../cache.service';
-import { LoggerService } from '../logger.service';
+import cacheService from '@service/cache.service';
+import { LoggerService } from '@service/logger.service';
 
 export function CacheDecorator(ttlSeconds = TTL_DEFAULT): MethodDecorator {
     return function (target: any, propertyKey: string | symbol, descriptor: PropertyDescriptor) {

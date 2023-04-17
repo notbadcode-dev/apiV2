@@ -6,6 +6,6 @@ import { LinkGroupRelationEntity } from '../entity/link-group-relation.entity';
 export class GroupLinkRepository {
     constructor(
         @Inject(LinkGroupRelationEntity.name)
-        private readonly linkGroupRepository: Repository<LinkGroupRelationEntity>
+        private readonly _linkGroupRepository: Repository<LinkGroupRelationEntity>
     ) {}
 }

@@ -5,6 +5,10 @@ import { ERROR_MESSAGE_API } from '../../constant/error-message/error-message-ap
 
 @Service()
 export class GlobalUtilEnvService {
+    public getLoggingEnabled(): boolean {
+        return process.env.LOGGING_ENABLED === 'true' ? true : false;
+    }
+
     public static getSessionSecret(): string {
         return this.getStringEnvironmentVariable(process.env.SESSION_SECRET);
     }

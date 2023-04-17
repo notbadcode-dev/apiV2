@@ -1,12 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { LoggerService } from '../logger.service';
+import { GlobalUtilEnvService } from '@service/global/global.util.env.service';
+import { LoggerService } from '@service/logger.service';
 
+const loggerService: LoggerService = new LoggerService();
+const globalUtilEnvService: GlobalUtilEnvService = new GlobalUtilEnvService();
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export function LoggerMethodDecorator(
     target: any,
     key: string,
     descriptor: TypedPropertyDescriptor<any>
 ): TypedPropertyDescriptor<any> | undefined {
-    const loggingEnabled: boolean = process.env.LOGGING_ENABLED === 'true' ? true : false;
+    const loggerService: LoggerService = new LoggerService();
+    const loggingEnabled: boolean = globalUtilEnvService.getLoggingEnabled();
 
     if (!loggingEnabled) {
         return descriptor;
@@ -24,7 +29,7 @@ export function LoggerMethodDecorator(
         try {
             const result = originalMethod.apply(this, args);
             endMethod(key, className, ip);
-            LoggerService.infoLogger(`End method ${key} on class ${className} from IP ${ip}`);
+            loggerService.infoLogger(`End method ${key} on class ${className} from IP ${ip}`);
             return result;
         } catch (error) {
             errorOnMethod(error + '', key, className, ip);
@@ -35,17 +40,17 @@ export function LoggerMethodDecorator(
 
 function startMethod(key: string, className: string, ip?: string): void {
     const message = addFromIp(`Start method ${key} on class ${className}`, ip);
-    LoggerService.infoLogger(message);
+    loggerService.infoLogger(message);
 }
 
 function endMethod(key: string, className: string, ip?: string): void {
     const message = addFromIp(`End method ${key} on class ${className}`, ip);
-    LoggerService.infoLogger(message);
+    loggerService.infoLogger(message);
 }
 
 function errorOnMethod(error: string, key: string, className: string, ip?: string): void {
     const message = addFromIp(`Error: ${error} on method ${key}, on class ${className}`, ip);
-    LoggerService.infoLogger(message);
+    loggerService.infoLogger(message);
 }
 
 function addFromIp(message: string, ip?: string): string {

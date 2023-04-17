@@ -1,7 +1,7 @@
 import cache from 'memory-cache';
 import { LoggerMethodDecorator } from './decorator/logger-method.decorator';
 
-class CacheService {
+export class CacheService {
     private static instance: CacheService;
 
     @LoggerMethodDecorator

@@ -5,12 +5,17 @@ import { ILinkCreate } from '@model/link/link-create.model';
 import { ILink } from '@model/link/link.model';
 import { LinkRepository } from '@repository/link.repository';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
+import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
 import { TokenService } from '@service/token.service';
 import { Inject, Service } from 'typedi';
 
 @Service()
 export class LinkService {
-    constructor(@Inject() private _linkRepository: LinkRepository, @Inject() private _tokenService: TokenService) {}
+    constructor(
+        @Inject() private _linkRepository: LinkRepository,
+        @Inject() private _tokenService: TokenService,
+        @Inject() private _globalUtilValidateService: GlobalUtilValidateService
+    ) {}
 
     @LoggerMethodDecorator
     public async createLink(linkCreate: ILinkCreate): Promise<ILink> {
@@ -31,21 +36,12 @@ export class LinkService {
     }
 
     @LoggerMethodDecorator
-    public async updateLink(linkCreate: ILinkCreate): Promise<ILink> {
-        this.validateArgumentForCreateLink(linkCreate);
+    public async updateLink(linkId: number, link: ILink): Promise<ILink> {
+        this.validateArgumentForUpdateLink(link);
 
-        const USER_ID: number = this._tokenService.getCurrentUserId();
-        const LINK_ENTITY: LinkEntity = {
-            id: 0,
-            name: linkCreate.name,
-            url: linkCreate.url,
-            favorite: false,
-            active: true,
-            userId: USER_ID,
-        };
-        const LINK_CREATED_SAVED = await this._linkRepository.create(LINK_ENTITY);
-
-        return LINK_CREATED_SAVED;
+        this._globalUtilValidateService.controlSameIdOnParamAndBody(linkId, link.id);
+        const USER_UPDATED = await this._linkRepository.update(link);
+        return USER_UPDATED;
     }
 
     private validateArgumentForCreateLink(linkCreate: ILinkCreate): void {
@@ -62,7 +58,11 @@ export class LinkService {
         this.validateArgumentForCreateLink(updateLink);
 
         if (!updateLink?.id) {
-            throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_NAME_ARGUMENT);
+            throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_ID_ARGUMENT);
+        }
+
+        if (isNaN(Number(updateLink?.id))) {
+            throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_ID_ARGUMENT);
         }
     }
 }

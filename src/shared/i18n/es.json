@@ -49,8 +49,14 @@
             "group_link_with_id_not_found": "No se encontró el enlace de grupo con la identificación: %{0}."
         },
         "link": {
+            "link_with_id_not_found": "No se encontró el link con la identificación: %{0}.",
             "wrong_name_argument": "Argumento de nombre incorrecto.",
-            "wrong_url_argument": "Argumento de URL incorrecto."
+            "wrong_url_argument": "Argumento de URL incorrecto.",
+            "wrong_id_argument": "Argumento de id incorrecto.",
+            "could_not_update_link": "No se pudo actualizar el link con el nombre: %{0}"
+        },
+        "link_tag": {
+            "link_tag_with_id_not_found": "No se encontró el Tag asociado al Link con la identificación: %{0}."
         }
     }
 }

@@ -86,12 +86,14 @@ function initializerCorsConfiguration(app: express.Application): void {
 }
 
 export function initializeListener(app: express.Application, port: number, path: string, apiTitle: string): void {
+    const loggerService: LoggerService = new LoggerService();
+
     app.get(path, (req, res) => {
         res.status(HTTP_RESPONSE_STATUS.SUCCESS).send(apiTitle || '');
     });
 
     app.use((req, res, next) => {
-        LoggerService.requestLogger(req);
+        loggerService.requestLogger(req);
         next();
     });
 
@@ -99,6 +101,6 @@ export function initializeListener(app: express.Application, port: number, path:
         console.info();
         console.info(MESSAGE_API.CONSOLE_LINE);
         console.info('+          ' + MESSAGE_API.STARTED(apiTitle, port) + '          +');
-        LoggerService.infoLogger(MESSAGE_API.STARTED(apiTitle, port));
+        loggerService.infoLogger(MESSAGE_API.STARTED(apiTitle, port));
     });
 }

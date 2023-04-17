@@ -7,7 +7,7 @@ import { UnauthorizedError } from 'routing-controllers';
 import Container from 'typedi';
 import { TokenService } from '../token.service';
 
-export async function verifyTokenMiddleware(req: Request): Promise<any | void> {
+export async function verifyTokenMiddleware(req: Request): Promise<void> {
     const headersAuthorization: string | null = req?.headers?.authorization ?? null;
 
     if (!headersAuthorization) {

@@ -5,6 +5,6 @@ import { Repository } from 'typeorm';
 export class LinkOrderRepository {
     constructor(
         @Inject(LinkOrderRepository.name)
-        private readonly linkOrderRepository: Repository<LinkOrderRepository>
+        private readonly _linkOrderRepository: Repository<LinkOrderRepository>
     ) {}
 }

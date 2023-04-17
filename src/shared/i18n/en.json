@@ -1,65 +1,71 @@
 {
-	"message": {},
-	"error_message": {
-		"api": {
-			"dot_env_variable_undefined": "The variable is undefined in the .env file.",
-			"not_defined_env_variable": "The %{0} variable is not defined in the .env file.",
-			"error_database_initialization": "Error during Data Source '%{0}' initialization'"
-		},
-		"util_number": {
-			"parsed_value_is_nan": "The value %{0} cannot be converted to numeric.",
-			"values_not_same_type": "The values are not of the same type",
-			"invalid_number_conversion": "Provided value cannot be converted to a valid number.",
-			"not_match_param_id_body_id": "The provided IDs do not match."
-		},
-		"translate": {
-			"wrong_number_of_parameters": "Wrong number of parameters for key %{0}. Expected %{1}, got %{2}"
-		},
-		"http": {
-			"success": "Request operation successfully processed.",
-			"created": "Created operation successfully processed.'",
-			"no_content": "No content.",
-			"bad_request": "Bad request.",
-			"argument": "Wrong argument.",
-			"unauthorized": "Unauthorized.",
-			"forbidden": "Forbidden.",
-			"not_found": "Not found.",
-			"already_exists": "Already exists.",
-			"internal_server_error": "Internal server error.",
-			"critical_server_error": "Critical error.",
-			"Forbidden": "error_message.http.Forbidden"
-		},
-		"password": {
-			"failed_encrypt": "Failed to encrypt password.",
-			"failed_verify": "Failed to verify password."
-		},
-		"application": {
-			"there_is_not_application_with_id": "There is no application with the id: %{0}.",
-			"application_with_id_not_found": "Application with id: %{0}, not found.",
-			"could_not_associate_application_and_user": "Could not associate application %{0} and user with username %{1}."
-		},
-		"user": {
-			"already_exist_user_same_password": "Already exists user with same username.'",
-			"could_not_created_user_with_username": "Could not created user with username: %{0}.",
-			"user_with_id_not_found": "User with id: %{0}, not found.",
-			"user_with_username_not_found": "User with username %{0}, not found.",
-			"could_not_update_user": "Could not updated user with username: %{0}"
-		},
-		"group_link": {
-			"group_link_with_id_not_found": "Group with id: %{0}, not found."
-		},
-		"link": {
-			"wrong_name_argument": "Wrong name argument.",
-			"wrong_url_argument": "Wrong URL argument."
-		}
-	},
-	"Link name must not be empty": "Link name must not be empty",
-	"Wrong name argument.": "Wrong name argument.",
-	"Already exists user with same username": {
-		"'": "Already exists user with same username.'"
-	},
-	"There is no application with the id": " %{0}.",
-	"User with id": " %{0}, not found.",
-	"Failed to verify password.": "Failed to verify password.",
-	"The value %{0} cannot be converted to numeric.": "The value %{0} cannot be converted to numeric."
+    "message": {},
+    "error_message": {
+        "api": {
+            "dot_env_variable_undefined": "The variable is undefined in the .env file.",
+            "not_defined_env_variable": "The %{0} variable is not defined in the .env file.",
+            "error_database_initialization": "Error during Data Source '%{0}' initialization'"
+        },
+        "util_number": {
+            "parsed_value_is_nan": "The value %{0} cannot be converted to numeric.",
+            "values_not_same_type": "The values are not of the same type",
+            "invalid_number_conversion": "Provided value cannot be converted to a valid number.",
+            "not_match_param_id_body_id": "The provided IDs do not match."
+        },
+        "translate": {
+            "wrong_number_of_parameters": "Wrong number of parameters for key %{0}. Expected %{1}, got %{2}"
+        },
+        "http": {
+            "success": "Request operation successfully processed.",
+            "created": "Created operation successfully processed.'",
+            "no_content": "No content.",
+            "bad_request": "Bad request.",
+            "argument": "Wrong argument.",
+            "unauthorized": "Unauthorized.",
+            "forbidden": "Forbidden.",
+            "not_found": "Not found.",
+            "already_exists": "Already exists.",
+            "internal_server_error": "Internal server error.",
+            "critical_server_error": "Critical error.",
+            "Forbidden": "error_message.http.Forbidden"
+        },
+        "password": {
+            "failed_encrypt": "Failed to encrypt password.",
+            "failed_verify": "Failed to verify password."
+        },
+        "application": {
+            "there_is_not_application_with_id": "There is no application with the id: %{0}.",
+            "application_with_id_not_found": "Application with id: %{0}, not found.",
+            "could_not_associate_application_and_user": "Could not associate application %{0} and user with username %{1}."
+        },
+        "user": {
+            "already_exist_user_same_password": "Already exists user with same username.'",
+            "could_not_created_user_with_username": "Could not created user with username: %{0}.",
+            "user_with_id_not_found": "User with id: %{0}, not found.",
+            "user_with_username_not_found": "User with username %{0}, not found.",
+            "could_not_update_user": "Could not updated user with username: %{0}"
+        },
+        "group_link": {
+            "group_link_with_id_not_found": "Group with id: %{0}, not found."
+        },
+        "link": {
+            "user_with_id_not_found": "Link with id: %{0}, not found.",
+            "wrong_name_argument": "Wrong name argument.",
+            "wrong_url_argument": "Wrong URL argument.",
+            "wrong_id_argument": "Wrong id argument.",
+            "could_not_update_link": "Could not updated link with name: %{0}"
+        },
+        "link_tag": {
+            "link_tag_with_id_not_found": "The Tag associated with the Link ID %{0} was not found."
+        }
+    },
+    "Link name must not be empty": "Link name must not be empty",
+    "Wrong name argument.": "Wrong name argument.",
+    "Already exists user with same username": {
+        "'": "Already exists user with same username.'"
+    },
+    "There is no application with the id": " %{0}.",
+    "User with id": " %{0}, not found.",
+    "Failed to verify password.": "Failed to verify password.",
+    "The value %{0} cannot be converted to numeric.": "The value %{0} cannot be converted to numeric."
 }

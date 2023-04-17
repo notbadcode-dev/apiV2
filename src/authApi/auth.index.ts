@@ -14,6 +14,8 @@ import { authDataSource } from '../../src/shared/database/auth.database';
 import { initializeDataSource } from '../../src/shared/database/database';
 import { authApiEntityList } from './domain/entity/_auth.entity.index';
 
+const loggerService: LoggerService = new LoggerService();
+
 function authExpressApp(): void {
     const app: express.Application = express();
 
@@ -25,7 +27,7 @@ function authExpressApp(): void {
     initializeListener(app, port, path, apiTitle);
 
     hookService.schedule(EXECUTE_HOOK_RUN_EVERY_ALL_DAYS_00H, () => {
-        LoggerService.infoLogger('New day on ' + apiTitle);
+        loggerService.infoLogger('New day on ' + apiTitle);
     });
 }
 

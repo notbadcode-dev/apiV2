@@ -14,7 +14,8 @@ module.exports = {
         '.entity.ts',
         '.repository.ts',
         '.error.ts',
-        '.constant.ts'
+        '.constant.ts',
+        '.decorator.ts'
     ],
     moduleNameMapper: {
         '^reflect-metadata$': '<rootDir>/node_modules/reflect-metadata/Reflect.js',
