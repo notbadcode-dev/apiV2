@@ -1,6 +1,8 @@
 import { ERROR_MESSAGE_LINK } from '@constant/error-message/error-message-link.constant';
+import { ERROR_MESSAGE_UTIL } from '@constant/error-message/error-message-util.constant';
 import { LinkEntity } from '@entity/link.entity';
 import { ArgumentError } from '@error/argument.error';
+import { InternalServerError } from '@error/internal-server.error';
 import { ILinkCreate } from '@model/link/link-create.model';
 import { ILink } from '@model/link/link.model';
 
@@ -15,6 +17,14 @@ export class LinkServiceTestData {
     getLink(): ILink {
         return {
             id: 1,
+            name: 'Test',
+            url: 'http://www.test.com',
+        };
+    }
+
+    getLinkAlternative(): ILink {
+        return {
+            id: 2,
             name: 'Test',
             url: 'http://www.test.com',
         };
@@ -83,6 +93,10 @@ export class LinkServiceTestData {
 
     getArgumentErrorWrongId(): ArgumentError {
         return new ArgumentError(ERROR_MESSAGE_LINK.WRONG_ID_ARGUMENT);
+    }
+
+    getInternalServerErrorNotMatchParamAndBodyId(): InternalServerError {
+        return new InternalServerError(ERROR_MESSAGE_UTIL.NOT_MATCH_PARAM_ID_BODY_ID);
     }
 
     getUserId(): number {

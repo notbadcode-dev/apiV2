@@ -44,6 +44,15 @@ export class LinkService {
         return USER_UPDATED;
     }
 
+    // @LoggerMethodDecorator
+    // public async getLink(linkId: number): Promise<ILink> {
+    //     this.validateIdArgument(linkId);
+
+    //     this._globalUtilValidateService.controlSameIdOnParamAndBody(linkId, link.id);
+    //     const USER_UPDATED = await this._linkRepository.update(link);
+    //     return USER_UPDATED;
+    // }
+
     private validateArgumentForCreateLink(linkCreate: ILinkCreate): void {
         if (!linkCreate?.name?.trim()) {
             throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_NAME_ARGUMENT);
@@ -56,12 +65,15 @@ export class LinkService {
 
     private validateArgumentForUpdateLink(updateLink: ILink): void {
         this.validateArgumentForCreateLink(updateLink);
+        this.validateIdArgument(updateLink?.id);
+    }
 
-        if (!updateLink?.id) {
+    private validateIdArgument(id: number): void {
+        if (!id) {
             throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_ID_ARGUMENT);
         }
 
-        if (isNaN(Number(updateLink?.id))) {
+        if (isNaN(Number(id))) {
             throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_ID_ARGUMENT);
         }
     }

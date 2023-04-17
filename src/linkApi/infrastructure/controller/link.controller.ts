@@ -22,4 +22,15 @@ export class UserController {
     async updateLink(@Req() req: Request, @Param('id') linkId: number, @Body() updateLink: ILink): Promise<ILink> {
         return await this.linkService.updateLink(linkId, updateLink);
     }
+
+    // @Authority
+    // @Get('/:id')
+    // async getLink(@Req() req: Request, @Param('id') linkId: number): Promise<ILink> {
+    //     return await this.linkService.updateLink(linkId, updateLink);
+    // }
+
+    // @Get('/:id')
+    // async getLinkList(@Req() req: Request, @Param('id') linkId: number, @Body() updateLink: ILink): Promise<ILink[]> {
+    //     return await this.linkService.updateLink(linkId, updateLink);
+    // }
 }

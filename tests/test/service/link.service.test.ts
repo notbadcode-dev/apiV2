@@ -1,4 +1,5 @@
 import { LinkRepository } from '@repository/link.repository';
+import { GlobalUtilNumberService } from '@service/global/global.util.number.service';
 import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
 import { LinkService } from '@service/link.service';
 import { TokenService } from '@service/token.service';
@@ -10,14 +11,16 @@ describe('LinkService', () => {
 
     let linkRepositoryMock: LinkRepository;
     let tokenServiceMock: TokenService;
+    let globalUtilNumberService: GlobalUtilNumberService;
     let globalUtilValidateService: GlobalUtilValidateService;
     let linkService: LinkService;
 
     beforeEach(() => {
         linkRepositoryMock = mock(LinkRepository);
         tokenServiceMock = mock(TokenService);
-        globalUtilValidateService = mock(GlobalUtilValidateService);
-        linkService = new LinkService(instance(linkRepositoryMock), instance(tokenServiceMock), instance(globalUtilValidateService));
+        globalUtilNumberService = new GlobalUtilNumberService();
+        globalUtilValidateService = new GlobalUtilValidateService(globalUtilNumberService);
+        linkService = new LinkService(instance(linkRepositoryMock), instance(tokenServiceMock), globalUtilValidateService);
     });
 
     describe('createLink', () => {
@@ -79,20 +82,30 @@ describe('LinkService', () => {
 
         it('IdIsZero_ShouldThrowArgumentError', async () => {
             // Arrange
-            const linkEmptyUrl = linkServiceTestData.getLinkWithZeroId();
+            const linkIdIsZero = linkServiceTestData.getLinkWithZeroId();
             const argumentError = linkServiceTestData.getArgumentErrorWrongId();
 
             // Act & Assert
-            await expect(linkService.updateLink(anyNumber(), linkEmptyUrl)).rejects.toThrow(argumentError);
+            await expect(linkService.updateLink(anyNumber(), linkIdIsZero)).rejects.toThrow(argumentError);
         });
 
         it('IdIsNull_ShouldThrowArgumentError', async () => {
             // Arrange
-            const linkEmptyUrl = linkServiceTestData.getLinkWithNullishId();
+            const linkIdIsNull = linkServiceTestData.getLinkWithNullishId();
             const argumentError = linkServiceTestData.getArgumentErrorWrongId();
 
             // Act & Assert
-            await expect(linkService.updateLink(Number(null), linkEmptyUrl)).rejects.toThrow(argumentError);
+            await expect(linkService.updateLink(Number(null), linkIdIsNull)).rejects.toThrow(argumentError);
+        });
+
+        it('IdParameterNotSameIdBody_ShouldThrowInternalServerError', async () => {
+            // Arrange
+            const link = linkServiceTestData.getLink();
+            const linkAlternative = linkServiceTestData.getLinkAlternative();
+            const internalServerError = linkServiceTestData.getInternalServerErrorNotMatchParamAndBodyId();
+
+            // Act & Assert
+            await expect(linkService.updateLink(link.id, linkAlternative)).rejects.toThrow(internalServerError);
         });
 
         it('UpdateLinkOk_ShouldReturnLinkEntity', async () => {
