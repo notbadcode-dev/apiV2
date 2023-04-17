@@ -26,7 +26,7 @@ export class UserController {
     // @Authority
     // @Get('/:id')
     // async getLink(@Req() req: Request, @Param('id') linkId: number): Promise<ILink> {
-    //     return await this.linkService.updateLink(linkId, updateLink);
+    //     return await this.linkService.(linkId, updateLink);
     // }
 
     // @Get('/:id')

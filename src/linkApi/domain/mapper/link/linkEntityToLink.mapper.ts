@@ -1,14 +1,16 @@
+import 'reflect-metadata';
+
+import { LinkGroupEntity } from '@entity/link-group.entity';
+import { LinkOrderEntity } from '@entity/link-order.entity';
+import { LinkEntity } from '@entity/link.entity';
+import { TagEntity } from '@entity/tag.entity';
+import { LinkGroupRelationEntityToLinkGroupMapper } from '@mapper/link-group-relation/linkGroupRelationEntityToLinkGroup.mapper';
+import { LinkGroupEntityToLinkGroupMapper } from '@mapper/link-group/linkGroupEntityToLinkGroup.mapper';
+import { LinkTagEntityToTagEntityMapper } from '@mapper/link-tag/linkTagEntityToTagEntity.mapper';
+import { TagEntityToTagMapper } from '@mapper/tag/tagEntityToTag.mapper';
 import { ILinkGroup } from '@model/group/group-link.model';
-import { LinkGroupEntity } from 'linkApi/domain/entity/link-group.entity';
-import { TagEntity } from 'linkApi/domain/entity/tag.entity';
+import { ILink } from '@model/link/link.model';
 import { Inject, Service } from 'typedi';
-import { LinkOrderEntity } from '../../entity/link-order.entity';
-import { LinkEntity } from '../../entity/link.entity';
-import { ILink } from '../../model/link/link.model';
-import { LinkGroupRelationEntityToLinkGroupMapper } from '../link-group-relation/linkGroupRelationEntityToLinkGroup.mapper';
-import { LinkGroupEntityToLinkGroupMapper } from '../link-group/linkGroupEntityToLinkGroup.mapper';
-import { LinkTagEntityToTagEntityMapper } from '../link-tag/linkTagEntityToTagEntity.mapper';
-import { TagEntityToTagMapper } from '../tag/tagEntityToTag.mapper';
 
 @Service()
 export class LinkEntityToLinkMapper {

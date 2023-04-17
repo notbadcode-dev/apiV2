@@ -1,5 +1,5 @@
-import { LinkTagEntity } from 'linkApi/domain/entity/link-tag.entity';
-import { TagEntity } from 'linkApi/domain/entity/tag.entity';
+import { LinkTagEntity } from '@entity/link-tag.entity';
+import { TagEntity } from '@entity/tag.entity';
 import { Service } from 'typedi';
 
 @Service()

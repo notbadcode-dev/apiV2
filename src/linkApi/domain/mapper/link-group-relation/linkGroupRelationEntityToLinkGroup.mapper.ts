@@ -1,6 +1,6 @@
-import { LinkGroupRelationEntity } from 'linkApi/domain/entity/link-group-relation.entity';
-import { LinkGroupEntity } from 'linkApi/domain/entity/link-group.entity';
-import { TagEntity } from 'linkApi/domain/entity/tag.entity';
+import { LinkGroupRelationEntity } from '@entity/link-group-relation.entity';
+import { LinkGroupEntity } from '@entity/link-group.entity';
+import { TagEntity } from '@entity/tag.entity';
 import { Service } from 'typedi';
 
 @Service()

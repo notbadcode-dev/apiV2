@@ -1,7 +1,7 @@
 import { authApiEntityList } from '@entity/_auth.entity.index';
 import { DataSource } from 'typeorm';
 
-import { linkApiEntityList } from '../../linkApi/domain/entity/_link.entity.index';
+import { linkApiEntityList } from '../../@entity/_link.entity.index';
 
 export const linkDataSource = new DataSource({
     type: 'mariadb',

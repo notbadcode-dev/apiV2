@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.6% </span>
+                <span class="strong">30.43% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/23</span>
+                <span class='fraction'>7/23</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80.95% </span>
+                <span class="strong">23.8% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>17/21</span>
+                <span class='fraction'>5/21</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -116,37 +116,37 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { ERROR_MESSAGE_UTIL } from '@constant/error-message/error-message-util.constant';
@@ -158,38 +158,38 @@ type NumberString = number | string;
 &nbsp;
 @Service()
 export class GlobalUtilNumberService {
-    public convertNumber(value: NumberString): number | void {
-        const valueType: string = typeof value;
+    public <span class="fstat-no" title="function not covered" >convertNumber(</span>value: NumberString): number | void {
+        const valueType: string = <span class="cstat-no" title="statement not covered" >typeof value;</span>
 &nbsp;
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (!VALID_DATA_TYPE_TO_NUMBER_LIST.includes(valueType)) {
+<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!VALID_DATA_TYPE_TO_NUMBER_LIST.includes(valueType)) {</span>
 <span class="cstat-no" title="statement not covered" >            throw new InternalServerError(ERROR_MESSAGE_UTIL.INVALID_NUMBER_CONVERSION);</span>
         }
 &nbsp;
-        const transformValue: string = value?.toString();
+        const transformValue: string = <span class="cstat-no" title="statement not covered" >value?.toString();</span>
 &nbsp;
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (valueType.includes(DATA_TYPE.String) &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!Number.isNaN(Number(transformValue)))</span> {
+<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (valueType.includes(DATA_TYPE.String) &amp;&amp; !Number.isNaN(Number(transformValue))) {</span>
 <span class="cstat-no" title="statement not covered" >            return parseFloat(transformValue);</span>
         }
 &nbsp;
-        const parsedValue: number = parseInt(transformValue, 10);
+        const parsedValue: number = <span class="cstat-no" title="statement not covered" >parseInt(transformValue, 10);</span>
 &nbsp;
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (isNaN(parsedValue)) {
+<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (isNaN(parsedValue)) {</span>
 <span class="cstat-no" title="statement not covered" >            throw new InternalServerError(ERROR_MESSAGE_UTIL.PARSED_VALUE_IS_NAN(value.toString()));</span>
         }
 &nbsp;
-        return parsedValue;
+<span class="cstat-no" title="statement not covered" >        return parsedValue;</span>
     }
 &nbsp;
-    public areNumericValuesEqual(firstValue: NumberString, secondValue: NumberString): boolean {
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof firstValue !== typeof secondValue) {
+    public <span class="fstat-no" title="function not covered" >areNumericValuesEqual(</span>firstValue: NumberString, secondValue: NumberString): boolean {
+<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof firstValue !== typeof secondValue) {</span>
 <span class="cstat-no" title="statement not covered" >            throw new InternalServerError(ERROR_MESSAGE_UTIL.VALUES_NOT_SAME_TYPE);</span>
         }
 &nbsp;
-        const parsedFirstValue = this.convertNumber(firstValue);
-        const parsedSecondValue = this.convertNumber(secondValue);
+        const parsedFirstValue = <span class="cstat-no" title="statement not covered" >this.convertNumber(firstValue);</span>
+        const parsedSecondValue = <span class="cstat-no" title="statement not covered" >this.convertNumber(secondValue);</span>
 &nbsp;
-        const areNumericEqual: boolean = parsedFirstValue === parsedSecondValue;
-        return areNumericEqual;
+        const areNumericEqual: boolean = <span class="cstat-no" title="statement not covered" >parsedFirstValue === parsedSecondValue;</span>
+<span class="cstat-no" title="statement not covered" >        return areNumericEqual;</span>
     }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -199,7 +199,7 @@ export class GlobalUtilNumberService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-17T14:38:23.973Z
+                at 2023-04-17T18:22:12.574Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

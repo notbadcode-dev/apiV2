@@ -1,3 +1,4 @@
+import { LinkEntityToLinkMapper } from '@mapper/link/linkEntityToLink.mapper';
 import { LinkRepository } from '@repository/link.repository';
 import { GlobalUtilNumberService } from '@service/global/global.util.number.service';
 import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
@@ -13,6 +14,7 @@ describe('LinkService', () => {
     let tokenServiceMock: TokenService;
     let globalUtilNumberService: GlobalUtilNumberService;
     let globalUtilValidateService: GlobalUtilValidateService;
+    let linkEntityToLinkMapper: LinkEntityToLinkMapper;
     let linkService: LinkService;
 
     beforeEach(() => {
@@ -20,7 +22,13 @@ describe('LinkService', () => {
         tokenServiceMock = mock(TokenService);
         globalUtilNumberService = new GlobalUtilNumberService();
         globalUtilValidateService = new GlobalUtilValidateService(globalUtilNumberService);
-        linkService = new LinkService(instance(linkRepositoryMock), instance(tokenServiceMock), globalUtilValidateService);
+        linkEntityToLinkMapper = mock(LinkEntityToLinkMapper);
+        linkService = new LinkService(
+            instance(linkRepositoryMock),
+            instance(tokenServiceMock),
+            globalUtilValidateService,
+            instance(linkEntityToLinkMapper)
+        );
     });
 
     describe('createLink', () => {
@@ -46,18 +54,20 @@ describe('LinkService', () => {
             // Arrange
             const linkCreate = linkServiceTestData.getLinkCreate();
             const linkEntity = linkServiceTestData.getLinkEntity();
+            const link = linkServiceTestData.getLink();
             const userId = linkServiceTestData.getUserId();
 
             when(tokenServiceMock.getCurrentUserId()).thenReturn(userId);
             when(linkRepositoryMock.create(anything())).thenCall(async () => {
                 return Promise.resolve(linkEntity);
             });
+            when(linkEntityToLinkMapper.map(linkEntity)).thenReturn(link);
 
             // Act
             const result = await linkService.createLink(linkCreate);
 
             // Assert
-            expect(result).toEqual(linkEntity);
+            expect(result).toEqual(link);
         });
     });
 
@@ -118,12 +128,16 @@ describe('LinkService', () => {
             when(linkRepositoryMock.update(anything())).thenCall(async () => {
                 return Promise.resolve(linkEntity);
             });
+            when(linkRepositoryMock.create(anything())).thenCall(async () => {
+                return Promise.resolve(linkEntity);
+            });
+            when(linkEntityToLinkMapper.map(linkEntity)).thenReturn(link);
 
             // Act
             const result = await linkService.updateLink(link.id, link);
 
             // Assert
-            expect(result).toEqual(linkEntity);
+            expect(result).toEqual(link);
         });
     });
 });

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">45% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/20</span>
+                <span class='fraction'>9/20</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">26.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/15</span>
+                <span class='fraction'>4/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">45% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/20</span>
+                <span class='fraction'>9/20</span>
             </div>
         
             
@@ -178,7 +178,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -193,6 +193,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -201,14 +209,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -266,11 +266,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { ERROR_MESSAGE_LINK } from '@constant/error-message/error-message-link.constant';
@@ -282,8 +282,8 @@ import { ILinkCreate } from '@model/link/link-create.model';
 import { ILink } from '@model/link/link.model';
 &nbsp;
 export class LinkServiceTestData {
-<span class="fstat-no" title="function not covered" >    getLinkCreate(</span>): ILinkCreate {
-<span class="cstat-no" title="statement not covered" >        return {</span>
+    getLinkCreate(): ILinkCreate {
+        return {
             name: 'Test',
             url: 'http://www.test.com',
         };
@@ -297,16 +297,16 @@ export class LinkServiceTestData {
         };
     }
 &nbsp;
-    getLinkAlternative(): ILink {
-        return {
+<span class="fstat-no" title="function not covered" >    getLinkAlternative(</span>): ILink {
+<span class="cstat-no" title="statement not covered" >        return {</span>
             id: 2,
             name: 'Test',
             url: 'http://www.test.com',
         };
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    getLinkEntity(</span>): LinkEntity {
-<span class="cstat-no" title="statement not covered" >        return {</span>
+    getLinkEntity(): LinkEntity {
+        return {
             id: 1,
             name: 'Test',
             url: 'http://www.test.com',
@@ -370,12 +370,12 @@ export class LinkServiceTestData {
 <span class="cstat-no" title="statement not covered" >        return new ArgumentError(ERROR_MESSAGE_LINK.WRONG_ID_ARGUMENT);</span>
     }
 &nbsp;
-    getInternalServerErrorNotMatchParamAndBodyId(): InternalServerError {
-        return new InternalServerError(ERROR_MESSAGE_UTIL.NOT_MATCH_PARAM_ID_BODY_ID);
+<span class="fstat-no" title="function not covered" >    getInternalServerErrorNotMatchParamAndBodyId(</span>): InternalServerError {
+<span class="cstat-no" title="statement not covered" >        return new InternalServerError(ERROR_MESSAGE_UTIL.NOT_MATCH_PARAM_ID_BODY_ID);</span>
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    getUserId(</span>): number {
-<span class="cstat-no" title="statement not covered" >        return 1;</span>
+    getUserId(): number {
+        return 1;
     }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -385,7 +385,7 @@ export class LinkServiceTestData {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-17T14:38:23.973Z
+                at 2023-04-17T18:22:12.574Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -1,4 +1,4 @@
-import { TagEntity } from 'linkApi/domain/entity/tag.entity';
+import { TagEntity } from '@entity/tag.entity';
 import { Service } from 'typedi';
 import { ITag } from '../../model/tag/tag.model';
 
