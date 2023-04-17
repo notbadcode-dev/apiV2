@@ -4,6 +4,7 @@ import { ArgumentError } from '@error/argument.error';
 import { LinkEntityToLinkMapper } from '@mapper/link/linkEntityToLink.mapper';
 import { ILinkCreate } from '@model/link/link-create.model';
 import { ILink } from '@model/link/link.model';
+import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 import { LinkRepository } from '@repository/link.repository';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
@@ -16,7 +17,7 @@ export class LinkService {
         @Inject() private _linkRepository: LinkRepository,
         @Inject() private _tokenService: TokenService,
         @Inject() private _globalUtilValidateService: GlobalUtilValidateService,
-        @Inject() private _inkEntityToLinkMapper: LinkEntityToLinkMapper
+        @Inject() private _linkEntityToLinkMapper: LinkEntityToLinkMapper
     ) {}
 
     @LoggerMethodDecorator
@@ -34,7 +35,7 @@ export class LinkService {
         };
         const LINK_CREATED_SAVED = await this._linkRepository.create(LINK_ENTITY);
 
-        const LINK: ILink = this._inkEntityToLinkMapper.map(LINK_CREATED_SAVED);
+        const LINK: ILink = this._linkEntityToLinkMapper.map(LINK_CREATED_SAVED);
         return LINK;
     }
 
@@ -45,17 +46,38 @@ export class LinkService {
         this._globalUtilValidateService.controlSameIdOnParamAndBody(linkId, link.id);
         const USER_UPDATED = await this._linkRepository.update(link);
 
-        const LINK: ILink = this._inkEntityToLinkMapper.map(USER_UPDATED);
+        const LINK: ILink = this._linkEntityToLinkMapper.map(USER_UPDATED);
         return LINK;
     }
 
-    // @LoggerMethodDecorator
-    // public async getLink(linkId: number): Promise<ILink> {
-    //     this.validateIdArgument(linkId);
+    @LoggerMethodDecorator
+    public async getLink(linkId: number): Promise<ILink> {
+        this.validateIdArgument(linkId);
 
-    //     const LINK = await this._linkRepository.update(link);
-    //     return USER_UPDATED;
-    // }
+        const LINK_ENTITY = await this._linkRepository.getById(linkId);
+        const LINK: ILink = this._linkEntityToLinkMapper.map(LINK_ENTITY);
+        return LINK;
+    }
+
+    @LoggerMethodDecorator
+    public async getLinkList(): Promise<ILink[]> {
+        const LINK_ENTITY: LinkEntity[] = await this._linkRepository.getAll();
+        const LINK_LIST: ILink[] = LINK_ENTITY.map((LINK_ENTITY: LinkEntity) => this._linkEntityToLinkMapper.map(LINK_ENTITY));
+        return LINK_LIST;
+    }
+
+    @LoggerMethodDecorator
+    public async getPaginateLinkList(paginateLinkList: IPaginateItem<ILink>): Promise<IPaginateItem<ILink>> {
+        const PAGINATE_LINK_ENTITY: IPaginateItem<LinkEntity> = await this._linkRepository.getAllPaginated(paginateLinkList);
+        const LINK_LIST: ILink[] =
+            PAGINATE_LINK_ENTITY?.itemList?.map((LINK_ENTITY: LinkEntity) => this._linkEntityToLinkMapper.map(LINK_ENTITY)) ?? [];
+
+        const PAGINATE_LINK_LIST: IPaginateItem<ILink> = {
+            ...PAGINATE_LINK_ENTITY,
+            itemList: LINK_LIST,
+        };
+        return PAGINATE_LINK_LIST;
+    }
 
     private validateArgumentForCreateLink(linkCreate: ILinkCreate): void {
         if (!linkCreate?.name?.trim()) {
