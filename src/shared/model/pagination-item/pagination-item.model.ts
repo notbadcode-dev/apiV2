@@ -4,10 +4,10 @@ export interface IPartialPaginateItem {
 }
 
 export class PartialPaginateItemHelper {
-    static mapToObject(skip?: number, take?: number): IPartialPaginateItem {
+    static mapToObject(currentPage?: number, take?: number): IPartialPaginateItem {
         return {
-            skip: skip ?? 0,
             take: take ?? 0,
+            currentPage: currentPage ?? 0,
         };
     }
 }
@@ -27,7 +27,6 @@ export class PaginateItemHelper {
             take: 0,
             total: 0,
             currentPageTotal: null,
-            currentPage: null,
             totalPages: null,
             itemList: new Array<T>(),
         };
