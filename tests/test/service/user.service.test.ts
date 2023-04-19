@@ -44,7 +44,7 @@ describe('UserService', () => {
     });
 
     describe('createUser', () => {
-        it('UsernameAlreadyExists_ShouldAlreadyExistsError', async () => {
+        it('Should throw AlreadyExistsError when username already exists', async () => {
             // Arrange
             const userCreate: IUserCreate = userServiceTestData.getUserCreate();
             const userEntity: UserEntity = userServiceTestData.getUserEntity();
@@ -61,7 +61,7 @@ describe('UserService', () => {
             await expect(userService.createUser(userCreate)).rejects.toThrowError(AlreadyExistsError);
         });
 
-        it('ApplicationDoesNotExist_ShouldNotFoundError', async () => {
+        it('Should throw NotFoundError when application does not exist', async () => {
             // Arrange
             const userCreate: IUserCreate = userServiceTestData.getUserCreate();
 
@@ -73,7 +73,7 @@ describe('UserService', () => {
             await expect(userService.createUser(userCreate)).rejects.toThrowError(NotFountError);
         });
 
-        it('UserCreateOk_ShouldReturnUserEntity', async () => {
+        it('Should return created user when user creation succeeds', async () => {
             // Arrange
             const userCreate: IUserCreate = userServiceTestData.getUserCreate();
             const userCreatedEntity: IUserCreated = userServiceTestData.getUserCreated();
@@ -105,7 +105,7 @@ describe('UserService', () => {
     });
 
     describe('updateUser', () => {
-        it('UserDoesNotExist_ShouldNotFoundError', async () => {
+        it('Should throw NotFoundError when user does not exist', async () => {
             // Arrange
             const userUpdate: IUserUpdater = userServiceTestData.getUserUpdated();
 
@@ -117,7 +117,7 @@ describe('UserService', () => {
             await expect(userService.updateUser(userUpdate.id, userUpdate)).rejects.toThrow(NotFountError);
         });
 
-        it('UserExists_ShouldReturnUpdatedUser', async () => {
+        it('Should return updated user when user update succeeds', async () => {
             // Arrange
             const userUpdate: IUserUpdater = userServiceTestData.getUserUpdated();
             const existingUser: IUser = userServiceTestData.getUserEntity();
@@ -139,7 +139,7 @@ describe('UserService', () => {
     });
 
     describe('getUser', () => {
-        it('UserDoesNotExist_ShouldNotFoundError', async () => {
+        it('Should throw NotFoundError when user does not exist', async () => {
             // Arrange
             const userId: number = userServiceTestData.getUserEntity()?.id;
 
@@ -151,7 +151,7 @@ describe('UserService', () => {
             await expect(userService.getUser(userId)).rejects.toThrow(NotFountError);
         });
 
-        it('UserExists_ShouldReturnUser', async () => {
+        it('Should return user when user exists', async () => {
             // Arrange
             const userEntity: UserEntity = userServiceTestData.getUserEntity();
             const user: IUser = userServiceTestData.getUserEntity();
@@ -174,7 +174,7 @@ describe('UserService', () => {
     });
 
     describe('getAllUsers', () => {
-        it('Ok_ShouldReturnListOfUsers', async () => {
+        it('Should return list of users when users exist', async () => {
             // Arrange
             const userEntityList: UserEntity[] = userServiceTestData.getUserEntityList();
             const expectedUserList: IUser[] = userServiceTestData.getUserList();
@@ -194,7 +194,7 @@ describe('UserService', () => {
             expect(userList).toEqual(expectedUserList);
         });
 
-        it('Ok_ShouldReturnEmptyListOfUsers', async () => {
+        it('Should return empty list of users when no users exist', async () => {
             // Arrange
             when(userRepositoryMock.getAll()).thenCall(async () => []);
 
