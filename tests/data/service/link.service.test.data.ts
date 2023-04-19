@@ -5,6 +5,8 @@ import { ArgumentError } from '@error/argument.error';
 import { InternalServerError } from '@error/internal-server.error';
 import { ILinkCreate } from '@model/link/link-create.model';
 import { ILink } from '@model/link/link.model';
+import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
+import { ITag } from '@model/tag/tag.model';
 
 export class LinkServiceTestData {
     getLinkCreate(): ILinkCreate {
@@ -17,8 +19,14 @@ export class LinkServiceTestData {
     getLink(): ILink {
         return {
             id: 1,
+            order: 0,
             name: 'Test',
             url: 'http://www.test.com',
+            active: true,
+            favorite: true,
+            linkGroupId: null,
+            linkGroup: null,
+            tagList: new Array<ITag>(),
         };
     }
 
@@ -27,6 +35,11 @@ export class LinkServiceTestData {
             id: 2,
             name: 'Test',
             url: 'http://www.test.com',
+            active: true,
+            favorite: true,
+            linkGroupId: null,
+            linkGroup: null,
+            tagList: new Array<ITag>(),
         };
     }
 
@@ -81,6 +94,36 @@ export class LinkServiceTestData {
             ...this.getLinkCreate(),
             url: '',
         };
+    }
+
+    getPaginateLinkList(): IPaginateItem<ILink> {
+        const totalLinks = 10;
+        const linksPerPage = 5;
+        const currentPage = 1;
+        const totalPages = Math.ceil(totalLinks / linksPerPage);
+        const linkList: ILink[] = [];
+
+        for (let i = 1; i <= totalLinks; i++) {
+            linkList.push({
+                id: i,
+                name: `Link ${i}`,
+                url: `https://www.link${i}.com`,
+                favorite: false,
+                active: true,
+            });
+        }
+
+        const paginateLinkList: IPaginateItem<ILink> = {
+            skip: (currentPage - 1) * linksPerPage,
+            take: linksPerPage,
+            total: totalLinks,
+            totalPages: totalPages,
+            currentPage: currentPage,
+            currentPageTotal: linksPerPage,
+            itemList: linkList.slice(0, linksPerPage),
+        };
+
+        return paginateLinkList;
     }
 
     getArgumentErrorEmptyLinkName(): ArgumentError {

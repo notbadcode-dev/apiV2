@@ -13,7 +13,7 @@ describe('GlobalUtilNumberServiceTest', () => {
     });
 
     describe('convertNumber', () => {
-        it('NumberValue_ShouldReturnNumber', () => {
+        it('Should return a number when passed a number value', () => {
             // Arrange
             const value = 1;
 
@@ -24,7 +24,7 @@ describe('GlobalUtilNumberServiceTest', () => {
             expect(result).toBe(value);
         });
 
-        it('StringValue_ShouldReturnNumber', () => {
+        it('Should return a number when passed a string value representing a number', () => {
             // Arrange
             const value = '1';
 
@@ -35,7 +35,7 @@ describe('GlobalUtilNumberServiceTest', () => {
             expect(result).toBe(parseInt(value, 10));
         });
 
-        it('StringNonValidValue_ShouldReturnNumber', () => {
+        it('Should throw an InternalServerError when passed a non-valid string value', () => {
             // Arrange
             const value = 'test';
 
@@ -47,7 +47,7 @@ describe('GlobalUtilNumberServiceTest', () => {
     });
 
     describe('areNumericValuesEqual', () => {
-        it('NumberAndStringValues_ShouldThrowInternalServerError', () => {
+        it('Should throw an InternalServerError when passed numeric values of different types', () => {
             // Arrange
             const values: IAreNumericValuesEqual<number, string> =
                 globalUtilNumberServiceTestData.getValuesForAreNumericValuesEqualNumberAndStringReturnThrowInternalServerError();
@@ -58,7 +58,7 @@ describe('GlobalUtilNumberServiceTest', () => {
             }).toThrowError(new InternalServerError(ERROR_MESSAGE_UTIL.VALUES_NOT_SAME_TYPE));
         });
 
-        it('NumberValuesNotMatch_ShoulRetirn', () => {
+        it('Should return false when passed two numeric values that do not match', () => {
             // Arrange
             const values: IAreNumericValuesEqual<number, number> =
                 globalUtilNumberServiceTestData.getValuesForAreNumericValuesEqualAllNumbersReturnFalse();
@@ -70,7 +70,7 @@ describe('GlobalUtilNumberServiceTest', () => {
             expect(result).toEqual(values.result);
         });
 
-        it('NumberValuesMatch_ShouldReturnFalse', () => {
+        it('Should return true when passed two numeric values that match', () => {
             // Arrange
             const values: IAreNumericValuesEqual<number, number> =
                 globalUtilNumberServiceTestData.getValuesForAreNumericValuesEqualAllNumbersReturnTrue();
@@ -82,7 +82,7 @@ describe('GlobalUtilNumberServiceTest', () => {
             expect(result).toEqual(values.result);
         });
 
-        it('StringValuesNotMatch_ShouldReturnFalse', () => {
+        it('Should return false when passed two string values that do not match', () => {
             // Arrange
             const values: IAreNumericValuesEqual<string, string> =
                 globalUtilNumberServiceTestData.getValuesForAreNumericValuesEqualAllStringsReturnFalse();
@@ -94,7 +94,7 @@ describe('GlobalUtilNumberServiceTest', () => {
             expect(result).toEqual(values.result);
         });
 
-        it('StringValuesMatch_ShouldReturnFalse', () => {
+        it('Should return true when passed two string values that match', () => {
             // Arrange
             const values: IAreNumericValuesEqual<string, string> =
                 globalUtilNumberServiceTestData.getValuesForAreNumericValuesEqualAllStringReturnTrue();

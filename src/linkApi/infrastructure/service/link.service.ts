@@ -61,8 +61,11 @@ export class LinkService {
 
     @LoggerMethodDecorator
     public async getLinkList(): Promise<ILink[]> {
-        const LINK_ENTITY: LinkEntity[] = await this._linkRepository.getAll();
-        const LINK_LIST: ILink[] = LINK_ENTITY.map((LINK_ENTITY: LinkEntity) => this._linkEntityToLinkMapper.map(LINK_ENTITY));
+        const LINK_ENTITY_LIST: LinkEntity[] = await this._linkRepository.getAll();
+        const LINK_LIST: ILink[] = LINK_ENTITY_LIST.map((LINK_ENTITY: LinkEntity) => {
+            const LINK = this._linkEntityToLinkMapper.map(LINK_ENTITY);
+            return LINK;
+        });
         return LINK_LIST;
     }
 

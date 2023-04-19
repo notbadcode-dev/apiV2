@@ -36,7 +36,7 @@ describe('AuthService', () => {
     });
 
     describe('signUp', () => {
-        it('UserCreateOk_ShouldReturnTrue', async () => {
+        it('Should return true when user create is successful', async () => {
             // Arrange
             const userCreate: IUserCreate = userServiceTestData.getUserCreate();
             when(userServiceMock.createUser(userCreate)).thenCall(async () => true);
@@ -50,7 +50,7 @@ describe('AuthService', () => {
     });
 
     describe('signIn', () => {
-        it('UserNotFound_ShouldThrowUnauthorizedError', async () => {
+        it('Should throw an UnauthorizedError when user is not found', async () => {
             // Arrange
             const authSignIn: IAuthSignIn = authServiceTestData.getAuthSignIn();
 
@@ -60,7 +60,7 @@ describe('AuthService', () => {
             await expect(authService.signIn(authSignIn)).rejects.toThrow(UnauthorizedError);
         });
 
-        it('IncorrectPassword_ShouldThrowUnauthorizedError', async () => {
+        it('Should throw an UnauthorizedError when password is incorrect', async () => {
             // Arrange
             const authSignIn: IAuthSignIn = authServiceTestData.getAuthSignIn();
             const userEntity: UserEntity = userServiceTestData.getUserEntity();
@@ -72,7 +72,7 @@ describe('AuthService', () => {
             await expect(authService.signIn(authSignIn)).rejects.toThrow(UnauthorizedError);
         });
 
-        it('UsernameAndPasswordOK_ShouldReturnToken', async () => {
+        it('Should return a token when username and password are correct', async () => {
             // Arrange
             const authSignIn: IAuthSignIn = authServiceTestData.getAuthSignIn();
             const userEntity: UserEntity = userServiceTestData.getUserEntity();
