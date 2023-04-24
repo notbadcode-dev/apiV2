@@ -1,14 +1,14 @@
 import { DataSource } from 'typeorm';
-import { authApiEntityList } from '../../authApi/domain/entity/_auth.entity.index';
+import { AUTH_API_ENTITY_LIST } from '../../authApi/domain/entity/_auth.entity.index';
 
-export const authDataSource = new DataSource({
+export const AUTH_DATA_SOURCE = new DataSource({
     type: 'mariadb',
     host: 'localhost',
     port: 3306,
     username: 'notbadcode',
     password: '6900',
     database: 'auth',
-    entities: [...authApiEntityList],
+    entities: [...AUTH_API_ENTITY_LIST],
     logging: true,
     dateStrings: true,
     trace: true,

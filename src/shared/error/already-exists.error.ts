@@ -1,9 +1,9 @@
 import { HTTP_RESPONSE_STATUS } from '@constant/http.constant';
 
-import { AppError } from './app.error';
+import { AppError } from '@error/app.error';
 
 export class AlreadyExistsError extends AppError {
     constructor(message: string) {
-        super(HTTP_RESPONSE_STATUS.ALREADY_EXISTS, message);
+        super(message, HTTP_RESPONSE_STATUS.ALREADY_EXISTS);
     }
 }

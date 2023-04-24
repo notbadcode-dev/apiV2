@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.5% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>1/8</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.5% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>1/8</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -111,23 +111,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -135,7 +126,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -143,8 +135,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -154,41 +154,41 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { IAreNumericValuesEqual } from 'tests/model/global.util.number.service.test.model';
 &nbsp;
 export class GlobalUtilNumberServiceTestData {
-<span class="fstat-no" title="function not covered" >    getValuesForAreNumericValuesEqualNumberAndStringReturnThrowInternalServerError(</span>): IAreNumericValuesEqual&lt;number, string&gt; {
-<span class="cstat-no" title="statement not covered" >        return {</span>
+    getValuesForAreNumericValuesEqualNumberAndStringReturnThrowInternalServerError(): IAreNumericValuesEqual&lt;number, string&gt; {
+        return {
             firstValue: 1,
             secondValue: '1',
         };
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    getValuesForAreNumericValuesEqualAllNumbersReturnFalse(</span>): IAreNumericValuesEqual&lt;number, number&gt; {
-<span class="cstat-no" title="statement not covered" >        return {</span>
+    getValuesForAreNumericValuesEqualAllNumbersReturnFalse(): IAreNumericValuesEqual&lt;number, number&gt; {
+        return {
             firstValue: 1,
             secondValue: 2,
             result: false,
         };
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    getValuesForAreNumericValuesEqualAllNumbersReturnTrue(</span>): IAreNumericValuesEqual&lt;number, number&gt; {
-        const sameValue = <span class="cstat-no" title="statement not covered" >1;</span>
-<span class="cstat-no" title="statement not covered" >        return {</span>
+    getValuesForAreNumericValuesEqualAllNumbersReturnTrue(): IAreNumericValuesEqual&lt;number, number&gt; {
+        const sameValue = 1;
+        return {
             firstValue: sameValue,
             secondValue: sameValue,
             result: true,
         };
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    getValuesForAreNumericValuesEqualAllStringsReturnFalse(</span>): IAreNumericValuesEqual&lt;string, string&gt; {
-<span class="cstat-no" title="statement not covered" >        return {</span>
+    getValuesForAreNumericValuesEqualAllStringsReturnFalse(): IAreNumericValuesEqual&lt;string, string&gt; {
+        return {
             firstValue: '1',
             secondValue: '2',
             result: false,
         };
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    getValuesForAreNumericValuesEqualAllStringReturnTrue(</span>): IAreNumericValuesEqual&lt;string, string&gt; {
-        const sameValue = <span class="cstat-no" title="statement not covered" >'1';</span>
-<span class="cstat-no" title="statement not covered" >        return {</span>
+    getValuesForAreNumericValuesEqualAllStringReturnTrue(): IAreNumericValuesEqual&lt;string, string&gt; {
+        const sameValue = '1';
+        return {
             firstValue: sameValue,
             secondValue: sameValue,
             result: true,
@@ -202,7 +202,7 @@ export class GlobalUtilNumberServiceTestData {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-10T17:34:15.630Z
+                at 2023-04-23T10:05:44.817Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

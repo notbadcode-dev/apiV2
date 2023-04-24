@@ -54,6 +54,20 @@ export class LinkServiceTestData {
         };
     }
 
+    getFavoriteLinkEntity(): LinkEntity {
+        return {
+            ...this.getLinkEntity(),
+            favorite: true,
+        };
+    }
+
+    getInactiveLinkEntity(): LinkEntity {
+        return {
+            ...this.getLinkEntity(),
+            active: false,
+        };
+    }
+
     getLinkWithEmptyName(): ILink {
         return {
             ...this.getLink(),
@@ -97,13 +111,14 @@ export class LinkServiceTestData {
     }
 
     getPaginateLinkList(): IPaginateItem<ILink> {
-        const totalLinks = 10;
-        const linksPerPage = 5;
-        const currentPage = 1;
-        const totalPages = Math.ceil(totalLinks / linksPerPage);
+        const TOTAL_LINKS = 10;
+        const LINKS_PER_PAGE = 5;
+        const CURRENT_PAGE = 1;
+        const TOTAL_PAGES = Math.ceil(TOTAL_LINKS / LINKS_PER_PAGE);
         const linkList: ILink[] = [];
 
-        for (let i = 1; i <= totalLinks; i++) {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        for (let i = 1; i <= TOTAL_LINKS; i++) {
             linkList.push({
                 id: i,
                 name: `Link ${i}`,
@@ -113,17 +128,29 @@ export class LinkServiceTestData {
             });
         }
 
-        const paginateLinkList: IPaginateItem<ILink> = {
-            skip: (currentPage - 1) * linksPerPage,
-            take: linksPerPage,
-            total: totalLinks,
-            totalPages: totalPages,
-            currentPage: currentPage,
-            currentPageTotal: linksPerPage,
-            itemList: linkList.slice(0, linksPerPage),
+        const PAGINATE_LINK_LIST: IPaginateItem<ILink> = {
+            skip: (CURRENT_PAGE - 1) * LINKS_PER_PAGE,
+            take: LINKS_PER_PAGE,
+            total: TOTAL_LINKS,
+            totalPages: TOTAL_PAGES,
+            currentPage: CURRENT_PAGE,
+            currentPageTotal: LINKS_PER_PAGE,
+            itemList: linkList.slice(0, LINKS_PER_PAGE),
         };
 
-        return paginateLinkList;
+        return PAGINATE_LINK_LIST;
+    }
+
+    getSimplePaginateLinkList(): IPaginateItem<ILink> {
+        return {
+            totalPages: 1,
+            currentPage: 10,
+            take: 10,
+        };
+    }
+
+    getSimpleWithUndefinedItemListPaginateLinkList(): IPaginateItem<ILink> {
+        return { total: 0, itemList: undefined, take: 10 };
     }
 
     getArgumentErrorEmptyLinkName(): ArgumentError {

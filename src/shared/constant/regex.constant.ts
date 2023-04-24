@@ -1,3 +1,3 @@
 export const REGEX = {
-    TRANSLATE_KEY_PARAMETER: /%\{\d\}/g,
+    TRANSLATE_KEY_PARAMETER: /\{\d\}/g,
 };

@@ -17,48 +17,17 @@ import { LoggerService } from '@service/logger.service';
 import helmet from 'helmet';
 import { DataSource } from 'typeorm';
 
-export function initializerApplication(app: express.Application): void {
-    initializerExpressConfiguration(app);
-    initializerCorsConfiguration(app);
-}
-
-export function initializerDependencies(
-    app: express.Application,
-    dataSource: DataSource,
-    routePrefix: string,
-    entityList: Function[],
-    controllerPath: string,
-    middlewareList: Function[] = new Array<Function>(),
-    interceptorList: Function[] = new Array<Function>()
-): void {
-    useContainer(Container);
-
-    for (const entity of entityList) {
-        Container.set(entity.name, dataSource.getRepository(entity));
-    }
-
-    Container.set(DataSource, dataSource);
-
-    useExpressServer(app, {
-        routePrefix: routePrefix,
-        controllers: [__dirname + controllerPath],
-        middlewares: [ErrorMiddleware, ...middlewareList],
-        interceptors: [ResponseInterceptor, ...interceptorList],
-        defaultErrorHandler: false,
-    });
-}
-
 function trustProxy(req: Request): void {
-    const headers = req.headers;
+    const HEADERS = req.headers;
 
-    if (headers['x-forwarded-for']) {
-        const forwardedFor = Array.isArray(headers['x-forwarded-for'])
-            ? headers['x-forwarded-for'][0]
-            : headers['x-forwarded-for'].toString();
-        req.ip = forwardedFor.split(',')[0];
-    } else if (headers['x-real-ip']) {
-        const realIp = Array.isArray(headers['x-real-ip']) ? headers['x-real-ip'][0] : headers['x-real-ip'].toString();
-        req.ip = realIp.split(',')[0];
+    if (HEADERS['x-forwarded-for']) {
+        const FORWARDER_FOR = Array.isArray(HEADERS['x-forwarded-for'])
+            ? HEADERS['x-forwarded-for'][0]
+            : HEADERS['x-forwarded-for'].toString();
+        req.ip = FORWARDER_FOR.split(',')[0];
+    } else if (HEADERS['x-real-ip']) {
+        const REAL_IP = Array.isArray(HEADERS['x-real-ip']) ? HEADERS['x-real-ip'][0] : HEADERS['x-real-ip'].toString();
+        req.ip = REAL_IP.split(',')[0];
     }
 }
 
@@ -79,21 +48,52 @@ function initializerExpressConfiguration(app: express.Application): void {
 }
 
 function initializerCorsConfiguration(app: express.Application): void {
-    const corsOptions = {
+    const CORS_OPTIONS = {
         origin: '*',
     };
-    app.use(cors(corsOptions));
+    app.use(cors(CORS_OPTIONS));
 }
 
-export function initializeListener(app: express.Application, port: number, path: string, apiTitle: string): void {
-    const loggerService: LoggerService = new LoggerService();
+export function initializerApplication(app: express.Application): void {
+    initializerExpressConfiguration(app);
+    initializerCorsConfiguration(app);
+}
 
-    app.get(path, (req, res) => {
+export function initializerDependencies(
+    app: express.Application,
+    dataSource: DataSource,
+    routePrefix: string,
+    entityList: Function[],
+    controllerPath: string,
+    middlewareList: Function[] = new Array<Function>(),
+    interceptorList: Function[] = new Array<Function>()
+): void {
+    useContainer(Container);
+
+    for (const ENTITY of entityList) {
+        Container.set(ENTITY.name, dataSource.getRepository(ENTITY));
+    }
+
+    Container.set(DataSource, dataSource);
+
+    useExpressServer(app, {
+        routePrefix: routePrefix,
+        controllers: [__dirname + controllerPath],
+        middlewares: [ErrorMiddleware, ...middlewareList],
+        interceptors: [ResponseInterceptor, ...interceptorList],
+        defaultErrorHandler: false,
+    });
+}
+
+export function initializeListener(app: express.Application, port: number, apiPath: string, apiTitle: string): void {
+    const LOGGER_SERVICE: LoggerService = new LoggerService();
+
+    app.get(apiPath, (req, res) => {
         res.status(HTTP_RESPONSE_STATUS.SUCCESS).send(apiTitle || '');
     });
 
     app.use((req, res, next) => {
-        loggerService.requestLogger(req);
+        LOGGER_SERVICE.requestLogger(req);
         next();
     });
 
@@ -101,6 +101,6 @@ export function initializeListener(app: express.Application, port: number, path:
         console.info();
         console.info(MESSAGE_API.CONSOLE_LINE);
         console.info('+          ' + MESSAGE_API.STARTED(apiTitle, port) + '          +');
-        loggerService.infoLogger(MESSAGE_API.STARTED(apiTitle, port));
+        LOGGER_SERVICE.infoLogger(MESSAGE_API.STARTED(apiTitle, port));
     });
 }

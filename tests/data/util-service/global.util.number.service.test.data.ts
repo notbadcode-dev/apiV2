@@ -17,10 +17,10 @@ export class GlobalUtilNumberServiceTestData {
     }
 
     getValuesForAreNumericValuesEqualAllNumbersReturnTrue(): IAreNumericValuesEqual<number, number> {
-        const sameValue = 1;
+        const SAME_VALUE = 1;
         return {
-            firstValue: sameValue,
-            secondValue: sameValue,
+            firstValue: SAME_VALUE,
+            secondValue: SAME_VALUE,
             result: true,
         };
     }
@@ -34,10 +34,10 @@ export class GlobalUtilNumberServiceTestData {
     }
 
     getValuesForAreNumericValuesEqualAllStringReturnTrue(): IAreNumericValuesEqual<string, string> {
-        const sameValue = '1';
+        const SAME_VALUE = '1';
         return {
-            firstValue: sameValue,
-            secondValue: sameValue,
+            firstValue: SAME_VALUE,
+            secondValue: SAME_VALUE,
             result: true,
         };
     }

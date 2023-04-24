@@ -44,10 +44,9 @@ export class LinkService {
         this.validateArgumentForUpdateLink(link);
 
         this._globalUtilValidateService.controlSameIdOnParamAndBody(linkId, link.id);
-        const USER_UPDATED = await this._linkRepository.update(link);
 
-        const LINK: ILink = this._linkEntityToLinkMapper.map(USER_UPDATED);
-        return LINK;
+        const LINK_UPDATED: ILink = await this.updaterLink(link);
+        return LINK_UPDATED;
     }
 
     @LoggerMethodDecorator
@@ -82,21 +81,77 @@ export class LinkService {
         return PAGINATE_LINK_LIST;
     }
 
+    @LoggerMethodDecorator
+    public async changeActiveLink(linkId: number, active: boolean): Promise<ILink> {
+        const LINK: ILink = await this.getLinkFromLinkId(linkId);
+
+        if (LINK.active === active) {
+            return LINK;
+        }
+
+        this.validateArgumentForUpdateLink(LINK);
+
+        LINK.active = active;
+        const LINK_UPDATED: ILink = await this.updaterLink(LINK);
+        return LINK_UPDATED;
+    }
+
+    @LoggerMethodDecorator
+    public async changeFavoriteLink(linkId: number, favorite: boolean): Promise<ILink> {
+        const LINK: ILink = await this.getLinkFromLinkId(linkId);
+
+        if (LINK.favorite === favorite) {
+            return LINK;
+        }
+
+        this.validateArgumentForUpdateLink(LINK);
+
+        LINK.favorite = favorite;
+        const LINK_UPDATED: ILink = await this.updaterLink(LINK);
+        return LINK_UPDATED;
+    }
+
+    @LoggerMethodDecorator
+    public async deleteLink(deleteLinkId: number): Promise<boolean> {
+        this.validateIdArgument(deleteLinkId);
+
+        const SUCCESSFULLY_DELETE_LINK = await this._linkRepository.delete(deleteLinkId);
+        return SUCCESSFULLY_DELETE_LINK;
+    }
+
+    @LoggerMethodDecorator
+    private async updaterLink(updaterLink: ILink): Promise<ILink> {
+        const LINK_UPDATED = await this._linkRepository.update(updaterLink);
+        const LINK_MAPPED: ILink = this._linkEntityToLinkMapper.map(LINK_UPDATED);
+        return LINK_MAPPED;
+    }
+
+    @LoggerMethodDecorator
+    private async getLinkFromLinkId(linkId: number): Promise<ILink> {
+        const LINK_ENTITY: LinkEntity = await this._linkRepository.getById(linkId);
+        const LINK: ILink = this._linkEntityToLinkMapper.map(LINK_ENTITY);
+
+        return LINK;
+    }
+
+    @LoggerMethodDecorator
     private validateArgumentForCreateLink(linkCreate: ILinkCreate): void {
-        if (!linkCreate?.name?.trim()) {
+        if (!linkCreate?.name?.trim().length) {
             throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_NAME_ARGUMENT);
         }
 
-        if (!linkCreate?.url?.trim()) {
+        if (!linkCreate?.url?.trim().length) {
             throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_URL_ARGUMENT);
         }
     }
 
+    @LoggerMethodDecorator
     private validateArgumentForUpdateLink(updateLink: ILink): void {
         this.validateArgumentForCreateLink(updateLink);
         this.validateIdArgument(updateLink?.id);
     }
 
+    @LoggerMethodDecorator
     private validateIdArgument(id: number): void {
         if (!id) {
             throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_ID_ARGUMENT);

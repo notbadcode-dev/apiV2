@@ -3,17 +3,17 @@
     "error_message": {
         "api": {
             "dot_env_variable_undefined": "La variable no está definida en el archivo .env.",
-            "not_defined_env_variable": "La variable %{0} no está definida en el archivo .env.",
-            "error_database_initialization": "Error durante la inicialización de la fuente de datos '%{0}'"
+            "not_defined_env_variable": "La variable {0} no está definida en el archivo .env.",
+            "error_database_initialization": "Error durante la inicialización de la fuente de datos '{0}'"
         },
         "util_number": {
-            "parsed_value_is_nan": "El valor %{0}, no se puede convertir a numerico.",
+            "parsed_value_is_nan": "El valor {0}, no se puede convertir a numerico.",
             "values_not_same_type": "Los valores no son del mismo tipo",
             "invalid_number_conversion": "El valor proporcionado no se puede convertir en un número válido.",
             "not_match_param_id_body_id": "Los IDs proporcionados no coinciden."
         },
         "translate": {
-            "wrong_number_of_parameters": "Número incorrecto de parámetros para la clave %{0}. Se esperaban %{1}, se obtuvieron %{2}"
+            "wrong_number_of_parameters": "Número incorrecto de parámetros para la clave {0}. Se esperaban {1}, se obtuvieron {2}"
         },
         "http": {
             "success": "La operación de solicitud se ha procesado correctamente.",
@@ -26,37 +26,37 @@
             "not_found": "No encontrado.",
             "already_exists": "Ya existe.",
             "internal_server_error": "Error interno del servidor.",
-            "critical_server_error": "Error crítico.",
-            "Forbidden": "error_message.http.Forbidden"
+            "critical_server_error": "Error crítico."
         },
         "password": {
             "failed_encrypt": "No se pudo cifrar la contraseña.",
             "failed_verify": "No se pudo verificar la contraseña."
         },
         "application": {
-            "there_is_not_application_with_id": "No existe aplicación con la identificación: %{0}.",
-            "application_with_id_not_found": "No se encontró aplicación con la identificación: %{0}.",
-            "could_not_associate_application_and_user": "No se pudo asociar la aplicación %{0} y el usuario con el nombre de usuario %{1}."
+            "there_is_not_application_with_id": "No existe aplicación con la identificación: {0}.",
+            "application_with_id_not_found": "No se encontró aplicación con la identificación: {0}.",
+            "could_not_associate_application_and_user": "No se pudo asociar la aplicación {0} y el usuario con el nombre de usuario {1}."
         },
         "user": {
             "already_exist_user_same_password": "Ya existe un usuario con el mismo nombre de usuario.'",
-            "could_not_created_user_with_username": "No se pudo crear el usuario con el nombre de usuario: %{0}.",
-            "user_with_id_not_found": "No se encontró el usuario con la identificación: %{0}.",
-            "user_with_username_not_found": "No se encontró el usuario con el nombre de usuario %{0}.",
-            "could_not_update_user": "No se pudo actualizar el usuario con el nombre de usuario: %{0}"
+            "could_not_created_user_with_username": "No se pudo crear el usuario con el nombre de usuario: {0}.",
+            "user_with_id_not_found": "No se encontró el usuario con la identificación: {0}.",
+            "user_with_username_not_found": "No se encontró el usuario con el nombre de usuario {0}.",
+            "could_not_update_user": "No se pudo actualizar el usuario con el nombre de usuario: {0}"
         },
         "group_link": {
-            "group_link_with_id_not_found": "No se encontró el enlace de grupo con la identificación: %{0}."
+            "group_link_with_id_not_found": "No se encontró el enlace de grupo con la identificación: {0}."
         },
         "link": {
-            "link_with_id_not_found": "No se encontró el link con la identificación: %{0}.",
+            "link_with_id_not_found": "No se encontró el link con la identificación: {0}.",
             "wrong_name_argument": "Argumento de nombre incorrecto.",
             "wrong_url_argument": "Argumento de URL incorrecto.",
             "wrong_id_argument": "Argumento de id incorrecto.",
-            "could_not_update_link": "No se pudo actualizar el link con el nombre: %{0}"
+            "could_not_update_link": "No se pudo actualizar el link con el nombre: {0}",
+            "could_not_delete_link": "No se pudo borrar el link con el nombre: {0}"
         },
         "link_tag": {
-            "link_tag_with_id_not_found": "No se encontró el Tag asociado al Link con la identificación: %{0}."
+            "link_tag_with_id_not_found": "No se encontró el Tag asociado al Link con la identificación: {0}."
         }
     }
 }

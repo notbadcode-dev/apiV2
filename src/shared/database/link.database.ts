@@ -1,16 +1,16 @@
-import { authApiEntityList } from '@entity/_auth.entity.index';
+import { AUTH_API_ENTITY_LIST } from '@entity/_auth.entity.index';
 import { DataSource } from 'typeorm';
 
 import { linkApiEntityList } from '@entity/_link.entity.index';
 
-export const linkDataSource = new DataSource({
+export const LINK_DATA_SOURCE = new DataSource({
     type: 'mariadb',
     host: 'localhost',
     port: 3306,
     username: 'notbadcode',
     password: '6900',
     database: 'link',
-    entities: [...authApiEntityList, ...linkApiEntityList],
+    entities: [...AUTH_API_ENTITY_LIST, ...linkApiEntityList],
     logging: true,
     dateStrings: true,
     trace: true,

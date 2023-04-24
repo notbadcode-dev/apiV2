@@ -1,5 +1,6 @@
 import { ERROR_MESSAGE_LINK } from '@constant/error-message/error-message-link.constant';
 import { PAGINATE } from '@constant/paginate.constant';
+import { InternalServerError } from '@error/internal-server.error';
 import { NotFountError } from '@error/not-found.error';
 import { LinkToLinkEntityMapper } from '@mapper/link/linkToLinkEntity.mapper';
 import { ILink } from '@model/link/link.model';
@@ -11,7 +12,6 @@ import {
 } from '@model/pagination-item/pagination-item.model';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { TokenService } from '@service/token.service';
-import { InternalServerError } from 'routing-controllers';
 import { Inject, Service } from 'typedi';
 import { DataSource, Repository } from 'typeorm';
 import { LinkEntity } from '../entity/link.entity';
@@ -35,19 +35,19 @@ export class LinkRepository {
         NEW_LINK.active = link.active;
         NEW_LINK.userId = link.userId;
 
-        const queryRunner = this._dataSource.createQueryRunner();
-        queryRunner.connect();
-        queryRunner.startTransaction();
+        const QUERY_RUNNER = this._dataSource.createQueryRunner();
+        QUERY_RUNNER.connect();
+        QUERY_RUNNER.startTransaction();
 
-        const SAVED_CREATED_LINK = await queryRunner.manager.save(NEW_LINK);
+        const SAVED_CREATED_LINK = await QUERY_RUNNER.manager.save(NEW_LINK);
 
         if (!SAVED_CREATED_LINK || !SAVED_CREATED_LINK?.id) {
-            await queryRunner.rollbackTransaction();
+            await QUERY_RUNNER.rollbackTransaction();
             throw new InternalServerError(ERROR_MESSAGE_LINK.COULD_NOT_CREATED_LINK_WITH_NAME(link.name));
         }
 
-        await queryRunner.commitTransaction();
-        await queryRunner.release();
+        await QUERY_RUNNER.commitTransaction();
+        await QUERY_RUNNER.release();
 
         const CREATED_LINK_ENTITY = await this.getById(SAVED_CREATED_LINK?.id);
         return CREATED_LINK_ENTITY;
@@ -57,19 +57,19 @@ export class LinkRepository {
     public async update(link: ILink): Promise<LinkEntity> {
         const UPDATE_LINK_ENTITY = await this._linkToLinkEntityMapper.map(link);
 
-        const queryRunner = this._dataSource.createQueryRunner();
-        queryRunner.connect();
-        queryRunner.startTransaction();
+        const QUERY_RUNNER = this._dataSource.createQueryRunner();
+        QUERY_RUNNER.connect();
+        QUERY_RUNNER.startTransaction();
 
-        const UPDATED_USER = await queryRunner.manager.update(LinkEntity, link.id, UPDATE_LINK_ENTITY);
+        const UPDATED_USER = await QUERY_RUNNER.manager.update(LinkEntity, link.id, UPDATE_LINK_ENTITY);
 
         if (!UPDATED_USER || !UPDATED_USER?.affected) {
-            await queryRunner.rollbackTransaction();
+            await QUERY_RUNNER.rollbackTransaction();
             throw new InternalServerError(ERROR_MESSAGE_LINK.COULD_NOT_UPDATE_LINK(link.name));
         }
 
-        await queryRunner.commitTransaction();
-        await queryRunner.release();
+        await QUERY_RUNNER.commitTransaction();
+        await QUERY_RUNNER.release();
 
         const UPDATED_LINK_ENTITY: LinkEntity = await this.getById(link.id);
         return UPDATED_LINK_ENTITY;
@@ -121,5 +121,31 @@ export class LinkRepository {
 
         const RESULT: IPaginateItem<LinkEntity> = PaginateCalculateHelper.result(PAGINATE_INFO, LINK_ENTITY_LIST);
         return RESULT;
+    }
+
+    @LoggerMethodDecorator
+    public async delete(linkId: number): Promise<boolean> {
+        const USER_ID: number = this._tokenService.getCurrentUserId();
+        const DELETE_LINK_ENTITY: LinkEntity | null = await this._linkRepository.findOneBy({ id: linkId, userId: USER_ID });
+
+        if (!DELETE_LINK_ENTITY || !DELETE_LINK_ENTITY?.id) {
+            throw new NotFountError(ERROR_MESSAGE_LINK.LINK_WITH_ID_NOT_FOUND(linkId));
+        }
+
+        const QUERY_RUNNER = this._dataSource.createQueryRunner();
+        QUERY_RUNNER.connect();
+        QUERY_RUNNER.startTransaction();
+
+        const DELETED_LINK = await QUERY_RUNNER.manager.delete(LinkEntity, DELETE_LINK_ENTITY?.id);
+
+        if (!DELETED_LINK || !DELETED_LINK?.affected) {
+            await QUERY_RUNNER.rollbackTransaction();
+            throw new InternalServerError(ERROR_MESSAGE_LINK.COULD_NOT_UPDATE_LINK(DELETE_LINK_ENTITY?.name ?? ''));
+        }
+
+        await QUERY_RUNNER.commitTransaction();
+        await QUERY_RUNNER.release();
+
+        return DELETED_LINK?.affected > 0;
     }
 }

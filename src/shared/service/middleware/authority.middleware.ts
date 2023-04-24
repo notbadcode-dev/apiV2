@@ -8,25 +8,25 @@ import Container from 'typedi';
 import { TokenService } from '../token.service';
 
 export async function verifyTokenMiddleware(req: Request): Promise<void> {
-    const headersAuthorization: string | null = req?.headers?.authorization ?? null;
+    const HEADER_AUTHORIZATION: string | null = req?.headers?.authorization ?? null;
 
-    if (!headersAuthorization) {
+    if (!HEADER_AUTHORIZATION) {
         throw new UnauthorizedError();
     }
 
-    const token: string | null = headersAuthorization?.toString() ?? null;
+    const TOKEN: string | null = HEADER_AUTHORIZATION?.toString() ?? null;
 
-    if (!token) {
+    if (!TOKEN) {
         throw new UnauthorizedError();
     }
 
-    const userId = TokenService.verify(token);
+    const USER_ID = TokenService.verify(TOKEN);
 
-    if (!userId) {
+    if (!USER_ID) {
         throw new UnauthorizedError();
     }
 
-    const tokenService: TokenService = Container.get(TokenService);
+    const TOKEN_SERVICE: TokenService = Container.get(TokenService);
 
-    await tokenService.setCurrentUser(userId);
+    await TOKEN_SERVICE.setCurrentUser(USER_ID);
 }

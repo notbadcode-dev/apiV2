@@ -55,7 +55,9 @@ module.exports = {
             '<rootDir>/src/authApi/domain/mapper/$1',
             '<rootDir>/src/linkApi/domain/mapper/$1',
         ],
-        '^@error/(.*)$': ['<rootDir>/src/shared/error/$1'],
+        '^@error/(.*)$': [
+            '<rootDir>/src/shared/error/$1',
+        ],
         '^@app/(.*)$': ['<rootDir>/src/$1'],
         '^@testData/(.*)$': ['<rootDir>/tests/data/$1',],
     },

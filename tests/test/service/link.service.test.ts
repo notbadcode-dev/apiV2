@@ -15,7 +15,7 @@ import { LinkServiceTestData } from '@testData/service/link.service.test.data';
 import { anyNumber, anything, instance, mock, when } from 'ts-mockito';
 
 describe('LinkService', () => {
-    const linkServiceTestData: LinkServiceTestData = new LinkServiceTestData();
+    const LINK_SERVICE_TEST_DATA: LinkServiceTestData = new LinkServiceTestData();
 
     let linkRepositoryMock: LinkRepository;
     let tokenServiceMock: TokenService;
@@ -57,138 +57,138 @@ describe('LinkService', () => {
     describe('createLink', () => {
         it('Creating a link with empty name should throw an argument error', async () => {
             // Arrange
-            const linkCreateEmptyName = linkServiceTestData.getLinkCreateWithEmptyName();
-            const argumentError = linkServiceTestData.getArgumentErrorEmptyLinkName();
+            const LINK_CREATE_EMPTY_NAME = LINK_SERVICE_TEST_DATA.getLinkCreateWithEmptyName();
+            const ARGUMENT_ERROR = LINK_SERVICE_TEST_DATA.getArgumentErrorEmptyLinkName();
 
             // Act & Assert
-            await expect(linkService.createLink(linkCreateEmptyName)).rejects.toThrowError(argumentError);
+            await expect(linkService.createLink(LINK_CREATE_EMPTY_NAME)).rejects.toThrowError(ARGUMENT_ERROR);
         });
 
         it('Creating a link with empty URL should throw an argument error', async () => {
             // Arrange
-            const linkCreateEmptyUrl = linkServiceTestData.getLinkCreateWithEmptyUrl();
-            const argumentError = linkServiceTestData.getArgumentErrorEmptyLinkUrl();
+            const LINK_CREATE_EMPTY_URL = LINK_SERVICE_TEST_DATA.getLinkCreateWithEmptyUrl();
+            const ARGUMENT_ERROR = LINK_SERVICE_TEST_DATA.getArgumentErrorEmptyLinkUrl();
 
             // Act & Assert
-            await expect(linkService.createLink(linkCreateEmptyUrl)).rejects.toThrow(argumentError);
+            await expect(linkService.createLink(LINK_CREATE_EMPTY_URL)).rejects.toThrow(ARGUMENT_ERROR);
         });
 
         it('Creating a link should return a link entity', async () => {
             // Arrange
-            const linkCreate = linkServiceTestData.getLinkCreate();
-            const linkEntity = linkServiceTestData.getLinkEntity();
-            const link = linkServiceTestData.getLink();
-            const userId = linkServiceTestData.getUserId();
+            const LINK_CREATE = LINK_SERVICE_TEST_DATA.getLinkCreate();
+            const LINK_ENTITY = LINK_SERVICE_TEST_DATA.getLinkEntity();
+            const LINK = LINK_SERVICE_TEST_DATA.getLink();
+            const USER_ID = LINK_SERVICE_TEST_DATA.getUserId();
 
-            when(tokenServiceMock.getCurrentUserId()).thenReturn(userId);
+            when(tokenServiceMock.getCurrentUserId()).thenReturn(USER_ID);
             when(linkRepositoryMock.create(anything())).thenCall(async () => {
-                return Promise.resolve(linkEntity);
+                return Promise.resolve(LINK_ENTITY);
             });
 
             // Act
-            const result = await linkService.createLink(linkCreate);
+            const RESULT = await linkService.createLink(LINK_CREATE);
 
             // Assert
-            expect(result.id).toEqual(link.id);
+            expect(RESULT.id).toEqual(LINK.id);
         });
     });
 
     describe('updateLink', () => {
         it('Updating a link with empty name should throw an argument error', async () => {
             // Arrange
-            const linkEmptyName = linkServiceTestData.getLinkWithEmptyName();
-            const argumentError = linkServiceTestData.getArgumentErrorEmptyLinkName();
+            const LINK_EMPTY_NAME = LINK_SERVICE_TEST_DATA.getLinkWithEmptyName();
+            const ARGUMENT_ERROR = LINK_SERVICE_TEST_DATA.getArgumentErrorEmptyLinkName();
 
             // Act & Assert
-            await expect(linkService.updateLink(linkEmptyName.id, linkEmptyName)).rejects.toThrowError(argumentError);
+            await expect(linkService.updateLink(LINK_EMPTY_NAME.id, LINK_EMPTY_NAME)).rejects.toThrowError(ARGUMENT_ERROR);
         });
 
         it('Updating a link with empty URL should throw an argument error', async () => {
             // Arrange
-            const linkEmptyUrl = linkServiceTestData.getLinkWithEmptyUrl();
-            const argumentError = linkServiceTestData.getArgumentErrorEmptyLinkUrl();
+            const LINK_EMPTY_URL = LINK_SERVICE_TEST_DATA.getLinkWithEmptyUrl();
+            const ARGUMENT_ERROR = LINK_SERVICE_TEST_DATA.getArgumentErrorEmptyLinkUrl();
 
             // Act & Assert
-            await expect(linkService.updateLink(linkEmptyUrl.id, linkEmptyUrl)).rejects.toThrow(argumentError);
+            await expect(linkService.updateLink(LINK_EMPTY_URL.id, LINK_EMPTY_URL)).rejects.toThrow(ARGUMENT_ERROR);
         });
 
         it('Updating a link with zero ID should throw an argument error', async () => {
             // Arrange
-            const linkIdIsZero = linkServiceTestData.getLinkWithZeroId();
-            const argumentError = linkServiceTestData.getArgumentErrorWrongId();
+            const LINK_ID_IS_ZERO = LINK_SERVICE_TEST_DATA.getLinkWithZeroId();
+            const ARGUMENT_ERROR = LINK_SERVICE_TEST_DATA.getArgumentErrorWrongId();
 
             // Act & Assert
-            await expect(linkService.updateLink(anyNumber(), linkIdIsZero)).rejects.toThrow(argumentError);
+            await expect(linkService.updateLink(anyNumber(), LINK_ID_IS_ZERO)).rejects.toThrow(ARGUMENT_ERROR);
         });
 
         it('Updating a link with nullish ID should throw an argument error', async () => {
             // Arrange
-            const linkIdIsNull = linkServiceTestData.getLinkWithNullishId();
-            const argumentError = linkServiceTestData.getArgumentErrorWrongId();
+            const LINK_ID_IS_NULL = LINK_SERVICE_TEST_DATA.getLinkWithNullishId();
+            const ARGUMENT_ERROR = LINK_SERVICE_TEST_DATA.getArgumentErrorWrongId();
 
             // Act & Assert
-            await expect(linkService.updateLink(Number(null), linkIdIsNull)).rejects.toThrow(argumentError);
+            await expect(linkService.updateLink(Number(null), LINK_ID_IS_NULL)).rejects.toThrow(ARGUMENT_ERROR);
         });
 
         it('Updating a link with wrong ID parameter should throw an internal server error', async () => {
             // Arrange
-            const link = linkServiceTestData.getLink();
-            const linkAlternative = linkServiceTestData.getLinkAlternative();
-            const internalServerError = linkServiceTestData.getInternalServerErrorNotMatchParamAndBodyId();
+            const LINK = LINK_SERVICE_TEST_DATA.getLink();
+            const LINK_ALTERNATIVE = LINK_SERVICE_TEST_DATA.getLinkAlternative();
+            const INTERNAL_SERVER_ERROR = LINK_SERVICE_TEST_DATA.getInternalServerErrorNotMatchParamAndBodyId();
 
             // Act & Assert
-            await expect(linkService.updateLink(link.id, linkAlternative)).rejects.toThrow(internalServerError);
+            await expect(linkService.updateLink(LINK.id, LINK_ALTERNATIVE)).rejects.toThrow(INTERNAL_SERVER_ERROR);
         });
 
         it('Updating a link should return a link entity', async () => {
             // Arrange
-            const link = linkServiceTestData.getLink();
-            const linkEntity = linkServiceTestData.getLinkEntity();
-            const userId = linkServiceTestData.getUserId();
+            const LINK = LINK_SERVICE_TEST_DATA.getLink();
+            const LINK_ENTITY = LINK_SERVICE_TEST_DATA.getLinkEntity();
+            const USER_ID = LINK_SERVICE_TEST_DATA.getUserId();
 
-            when(tokenServiceMock.getCurrentUserId()).thenReturn(userId);
+            when(tokenServiceMock.getCurrentUserId()).thenReturn(USER_ID);
             when(linkRepositoryMock.update(anything())).thenCall(async () => {
-                return Promise.resolve(linkEntity);
+                return Promise.resolve(LINK_ENTITY);
             });
             when(linkRepositoryMock.create(anything())).thenCall(async () => {
-                return Promise.resolve(linkEntity);
+                return Promise.resolve(LINK_ENTITY);
             });
 
             // Act
-            const result = await linkService.updateLink(link.id, link);
+            const RESULT = await linkService.updateLink(LINK.id, LINK);
 
             // Assert
-            expect(result.id).toEqual(link.id);
+            expect(RESULT.id).toEqual(LINK.id);
         });
     });
 
     describe('getLinkList', () => {
         it('Should return a list of links', async () => {
             // Arrange
-            const linkEntity = linkServiceTestData.getLinkEntity();
-            const link = linkServiceTestData.getLink();
-            when(linkRepositoryMock.getAll()).thenResolve([linkEntity]);
+            const LINK_ENTITY = LINK_SERVICE_TEST_DATA.getLinkEntity();
+            const LINK = LINK_SERVICE_TEST_DATA.getLink();
+            when(linkRepositoryMock.getAll()).thenResolve([LINK_ENTITY]);
 
             // Act
-            const result = await linkService.getLinkList();
+            const RESULT = await linkService.getLinkList();
 
             // Assert
-            expect(result.at(0)?.id).toEqual([link].at(0)?.id);
+            expect(RESULT.at(0)?.id).toEqual([LINK].at(0)?.id);
         });
 
         it('Should return a list of links when links are available', async () => {
             // Arrange
-            const linkEntity1 = linkServiceTestData.getLinkEntity();
-            const linkEntity2 = linkServiceTestData.getLinkEntity();
-            when(linkRepositoryMock.getAll()).thenResolve([linkEntity1, linkEntity2]);
+            const LINK_ENTITY_ONE = LINK_SERVICE_TEST_DATA.getLinkEntity();
+            const LINK_ENTITY_TWO = LINK_SERVICE_TEST_DATA.getLinkEntity();
+            when(linkRepositoryMock.getAll()).thenResolve([LINK_ENTITY_ONE, LINK_ENTITY_TWO]);
 
             // Act
-            const result = await linkService.getLinkList();
+            const RESULT = await linkService.getLinkList();
 
             // Assert
-            expect(result.length).toEqual(2);
-            expect(result[0].id).toEqual(linkEntity1.id);
-            expect(result[1].id).toEqual(linkEntity2.id);
+            expect(RESULT.length).toEqual(2);
+            expect(RESULT[0].id).toEqual(LINK_ENTITY_ONE.id);
+            expect(RESULT[1].id).toEqual(LINK_ENTITY_TWO.id);
         });
 
         it('Should return an empty list when no links are available', async () => {
@@ -196,135 +196,211 @@ describe('LinkService', () => {
             when(linkRepositoryMock.getAll()).thenResolve([]);
 
             // Act
-            const result = await linkService.getLinkList();
+            const RESULT = await linkService.getLinkList();
 
             // Assert
-            expect(result.length).toEqual(0);
+            expect(RESULT.length).toEqual(0);
         });
 
         it('Should throw an error when there is an error getting links', async () => {
             // Arrange
-            const errorMessage = 'Error getting links';
-            when(linkRepositoryMock.getAll()).thenReject(new Error(errorMessage));
+            const ERROR_MESSAGE = 'Error getting links';
+            when(linkRepositoryMock.getAll()).thenReject(new Error(ERROR_MESSAGE));
 
             // Act & Assert
-            await expect(linkService.getLinkList()).rejects.toThrowError(errorMessage);
+            await expect(linkService.getLinkList()).rejects.toThrowError(ERROR_MESSAGE);
         });
 
         it('Should return all available links when multiple links are available', async () => {
             // Arrange
-            const linkEntity1 = linkServiceTestData.getLinkEntity();
-            const linkEntity2 = linkServiceTestData.getLinkEntity();
-            const linkEntity3 = linkServiceTestData.getLinkEntity();
-            when(linkRepositoryMock.getAll()).thenResolve([linkEntity1, linkEntity2, linkEntity3]);
+            const LINK_ENTITY_ONE = LINK_SERVICE_TEST_DATA.getLinkEntity();
+            const LINK_ENTITY_TWO = LINK_SERVICE_TEST_DATA.getLinkEntity();
+            const LINK_ENTITY_THREE = LINK_SERVICE_TEST_DATA.getLinkEntity();
+            when(linkRepositoryMock.getAll()).thenResolve([LINK_ENTITY_ONE, LINK_ENTITY_TWO, LINK_ENTITY_THREE]);
 
             // Act
-            const result = await linkService.getLinkList();
+            const RESULT = await linkService.getLinkList();
 
             // Assert
-            expect(result.length).toEqual(3);
-            expect(result.some((link) => link.id === linkEntity1.id)).toBeTruthy();
-            expect(result.some((link) => link.id === linkEntity2.id)).toBeTruthy();
-            expect(result.some((link) => link.id === linkEntity3.id)).toBeTruthy();
+            expect(RESULT.length).toEqual(3);
+            expect(RESULT.some((link) => link.id === LINK_ENTITY_ONE.id)).toBeTruthy();
+            expect(RESULT.some((link) => link.id === LINK_ENTITY_TWO.id)).toBeTruthy();
+            expect(RESULT.some((link) => link.id === LINK_ENTITY_THREE.id)).toBeTruthy();
         });
     });
 
     describe('getPaginateLinkList', () => {
         it('Should return a paginated list of links', async () => {
             // Arrange
-            const paginateLinkList: IPaginateItem<ILink> = linkServiceTestData.getPaginateLinkList();
-            const linkEntity: LinkEntity = linkServiceTestData.getLinkEntity();
-            const link: ILink = linkServiceTestData.getLink();
-            const expectedItemList: ILink[] = [link];
-            const expectedPaginateLinkList: IPaginateItem<ILink> = {
-                itemList: expectedItemList,
-                total: paginateLinkList.total,
-                totalPages: paginateLinkList.totalPages,
-                currentPage: paginateLinkList.currentPage,
-                take: paginateLinkList.take,
+            const PAGINATE_LINK_LIST: IPaginateItem<ILink> = LINK_SERVICE_TEST_DATA.getPaginateLinkList();
+            const LINK_ENTITY: LinkEntity = LINK_SERVICE_TEST_DATA.getLinkEntity();
+            const LINK: ILink = LINK_SERVICE_TEST_DATA.getLink();
+            const EXPECTED_ITEM_LIST: ILink[] = [LINK];
+            const EXPECTED_PAGINATE_LINK_LIST: IPaginateItem<ILink> = {
+                itemList: EXPECTED_ITEM_LIST,
+                total: PAGINATE_LINK_LIST.total,
+                totalPages: PAGINATE_LINK_LIST.totalPages,
+                currentPage: PAGINATE_LINK_LIST.currentPage,
+                take: PAGINATE_LINK_LIST.take,
             };
-            when(linkRepositoryMock.getAllPaginated(paginateLinkList)).thenResolve({
-                itemList: [linkEntity],
-                total: paginateLinkList.total,
-                totalPages: paginateLinkList.totalPages,
-                currentPage: paginateLinkList.currentPage,
-                take: paginateLinkList.take,
+            when(linkRepositoryMock.getAllPaginated(PAGINATE_LINK_LIST)).thenResolve({
+                itemList: [LINK_ENTITY],
+                total: PAGINATE_LINK_LIST.total,
+                totalPages: PAGINATE_LINK_LIST.totalPages,
+                currentPage: PAGINATE_LINK_LIST.currentPage,
+                take: PAGINATE_LINK_LIST.take,
             });
 
             // Act
-            const result: IPaginateItem<ILink> = await linkService.getPaginateLinkList(paginateLinkList);
+            const RESULT: IPaginateItem<ILink> = await linkService.getPaginateLinkList(PAGINATE_LINK_LIST);
 
             // Assert
-            expect(result.itemList?.length).toEqual(expectedPaginateLinkList.itemList?.length);
+            expect(RESULT.itemList?.length).toEqual(EXPECTED_PAGINATE_LINK_LIST.itemList?.length);
         });
 
         it('Should return an empty paginated list when no links are available', async () => {
             // Arrange
-            const paginateLinkList: IPaginateItem<ILink> = linkServiceTestData.getPaginateLinkList();
-            const expectedItemList: ILink[] = [];
-            const expectedPaginateLinkList: IPaginateItem<ILink> = {
-                itemList: expectedItemList,
-                total: paginateLinkList.total,
-                totalPages: paginateLinkList.totalPages,
-                currentPage: paginateLinkList.currentPage,
-                take: paginateLinkList.take,
+            const PAGINATE_LINK_LIST: IPaginateItem<ILink> = LINK_SERVICE_TEST_DATA.getPaginateLinkList();
+            const EXPECTED_ITEM_LIST: ILink[] = [];
+            const EXPECTED_PAGINATE_LINK_LIST: IPaginateItem<ILink> = {
+                itemList: EXPECTED_ITEM_LIST,
+                total: PAGINATE_LINK_LIST.total,
+                totalPages: PAGINATE_LINK_LIST.totalPages,
+                currentPage: PAGINATE_LINK_LIST.currentPage,
+                take: PAGINATE_LINK_LIST.take,
             };
-            when(linkRepositoryMock.getAllPaginated(paginateLinkList)).thenResolve({
+            when(linkRepositoryMock.getAllPaginated(PAGINATE_LINK_LIST)).thenResolve({
                 itemList: [],
-                total: paginateLinkList.total,
-                totalPages: paginateLinkList.totalPages,
-                currentPage: paginateLinkList.currentPage,
-                take: paginateLinkList.take,
+                total: PAGINATE_LINK_LIST.total,
+                totalPages: PAGINATE_LINK_LIST.totalPages,
+                currentPage: PAGINATE_LINK_LIST.currentPage,
+                take: PAGINATE_LINK_LIST.take,
             });
 
             // Act
-            const result: IPaginateItem<ILink> = await linkService.getPaginateLinkList(paginateLinkList);
+            const RESULT: IPaginateItem<ILink> = await linkService.getPaginateLinkList(PAGINATE_LINK_LIST);
 
             // Assert
-            expect(result).toEqual(expectedPaginateLinkList);
+            expect(RESULT).toEqual(EXPECTED_PAGINATE_LINK_LIST);
         });
 
         it('Should throw an error when there is an error getting paginated links', async () => {
             // Arrange
-            const paginateLinkList: IPaginateItem<ILink> = linkServiceTestData.getPaginateLinkList();
-            const errorMessage = 'Error getting paginated links';
-            when(linkRepositoryMock.getAllPaginated(paginateLinkList)).thenReject(new Error(errorMessage));
+            const PAGINATE_LINK_LIST: IPaginateItem<ILink> = LINK_SERVICE_TEST_DATA.getPaginateLinkList();
+            const ERROR_MESSAGE = 'Error getting paginated links';
+            when(linkRepositoryMock.getAllPaginated(PAGINATE_LINK_LIST)).thenReject(new Error(ERROR_MESSAGE));
 
             // Act & Assert
-            await expect(linkService.getPaginateLinkList(paginateLinkList)).rejects.toThrowError(errorMessage);
+            await expect(linkService.getPaginateLinkList(PAGINATE_LINK_LIST)).rejects.toThrowError(ERROR_MESSAGE);
         });
 
         it('Should return an empty list when the itemList property of the paginateLinkList parameter is undefined or null', async () => {
             // Arrange
-            const paginateLinkList: IPaginateItem<ILink> = { total: 0, itemList: undefined, take: 10 };
+            const PAGINATE_LINK_LIST: IPaginateItem<ILink> = LINK_SERVICE_TEST_DATA.getSimpleWithUndefinedItemListPaginateLinkList();
 
             // Act
-            const result = await linkService.getPaginateLinkList(paginateLinkList);
+            const RESULT = await linkService.getPaginateLinkList(PAGINATE_LINK_LIST);
 
             // Assert
-            expect(result.itemList).toEqual([]);
+            expect(RESULT.itemList).toEqual([]);
         });
 
         it('Should return an empty list when no links are available for pagination', async () => {
             // Arrange
-            const paginateLinkList: IPaginateItem<ILink> = {
-                totalPages: 1,
-                currentPage: 10,
-                take: 10,
-            };
+            const PAGINATE_LINK_LIST: IPaginateItem<ILink> = LINK_SERVICE_TEST_DATA.getSimplePaginateLinkList();
 
-            when(linkRepositoryMock.getAllPaginated(paginateLinkList)).thenResolve({
+            when(linkRepositoryMock.getAllPaginated(PAGINATE_LINK_LIST)).thenResolve({
                 itemList: [],
                 total: 0,
                 take: 10,
             });
 
             // Act
-            const result = await linkService.getPaginateLinkList(paginateLinkList);
+            const RESULT = await linkService.getPaginateLinkList(PAGINATE_LINK_LIST);
 
             // Assert
-            expect(result?.itemList?.length ?? 0).toEqual(0);
-            expect(result.total).toEqual(0);
+            expect(RESULT?.itemList?.length ?? 0).toEqual(0);
+            expect(RESULT.total).toEqual(0);
+        });
+    });
+
+    describe('changeActive', () => {
+        it('Changing a link active status to true should return the updated link', async () => {
+            // Arrange
+            const LINK = LINK_SERVICE_TEST_DATA.getLink();
+            const LINK_ENTITY = LINK_SERVICE_TEST_DATA.getLinkEntity();
+
+            when(linkRepositoryMock.getById(anyNumber())).thenCall(async () => {
+                return Promise.resolve(LINK_ENTITY);
+            });
+            when(linkRepositoryMock.update(anything())).thenCall(async () => {
+                return Promise.resolve(LINK_ENTITY);
+            });
+
+            // Act
+            const RESULT = await linkService.changeActiveLink(LINK.id, true);
+
+            // Assert
+            expect(RESULT.active).toBe(true);
+        });
+
+        it('Changing a link active status to false should return the updated link', async () => {
+            // Arrange
+            const LINK = LINK_SERVICE_TEST_DATA.getLink();
+            const LINK_ENTITY = LINK_SERVICE_TEST_DATA.getInactiveLinkEntity();
+
+            when(linkRepositoryMock.getById(anyNumber())).thenCall(async () => {
+                return Promise.resolve(LINK_ENTITY);
+            });
+            when(linkRepositoryMock.update(anything())).thenCall(async () => {
+                return Promise.resolve(LINK_ENTITY);
+            });
+
+            // Act
+            const RESULT = await linkService.changeActiveLink(LINK.id, true);
+
+            // Assert
+            expect(RESULT.active).toBe(false);
+        });
+    });
+
+    describe('changeFavorite', () => {
+        it('Changing a link favorite status to true should return the updated link', async () => {
+            // Arrange
+            const LINK = LINK_SERVICE_TEST_DATA.getLink();
+            const LINK_ENTITY = LINK_SERVICE_TEST_DATA.getFavoriteLinkEntity();
+
+            when(linkRepositoryMock.getById(anyNumber())).thenCall(async () => {
+                return Promise.resolve(LINK_ENTITY);
+            });
+            when(linkRepositoryMock.update(anything())).thenCall(async () => {
+                return Promise.resolve(LINK_ENTITY);
+            });
+
+            // Act
+            const RESULT = await linkService.changeActiveLink(LINK.id, true);
+
+            // Assert
+            expect(RESULT.favorite).toBe(true);
+        });
+
+        it('Changing a link favorite status to false should return the updated link', async () => {
+            // Arrange
+            const LINK = LINK_SERVICE_TEST_DATA.getLink();
+            const LINK_ENTITY = LINK_SERVICE_TEST_DATA.getLinkEntity();
+
+            when(linkRepositoryMock.getById(anyNumber())).thenCall(async () => {
+                return Promise.resolve(LINK_ENTITY);
+            });
+            when(linkRepositoryMock.update(anything())).thenCall(async () => {
+                return Promise.resolve(LINK_ENTITY);
+            });
+
+            // Act
+            const RESULT = await linkService.changeActiveLink(LINK.id, true);
+
+            // Assert
+            expect(RESULT.favorite).toBe(false);
         });
     });
 });

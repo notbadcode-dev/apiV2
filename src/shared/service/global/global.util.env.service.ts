@@ -6,7 +6,7 @@ import { ERROR_MESSAGE_API } from '../../constant/error-message/error-message-ap
 @Service()
 export class GlobalUtilEnvService {
     public getLoggingEnabled(): boolean {
-        return process.env.LOGGING_ENABLED === 'true' ? true : false;
+        return process.env.LOGGING_ENABLED?.includes('true') ? true : false;
     }
 
     public static getSessionSecret(): string {
@@ -18,8 +18,8 @@ export class GlobalUtilEnvService {
     }
 
     public static getRunTest(): boolean {
-        const runTest: string = this.getStringEnvironmentVariable(process.env.RUN_TEST);
-        return runTest === 'true';
+        const RUN_TEST: string = this.getStringEnvironmentVariable(process.env.RUN_TEST);
+        return RUN_TEST === 'true';
     }
 
     public static getAuthEnvironment(): IEnvironment {

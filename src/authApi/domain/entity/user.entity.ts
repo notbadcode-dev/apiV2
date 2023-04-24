@@ -21,7 +21,7 @@ export class UserEntity extends EntityBase {
     @BeforeUpdate()
     @BeforeInsert()
     async hashPassword(): Promise<void> {
-        const passwordService: PasswordService = new PasswordService();
-        this.password = await passwordService.hashPassword(this.password);
+        const PASSWORD_SERVICE: PasswordService = new PasswordService();
+        this.password = await PASSWORD_SERVICE.hashPassword(this.password);
     }
 }

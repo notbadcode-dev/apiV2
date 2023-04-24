@@ -10,8 +10,8 @@ export class PasswordService {
     @LoggerMethodDecorator
     async hashPassword(password: string): Promise<string> {
         try {
-            const hash = await bcrypt.hash(password, this.saltRounds);
-            return hash;
+            const HASH = await bcrypt.hash(password, this.saltRounds);
+            return HASH;
         } catch (err) {
             throw new Error(ERROR_MESSAGE_PASSWORD.FAILED_TO_ENCRYPT_PASSWORD);
         }
@@ -20,8 +20,8 @@ export class PasswordService {
     @LoggerMethodDecorator
     async verifyPassword(password: string, hash: string): Promise<boolean> {
         try {
-            const result = await bcrypt.compare(password, hash);
-            return result;
+            const RESULT = await bcrypt.compare(password, hash);
+            return RESULT;
         } catch (err) {
             throw new Error(ERROR_MESSAGE_PASSWORD.FAILED_TO_VERIFY_PASSWORD);
         }

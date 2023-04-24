@@ -13,21 +13,25 @@ export class UserController {
 
     @Post('/')
     async createUser(@Body() userCreate: IUserCreate): Promise<IUserCreated> {
-        return await this.userService.createUser(userCreate);
+        const CREATED_USER: IUserCreated = await this.userService.createUser(userCreate);
+        return CREATED_USER;
     }
 
     @Put('/:id')
     async updateUser(@Param('id') userId: number, @Body() userUpdate: IUserUpdater): Promise<IUserUpdater> {
-        return await this.userService.updateUser(userId, userUpdate);
+        const UPDATED_USER: IUserUpdater = await this.userService.updateUser(userId, userUpdate);
+        return UPDATED_USER;
     }
 
     @Get('/:id')
     async getUser(@Param('id') userId: number): Promise<IUser> {
-        return await this.userService.getUser(userId);
+        const USER: IUser = await this.userService.getUser(userId);
+        return USER;
     }
 
     @Get('/')
     async getAllUsers(): Promise<IUser[]> {
-        return await this.userService.getAllUsers();
+        const USER_LIST: IUser[] = await this.userService.getAllUsers();
+        return USER_LIST;
     }
 }

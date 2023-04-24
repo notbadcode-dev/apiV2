@@ -38,55 +38,58 @@ describe('AuthService', () => {
     describe('signUp', () => {
         it('Should return true when user create is successful', async () => {
             // Arrange
-            const userCreate: IUserCreate = userServiceTestData.getUserCreate();
-            when(userServiceMock.createUser(userCreate)).thenCall(async () => true);
+            const USER_CREATE: IUserCreate = userServiceTestData.getUserCreate();
+
+            when(userServiceMock.createUser(USER_CREATE)).thenCall(async () => true);
 
             // Act
-            const result = await authService.signUp(userCreate);
+            const RESULT = await authService.signUp(USER_CREATE);
 
             // Assert
-            expect(result).toBe(true);
+            expect(RESULT).toBe(true);
         });
     });
 
     describe('signIn', () => {
         it('Should throw an UnauthorizedError when user is not found', async () => {
             // Arrange
-            const authSignIn: IAuthSignIn = authServiceTestData.getAuthSignIn();
+            const AUTH_SIGN_IN: IAuthSignIn = authServiceTestData.getAuthSignIn();
+            const UNAUTHORIZED_ERROR: UnauthorizedError = authServiceTestData.getUnauthorizedError();
 
-            when(userRepositoryMock.getByName(authSignIn.username, false)).thenCall(async () => null);
+            when(userRepositoryMock.getByName(AUTH_SIGN_IN.username, false)).thenCall(async () => null);
 
             // Act & Assert
-            await expect(authService.signIn(authSignIn)).rejects.toThrow(UnauthorizedError);
+            await expect(authService.signIn(AUTH_SIGN_IN)).rejects.toThrow(UNAUTHORIZED_ERROR);
         });
 
         it('Should throw an UnauthorizedError when password is incorrect', async () => {
             // Arrange
-            const authSignIn: IAuthSignIn = authServiceTestData.getAuthSignIn();
-            const userEntity: UserEntity = userServiceTestData.getUserEntity();
+            const AUTH_SIGN_IN: IAuthSignIn = authServiceTestData.getAuthSignIn();
+            const USER_ENTITY: UserEntity = userServiceTestData.getUserEntity();
+            const UNAUTHORIZED_ERROR: UnauthorizedError = authServiceTestData.getUnauthorizedError();
 
-            when(userRepositoryMock.getByName(authSignIn.username, false)).thenCall(async () => userEntity);
-            when(passwordServiceMock.verifyPassword(authSignIn.password, userEntity.password)).thenCall(async () => false);
+            when(userRepositoryMock.getByName(AUTH_SIGN_IN.username, false)).thenCall(async () => USER_ENTITY);
+            when(passwordServiceMock.verifyPassword(AUTH_SIGN_IN.password, USER_ENTITY.password)).thenCall(async () => false);
 
             // Act & Assert
-            await expect(authService.signIn(authSignIn)).rejects.toThrow(UnauthorizedError);
+            await expect(authService.signIn(AUTH_SIGN_IN)).rejects.toThrow(UNAUTHORIZED_ERROR);
         });
 
         it('Should return a token when username and password are correct', async () => {
             // Arrange
-            const authSignIn: IAuthSignIn = authServiceTestData.getAuthSignIn();
-            const userEntity: UserEntity = userServiceTestData.getUserEntity();
-            const token = authServiceTestData.getToken();
+            const AUTH_SIGN_IN: IAuthSignIn = authServiceTestData.getAuthSignIn();
+            const USER_ENTITY: UserEntity = userServiceTestData.getUserEntity();
+            const TOKEN = authServiceTestData.getToken();
 
-            when(userRepositoryMock.getByName(authSignIn.username, false)).thenCall(async () => userEntity);
-            when(passwordServiceMock.verifyPassword(authSignIn.password, userEntity.password)).thenCall(async () => true);
-            when(tokenServiceMock.sign(userEntity.id)).thenCall(async () => token);
+            when(userRepositoryMock.getByName(AUTH_SIGN_IN.username, false)).thenCall(async () => USER_ENTITY);
+            when(passwordServiceMock.verifyPassword(AUTH_SIGN_IN.password, USER_ENTITY.password)).thenCall(async () => true);
+            when(tokenServiceMock.sign(USER_ENTITY.id)).thenCall(async () => TOKEN);
 
             // Act
-            const result = await authService.signIn(authSignIn);
+            const RESULT = await authService.signIn(AUTH_SIGN_IN);
 
             // Assert
-            expect(result).toBe(token);
+            expect(RESULT).toBe(TOKEN);
         });
     });
 });

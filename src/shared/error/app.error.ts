@@ -1,18 +1,20 @@
-import TranslationService from '@service/translate.service';
-
 export class AppError extends Error {
-    status!: number;
+    static readonly DEFAULT_STATUS = 500;
 
-    constructor(errorStatus: number, errorMessage?: string) {
-        const ERROR_STATUS: number = errorStatus;
+    private _status: number = AppError.DEFAULT_STATUS;
 
-        if (errorMessage) {
-            TranslationService.translate(errorMessage);
-        }
-
-        super(errorMessage);
+    constructor(errorMessage?: string, errorStatus: number = AppError.DEFAULT_STATUS) {
+        const TRANSLATED_MESSAGE = errorMessage;
+        super(TRANSLATED_MESSAGE);
         Object.setPrototypeOf(this, new.target.prototype);
-        this.status = ERROR_STATUS;
-        Error.captureStackTrace(this);
+        this._status = errorStatus;
+    }
+
+    get status(): number {
+        return this._status;
+    }
+
+    set status(status: number) {
+        this._status = status;
     }
 }

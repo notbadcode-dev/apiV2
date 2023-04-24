@@ -11,9 +11,9 @@ class HookService {
             this.jobs[name].stop();
         }
 
-        const job = new CronJob(cronTime, onTick, onComplete, true, EXECUTE_HOOK_ZONE);
+        const JOB = new CronJob(cronTime, onTick, onComplete, true, EXECUTE_HOOK_ZONE);
         if (name) {
-            this.jobs[name] = job;
+            this.jobs[name] = JOB;
         }
     }
 }

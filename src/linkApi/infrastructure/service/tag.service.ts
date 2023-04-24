@@ -1,6 +1,4 @@
 import { Service } from 'typedi';
 
 @Service()
-export class TagService {
-    constructor() {}
-}
+export class TagService {}

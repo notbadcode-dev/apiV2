@@ -9,23 +9,25 @@ import { GlobalUtilEnvService } from './global/global.util.env.service';
 @Service()
 export class TokenService {
     private static sessionSecret = GlobalUtilEnvService.getSessionSecret();
+
     private sessionExpiresIn = GlobalUtilEnvService.getSessionExpiresIn();
+
     private currentUser: IUser | null = null;
 
     constructor(@Inject() private _userService: UserService) {}
 
     @LoggerMethodDecorator
     public sign(userId: number): string {
-        const sessionSecret = GlobalUtilEnvService.getSessionSecret();
-        const token = jwt.sign({ userId }, sessionSecret, { expiresIn: this.sessionExpiresIn });
-        return token;
+        const SESSION_SECRET = GlobalUtilEnvService.getSessionSecret();
+        const TOKEN = jwt.sign({ userId }, SESSION_SECRET, { expiresIn: this.sessionExpiresIn });
+        return TOKEN;
     }
 
     @LoggerMethodDecorator
     public static verify(token: string): number | null {
         try {
-            const decoded = jwt.verify(token, this.sessionSecret) as { userId: number };
-            return decoded.userId;
+            const DECODED = jwt.verify(token, this.sessionSecret) as { userId: number };
+            return DECODED.userId;
         } catch {
             throw new UnauthorizedError();
         }
@@ -34,8 +36,8 @@ export class TokenService {
     @LoggerMethodDecorator
     public decode(token: string): { userId: number } | null {
         try {
-            const decoded = jwt.decode(token) as { userId: number };
-            return decoded;
+            const DECODED = jwt.decode(token) as { userId: number };
+            return DECODED;
         } catch {
             return null;
         }
@@ -43,12 +45,12 @@ export class TokenService {
 
     @LoggerMethodDecorator
     public refresh(token: string): string | null {
-        const decoded = this.decode(token);
-        if (!decoded) {
+        const DECODED = this.decode(token);
+        if (!DECODED) {
             return null;
         }
-        const newToken = this.sign(decoded.userId);
-        return newToken;
+        const NEW_TOKEN = this.sign(DECODED.userId);
+        return NEW_TOKEN;
     }
 
     public async setCurrentUser(userId: number): Promise<void> {

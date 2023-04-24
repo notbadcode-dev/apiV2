@@ -1,4 +1,8 @@
+import { ERROR_MESSAGE_APPLICATION } from '@constant/error-message/error-message-application.constant';
+import { ERROR_MESSAGE_USER } from '@constant/error-message/error-message-user.constant';
 import { UserEntity } from '@entity/user.entity';
+import { AlreadyExistsError } from '@error/already-exists.error';
+import { NotFountError } from '@error/not-found.error';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
 import { IUserUpdater } from '@model/user/user-update.model';
 import { IUser } from '@model/user/user.model';
@@ -92,5 +96,17 @@ export class UserServiceTestData {
 
     private getUserPassword(): string {
         return 'testPassword';
+    }
+
+    public getAlreadyExistsErrorSameUsername(): AlreadyExistsError {
+        return new AlreadyExistsError(ERROR_MESSAGE_USER.ALREADY_EXIST_USER_SAME_USERNAME);
+    }
+
+    public getApplicationIdNotFoundError(applicationId: number): NotFountError {
+        return new NotFountError(ERROR_MESSAGE_APPLICATION.THERE_IS_NOT_APPLICATION_WITH_ID(applicationId));
+    }
+
+    public getUserIdNotFoundError(userId: number): NotFountError {
+        return new NotFountError(ERROR_MESSAGE_USER.USER_WITH_ID_NOT_FOUND(userId));
     }
 }

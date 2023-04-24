@@ -3,4 +3,4 @@ import { ApplicationEntity } from './application.entity';
 import { UserApplicationEntity } from './user-application.entity';
 import { UserEntity } from './user.entity';
 
-export const authApiEntityList: Function[] = [UserEntity, ApplicationEntity, UserApplicationEntity];
+export const AUTH_API_ENTITY_LIST: Function[] = [UserEntity, ApplicationEntity, UserApplicationEntity];

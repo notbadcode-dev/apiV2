@@ -31,6 +31,7 @@ export class PaginateItemHelper {
             itemList: new Array<T>(),
         };
     }
+
     static getTotalPages(totalCount: number, startIndex: number, take: number): number {
         const TOTAL_COUNT: number = totalCount - startIndex;
         const TOTAL_PAGES: number = Math.ceil(TOTAL_COUNT / take);
@@ -78,6 +79,7 @@ export interface IPaginateCalculateResult {
 
 export class PaginateCalculateHelper {
     static calculate(paginateCalculate: IPaginateCalculateRequest): IPaginateCalculateResult {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const { totalCount: totalCount, startIndex, take } = paginateCalculate;
 
         const TOTAL_PAGES = PaginateItemHelper.getTotalPages(totalCount, startIndex, take);

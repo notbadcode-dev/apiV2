@@ -22,7 +22,7 @@ export class LinkEntityToLinkMapper {
     ) {}
 
     public map(linkEntity: LinkEntity): ILink {
-        const ORDER: number | null = this.getLinkOrderIndexByLinkEntityId(linkEntity.id, linkEntity.linkOrderList);
+        const ORDER: number | null = this.getLinkOrderIndexByLinkEntityId(linkEntity?.id, linkEntity.linkOrderList);
         const TAG_ENTITY_LIST: TagEntity[] = this._linkTagEntityToTagEntityMapper.mapByLinkEntityId(linkEntity.id, linkEntity.linkTagList);
         const LINK_GROUP_ENTITY: LinkGroupEntity | null = this._linkGroupRelationEntityToLinkGroupMapper.mapByLinkEntityId(
             linkEntity.id,

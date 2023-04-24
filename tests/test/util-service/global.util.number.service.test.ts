@@ -15,34 +15,34 @@ describe('GlobalUtilNumberServiceTest', () => {
     describe('convertNumber', () => {
         it('Should return a number when passed a number value', () => {
             // Arrange
-            const value = 1;
+            const VALUE = 1;
 
             // Act
-            const result = globalUtilNumberServiceMock.convertNumber(value);
+            const RESULT = globalUtilNumberServiceMock.convertNumber(VALUE);
 
             //Assert
-            expect(result).toBe(value);
+            expect(RESULT).toBe(VALUE);
         });
 
         it('Should return a number when passed a string value representing a number', () => {
             // Arrange
-            const value = '1';
+            const VALUE = '1';
 
             // Act
-            const result = globalUtilNumberServiceMock.convertNumber(value);
+            const RESULT = globalUtilNumberServiceMock.convertNumber(VALUE);
 
             //Assert
-            expect(result).toBe(parseInt(value, 10));
+            expect(RESULT).toBe(parseInt(VALUE, 10));
         });
 
         it('Should throw an InternalServerError when passed a non-valid string value', () => {
             // Arrange
-            const value = 'test';
+            const VALUE = 'test';
 
             // Act & Assert
             expect(() => {
-                globalUtilNumberServiceMock.convertNumber(value);
-            }).toThrowError(new InternalServerError(ERROR_MESSAGE_UTIL.PARSED_VALUE_IS_NAN(value)));
+                globalUtilNumberServiceMock.convertNumber(VALUE);
+            }).toThrowError(new InternalServerError(ERROR_MESSAGE_UTIL.PARSED_VALUE_IS_NAN(VALUE)));
         });
     });
 
@@ -64,46 +64,46 @@ describe('GlobalUtilNumberServiceTest', () => {
                 globalUtilNumberServiceTestData.getValuesForAreNumericValuesEqualAllNumbersReturnFalse();
 
             // Act
-            const result: boolean = globalUtilNumberServiceMock.areNumericValuesEqual(values.firstValue, values.secondValue);
+            const RESULT: boolean = globalUtilNumberServiceMock.areNumericValuesEqual(values.firstValue, values.secondValue);
 
             // Assert
-            expect(result).toEqual(values.result);
+            expect(RESULT).toEqual(values.result);
         });
 
         it('Should return true when passed two numeric values that match', () => {
             // Arrange
-            const values: IAreNumericValuesEqual<number, number> =
+            const VALUES: IAreNumericValuesEqual<number, number> =
                 globalUtilNumberServiceTestData.getValuesForAreNumericValuesEqualAllNumbersReturnTrue();
 
             // Act
-            const result: boolean = globalUtilNumberServiceMock.areNumericValuesEqual(values.firstValue, values.secondValue);
+            const RESULT: boolean = globalUtilNumberServiceMock.areNumericValuesEqual(VALUES.firstValue, VALUES.secondValue);
 
             // Assert
-            expect(result).toEqual(values.result);
+            expect(RESULT).toEqual(VALUES.result);
         });
 
         it('Should return false when passed two string values that do not match', () => {
             // Arrange
-            const values: IAreNumericValuesEqual<string, string> =
+            const VALUES: IAreNumericValuesEqual<string, string> =
                 globalUtilNumberServiceTestData.getValuesForAreNumericValuesEqualAllStringsReturnFalse();
 
             // Act
-            const result: boolean = globalUtilNumberServiceMock.areNumericValuesEqual(values.firstValue, values.secondValue);
+            const RESULT: boolean = globalUtilNumberServiceMock.areNumericValuesEqual(VALUES.firstValue, VALUES.secondValue);
 
             // Assert
-            expect(result).toEqual(values.result);
+            expect(RESULT).toEqual(VALUES.result);
         });
 
         it('Should return true when passed two string values that match', () => {
             // Arrange
-            const values: IAreNumericValuesEqual<string, string> =
+            const VALUES: IAreNumericValuesEqual<string, string> =
                 globalUtilNumberServiceTestData.getValuesForAreNumericValuesEqualAllStringReturnTrue();
 
             // Act
-            const result: boolean = globalUtilNumberServiceMock.areNumericValuesEqual(values.firstValue, values.secondValue);
+            const RESULT: boolean = globalUtilNumberServiceMock.areNumericValuesEqual(VALUES.firstValue, VALUES.secondValue);
 
             // Assert
-            expect(result).toEqual(values.result);
+            expect(RESULT).toEqual(VALUES.result);
         });
     });
 });

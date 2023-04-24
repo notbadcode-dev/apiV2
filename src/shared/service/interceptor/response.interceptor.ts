@@ -7,18 +7,18 @@ import { Service } from 'typedi';
 @Service()
 export class ResponseInterceptor implements InterceptorInterface {
     intercept(action: Action, content: unknown): IHttpResponse<unknown> {
-        const status = HTTP_RESPONSE_STATUS.SUCCESS;
-        const message = HTTP_RESPONSE_MESSAGE[status];
-        const httpResponse: IHttpResponse<unknown> = {
+        const STATUS = HTTP_RESPONSE_STATUS.SUCCESS;
+        const MESSAGE = HTTP_RESPONSE_MESSAGE[STATUS];
+        const HTTP_RESPONSE: IHttpResponse<unknown> = {
             data: content,
             messageList: [
                 {
-                    type: HTTP_RESPONSE_MESSAGE_TYPE[status],
-                    content: message,
+                    type: HTTP_RESPONSE_MESSAGE_TYPE[STATUS],
+                    content: MESSAGE,
                 },
             ],
         };
 
-        return httpResponse;
+        return HTTP_RESPONSE;
     }
 }

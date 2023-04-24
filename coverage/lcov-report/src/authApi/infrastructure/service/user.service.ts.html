@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">38.98% </span>
+                <span class="strong">55.93% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>23/59</span>
+                <span class='fraction'>33/59</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">16.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>1/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>3/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36.84% </span>
+                <span class="strong">54.38% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>21/57</span>
+                <span class='fraction'>31/57</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -194,12 +194,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -229,7 +229,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -253,10 +253,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -302,13 +302,13 @@ import { IUser } from '../../domain/model/user/user.model';
 &nbsp;
 @Service()
 export class UserService {
-<span class="fstat-no" title="function not covered" >    constructor(</span>
-        @Inject() private <span class="cstat-no" title="statement not covered" >_userRepository: U</span>serRepository,
-        @Inject() private <span class="cstat-no" title="statement not covered" >_applicationRepository: A</span>pplicationRepository,
-        @Inject() private <span class="cstat-no" title="statement not covered" >_userApplicationRepository: U</span>serApplicationRepository,
-        @Inject() private <span class="cstat-no" title="statement not covered" >_userEntityToUserMapper: U</span>serEntityToUserMapper,
-        @Inject() private <span class="cstat-no" title="statement not covered" >_userEntityToUserCreatedMapper: U</span>serEntityToUserCreatedMapper,
-        @Inject() private <span class="cstat-no" title="statement not covered" >_globalUtilValidateService: G</span>lobalUtilValidateService
+    constructor(
+        @Inject() private _userRepository: UserRepository,
+        @Inject() private _applicationRepository: ApplicationRepository,
+        @Inject() private _userApplicationRepository: UserApplicationRepository,
+        @Inject() private _userEntityToUserMapper: UserEntityToUserMapper,
+        @Inject() private _userEntityToUserCreatedMapper: UserEntityToUserCreatedMapper,
+        @Inject() private _globalUtilValidateService: GlobalUtilValidateService
     ) {}
 &nbsp;
     @LoggerMethodDecorator
@@ -337,8 +337,8 @@ export class UserService {
     }
 &nbsp;
     @LoggerMethodDecorator
-    public <span class="fstat-no" title="function not covered" >async </span>getUser(userId: number): Promise&lt;IUser&gt; {
-<span class="cstat-no" title="statement not covered" >        await this.controlExistsUser(userId);</span>
+    public async getUser(userId: number): Promise&lt;IUser&gt; {
+        await this.controlExistsUser(userId);
 &nbsp;
         const USER_ENTITY = <span class="cstat-no" title="statement not covered" >await this._userRepository.getById(userId);</span>
 <span class="cstat-no" title="statement not covered" >        return this._userEntityToUserMapper.map(USER_ENTITY);</span>
@@ -361,11 +361,11 @@ export class UserService {
     }
 &nbsp;
     @LoggerMethodDecorator
-    private <span class="fstat-no" title="function not covered" >async </span>controlExistsUser(userId: number): Promise&lt;void&gt; {
-        const USER_ENTITY = <span class="cstat-no" title="statement not covered" >await this._userRepository.getById(userId);</span>
+    private async controlExistsUser(userId: number): Promise&lt;void&gt; {
+        const USER_ENTITY = await this._userRepository.getById(userId);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!USER_ENTITY) {</span>
-<span class="cstat-no" title="statement not covered" >            throw new NotFountError(ERROR_MESSAGE_USER.USER_WITH_ID_NOT_FOUND(userId));</span>
+        if (!USER_ENTITY) {
+            throw new NotFountError(ERROR_MESSAGE_USER.USER_WITH_ID_NOT_FOUND(userId));
         }
     }
 &nbsp;
@@ -397,7 +397,7 @@ export class UserService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-19T22:26:39.413Z
+                at 2023-04-23T13:35:12.502Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

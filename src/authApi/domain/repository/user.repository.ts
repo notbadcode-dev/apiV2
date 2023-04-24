@@ -1,7 +1,7 @@
 import { ERROR_MESSAGE_USER } from '@constant/error-message/error-message-user.constant';
+import { InternalServerError } from '@error/internal-server.error';
 import { NotFountError } from '@error/not-found.error';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
-import { InternalServerError } from 'routing-controllers';
 import { Inject, Service } from 'typedi';
 import { DataSource, Repository } from 'typeorm';
 import { UserEntity } from '../entity/user.entity';
@@ -22,42 +22,44 @@ export class UserRepository {
         NEW_USER.username = username;
         NEW_USER.password = password;
 
-        const queryRunner = this._dataSource.createQueryRunner();
-        queryRunner.connect();
-        queryRunner.startTransaction();
+        const QUERY_RUNNER = this._dataSource.createQueryRunner();
+        QUERY_RUNNER.connect();
+        QUERY_RUNNER.startTransaction();
 
-        const SAVED_CREATED_USER = await queryRunner.manager.save(NEW_USER);
+        const SAVED_CREATED_USER = await QUERY_RUNNER.manager.save(NEW_USER);
 
         if (!SAVED_CREATED_USER || !SAVED_CREATED_USER?.id) {
-            await queryRunner.rollbackTransaction();
+            await QUERY_RUNNER.rollbackTransaction();
             throw new InternalServerError(ERROR_MESSAGE_USER.COULD_NOT_CREATED_USER_WITH_USERNAME(username));
         }
 
-        await queryRunner.commitTransaction();
-        await queryRunner.release();
+        await QUERY_RUNNER.commitTransaction();
+        await QUERY_RUNNER.release();
 
-        return await this.getById(SAVED_CREATED_USER.id);
+        const USER_ENTITY_CREATED: UserEntity = await this.getById(SAVED_CREATED_USER.id);
+        return USER_ENTITY_CREATED;
     }
 
     @LoggerMethodDecorator
     public async update(userUpdate: IUserUpdater): Promise<UserEntity> {
         const USER_ENTITY: UserEntity = this._userUpdaterToUserEntityMapper.map(userUpdate);
 
-        const queryRunner = this._dataSource.createQueryRunner();
-        queryRunner.connect();
-        queryRunner.startTransaction();
+        const QUERY_RUNNER = this._dataSource.createQueryRunner();
+        QUERY_RUNNER.connect();
+        QUERY_RUNNER.startTransaction();
 
-        const UPDATED_USER = await queryRunner.manager.update(UserEntity, userUpdate.id, USER_ENTITY);
+        const UPDATED_USER = await QUERY_RUNNER.manager.update(UserEntity, userUpdate.id, USER_ENTITY);
 
         if (!UPDATED_USER || !UPDATED_USER?.affected) {
-            await queryRunner.rollbackTransaction();
+            await QUERY_RUNNER.rollbackTransaction();
             throw new InternalServerError(ERROR_MESSAGE_USER.COULD_NOT_UPDATE_USER(userUpdate.username));
         }
 
-        await queryRunner.commitTransaction();
-        await queryRunner.release();
+        await QUERY_RUNNER.commitTransaction();
+        await QUERY_RUNNER.release();
 
-        return await this.getById(USER_ENTITY.id);
+        const USER_ENTITY_UPDATED: UserEntity = await this.getById(USER_ENTITY.id);
+        return USER_ENTITY_UPDATED;
     }
 
     @LoggerMethodDecorator

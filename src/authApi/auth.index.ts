@@ -10,24 +10,25 @@ import { EXECUTE_HOOK_RUN_EVERY_ALL_DAYS_00H } from '@constant/hook.constant';
 import { GlobalUtilEnvService } from '@service/global/global.util.env.service';
 import hookService from '@service/hook.service';
 import { LoggerService } from '@service/logger.service';
-import { authDataSource } from '../../src/shared/database/auth.database';
+import { AUTH_DATA_SOURCE } from '../../src/shared/database/auth.database';
 import { initializeDataSource } from '../../src/shared/database/database';
-import { authApiEntityList } from './domain/entity/_auth.entity.index';
+import { AUTH_API_ENTITY_LIST } from './domain/entity/_auth.entity.index';
 
-const loggerService: LoggerService = new LoggerService();
+const LOGGER_SERVICE: LoggerService = new LoggerService();
 
 function authExpressApp(): void {
-    const app: express.Application = express();
+    const APP: express.Application = express();
 
-    initializeDataSource(authDataSource);
-    initializerApplication(app);
+    initializeDataSource(AUTH_DATA_SOURCE);
+    initializerApplication(APP);
 
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const { port, path, apiTitle } = GlobalUtilEnvService.getAuthEnvironment();
-    initializerDependencies(app, authDataSource, path, authApiEntityList, INJECTED_DEPENDENCY.AUTH_PATH);
-    initializeListener(app, port, path, apiTitle);
+    initializerDependencies(APP, AUTH_DATA_SOURCE, path, AUTH_API_ENTITY_LIST, INJECTED_DEPENDENCY.AUTH_PATH);
+    initializeListener(APP, port, path, apiTitle);
 
     hookService.schedule(EXECUTE_HOOK_RUN_EVERY_ALL_DAYS_00H, () => {
-        loggerService.infoLogger('New day on ' + apiTitle);
+        LOGGER_SERVICE.infoLogger('New day on ' + apiTitle);
     });
 }
 

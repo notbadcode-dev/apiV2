@@ -15,7 +15,7 @@ import { UserServiceTestData } from '@testData/service/user.service.test.data';
 import { anyNumber, anyString, anything, instance, mock, when } from 'ts-mockito';
 
 describe('UserService', () => {
-    const userServiceTestData: UserServiceTestData = new UserServiceTestData();
+    const USER_SERVICE_TEST_DATA: UserServiceTestData = new UserServiceTestData();
 
     let userService: UserService;
     let userRepositoryMock: UserRepository;
@@ -46,152 +46,155 @@ describe('UserService', () => {
     describe('createUser', () => {
         it('Should throw AlreadyExistsError when username already exists', async () => {
             // Arrange
-            const userCreate: IUserCreate = userServiceTestData.getUserCreate();
-            const userEntity: UserEntity = userServiceTestData.getUserEntity();
+            const USER_CREATE: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreate();
+            const USER_ENTITY: UserEntity = USER_SERVICE_TEST_DATA.getUserEntity();
+            const ALREADY_EXISTS_ERROR: AlreadyExistsError = USER_SERVICE_TEST_DATA.getAlreadyExistsErrorSameUsername();
 
             when(applicationRepositoryMock.getById(anyNumber())).thenCall(async () => {
                 return Promise.resolve(1);
             });
 
             when(userRepositoryMock.getByName(anyString(), false)).thenCall(async () => {
-                return Promise.resolve(userEntity);
+                return Promise.resolve(USER_ENTITY);
             });
 
             // Act & Assert
-            await expect(userService.createUser(userCreate)).rejects.toThrowError(AlreadyExistsError);
+            await expect(userService.createUser(USER_CREATE)).rejects.toThrowError(ALREADY_EXISTS_ERROR);
         });
 
         it('Should throw NotFoundError when application does not exist', async () => {
             // Arrange
-            const userCreate: IUserCreate = userServiceTestData.getUserCreate();
+            const USER_CREATE: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreate();
+            const NOT_FOUND_ERROR: NotFountError = USER_SERVICE_TEST_DATA.getApplicationIdNotFoundError(USER_CREATE.applicationId);
 
             when(applicationRepositoryMock.getById(anyNumber())).thenCall(async () => {
                 return Promise.resolve(null);
             });
 
             // Act & Assert
-            await expect(userService.createUser(userCreate)).rejects.toThrowError(NotFountError);
+            await expect(userService.createUser(USER_CREATE)).rejects.toThrowError(NOT_FOUND_ERROR);
         });
 
         it('Should return created user when user creation succeeds', async () => {
             // Arrange
-            const userCreate: IUserCreate = userServiceTestData.getUserCreate();
-            const userCreatedEntity: IUserCreated = userServiceTestData.getUserCreated();
-            const userCreatedExpected: IUserCreated = userServiceTestData.getUserCreatedExpired();
-            const applicationId: number = userServiceTestData.getApplicationId();
-
-            const userId = userServiceTestData.getUser().id;
+            const USER_CREATE: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreate();
+            const USER_CREATED_ENTITY: IUserCreated = USER_SERVICE_TEST_DATA.getUserCreated();
+            const USER_CREATED_EXPECTED: IUserCreated = USER_SERVICE_TEST_DATA.getUserCreatedExpired();
+            const APPLICATION_ID: number = USER_SERVICE_TEST_DATA.getApplicationId();
+            const USER_ID = USER_SERVICE_TEST_DATA.getUser().id;
 
             when(applicationRepositoryMock.getById(anyNumber())).thenCall(async () => {
-                return Promise.resolve(applicationId);
+                return Promise.resolve(APPLICATION_ID);
             });
 
             when(userRepositoryMock.create(anyString(), anyString())).thenCall(async () => {
-                return Promise.resolve(userId);
+                return Promise.resolve(USER_ID);
             });
 
             when(userApplicationRepositoryMock.create(anything(), anything())).thenCall(async () => {
-                return Promise.resolve(userCreatedEntity);
+                return Promise.resolve(USER_CREATED_ENTITY);
             });
 
-            when(userEntityToUserCreatedMapperMock.mapWithApplicationId(anything(), anyNumber())).thenReturn(userCreatedExpected);
+            when(userEntityToUserCreatedMapperMock.mapWithApplicationId(anything(), anyNumber())).thenReturn(USER_CREATED_EXPECTED);
 
             // Act
-            const result: IUserCreated = await userService.createUser(userCreate);
+            const result: IUserCreated = await userService.createUser(USER_CREATE);
 
             // Assert
-            expect(result).toEqual(userCreatedExpected);
+            expect(result).toEqual(USER_CREATED_EXPECTED);
         });
     });
 
     describe('updateUser', () => {
         it('Should throw NotFoundError when user does not exist', async () => {
             // Arrange
-            const userUpdate: IUserUpdater = userServiceTestData.getUserUpdated();
+            const USER_UPDATE: IUserUpdater = USER_SERVICE_TEST_DATA.getUserUpdated();
+            const USER_ID_NOT_FOUND_ERROR: NotFountError = USER_SERVICE_TEST_DATA.getUserIdNotFoundError(USER_UPDATE.id);
 
             when(userRepositoryMock.getById(anyNumber())).thenCall(async () => {
                 return Promise.resolve(null);
             });
 
             // Act & Assert
-            await expect(userService.updateUser(userUpdate.id, userUpdate)).rejects.toThrow(NotFountError);
+            await expect(userService.updateUser(USER_UPDATE.id, USER_UPDATE)).rejects.toThrow(USER_ID_NOT_FOUND_ERROR);
         });
 
         it('Should return updated user when user update succeeds', async () => {
             // Arrange
-            const userUpdate: IUserUpdater = userServiceTestData.getUserUpdated();
-            const existingUser: IUser = userServiceTestData.getUserEntity();
+            const USER_UPDATE: IUserUpdater = USER_SERVICE_TEST_DATA.getUserUpdated();
+            const EXISTING_USER: IUser = USER_SERVICE_TEST_DATA.getUserEntity();
 
             when(userRepositoryMock.getById(anyNumber())).thenCall(async () => {
-                return Promise.resolve(existingUser);
+                return Promise.resolve(EXISTING_USER);
             });
 
-            when(userRepositoryMock.update(userUpdate)).thenCall(async () => {
-                return Promise.resolve(userUpdate);
+            when(userRepositoryMock.update(USER_UPDATE)).thenCall(async () => {
+                return Promise.resolve(USER_UPDATE);
             });
 
             // Act
-            const result: IUser = await userService.updateUser(userUpdate.id, userUpdate);
+            const RESULT: IUser = await userService.updateUser(USER_UPDATE.id, USER_UPDATE);
 
             // Assert
-            expect(result).toEqual(userUpdate);
+            expect(RESULT).toEqual(USER_UPDATE);
         });
     });
 
     describe('getUser', () => {
         it('Should throw NotFoundError when user does not exist', async () => {
             // Arrange
-            const userId: number = userServiceTestData.getUserEntity()?.id;
+            const USER_ID: number = USER_SERVICE_TEST_DATA.getUserEntity()?.id;
+            const USER_ID_NOT_FOUND_ERROR: NotFountError = USER_SERVICE_TEST_DATA.getUserIdNotFoundError(USER_ID);
 
             when(userRepositoryMock.getById(anyNumber())).thenCall(async () => {
                 return Promise.resolve(null);
             });
 
             // Act & Assert
-            await expect(userService.getUser(userId)).rejects.toThrow(NotFountError);
+            await expect(userService.getUser(USER_ID)).rejects.toThrow(USER_ID_NOT_FOUND_ERROR);
         });
 
         it('Should return user when user exists', async () => {
             // Arrange
-            const userEntity: UserEntity = userServiceTestData.getUserEntity();
-            const user: IUser = userServiceTestData.getUserEntity();
-            const userId: number = userEntity.id;
+            const USER_ENTITY: UserEntity = USER_SERVICE_TEST_DATA.getUserEntity();
+            const USER: IUser = USER_SERVICE_TEST_DATA.getUserEntity();
+            const USER_ID: number = USER_ENTITY.id;
 
             when(userRepositoryMock.getById(anyNumber())).thenCall(async () => {
-                return Promise.resolve(userEntity);
+                return Promise.resolve(USER_ENTITY);
             });
 
-            when(userEntityToUserMapperMock.map(userEntity)).thenCall(async () => {
-                return Promise.resolve(user);
+            when(userEntityToUserMapperMock.map(USER_ENTITY)).thenCall(async () => {
+                return Promise.resolve(USER);
             });
 
             // Act
-            const result: IUser = await userService.getUser(userId);
+            const result: IUser = await userService.getUser(USER_ID);
 
             // Assert
-            expect(result).toEqual(user);
+            expect(result).toEqual(USER);
         });
     });
 
     describe('getAllUsers', () => {
         it('Should return list of users when users exist', async () => {
             // Arrange
-            const userEntityList: UserEntity[] = userServiceTestData.getUserEntityList();
-            const expectedUserList: IUser[] = userServiceTestData.getUserList();
+            const USER_ENTITY_LIST: UserEntity[] = USER_SERVICE_TEST_DATA.getUserEntityList();
+            const EXPECTED_USER_LIST: IUser[] = USER_SERVICE_TEST_DATA.getUserList();
 
             when(userRepositoryMock.getAll()).thenCall(async () => {
-                return userEntityList;
+                return USER_ENTITY_LIST;
             });
 
-            when(userEntityToUserMapperMock.mapList(userEntityList)).thenCall(() => {
-                return expectedUserList;
+            when(userEntityToUserMapperMock.mapList(USER_ENTITY_LIST)).thenCall(() => {
+                return EXPECTED_USER_LIST;
             });
 
             // Act
-            const userList: IUser[] = await userService.getAllUsers();
+            const USER_LIST: IUser[] = await userService.getAllUsers();
 
             // Assert
-            expect(userList).toEqual(expectedUserList);
+            expect(USER_LIST).toEqual(EXPECTED_USER_LIST);
         });
 
         it('Should return empty list of users when no users exist', async () => {
@@ -203,10 +206,10 @@ describe('UserService', () => {
             });
 
             // Act
-            const userList: IUser[] = await userService.getAllUsers();
+            const USER_LIST: IUser[] = await userService.getAllUsers();
 
             // Assert
-            expect(userList).toEqual(new Array<IUser>());
+            expect(USER_LIST).toEqual(new Array<IUser>());
         });
     });
 });
