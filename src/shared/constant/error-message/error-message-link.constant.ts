@@ -13,4 +13,7 @@ export const ERROR_MESSAGE_LINK = {
     COULD_NOT_UPDATE_LINK: (linkName: string): string => {
         return TranslationService.translateWithParameters('error_message.link.could_not_update_link', [linkName]);
     },
+    COULD_NOT_DELETE_LINK: (linkName: string): string => {
+        return TranslationService.translateWithParameters('error_message.link.could_not_delete_link', [linkName]);
+    },
 };

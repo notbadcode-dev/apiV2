@@ -13,7 +13,7 @@ import {
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { TokenService } from '@service/token.service';
 import { Inject, Service } from 'typedi';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, DeleteResult, QueryRunner, Repository, UpdateResult } from 'typeorm';
 import { LinkEntity } from '../entity/link.entity';
 
 @Service()
@@ -35,11 +35,11 @@ export class LinkRepository {
         NEW_LINK.active = link.active;
         NEW_LINK.userId = link.userId;
 
-        const QUERY_RUNNER = this._dataSource.createQueryRunner();
+        const QUERY_RUNNER: QueryRunner = this._dataSource.createQueryRunner();
         QUERY_RUNNER.connect();
         QUERY_RUNNER.startTransaction();
 
-        const SAVED_CREATED_LINK = await QUERY_RUNNER.manager.save(NEW_LINK);
+        const SAVED_CREATED_LINK: LinkEntity = await QUERY_RUNNER.manager.save(NEW_LINK);
 
         if (!SAVED_CREATED_LINK || !SAVED_CREATED_LINK?.id) {
             await QUERY_RUNNER.rollbackTransaction();
@@ -49,19 +49,19 @@ export class LinkRepository {
         await QUERY_RUNNER.commitTransaction();
         await QUERY_RUNNER.release();
 
-        const CREATED_LINK_ENTITY = await this.getById(SAVED_CREATED_LINK?.id);
+        const CREATED_LINK_ENTITY: LinkEntity = await this.getById(SAVED_CREATED_LINK?.id);
         return CREATED_LINK_ENTITY;
     }
 
     @LoggerMethodDecorator
     public async update(link: ILink): Promise<LinkEntity> {
-        const UPDATE_LINK_ENTITY = await this._linkToLinkEntityMapper.map(link);
+        const UPDATE_LINK_ENTITY: LinkEntity = await this._linkToLinkEntityMapper.map(link);
 
-        const QUERY_RUNNER = this._dataSource.createQueryRunner();
+        const QUERY_RUNNER: QueryRunner = this._dataSource.createQueryRunner();
         QUERY_RUNNER.connect();
         QUERY_RUNNER.startTransaction();
 
-        const UPDATED_USER = await QUERY_RUNNER.manager.update(LinkEntity, link.id, UPDATE_LINK_ENTITY);
+        const UPDATED_USER: UpdateResult = await QUERY_RUNNER.manager.update(LinkEntity, link.id, UPDATE_LINK_ENTITY);
 
         if (!UPDATED_USER || !UPDATED_USER?.affected) {
             await QUERY_RUNNER.rollbackTransaction();
@@ -125,22 +125,21 @@ export class LinkRepository {
 
     @LoggerMethodDecorator
     public async delete(linkId: number): Promise<boolean> {
-        const USER_ID: number = this._tokenService.getCurrentUserId();
-        const DELETE_LINK_ENTITY: LinkEntity | null = await this._linkRepository.findOneBy({ id: linkId, userId: USER_ID });
+        const DELETE_LINK_ENTITY: LinkEntity | null = await this.getById(linkId);
 
         if (!DELETE_LINK_ENTITY || !DELETE_LINK_ENTITY?.id) {
             throw new NotFountError(ERROR_MESSAGE_LINK.LINK_WITH_ID_NOT_FOUND(linkId));
         }
 
-        const QUERY_RUNNER = this._dataSource.createQueryRunner();
+        const QUERY_RUNNER: QueryRunner = this._dataSource.createQueryRunner();
         QUERY_RUNNER.connect();
         QUERY_RUNNER.startTransaction();
 
-        const DELETED_LINK = await QUERY_RUNNER.manager.delete(LinkEntity, DELETE_LINK_ENTITY?.id);
+        const DELETED_LINK: DeleteResult = await QUERY_RUNNER.manager.delete(LinkEntity, DELETE_LINK_ENTITY?.id);
 
         if (!DELETED_LINK || !DELETED_LINK?.affected) {
             await QUERY_RUNNER.rollbackTransaction();
-            throw new InternalServerError(ERROR_MESSAGE_LINK.COULD_NOT_UPDATE_LINK(DELETE_LINK_ENTITY?.name ?? ''));
+            throw new InternalServerError(ERROR_MESSAGE_LINK.COULD_NOT_DELETE_LINK(DELETE_LINK_ENTITY?.name ?? ''));
         }
 
         await QUERY_RUNNER.commitTransaction();

@@ -22,7 +22,7 @@ export class UserApplicationRepository {
         USER_APPLICATION_ENTITY.user = userEntity;
         USER_APPLICATION_ENTITY.application = applicationEntity;
 
-        const SAVED_USER_APPLICATION = await this._userApplicationRepository.save(USER_APPLICATION_ENTITY);
+        const SAVED_USER_APPLICATION: UserApplicationEntity = await this._userApplicationRepository.save(USER_APPLICATION_ENTITY);
 
         if (!SAVED_USER_APPLICATION || !USER_APPLICATION_ENTITY?.id) {
             throw new Error(ERROR_MESSAGE_APPLICATION.COULD_NOT_ASSOCIATE_APPLICATION_AND_USER(applicationEntity.id, userEntity.username));

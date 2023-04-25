@@ -54,6 +54,13 @@ export class LinkServiceTestData {
         };
     }
 
+    getLinkEntityWithZeroId(): LinkEntity {
+        return {
+            ...this.getLinkEntity(),
+            id: 0,
+        };
+    }
+
     getFavoriteLinkEntity(): LinkEntity {
         return {
             ...this.getLinkEntity(),
@@ -149,6 +156,14 @@ export class LinkServiceTestData {
         };
     }
 
+    getSimplePaginateEntityLinkListWithEmptyList(): IPaginateItem<LinkEntity> {
+        return {
+            itemList: [],
+            total: 0,
+            take: 10,
+        };
+    }
+
     getSimpleWithUndefinedItemListPaginateLinkList(): IPaginateItem<ILink> {
         return { total: 0, itemList: undefined, take: 10 };
     }
@@ -169,7 +184,15 @@ export class LinkServiceTestData {
         return new InternalServerError(ERROR_MESSAGE_UTIL.NOT_MATCH_PARAM_ID_BODY_ID);
     }
 
+    getInternalServerErrorNotDeleteLink(linkName: string): InternalServerError {
+        return new InternalServerError(ERROR_MESSAGE_LINK.COULD_NOT_DELETE_LINK(linkName));
+    }
+
     getUserId(): number {
         return 1;
+    }
+
+    getMessageError(): string {
+        return 'Test';
     }
 }

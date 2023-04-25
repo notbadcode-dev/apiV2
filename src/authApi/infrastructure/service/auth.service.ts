@@ -1,7 +1,8 @@
 import { ERROR_MESSAGE_PASSWORD } from '@constant/error-message/error-message-password.constant';
+import { UserEntity } from '@entity/user.entity';
 import { UnauthorizedError } from '@error/unauthorized.error';
 import { IAuthSignIn } from '@model/auth/auth-sign-in.model';
-import { IUserCreate } from '@model/user/user-create.model';
+import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
 import { UserRepository } from '@repository/user.repository';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { PasswordService } from '@service/password.service';
@@ -20,19 +21,19 @@ export class AuthService {
 
     @LoggerMethodDecorator
     public async signUp(userCreate: IUserCreate): Promise<boolean> {
-        const USER_CREATED = await this._userService.createUser(userCreate);
+        const USER_CREATED: IUserCreated = await this._userService.createUser(userCreate);
         return !!USER_CREATED;
     }
 
     @LoggerMethodDecorator
     public async signIn(authSignIn: IAuthSignIn): Promise<string> {
-        const USER_ENTITY = await this._userRepository.getByName(authSignIn.username, false);
+        const USER_ENTITY: UserEntity | null = await this._userRepository.getByName(authSignIn.username, false);
 
         if (!USER_ENTITY || !USER_ENTITY?.id) {
             throw new UnauthorizedError(ERROR_MESSAGE_PASSWORD.FAILED_TO_VERIFY_PASSWORD);
         }
 
-        const DECRYPTED_PASSWORD = await this._passwordService.verifyPassword(authSignIn.password, USER_ENTITY?.password);
+        const DECRYPTED_PASSWORD: boolean = await this._passwordService.verifyPassword(authSignIn.password, USER_ENTITY?.password);
 
         if (!DECRYPTED_PASSWORD) {
             throw new UnauthorizedError(ERROR_MESSAGE_PASSWORD.FAILED_TO_VERIFY_PASSWORD);

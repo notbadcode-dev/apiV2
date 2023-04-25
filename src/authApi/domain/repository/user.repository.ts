@@ -3,7 +3,7 @@ import { InternalServerError } from '@error/internal-server.error';
 import { NotFountError } from '@error/not-found.error';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { Inject, Service } from 'typedi';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, QueryRunner, Repository, UpdateResult } from 'typeorm';
 import { UserEntity } from '../entity/user.entity';
 import { UserUpdaterToUserEntityMapper } from '../mapper/user/userUpdateToUserEntity.mapper';
 import { IUserUpdater } from '../model/user/user-update.model';
@@ -22,11 +22,11 @@ export class UserRepository {
         NEW_USER.username = username;
         NEW_USER.password = password;
 
-        const QUERY_RUNNER = this._dataSource.createQueryRunner();
+        const QUERY_RUNNER: QueryRunner = this._dataSource.createQueryRunner();
         QUERY_RUNNER.connect();
         QUERY_RUNNER.startTransaction();
 
-        const SAVED_CREATED_USER = await QUERY_RUNNER.manager.save(NEW_USER);
+        const SAVED_CREATED_USER: UserEntity = await QUERY_RUNNER.manager.save(NEW_USER);
 
         if (!SAVED_CREATED_USER || !SAVED_CREATED_USER?.id) {
             await QUERY_RUNNER.rollbackTransaction();
@@ -44,11 +44,11 @@ export class UserRepository {
     public async update(userUpdate: IUserUpdater): Promise<UserEntity> {
         const USER_ENTITY: UserEntity = this._userUpdaterToUserEntityMapper.map(userUpdate);
 
-        const QUERY_RUNNER = this._dataSource.createQueryRunner();
+        const QUERY_RUNNER: QueryRunner = this._dataSource.createQueryRunner();
         QUERY_RUNNER.connect();
         QUERY_RUNNER.startTransaction();
 
-        const UPDATED_USER = await QUERY_RUNNER.manager.update(UserEntity, userUpdate.id, USER_ENTITY);
+        const UPDATED_USER: UpdateResult = await QUERY_RUNNER.manager.update(UserEntity, userUpdate.id, USER_ENTITY);
 
         if (!UPDATED_USER || !UPDATED_USER?.affected) {
             await QUERY_RUNNER.rollbackTransaction();
