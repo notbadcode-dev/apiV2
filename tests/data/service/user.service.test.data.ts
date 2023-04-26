@@ -8,7 +8,7 @@ import { IUserUpdater } from '@model/user/user-update.model';
 import { IUser } from '@model/user/user.model';
 
 export class UserServiceTestData {
-    getUserCreate(): IUserCreate {
+    public getUserCreate(): IUserCreate {
         return {
             username: this.getUsername(),
             password: this.getUserPassword(),
@@ -16,7 +16,7 @@ export class UserServiceTestData {
         };
     }
 
-    getUserEntity(): UserEntity {
+    public getUserEntity(): UserEntity {
         return {
             id: this.getUserId(),
             username: this.getUsername(),
@@ -25,7 +25,15 @@ export class UserServiceTestData {
         };
     }
 
-    getUserEntityList(): UserEntity[] {
+    public getUserEntityWithUserIdZero(): UserEntity {
+        return {
+            ...this.getUserEntity(),
+            id: 0,
+            hashPassword: () => Promise.resolve(),
+        };
+    }
+
+    public getUserEntityList(): UserEntity[] {
         const userEntityOne: UserEntity = this.getUserEntity();
         const userEntityTwo: UserEntity = {
             ...this.getUserEntity(),
@@ -36,7 +44,7 @@ export class UserServiceTestData {
         return [userEntityOne, userEntityTwo];
     }
 
-    getUser(): IUser {
+    public getUser(): IUser {
         return {
             id: this.getUserId(),
             username: this.getUsername(),
@@ -44,7 +52,7 @@ export class UserServiceTestData {
         };
     }
 
-    getUserList(): IUser[] {
+    public getUserList(): IUser[] {
         const userOne: IUser = this.getUser();
         const userTwo: IUser = {
             ...this.getUser(),
@@ -54,13 +62,13 @@ export class UserServiceTestData {
         return [userOne, userTwo];
     }
 
-    getUserCreated(): IUserCreated {
+    public getUserCreated(): IUserCreated {
         const userCreate: IUserCreate = this.getUserCreate();
 
         return { ...this.getUserEntity(), applicationId: userCreate.applicationId };
     }
 
-    getUserCreatedExpired(): IUserCreated {
+    public getUserCreatedExpired(): IUserCreated {
         const userCreated: IUserCreated = this.getUserCreated();
 
         return {
@@ -70,7 +78,7 @@ export class UserServiceTestData {
         };
     }
 
-    getUserUpdated(): IUserUpdater {
+    public getUserUpdated(): IUserUpdater {
         return {
             id: this.getUserId(),
             username: this.getUsername(),
@@ -78,12 +86,16 @@ export class UserServiceTestData {
         };
     }
 
-    getApplicationId(): number {
+    public getApplicationId(): number {
         return 1;
     }
 
-    public getUserIdForceError(): number {
-        return 2;
+    public getSuccessfullyCreated(): boolean {
+        return true;
+    }
+
+    public getNotSuccessfullyCreated(): boolean {
+        return false;
     }
 
     private getUserId(): number {

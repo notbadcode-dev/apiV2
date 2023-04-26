@@ -18,6 +18,5 @@ logs
 
 
 #Tests
-coverage
-coverage/clover.xml
-coverage/coverage-final.json
+coverage/*
+tests/report/*

@@ -54,6 +54,14 @@ export class LinkServiceTestData {
         };
     }
 
+    getLinkEntityList(): LinkEntity[] {
+        return new Array<LinkEntity>(this.getLinkEntity());
+    }
+
+    getLinkEntityEmptyList(): LinkEntity[] {
+        return new Array<LinkEntity>();
+    }
+
     getLinkEntityWithZeroId(): LinkEntity {
         return {
             ...this.getLinkEntity(),
@@ -79,6 +87,20 @@ export class LinkServiceTestData {
         return {
             ...this.getLink(),
             name: '',
+        };
+    }
+
+    getLinkWithInactive(): ILink {
+        return {
+            ...this.getLink(),
+            active: false,
+        };
+    }
+
+    getLinkWithUnfavorite(): ILink {
+        return {
+            ...this.getLink(),
+            favorite: false,
         };
     }
 

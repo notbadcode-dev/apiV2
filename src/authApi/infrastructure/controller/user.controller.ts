@@ -31,7 +31,7 @@ export class UserController {
 
     @Get('/')
     async getAllUsers(): Promise<IUser[]> {
-        const USER_LIST: IUser[] = await this.userService.getAllUsers();
+        const USER_LIST: IUser[] = await this.userService.getAllUserList();
         return USER_LIST;
     }
 }

@@ -12,10 +12,10 @@ module.exports = {
     coveragePathIgnorePatterns: [
         'app.*.ts',
         '.entity.ts',
-        '.repository.ts',
         '.error.ts',
         '.constant.ts',
-        '.decorator.ts'
+        '.decorator.ts',
+        '.model.ts',
     ],
     moduleNameMapper: {
         '^reflect-metadata$': '<rootDir>/node_modules/reflect-metadata/Reflect.js',
@@ -59,18 +59,18 @@ module.exports = {
             '<rootDir>/src/shared/error/$1',
         ],
         '^@app/(.*)$': ['<rootDir>/src/$1'],
-        '^@testData/(.*)$': ['<rootDir>/tests/data/$1',],
+        '^@testData/(.*)$': ['<rootDir>/tests/data/$1'],
     },
     reporters: [
-        "default",
+        'default',
         [
-            "jest-html-reporter", {
-                "pageTitle": "Test Report",
-                "outputPath": "tests/report/test_report.html",
-                "expand": true,
-                "openReport": true,
-                "dateFormat": "dd/mm/yyyy HH:MM"
-            }
-        ]
-    ]
+            'jest-html-reporter', {
+                'pageTitle': 'Test Report',
+                'outputPath': 'tests/report/test_report.html',
+                'expand': true,
+                'openReport': true,
+                'dateFormat': 'dd/mm/yyyy HH:MM',
+            },
+        ],
+    ],
 };

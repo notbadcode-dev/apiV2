@@ -128,41 +128,35 @@
 <a name='L63'></a><a href='#L63'>63</a>
 <a name='L64'></a><a href='#L64'>64</a>
 <a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -171,7 +165,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -204,23 +208,25 @@ import { GlobalUtilEnvService } from './global/global.util.env.service';
 @Service()
 export class TokenService {
     private static sessionSecret = GlobalUtilEnvService.getSessionSecret();
+&nbsp;
     private <span class="cstat-no" title="statement not covered" >sessionExpiresIn = GlobalUtilEnvService.getSessionExpiresIn();</span>
+&nbsp;
     private <span class="cstat-no" title="statement not covered" >currentUser: IUser | null = null;</span>
 &nbsp;
 <span class="fstat-no" title="function not covered" >    constructor(@I</span>nject() private <span class="cstat-no" title="statement not covered" >_userService: U</span>serService) {}
 &nbsp;
     @LoggerMethodDecorator
     public <span class="fstat-no" title="function not covered" >sign(</span>userId: number): string {
-        const sessionSecret = <span class="cstat-no" title="statement not covered" >GlobalUtilEnvService.getSessionSecret();</span>
-        const token = <span class="cstat-no" title="statement not covered" >jwt.sign({ userId }, sessionSecret, { expiresIn: this.sessionExpiresIn });</span>
-<span class="cstat-no" title="statement not covered" >        return token;</span>
+        const SESSION_SECRET = <span class="cstat-no" title="statement not covered" >GlobalUtilEnvService.getSessionSecret();</span>
+        const TOKEN = <span class="cstat-no" title="statement not covered" >jwt.sign({ userId }, SESSION_SECRET, { expiresIn: this.sessionExpiresIn });</span>
+<span class="cstat-no" title="statement not covered" >        return TOKEN;</span>
     }
 &nbsp;
     @LoggerMethodDecorator
     public <span class="fstat-no" title="function not covered" >static </span>verify(token: string): number | null {
 <span class="cstat-no" title="statement not covered" >        try {</span>
-            const decoded = <span class="cstat-no" title="statement not covered" >jwt.verify(token, this.sessionSecret) as { userId: number };</span>
-<span class="cstat-no" title="statement not covered" >            return decoded.userId;</span>
+            const DECODED = <span class="cstat-no" title="statement not covered" >jwt.verify(token, this.sessionSecret) as { userId: number };</span>
+<span class="cstat-no" title="statement not covered" >            return DECODED.userId;</span>
         } catch {
 <span class="cstat-no" title="statement not covered" >            throw new UnauthorizedError();</span>
         }
@@ -229,8 +235,8 @@ export class TokenService {
     @LoggerMethodDecorator
     public <span class="fstat-no" title="function not covered" >decode(</span>token: string): { userId: number } | null {
 <span class="cstat-no" title="statement not covered" >        try {</span>
-            const decoded = <span class="cstat-no" title="statement not covered" >jwt.decode(token) as { userId: number };</span>
-<span class="cstat-no" title="statement not covered" >            return decoded;</span>
+            const DECODED = <span class="cstat-no" title="statement not covered" >jwt.decode(token) as { userId: number };</span>
+<span class="cstat-no" title="statement not covered" >            return DECODED;</span>
         } catch {
 <span class="cstat-no" title="statement not covered" >            return null;</span>
         }
@@ -238,12 +244,12 @@ export class TokenService {
 &nbsp;
     @LoggerMethodDecorator
     public <span class="fstat-no" title="function not covered" >refresh(</span>token: string): string | null {
-        const decoded = <span class="cstat-no" title="statement not covered" >this.decode(token);</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!decoded) {</span>
+        const DECODED = <span class="cstat-no" title="statement not covered" >this.decode(token);</span>
+<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!DECODED) {</span>
 <span class="cstat-no" title="statement not covered" >            return null;</span>
         }
-        const newToken = <span class="cstat-no" title="statement not covered" >this.sign(decoded.userId);</span>
-<span class="cstat-no" title="statement not covered" >        return newToken;</span>
+        const NEW_TOKEN = <span class="cstat-no" title="statement not covered" >this.sign(DECODED.userId);</span>
+<span class="cstat-no" title="statement not covered" >        return NEW_TOKEN;</span>
     }
 &nbsp;
     public <span class="fstat-no" title="function not covered" >async </span>setCurrentUser(userId: number): Promise&lt;void&gt; {
@@ -265,7 +271,7 @@ export class TokenService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-23T10:42:01.267Z
+                at 2023-04-26T23:38:16.968Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

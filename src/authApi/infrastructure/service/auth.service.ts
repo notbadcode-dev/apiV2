@@ -1,4 +1,5 @@
 import { ERROR_MESSAGE_PASSWORD } from '@constant/error-message/error-message-password.constant';
+import { ERROR_MESSAGE_USER } from '@constant/error-message/error-message-user.constant';
 import { UserEntity } from '@entity/user.entity';
 import { UnauthorizedError } from '@error/unauthorized.error';
 import { IAuthSignIn } from '@model/auth/auth-sign-in.model';
@@ -22,7 +23,8 @@ export class AuthService {
     @LoggerMethodDecorator
     public async signUp(userCreate: IUserCreate): Promise<boolean> {
         const USER_CREATED: IUserCreated = await this._userService.createUser(userCreate);
-        return !!USER_CREATED;
+        const SUCCESSFULLY_CREATED = !!USER_CREATED;
+        return SUCCESSFULLY_CREATED;
     }
 
     @LoggerMethodDecorator
@@ -30,7 +32,7 @@ export class AuthService {
         const USER_ENTITY: UserEntity | null = await this._userRepository.getByName(authSignIn.username, false);
 
         if (!USER_ENTITY || !USER_ENTITY?.id) {
-            throw new UnauthorizedError(ERROR_MESSAGE_PASSWORD.FAILED_TO_VERIFY_PASSWORD);
+            throw new UnauthorizedError(ERROR_MESSAGE_USER.USER_WITH_USERNAME_NOT_FOUND(authSignIn.username));
         }
 
         const DECRYPTED_PASSWORD: boolean = await this._passwordService.verifyPassword(authSignIn.password, USER_ENTITY?.password);

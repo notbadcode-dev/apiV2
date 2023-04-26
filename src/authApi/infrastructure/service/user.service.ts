@@ -59,11 +59,12 @@ export class UserService {
         await this.controlExistsUser(userId);
 
         const USER_ENTITY: UserEntity = await this._userRepository.getById(userId);
-        return this._userEntityToUserMapper.map(USER_ENTITY);
+        const USER: IUser = this._userEntityToUserMapper.map(USER_ENTITY);
+        return USER;
     }
 
     @LoggerMethodDecorator
-    public async getAllUsers(): Promise<IUser[]> {
+    public async getAllUserList(): Promise<IUser[]> {
         const USER_ENTITY_LIST: UserEntity[] = await this._userRepository.getAll();
         const USER_LIST: IUser[] = this._userEntityToUserMapper.mapList(USER_ENTITY_LIST);
         return USER_LIST;

@@ -1,3 +1,4 @@
+import { CriticalServerError } from '@error/critical-server.error';
 import { IEnvironment } from '@model/environment/environment';
 import { Service } from 'typedi';
 
@@ -40,13 +41,13 @@ export class GlobalUtilEnvService {
 
     private static getStringEnvironmentVariable(variable?: string): string {
         if (!variable) {
-            throw new Error(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
+            throw new CriticalServerError(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
         }
 
         const STRING_ENVIRONMENT_VARIABLE: string = variable || '';
 
         if (!STRING_ENVIRONMENT_VARIABLE.length) {
-            throw new Error(ERROR_MESSAGE_API.NOT_DEFINED_DOT_ENV_VARIABLE(variable));
+            throw new CriticalServerError(ERROR_MESSAGE_API.NOT_DEFINED_DOT_ENV_VARIABLE(variable));
         }
 
         return STRING_ENVIRONMENT_VARIABLE;
