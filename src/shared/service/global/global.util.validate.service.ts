@@ -1,8 +1,9 @@
 import { ERROR_MESSAGE_UTIL } from '@constant/error-message/error-message-util.constant';
 import { InternalServerError } from '@error/internal-server.error';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
+import { GlobalUtilNumberService } from '@service/global/global.util.number.service';
+import 'reflect-metadata';
 import { Inject, Service } from 'typedi';
-import { GlobalUtilNumberService } from './global.util.number.service';
 
 @Service()
 export class GlobalUtilValidateService {

@@ -16,6 +16,10 @@ module.exports = {
         '.constant.ts',
         '.decorator.ts',
         '.model.ts',
+        '.test.ts',
+        '.test.data.ts',
+        '.enum.ts',
+        '.repository.ts',
     ],
     moduleNameMapper: {
         '^reflect-metadata$': '<rootDir>/node_modules/reflect-metadata/Reflect.js',
