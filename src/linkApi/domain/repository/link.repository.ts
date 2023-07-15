@@ -1,8 +1,8 @@
+import { LinkToLinkEntityMapper } from '@app/linkApi/infrastructure/mapper/link/linkToLinkEntity.mapper';
 import { ERROR_MESSAGE_LINK } from '@constant/error-message/error-message-link.constant';
 import { PAGINATE } from '@constant/paginate.constant';
 import { InternalServerError } from '@error/internal-server.error';
 import { NotFountError } from '@error/not-found.error';
-import { LinkToLinkEntityMapper } from '@mapper/link/linkToLinkEntity.mapper';
 import { ILink } from '@model/link/link.model';
 import {
     IPaginateCalculateRequest,

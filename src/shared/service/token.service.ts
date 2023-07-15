@@ -1,5 +1,5 @@
+import { UserService } from '@app/authApi/application/service/user.service';
 import { IUser } from '@model/user/user.model';
-import { UserService } from '@service/user.service';
 import jwt from 'jsonwebtoken';
 import { UnauthorizedError } from 'routing-controllers';
 import { Inject, Service } from 'typedi';

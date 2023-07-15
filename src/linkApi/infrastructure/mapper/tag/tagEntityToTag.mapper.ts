@@ -1,6 +1,6 @@
 import { TagEntity } from '@entity/tag.entity';
 import { Service } from 'typedi';
-import { ITag } from '../../model/tag/tag.model';
+import { ITag } from '../../../domain/model/tag/tag.model';
 
 @Service()
 export class TagEntityToTagMapper {

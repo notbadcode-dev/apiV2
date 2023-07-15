@@ -4,8 +4,8 @@ import { NotFountError } from '@error/not-found.error';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { Inject, Service } from 'typedi';
 import { DataSource, QueryRunner, Repository, UpdateResult } from 'typeorm';
+import { UserUpdaterToUserEntityMapper } from '../../infrastructure/mapper/user/userUpdateToUserEntity.mapper';
 import { UserEntity } from '../entity/user.entity';
-import { UserUpdaterToUserEntityMapper } from '../mapper/user/userUpdateToUserEntity.mapper';
 import { IUserUpdater } from '../model/user/user-update.model';
 
 @Service()

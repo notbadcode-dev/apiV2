@@ -1,6 +1,6 @@
 export const INJECTED_DEPENDENCY = {
     MIDDLEWARE_PATH: '/**/*.middleware{.js,.ts}',
 
-    AUTH_PATH: '/**/authApi/infrastructure/controller/*.controller{.js,.ts}',
-    LINK_PATH: '/**/linkApi/infrastructure/controller/*.controller{.js,.ts}',
+    AUTH_PATH: '/**/authApi/application/controller/*.controller{.js,.ts}',
+    LINK_PATH: '/**/linkApi/application/controller/*.controller{.js,.ts}',
 };

@@ -1,13 +1,13 @@
 import 'reflect-metadata';
 
+import { LinkGroupRelationEntityToLinkGroupMapper } from '@app/linkApi/infrastructure/mapper/link-group-relation/linkGroupRelationEntityToLinkGroup.mapper';
+import { LinkGroupEntityToLinkGroupMapper } from '@app/linkApi/infrastructure/mapper/link-group/linkGroupEntityToLinkGroup.mapper';
+import { LinkTagEntityToTagEntityMapper } from '@app/linkApi/infrastructure/mapper/link-tag/linkTagEntityToTagEntity.mapper';
+import { TagEntityToTagMapper } from '@app/linkApi/infrastructure/mapper/tag/tagEntityToTag.mapper';
 import { LinkGroupEntity } from '@entity/link-group.entity';
 import { LinkOrderEntity } from '@entity/link-order.entity';
 import { LinkEntity } from '@entity/link.entity';
 import { TagEntity } from '@entity/tag.entity';
-import { LinkGroupRelationEntityToLinkGroupMapper } from '@mapper/link-group-relation/linkGroupRelationEntityToLinkGroup.mapper';
-import { LinkGroupEntityToLinkGroupMapper } from '@mapper/link-group/linkGroupEntityToLinkGroup.mapper';
-import { LinkTagEntityToTagEntityMapper } from '@mapper/link-tag/linkTagEntityToTagEntity.mapper';
-import { TagEntityToTagMapper } from '@mapper/tag/tagEntityToTag.mapper';
 import { ILinkGroup } from '@model/group/group-link.model';
 import { ILink } from '@model/link/link.model';
 import { Inject, Service } from 'typedi';

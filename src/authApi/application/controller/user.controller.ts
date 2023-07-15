@@ -4,7 +4,7 @@ import { IUser } from '@model/user/user.model';
 import { Body, Get, JsonController, Param, Post, Put } from 'routing-controllers';
 import { Inject, Service } from 'typedi';
 
-import { UserService } from '@service/user.service';
+import { UserService } from '@app/authApi/application/service/user.service';
 
 @Service()
 @JsonController('/user')

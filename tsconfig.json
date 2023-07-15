@@ -17,14 +17,14 @@
         "strictPropertyInitialization": true,
         "paths": {
             "@constant/*": ["src/shared/constant/*"],
-            "@service/*": ["src/shared/service/*", "src/authApi/infrastructure/service/*", "src/linkApi/infrastructure/service/*"],
+            "@service/*": ["src/shared/service/*", "src/authApi/application/service/*", "src/linkApi/infrastructure/service/*"],
             "@middleware/*": ["src/shared/service/middleware/*"],
             "@entity/*": ["src/shared/entity/*", "src/authApi/domain/entity/*", "src/linkApi/domain/entity/*"],
             "@model/*": ["src/shared/model/*", "src/authApi/domain/model/*", "src/linkApi/domain/model/*"],
             "@repository/*": ["src/authApi/domain/repository/*", "src/linkApi/domain/repository/*"],
             "@decorator/*": ["src/shared/service/decorator/*"],
             "@database/*": ["src/shared/database/*"],
-            "@mapper/*": ["src/authApi/domain/mapper/*", "src/linkApi/domain/mapper/*"],
+            "@mapper/*": ["src/authApi/infrastructure/mapper/*", "src/linkApi/infrastructure/mapper/*"],
             "@error/*": ["src/shared/error/*"],
             "@app/*": ["src/*"],
             "@testData/*": ["tests/data/*"]

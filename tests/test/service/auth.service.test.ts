@@ -1,12 +1,12 @@
+import { AuthService } from '@app/authApi/application/service/auth.service';
+import { UserService } from '@app/authApi/application/service/user.service';
 import { UserEntity } from '@entity/user.entity';
 import { UnauthorizedError } from '@error/unauthorized.error';
 import { IAuthSignIn } from '@model/auth/auth-sign-in.model';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
 import { UserRepository } from '@repository/user.repository';
-import { AuthService } from '@service/auth.service';
 import { PasswordService } from '@service/password.service';
 import { TokenService } from '@service/token.service';
-import { UserService } from '@service/user.service';
 import { AuthServiceTestData } from '@testData/service/auth.service.test.data';
 import { UserServiceTestData } from '@testData/service/user.service.test.data';
 import { anyString, anything, instance, mock, when } from 'ts-mockito';
