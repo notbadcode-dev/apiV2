@@ -38,6 +38,9 @@
             "could_not_associate_application_and_user": "No se pudo asociar la aplicación {0} y el usuario con el nombre de usuario {1}."
         },
         "user": {
+            "invalid_application_id": "El ID de la aplicación no puede ser nulo o menor que 0.",
+            "empty_username": "El nombre de usuario no puede estar vacío.",
+            "empty_password": "La contraseña no puede estar vacío.",
             "already_exist_user_same_password": "Ya existe un usuario con el mismo nombre de usuario.'",
             "could_not_created_user_with_username": "No se pudo crear el usuario con el nombre de usuario: {0}.",
             "user_with_id_not_found": "No se encontró el usuario con la identificación: {0}.",

@@ -36,6 +36,46 @@ describe('createUser', () => {
     const USER_CREATE: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreate();
     const APPLICATION_ID: number = USER_SERVICE_TEST_DATA.getApplicationId();
 
+    it('Should throw an ArgumentError when application id is null', async () => {
+        // Arrange
+        const USER_CREATED_WITH_APPLICATION_ID_NULL: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreatedWithApplicationIdIsNull();
+
+        // Act & Assert
+        await expect(userService.createUser(USER_CREATED_WITH_APPLICATION_ID_NULL)).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getArgumentErrorInvalidApplicationId()
+        );
+    });
+
+    it('Should throw an ArgumentError when application id is zero', async () => {
+        // Arrange
+        const USER_CREATED_WITH_APPLICATION_ID_ZERO: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreatedWithApplicationIdIsZero();
+
+        // Act & Assert
+        await expect(userService.createUser(USER_CREATED_WITH_APPLICATION_ID_ZERO)).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getArgumentErrorInvalidApplicationId()
+        );
+    });
+
+    it('Should throw an ArgumentError when username is empty', async () => {
+        // Arrange
+        const USER_CREATED_WITH_USERNAME_IS_EMPTY: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreatedWithUsernameIsEmpty();
+
+        // Act & Assert
+        await expect(userService.createUser(USER_CREATED_WITH_USERNAME_IS_EMPTY)).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getArgumentErrorInvalidUsernameCannotBeEmpty()
+        );
+    });
+
+    it('Should throw an ArgumentError when password is empty', async () => {
+        // Arrange
+        const USER_CREATED_WITH_PASSWORD_IS_EMPTY: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreatedWithPasswordIsEmpty();
+
+        // Act & Assert
+        await expect(userService.createUser(USER_CREATED_WITH_PASSWORD_IS_EMPTY)).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getArgumentErrorInvalidPasswordCannotBeEmpty()
+        );
+    });
+
     it('Should throw AlreadyExistsError when username already exists', async () => {
         // Arrange
         const ALREADY_EXISTS_ERROR: AlreadyExistsError = USER_SERVICE_TEST_DATA.getAlreadyExistsErrorSameUsername();

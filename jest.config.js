@@ -29,8 +29,12 @@ module.exports = {
         ],
         '^@service/(.*)$': [
             '<rootDir>/src/shared/service/$1',
-            '<rootDir>/src/authApi/infrastructure/service/$1',
-            '<rootDir>/src/linkApi/infrastructure/service/$1',
+            '<rootDir>/src/authApi/application/service/$1',
+            '<rootDir>/src/linkApi/application/service/$1',
+        ],
+        '^@interface/(.*)$': [
+            '<rootDir>/src/authApi/application/interface/$1',
+            '<rootDir>/src/linkApi/application/interface/$1',
         ],
         '^@middleware/(.*)$': [
             '<rootDir>/src/shared/service/middleware/$1',
@@ -56,8 +60,8 @@ module.exports = {
             '<rootDir>/src/shared/database/$1',
         ],
         '^@mapper/(.*)$': [
-            '<rootDir>/src/authApi/domain/mapper/$1',
-            '<rootDir>/src/linkApi/domain/mapper/$1',
+            '<rootDir>/src/authApi/infrastructure/mapper/$1',
+            '<rootDir>/src/linkApi/infrastructure/mapper/$1',
         ],
         '^@error/(.*)$': [
             '<rootDir>/src/shared/error/$1',

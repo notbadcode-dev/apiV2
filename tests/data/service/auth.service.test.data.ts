@@ -11,31 +11,31 @@ export class AuthServiceTestData {
         return userServiceTestData.getUserCreate();
     }
 
-    getToken(): string {
+    public getToken(): string {
         return 'testToken';
     }
 
-    getControlExists(): boolean {
+    public getControlExists(): boolean {
         return true;
     }
 
-    getNotControlExists(): boolean {
+    public getNotControlExists(): boolean {
         return false;
     }
 
-    getVerifyPassword(): boolean {
+    public getVerifyPassword(): boolean {
         return true;
     }
 
-    getNotVerifyPassword(): boolean {
+    public getNotVerifyPassword(): boolean {
         return false;
     }
 
-    getUnauthorizedErrorNotGetUserEntity(userName: string): UnauthorizedError {
+    public getUnauthorizedErrorNotGetUserEntity(userName: string): UnauthorizedError {
         return new UnauthorizedError(ERROR_MESSAGE_USER.USER_WITH_USERNAME_NOT_FOUND(userName));
     }
 
-    getUnauthorizedErrorNotVerifyPassword(): UnauthorizedError {
+    public getUnauthorizedErrorNotVerifyPassword(): UnauthorizedError {
         return new UnauthorizedError(ERROR_MESSAGE_PASSWORD.FAILED_TO_VERIFY_PASSWORD);
     }
 }

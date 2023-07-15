@@ -15,6 +15,7 @@ import { UserRepository } from '@repository/user.repository';
 import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
 import { Inject, Service } from 'typedi';
 
+import { ArgumentError } from '@error/argument.error';
 import { ApplicationEntity } from '../../domain/entity/application.entity';
 import { IUser } from '../../domain/model/user/user.model';
 
@@ -31,6 +32,8 @@ export class UserService {
 
     @LoggerMethodDecorator
     public async createUser(createUser: IUserCreate): Promise<IUserCreated> {
+        this.validateArgumentOnCreateUser(createUser);
+
         await this.controlExistsApplication(createUser.applicationId);
         await this.controlDuplicateUserWithUsername(createUser.username);
 
@@ -68,6 +71,35 @@ export class UserService {
         const USER_ENTITY_LIST: UserEntity[] = await this._userRepository.getAll();
         const USER_LIST: IUser[] = this._userEntityToUserMapper.mapList(USER_ENTITY_LIST);
         return USER_LIST;
+    }
+
+    private validateArgumentOnCreateUser(createUser: IUserCreate): void {
+        this.validateApplicationId(createUser?.applicationId ?? null);
+        this.validateUsername(createUser?.username ?? '');
+        this.validatePassword(createUser?.password ?? '');
+    }
+
+    private validateArgumentOnUpdateUser(userUpdate: IUserUpdater): void {
+        this.validateApplicationId(userUpdate?.applicationId ?? null);
+        this.validateUsername(userUpdate?.username ?? '');
+    }
+
+    private validateApplicationId(applicationId?: number | null): void {
+        if (!applicationId || applicationId <= 0) {
+            throw new ArgumentError(ERROR_MESSAGE_USER.INVALID_APPLICATION_ID);
+        }
+    }
+
+    private validateUsername(username: string): void {
+        if (!username?.length) {
+            throw new ArgumentError(ERROR_MESSAGE_USER.USERNAME_CANNOT_BE_EMPTY);
+        }
+    }
+
+    private validatePassword(password: string): void {
+        if (!password?.length) {
+            throw new ArgumentError(ERROR_MESSAGE_USER.PASSWORD_CANNOT_BE_EMPTY);
+        }
     }
 
     @LoggerMethodDecorator

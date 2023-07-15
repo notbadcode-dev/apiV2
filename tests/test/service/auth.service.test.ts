@@ -2,6 +2,7 @@ import { AuthService } from '@app/authApi/application/service/auth.service';
 import { UserService } from '@app/authApi/application/service/user.service';
 import { UserEntity } from '@entity/user.entity';
 import { UnauthorizedError } from '@error/unauthorized.error';
+import { IAuthService } from '@interface/auth.service.interface';
 import { IAuthSignIn } from '@model/auth/auth-sign-in.model';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
 import { UserRepository } from '@repository/user.repository';
@@ -14,7 +15,7 @@ import { anyString, anything, instance, mock, when } from 'ts-mockito';
 const USER_SERVICE_TEST_DATA: UserServiceTestData = new UserServiceTestData();
 const AUTH_SERVICE_TEST_DATA: AuthServiceTestData = new AuthServiceTestData();
 
-let authService: AuthService;
+let authService: IAuthService;
 let userServiceMock: UserService;
 let userRepositoryMock: UserRepository;
 let passwordServiceMock: PasswordService;
@@ -27,6 +28,46 @@ beforeEach(() => {
 
 describe('signUp', () => {
     const USER_CREATE: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreate();
+
+    it('Should throw an ArgumentError when application id is null', async () => {
+        // Arrange
+        const USER_CREATED_WITH_APPLICATION_ID_NULL: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreatedWithApplicationIdIsNull();
+
+        // Act & Assert
+        await expect(authService.signUp(USER_CREATED_WITH_APPLICATION_ID_NULL)).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getArgumentErrorInvalidApplicationId()
+        );
+    });
+
+    it('Should throw an ArgumentError when application id is zero', async () => {
+        // Arrange
+        const USER_CREATED_WITH_APPLICATION_ID_ZERO: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreatedWithApplicationIdIsZero();
+
+        // Act & Assert
+        await expect(authService.signUp(USER_CREATED_WITH_APPLICATION_ID_ZERO)).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getArgumentErrorInvalidApplicationId()
+        );
+    });
+
+    it('Should throw an ArgumentError when username is empty', async () => {
+        // Arrange
+        const USER_CREATED_WITH_USERNAME_IS_EMPTY: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreatedWithUsernameIsEmpty();
+
+        // Act & Assert
+        await expect(authService.signUp(USER_CREATED_WITH_USERNAME_IS_EMPTY)).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getArgumentErrorInvalidUsernameCannotBeEmpty()
+        );
+    });
+
+    it('Should throw an ArgumentError when password is empty', async () => {
+        // Arrange
+        const USER_CREATED_WITH_PASSWORD_IS_EMPTY: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreatedWithPasswordIsEmpty();
+
+        // Act & Assert
+        await expect(authService.signUp(USER_CREATED_WITH_PASSWORD_IS_EMPTY)).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getArgumentErrorInvalidPasswordCannotBeEmpty()
+        );
+    });
 
     it('Should return true when user create is successful', async () => {
         // Arrange
@@ -61,6 +102,46 @@ describe('signIn', () => {
     const USER_ENTITY: UserEntity = USER_SERVICE_TEST_DATA.getUserEntity();
     const NOT_CONTROL_EXISTS_USER: boolean = AUTH_SERVICE_TEST_DATA.getNotControlExists();
     const USER_ID_UNAUTHORIZED_ERROR: UnauthorizedError = AUTH_SERVICE_TEST_DATA.getUnauthorizedErrorNotGetUserEntity(USER_ENTITY.username);
+
+    it('Should throw an ArgumentError when application id is null', async () => {
+        // Arrange
+        const USER_CREATED_WITH_APPLICATION_ID_NULL: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreatedWithApplicationIdIsNull();
+
+        // Act & Assert
+        await expect(authService.signIn(USER_CREATED_WITH_APPLICATION_ID_NULL)).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getArgumentErrorInvalidApplicationId()
+        );
+    });
+
+    it('Should throw an ArgumentError when application id is zero', async () => {
+        // Arrange
+        const USER_CREATED_WITH_APPLICATION_ID_ZERO: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreatedWithApplicationIdIsZero();
+
+        // Act & Assert
+        await expect(authService.signIn(USER_CREATED_WITH_APPLICATION_ID_ZERO)).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getArgumentErrorInvalidApplicationId()
+        );
+    });
+
+    it('Should throw an ArgumentError when username is empty', async () => {
+        // Arrange
+        const USER_CREATED_WITH_USERNAME_IS_EMPTY: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreatedWithUsernameIsEmpty();
+
+        // Act & Assert
+        await expect(authService.signIn(USER_CREATED_WITH_USERNAME_IS_EMPTY)).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getArgumentErrorInvalidUsernameCannotBeEmpty()
+        );
+    });
+
+    it('Should throw an ArgumentError when password is empty', async () => {
+        // Arrange
+        const USER_CREATED_WITH_PASSWORD_IS_EMPTY: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreatedWithPasswordIsEmpty();
+
+        // Act & Assert
+        await expect(authService.signIn(USER_CREATED_WITH_PASSWORD_IS_EMPTY)).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getArgumentErrorInvalidPasswordCannotBeEmpty()
+        );
+    });
 
     it('Should throw an UnauthorizedError when user is not found', async () => {
         // Arrange

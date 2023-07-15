@@ -1,18 +1,22 @@
 import { ERROR_MESSAGE_PASSWORD } from '@constant/error-message/error-message-password.constant';
 import { ERROR_MESSAGE_USER } from '@constant/error-message/error-message-user.constant';
 import { UserEntity } from '@entity/user.entity';
+import { ArgumentError } from '@error/argument.error';
 import { UnauthorizedError } from '@error/unauthorized.error';
+import { IAuthService } from '@interface/auth.service.interface';
 import { IAuthSignIn } from '@model/auth/auth-sign-in.model';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
 import { UserRepository } from '@repository/user.repository';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { PasswordService } from '@service/password.service';
 import { TokenService } from '@service/token.service';
-import { Inject, Service } from 'typedi';
-import { UserService } from './user.service';
+import { UserService } from '@service/user.service';
+import { Inject, Service, Token } from 'typedi';
 
-@Service()
-export class AuthService {
+export const AuthServiceToken = new Token<IAuthService>('AuthService');
+
+@Service(AuthServiceToken)
+export class AuthService implements IAuthService {
     constructor(
         @Inject() private _userService: UserService,
         @Inject() private _userRepository: UserRepository,
@@ -22,6 +26,8 @@ export class AuthService {
 
     @LoggerMethodDecorator
     public async signUp(userCreate: IUserCreate): Promise<boolean> {
+        this.validateArgumentsOnSignUp(userCreate);
+
         const USER_CREATED: IUserCreated = await this._userService.createUser(userCreate);
         const SUCCESSFULLY_CREATED = !!USER_CREATED;
         return SUCCESSFULLY_CREATED;
@@ -29,6 +35,8 @@ export class AuthService {
 
     @LoggerMethodDecorator
     public async signIn(authSignIn: IAuthSignIn): Promise<string> {
+        this.validateArgumentsOnSignIn(authSignIn);
+
         const USER_ENTITY: UserEntity | null = await this._userRepository.getByName(authSignIn.username, false);
 
         if (!USER_ENTITY || !USER_ENTITY?.id) {
@@ -44,5 +52,35 @@ export class AuthService {
         const TOKEN = this._tokenService.sign(USER_ENTITY?.id);
 
         return TOKEN;
+    }
+
+    private validateArgumentsOnSignUp(createUser: IUserCreate): void {
+        this.validateApplicationId(createUser?.applicationId ?? null);
+        this.validateUsername(createUser?.username ?? '');
+        this.validatePassword(createUser?.password ?? '');
+    }
+
+    private validateArgumentsOnSignIn(authSignIn: IAuthSignIn): void {
+        this.validateApplicationId(authSignIn?.applicationId ?? null);
+        this.validateUsername(authSignIn?.username ?? '');
+        this.validatePassword(authSignIn?.password ?? '');
+    }
+
+    private validateApplicationId(applicationId?: number | null): void {
+        if (!applicationId || applicationId <= 0) {
+            throw new ArgumentError(ERROR_MESSAGE_USER.INVALID_APPLICATION_ID);
+        }
+    }
+
+    private validateUsername(username: string): void {
+        if (!username?.length) {
+            throw new ArgumentError(ERROR_MESSAGE_USER.USERNAME_CANNOT_BE_EMPTY);
+        }
+    }
+
+    private validatePassword(password: string): void {
+        if (!password?.length) {
+            throw new ArgumentError(ERROR_MESSAGE_USER.PASSWORD_CANNOT_BE_EMPTY);
+        }
     }
 }
