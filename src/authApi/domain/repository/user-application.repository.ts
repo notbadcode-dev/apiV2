@@ -1,18 +1,20 @@
-// eslint-disable-next-line hexagonal-architecture/enforce
+/* eslint-disable hexagonal-architecture/enforce */
 import { ERROR_MESSAGE_APPLICATION } from '@constant/error-message/error-message-application.constant';
-import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
-import { Inject, Service } from 'typedi';
+import { LoggerMethodDecorator } from '@decorator/logger-method.decorator';
+import { ApplicationEntity } from '@entity/application.entity';
+import { UserApplicationEntity } from '@entity/user-application.entity';
+import { UserEntity } from '@entity/user.entity';
+import { IUserApplicationRepository } from '@interface/user-application.repository.interface';
+import { Inject, Service, Token } from 'typedi';
 import { Repository } from 'typeorm';
-// eslint-disable-next-line hexagonal-architecture/enforce
-import { ApplicationEntity } from '../entity/application.entity';
-// eslint-disable-next-line hexagonal-architecture/enforce
-import { UserApplicationEntity } from '../entity/user-application.entity';
-import { UserEntity } from '../entity/user.entity';
 
-@Service()
-export class UserApplicationRepository {
+export const USER_APPLICATION_REPOSITORY_TOKEN = new Token<IUserApplicationRepository>('UserApplicationRepository');
+const USER_APPLICATION_ENTITY_REPOSITORY_TOKEN = UserApplicationEntity.name;
+
+@Service(USER_APPLICATION_REPOSITORY_TOKEN)
+export class UserApplicationRepository implements IUserApplicationRepository {
     constructor(
-        @Inject(UserApplicationEntity.name)
+        @Inject(USER_APPLICATION_ENTITY_REPOSITORY_TOKEN)
         private _userApplicationRepository: Repository<UserApplicationEntity>
     ) {}
 
