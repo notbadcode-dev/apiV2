@@ -1,9 +1,10 @@
+import { IGroupLinkService } from '@interface/group-link.service.interface';
 import { JsonController } from 'routing-controllers';
 import { Inject, Service } from 'typedi';
-import { GroupLinkService } from '../service/group-link.service';
+import { GROUP_LINK_SERVICE_TOKEN } from '../service/group-link.service';
 
 @Service()
 @JsonController('/group-link')
 export class UserController {
-    constructor(@Inject() private groupLinkService: GroupLinkService) {}
+    constructor(@Inject(GROUP_LINK_SERVICE_TOKEN) private _groupLinkService: IGroupLinkService) {}
 }

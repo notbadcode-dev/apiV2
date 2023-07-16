@@ -1,4 +1,7 @@
-import { Service } from 'typedi';
+import { ITagService } from '@interface/tag.service.interface';
+import { Service, Token } from 'typedi';
 
-@Service()
-export class TagService {}
+export const TAG_SERVICE_TOKEN = new Token<ITagService>('TagService');
+
+@Service(TAG_SERVICE_TOKEN)
+export class TagService implements ITagService {}
