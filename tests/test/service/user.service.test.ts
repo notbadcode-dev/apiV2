@@ -4,6 +4,7 @@ import { UserEntityToUserCreatedMapper } from '@app/authApi/infrastructure/mappe
 import { UserEntity } from '@entity/user.entity';
 import { AlreadyExistsError } from '@error/already-exists.error';
 import { NotFountError } from '@error/not-found.error';
+import { IUserService } from '@interface/user.service.interface';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
 import { IUserUpdater } from '@model/user/user-update.model';
 import { IUser } from '@model/user/user.model';
@@ -16,7 +17,7 @@ import { anyNumber, anyString, anything, instance, mock, when } from 'ts-mockito
 
 const USER_SERVICE_TEST_DATA: UserServiceTestData = new UserServiceTestData();
 
-let userService: UserService;
+let userService: IUserService;
 let userRepositoryMock: UserRepository;
 let applicationRepositoryMock: ApplicationRepository;
 let userApplicationRepositoryMock: UserApplicationRepository;
@@ -134,6 +135,56 @@ describe('createUser', () => {
 describe('updateUser', () => {
     const USER_UPDATE: IUserUpdater = USER_SERVICE_TEST_DATA.getUserUpdated();
 
+    it('Should throw an ArgumentError when application id is null', async () => {
+        // Arrange
+        const USER_CREATED_WITH_APPLICATION_ID_NULL: IUser = USER_SERVICE_TEST_DATA.getUserWithApplicationIdIsNull();
+
+        // Act & Assert
+        await expect(
+            userService.updateUser(USER_CREATED_WITH_APPLICATION_ID_NULL.id, USER_CREATED_WITH_APPLICATION_ID_NULL)
+        ).rejects.toThrow(USER_SERVICE_TEST_DATA.getArgumentErrorInvalidApplicationId());
+    });
+
+    it('Should throw an ArgumentError when application id is zero', async () => {
+        // Arrange
+        const USER_CREATED_WITH_APPLICATION_ID_ZERO: IUser = USER_SERVICE_TEST_DATA.getUserWithApplicationIdIsZero();
+
+        // Act & Assert
+        await expect(
+            userService.updateUser(USER_CREATED_WITH_APPLICATION_ID_ZERO.id, USER_CREATED_WITH_APPLICATION_ID_ZERO)
+        ).rejects.toThrow(USER_SERVICE_TEST_DATA.getArgumentErrorInvalidApplicationId());
+    });
+
+    it('Should throw an ArgumentError when user id is null', async () => {
+        // Arrange
+        const USER_CREATED_WITH_USER_ID_NULL: IUser = USER_SERVICE_TEST_DATA.getUserWithUserIdIsNull();
+
+        // Act & Assert
+        await expect(userService.updateUser(USER_CREATED_WITH_USER_ID_NULL.id, USER_CREATED_WITH_USER_ID_NULL)).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getArgumentErrorInvalidUserId()
+        );
+    });
+
+    it('Should throw an ArgumentError when user id is zero', async () => {
+        // Arrange
+        const USER_CREATED_WITH_USER_ID_ZERO: IUser = USER_SERVICE_TEST_DATA.getUserWithUserIdIsZero();
+
+        // Act & Assert
+        await expect(userService.updateUser(USER_CREATED_WITH_USER_ID_ZERO.id, USER_CREATED_WITH_USER_ID_ZERO)).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getArgumentErrorInvalidUserId()
+        );
+    });
+
+    it('Should throw an ArgumentError when username is empty', async () => {
+        // Arrange
+        const USER_CREATED_WITH_USERNAME_IS_EMPTY: IUser = USER_SERVICE_TEST_DATA.getUserWithUsernameIsEmpty();
+
+        // Act & Assert
+        await expect(userService.updateUser(USER_CREATED_WITH_USERNAME_IS_EMPTY.id, USER_CREATED_WITH_USERNAME_IS_EMPTY)).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getArgumentErrorInvalidUsernameCannotBeEmpty()
+        );
+    });
+
     it('Should throw NotFoundError when user does not exist', async () => {
         // Arrange
         const USER_ID_NOT_FOUND_ERROR: NotFountError = USER_SERVICE_TEST_DATA.getUserIdNotFoundError(USER_UPDATE.id);
@@ -165,6 +216,26 @@ describe('updateUser', () => {
 });
 
 describe('getUser', () => {
+    it('Should throw an ArgumentError when user id is null', async () => {
+        // Arrange
+        const USER_CREATED_WITH_USER_ID_NULL: IUser = USER_SERVICE_TEST_DATA.getUserWithUserIdIsNull();
+
+        // Act & Assert
+        await expect(userService.getUser(USER_CREATED_WITH_USER_ID_NULL.id)).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getArgumentErrorInvalidUserId()
+        );
+    });
+
+    it('Should throw an ArgumentError when user id is zero', async () => {
+        // Arrange
+        const USER_CREATED_WITH_USER_ID_ZERO: IUser = USER_SERVICE_TEST_DATA.getUserWithUserIdIsZero();
+
+        // Act & Assert
+        await expect(userService.getUser(USER_CREATED_WITH_USER_ID_ZERO.id)).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getArgumentErrorInvalidUserId()
+        );
+    });
+
     it('Should throw NotFoundError when user does not exist', async () => {
         // Arrange
         const USER_ID_NOT_FOUND_ERROR: NotFountError = USER_SERVICE_TEST_DATA.getUserIdNotFoundError(USER_ENTITY.id);

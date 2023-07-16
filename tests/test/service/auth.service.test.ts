@@ -3,6 +3,7 @@ import { UserService } from '@app/authApi/application/service/user.service';
 import { UserEntity } from '@entity/user.entity';
 import { UnauthorizedError } from '@error/unauthorized.error';
 import { IAuthService } from '@interface/auth.service.interface';
+import { IUserService } from '@interface/user.service.interface';
 import { IAuthSignIn } from '@model/auth/auth-sign-in.model';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
 import { UserRepository } from '@repository/user.repository';
@@ -16,7 +17,7 @@ const USER_SERVICE_TEST_DATA: UserServiceTestData = new UserServiceTestData();
 const AUTH_SERVICE_TEST_DATA: AuthServiceTestData = new AuthServiceTestData();
 
 let authService: IAuthService;
-let userServiceMock: UserService;
+let userServiceMock: IUserService;
 let userRepositoryMock: UserRepository;
 let passwordServiceMock: PasswordService;
 let tokenServiceMock: TokenService;

@@ -1,25 +1,27 @@
-import { UserEntityToUserMapper } from '@app/authApi/infrastructure/mapper/user/userEntityToUser.mapper';
-import { UserEntityToUserCreatedMapper } from '@app/authApi/infrastructure/mapper/user/userEntityToUserCreated.mapper';
 import { ERROR_MESSAGE_APPLICATION } from '@constant/error-message/error-message-application.constant';
 import { ERROR_MESSAGE_USER } from '@constant/error-message/error-message-user.constant';
 import { LoggerMethodDecorator } from '@decorator/logger-method.decorator';
+import { ApplicationEntity } from '@entity/application.entity';
 import { UserApplicationEntity } from '@entity/user-application.entity';
 import { UserEntity } from '@entity/user.entity';
 import { AlreadyExistsError } from '@error/already-exists.error';
+import { ArgumentError } from '@error/argument.error';
 import { NotFountError } from '@error/not-found.error';
+import { IUserService } from '@interface/user.service.interface';
+import { UserEntityToUserMapper } from '@mapper/user/userEntityToUser.mapper';
+import { UserEntityToUserCreatedMapper } from '@mapper/user/userEntityToUserCreated.mapper';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
 import { IUserUpdater } from '@model/user/user-update.model';
+import { IUser } from '@model/user/user.model';
 import { ApplicationRepository } from '@repository/application.repository';
 import { UserApplicationRepository } from '@repository/user-application.repository';
 import { UserRepository } from '@repository/user.repository';
 import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
-import { Inject, Service } from 'typedi';
+import { Inject, Service, Token } from 'typedi';
 
-import { ArgumentError } from '@error/argument.error';
-import { ApplicationEntity } from '../../domain/entity/application.entity';
-import { IUser } from '../../domain/model/user/user.model';
+export const USER_SERVICE_TOKEN = new Token<IUserService>('UserService');
 
-@Service()
+@Service(USER_SERVICE_TOKEN)
 export class UserService {
     constructor(
         @Inject() private _userRepository: UserRepository,
@@ -51,6 +53,8 @@ export class UserService {
 
     @LoggerMethodDecorator
     public async updateUser(userId: number, userUpdate: IUserUpdater): Promise<IUserUpdater> {
+        this.validateArgumentOnUpdateUser(userUpdate);
+
         this._globalUtilValidateService.controlSameIdOnParamAndBody(userId, userUpdate.id);
         await this.controlExistsUser(userId);
         const USER_UPDATED: UserEntity = await this._userRepository.update(userUpdate);
@@ -59,6 +63,7 @@ export class UserService {
 
     @LoggerMethodDecorator
     public async getUser(userId: number): Promise<IUser> {
+        this.validateUserId(userId);
         await this.controlExistsUser(userId);
 
         const USER_ENTITY: UserEntity = await this._userRepository.getById(userId);
@@ -81,12 +86,19 @@ export class UserService {
 
     private validateArgumentOnUpdateUser(userUpdate: IUserUpdater): void {
         this.validateApplicationId(userUpdate?.applicationId ?? null);
+        this.validateUserId(userUpdate?.id ?? null);
         this.validateUsername(userUpdate?.username ?? '');
     }
 
     private validateApplicationId(applicationId?: number | null): void {
         if (!applicationId || applicationId <= 0) {
             throw new ArgumentError(ERROR_MESSAGE_USER.INVALID_APPLICATION_ID);
+        }
+    }
+
+    private validateUserId(userId?: number | null): void {
+        if (!userId || userId <= 0) {
+            throw new ArgumentError(ERROR_MESSAGE_USER.INVALID_USER_ID);
         }
     }
 

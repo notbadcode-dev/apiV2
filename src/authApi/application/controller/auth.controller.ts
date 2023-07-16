@@ -1,6 +1,6 @@
 import { IAuthSignIn } from '@model/auth/auth-sign-in.model';
 import { IUserCreate } from '@model/user/user-create.model';
-import { AuthServiceToken } from '@service/auth.service';
+import { AUTH_SERVICE_TOKEN } from '@service/auth.service';
 import { Body, JsonController, Post } from 'routing-controllers';
 import { Inject, Service } from 'typedi';
 import { IAuthService } from '../interface/auth.service.interface';
@@ -8,7 +8,7 @@ import { IAuthService } from '../interface/auth.service.interface';
 @Service()
 @JsonController('/authentication')
 export class UserController {
-    constructor(@Inject(AuthServiceToken) private _authService: IAuthService) {}
+    constructor(@Inject(AUTH_SERVICE_TOKEN) private _authService: IAuthService) {}
 
     @Post('/sign-up')
     async signUp(@Body() userCreate: IUserCreate): Promise<boolean> {

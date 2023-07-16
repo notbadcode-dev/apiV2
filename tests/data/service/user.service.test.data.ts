@@ -86,6 +86,7 @@ export class UserServiceTestData {
             id: this.getUserId(),
             username: this.getUsername(),
             password: this.getUserPassword(),
+            applicationId: this.getApplicationId(),
         };
     }
 
@@ -120,6 +121,47 @@ export class UserServiceTestData {
         };
     }
 
+    public getUserWithApplicationIdIsNull(): IUser {
+        return {
+            ...this.getUser(),
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            applicationId: null as any,
+        };
+    }
+
+    public getUserWithApplicationIdIsZero(): IUser {
+        return {
+            ...this.getUserUpdated(),
+            applicationId: 0,
+        };
+    }
+
+    public getUserWithUsernameIsEmpty(): IUser {
+        return {
+            ...this.getUserUpdated(),
+            applicationId: 10,
+            username: '',
+        };
+    }
+
+    public getUserWithUserIdIsNull(): IUser {
+        return {
+            ...this.getUserUpdated(),
+            applicationId: 10,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            id: null as any,
+        };
+    }
+
+    public getUserWithUserIdIsZero(): IUser {
+        return {
+            ...this.getUserUpdated(),
+            applicationId: 10,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            id: 0,
+        };
+    }
+
     public getApplicationId(): number {
         return 1;
     }
@@ -134,6 +176,10 @@ export class UserServiceTestData {
 
     public getArgumentErrorInvalidApplicationId(): ArgumentError {
         return new ArgumentError(ERROR_MESSAGE_USER.INVALID_APPLICATION_ID);
+    }
+
+    public getArgumentErrorInvalidUserId(): ArgumentError {
+        return new ArgumentError(ERROR_MESSAGE_USER.INVALID_USER_ID);
     }
 
     public getArgumentErrorInvalidUsernameCannotBeEmpty(): ArgumentError {

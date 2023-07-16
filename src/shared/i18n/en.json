@@ -39,6 +39,7 @@
         },
         "user": {
             "invalid_application_id": "Application ID cannot be null or less than 0.",
+            "invalid_user_id": "User ID cannot be null or less than 0.",
             "empty_username": "Username cannot be empty.",
             "empty_password": "Password cannot be empty.",
             "already_exist_user_same_password": "Already exists user with same username.'",

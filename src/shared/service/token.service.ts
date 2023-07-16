@@ -1,10 +1,11 @@
-import { UserService } from '@app/authApi/application/service/user.service';
+import { LoggerMethodDecorator } from '@decorator/logger-method.decorator';
+import { IUserService } from '@interface/user.service.interface';
 import { IUser } from '@model/user/user.model';
+import { GlobalUtilEnvService } from '@service/global/global.util.env.service';
+import { USER_SERVICE_TOKEN } from '@service/user.service';
 import jwt from 'jsonwebtoken';
 import { UnauthorizedError } from 'routing-controllers';
 import { Inject, Service } from 'typedi';
-import { LoggerMethodDecorator } from './decorator/logger-method.decorator';
-import { GlobalUtilEnvService } from './global/global.util.env.service';
 
 @Service()
 export class TokenService {
@@ -14,7 +15,7 @@ export class TokenService {
 
     private currentUser: IUser | null = null;
 
-    constructor(@Inject() private _userService: UserService) {}
+    constructor(@Inject(USER_SERVICE_TOKEN) private _userService: IUserService) {}
 
     @LoggerMethodDecorator
     public sign(userId: number): string {

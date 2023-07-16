@@ -2,6 +2,7 @@ import TranslationService from '@service/translate.service';
 
 export const ERROR_MESSAGE_USER = {
     INVALID_APPLICATION_ID: TranslationService.translate('error_message.user.invalid_application_id'),
+    INVALID_USER_ID: TranslationService.translate('error_message.user.invalid_user_id'),
     USERNAME_CANNOT_BE_EMPTY: TranslationService.translate('error_message.user.empty_username'),
     PASSWORD_CANNOT_BE_EMPTY: TranslationService.translate('error_message.user.empty_password'),
     ALREADY_EXIST_USER_SAME_USERNAME: TranslationService.translate('error_message.user.already_exist_user_same_password'),
