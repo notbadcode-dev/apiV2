@@ -1,11 +1,14 @@
 import 'reflect-metadata';
 
-import { LinkGroupRelationEntityToLinkGroupMapper } from '@app/linkApi/infrastructure/mapper/link-group-relation/linkGroupRelationEntityToLinkGroup.mapper';
 import { LinkGroupEntityToLinkGroupMapper } from '@app/linkApi/infrastructure/mapper/link-group/linkGroupEntityToLinkGroup.mapper';
 import { LinkGroupEntity } from '@entity/link-group.entity';
 import { LinkOrderEntity } from '@entity/link-order.entity';
 import { LinkEntity } from '@entity/link.entity';
 import { TagEntity } from '@entity/tag.entity';
+import {
+    LinkGroupRelationEntityToLinkGroupMapper,
+    LINK_GROUP_RELATION_ENTITY_TO_LINK_GROUP_MAPPER,
+} from '@mapper/link-group-relation/linkGroupRelationEntityToLinkGroup.mapper/linkGroupRelationEntityToLinkGroup.mapper';
 import { LinkTagEntityToTagMapper, LINK_TAG_ENTITY_TO_TAG } from '@mapper/link-tag/linkTagEntityToTag.mapper/linkTagEntityToTag.mapper';
 import { TagEntityToTagMapper, TAG_ENTITY_TO_TAG_MAPPER } from '@mapper/tag/tagEntityToTag.mapper/tagEntityToTag.mapper';
 import { ILinkGroup } from '@model/group/group-link.model';
@@ -20,7 +23,8 @@ export class LinkEntityToLinkMapper implements ILinkEntityToLinkMapper {
     constructor(
         @Inject(TAG_ENTITY_TO_TAG_MAPPER) private _tagEntityToTagMapper: TagEntityToTagMapper,
         @Inject(LINK_TAG_ENTITY_TO_TAG) private _linkTagEntityToTagMapper: LinkTagEntityToTagMapper,
-        @Inject() private _linkGroupRelationEntityToLinkGroupMapper: LinkGroupRelationEntityToLinkGroupMapper,
+        @Inject(LINK_GROUP_RELATION_ENTITY_TO_LINK_GROUP_MAPPER)
+        private _linkGroupRelationEntityToLinkGroupMapper: LinkGroupRelationEntityToLinkGroupMapper,
         @Inject() private _linkGroupEntityToLinkGroupMapper: LinkGroupEntityToLinkGroupMapper
     ) {}
 

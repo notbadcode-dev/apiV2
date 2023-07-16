@@ -1,10 +1,15 @@
 import { LinkGroupRelationEntity } from '@entity/link-group-relation.entity';
 import { LinkGroupEntity } from '@entity/link-group.entity';
 import { TagEntity } from '@entity/tag.entity';
-import { Service } from 'typedi';
+import { Service, Token } from 'typedi';
+import { ILinkGroupRelationEntityToLinkGroupMapper } from './linkGroupRelationEntityToLinkGroup.mapper.interface';
 
-@Service()
-export class LinkGroupRelationEntityToLinkGroupMapper {
+export const LINK_GROUP_RELATION_ENTITY_TO_LINK_GROUP_MAPPER = new Token<ILinkGroupRelationEntityToLinkGroupMapper>(
+    'LinkGroupRelationEntityToLinkGroupMapper'
+);
+
+@Service(LINK_GROUP_RELATION_ENTITY_TO_LINK_GROUP_MAPPER)
+export class LinkGroupRelationEntityToLinkGroupMapper implements ILinkGroupRelationEntityToLinkGroupMapper {
     public mapByLinkEntityId(linkEntityId: number, linkGroupRelationEntityList?: LinkGroupRelationEntity[]): LinkGroupEntity | null {
         if (!linkEntityId || !linkGroupRelationEntityList || !linkGroupRelationEntityList?.length) {
             new Array<TagEntity>();
