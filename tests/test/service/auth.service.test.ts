@@ -1,6 +1,6 @@
 import { UserEntity } from '@entity/user.entity';
 import { UnauthorizedError } from '@error/unauthorized.error';
-import { IAuthSignIn } from '@model/auth/auth-sign-in.model';
+import { TAuthSignIn } from '@model/auth/auth-sign-in.model';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
 import { UserRepository } from '@repository/user.repository/user.repository';
 import { AuthService } from '@service/auth.service/auth.service';
@@ -99,7 +99,7 @@ describe('signUp', () => {
 });
 
 describe('signIn', () => {
-    const AUTH_SIGN_IN: IAuthSignIn = AUTH_SERVICE_TEST_DATA.getAuthSignIn();
+    const AUTH_SIGN_IN: TAuthSignIn = AUTH_SERVICE_TEST_DATA.getAuthSignIn();
     const USER_ENTITY: UserEntity = USER_SERVICE_TEST_DATA.getUserEntity();
     const NOT_CONTROL_EXISTS_USER: boolean = AUTH_SERVICE_TEST_DATA.getNotControlExists();
     const USER_ID_UNAUTHORIZED_ERROR: UnauthorizedError = AUTH_SERVICE_TEST_DATA.getUnauthorizedErrorNotGetUserEntity(USER_ENTITY.username);

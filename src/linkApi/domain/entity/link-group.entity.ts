@@ -1,6 +1,6 @@
 import { EntityBase } from '@entity/base.entity';
 import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { GroupLinkGradientType } from '../../../../src/shared/enum/group-link-gradient-type.enum';
+import { EGroupLinkGradientType } from '../../../../src/shared/enum/group-link-gradient-type.enum';
 import { GroupTagEntity } from './group-tag.entity';
 import { LinkGroupRelationEntity } from './link-group-relation.entity';
 import { LinkOrderEntity } from './link-order.entity';
@@ -21,7 +21,7 @@ export class LinkGroupEntity extends EntityBase {
     @Column({ name: 'color2', type: 'char', length: 9 })
     colorTo!: string;
 
-    @Column({ type: 'enum', enum: GroupLinkGradientType })
+    @Column({ type: 'enum', enum: EGroupLinkGradientType })
     gradientType!: string;
 
     @OneToMany(() => LinkGroupRelationEntity, (linkGroup) => linkGroup.group)

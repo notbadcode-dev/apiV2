@@ -8,7 +8,7 @@ import { TagEntity } from './tag.entity';
 import { UserLinkRelationEntity } from './user-link-relationship.entity';
 
 /* eslint-disable @typescript-eslint/ban-types */
-export const linkApiEntityList: Function[] = [
+export const LINK_API_ENTITY_LIST: Function[] = [
     UserLinkRelationEntity,
     LinkEntity,
     LinkGroupEntity,

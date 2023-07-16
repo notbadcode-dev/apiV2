@@ -1,5 +1,5 @@
 import { ERROR_MESSAGE_UTIL } from '@constant/error-message/error-message-util.constant';
-import { DataType } from '@constant/type.constant';
+import { EDataType } from '@constant/type.constant';
 import { InternalServerError } from '@error/internal-server.error';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { Service, Token } from 'typedi';
@@ -14,7 +14,7 @@ export class GlobalUtilNumberService implements IGlobalUtilNumberService {
         const VALUE_TYPE: string = typeof value;
         const TRANSFORM_VALUE: string = value?.toString();
 
-        if (VALUE_TYPE.includes(DataType.String) && !Number.isNaN(Number(TRANSFORM_VALUE))) {
+        if (VALUE_TYPE.includes(EDataType.String) && !Number.isNaN(Number(TRANSFORM_VALUE))) {
             return parseFloat(TRANSFORM_VALUE);
         }
 

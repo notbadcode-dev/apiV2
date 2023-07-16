@@ -1,6 +1,6 @@
 import { UserEntity } from '@entity/user.entity';
-import { IUserUpdater } from '@model/user/user-update.model';
+import { TUserUpdater } from '@model/user/user-update.model';
 
 export interface IUserUpdaterToUserEntityMapper {
-    map(userUpdate: IUserUpdater): UserEntity;
+    map(userUpdate: TUserUpdater): UserEntity;
 }

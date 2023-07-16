@@ -3,7 +3,7 @@ import { ERROR_MESSAGE_USER } from '@constant/error-message/error-message-user.c
 import { UserEntity } from '@entity/user.entity';
 import { ArgumentError } from '@error/argument.error';
 import { UnauthorizedError } from '@error/unauthorized.error';
-import { IAuthSignIn } from '@model/auth/auth-sign-in.model';
+import { TAuthSignIn } from '@model/auth/auth-sign-in.model';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
 import { UserRepository, USER_REPOSITORY_TOKEN } from '@repository/user.repository/user.repository';
 import { IAuthService } from '@service/auth.service/auth.service.interface';
@@ -35,7 +35,7 @@ export class AuthService implements IAuthService {
     }
 
     @LoggerMethodDecorator
-    public async signIn(authSignIn: IAuthSignIn): Promise<string> {
+    public async signIn(authSignIn: TAuthSignIn): Promise<string> {
         this.validateArgumentsOnSignIn(authSignIn);
 
         const USER_ENTITY: UserEntity | null = await this._userRepository.getByName(authSignIn.username, false);
@@ -63,7 +63,7 @@ export class AuthService implements IAuthService {
     }
 
     @LoggerMethodDecorator
-    private validateArgumentsOnSignIn(authSignIn: IAuthSignIn): void {
+    private validateArgumentsOnSignIn(authSignIn: TAuthSignIn): void {
         this.validateApplicationId(authSignIn?.applicationId ?? null);
         this.validateUsername(authSignIn?.username ?? '');
         this.validatePassword(authSignIn?.password ?? '');

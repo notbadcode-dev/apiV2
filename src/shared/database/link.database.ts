@@ -1,7 +1,7 @@
 import { AUTH_API_ENTITY_LIST } from '@entity/_auth.entity.index';
 import { DataSource } from 'typeorm';
 
-import { linkApiEntityList } from '@entity/_link.entity.index';
+import { LINK_API_ENTITY_LIST } from '@entity/_link.entity.index';
 
 export const LINK_DATA_SOURCE = new DataSource({
     type: 'mariadb',
@@ -10,7 +10,7 @@ export const LINK_DATA_SOURCE = new DataSource({
     username: 'notbadcode',
     password: '6900',
     database: 'link',
-    entities: [...AUTH_API_ENTITY_LIST, ...linkApiEntityList],
+    entities: [...AUTH_API_ENTITY_LIST, ...LINK_API_ENTITY_LIST],
     logging: true,
     dateStrings: true,
     trace: true,

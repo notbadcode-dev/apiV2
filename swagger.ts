@@ -1,4 +1,4 @@
-const swaggerDocument = {
+const SWAGGER_DOCUMENT = {
     openapi: '3.0.1',
     info: {
         version: '2.0',
@@ -11,4 +11,4 @@ const swaggerDocument = {
     },
 };
 
-export default swaggerDocument;
+export default SWAGGER_DOCUMENT;

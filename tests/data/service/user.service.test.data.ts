@@ -5,7 +5,7 @@ import { AlreadyExistsError } from '@error/already-exists.error';
 import { ArgumentError } from '@error/argument.error';
 import { NotFountError } from '@error/not-found.error';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
-import { IUserUpdater } from '@model/user/user-update.model';
+import { TUserUpdater } from '@model/user/user-update.model';
 import { IUser } from '@model/user/user.model';
 
 export class UserServiceTestData {
@@ -79,7 +79,7 @@ export class UserServiceTestData {
         };
     }
 
-    public getUserUpdated(): IUserUpdater {
+    public getUserUpdated(): TUserUpdater {
         return {
             id: this.getUserId(),
             username: this.getUsername(),

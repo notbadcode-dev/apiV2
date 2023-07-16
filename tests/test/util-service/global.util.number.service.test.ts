@@ -48,25 +48,25 @@ describe('convertNumber', () => {
 describe('areNumericValuesEqual', () => {
     it('Should throw an InternalServerError when passed numeric values of different types', () => {
         // Arrange
-        const values: IAreNumericValuesEqual<number, string> =
+        const VALUES: IAreNumericValuesEqual<number, string> =
             GLOBAL_UTIL_NUMBER_SERVICE_TEST_DATA.getValuesForAreNumericValuesEqualNumberAndStringReturnThrowInternalServerError();
 
         // Act & Assert
         expect(() => {
-            globalUtilNumberService.areNumericValuesEqual(values.firstValue, values.secondValue);
+            globalUtilNumberService.areNumericValuesEqual(VALUES.firstValue, VALUES.secondValue);
         }).toThrowError(new InternalServerError(ERROR_MESSAGE_UTIL.VALUES_NOT_SAME_TYPE));
     });
 
     it('Should return false when passed two numeric values that do not match', () => {
         // Arrange
-        const values: IAreNumericValuesEqual<number, number> =
+        const VALUES: IAreNumericValuesEqual<number, number> =
             GLOBAL_UTIL_NUMBER_SERVICE_TEST_DATA.getValuesForAreNumericValuesEqualAllNumbersReturnFalse();
 
         // Act
-        const RESULT: boolean = globalUtilNumberService.areNumericValuesEqual(values.firstValue, values.secondValue);
+        const RESULT: boolean = globalUtilNumberService.areNumericValuesEqual(VALUES.firstValue, VALUES.secondValue);
 
         // Assert
-        expect(RESULT).toEqual(values.result);
+        expect(RESULT).toEqual(VALUES.result);
     });
 
     it('Should return true when passed two numeric values that match', () => {

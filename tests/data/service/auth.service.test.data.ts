@@ -1,13 +1,13 @@
 import { ERROR_MESSAGE_PASSWORD } from '@constant/error-message/error-message-password.constant';
 import { ERROR_MESSAGE_USER } from '@constant/error-message/error-message-user.constant';
 import { UnauthorizedError } from '@error/unauthorized.error';
-import { IAuthSignIn } from '@model/auth/auth-sign-in.model';
+import { TAuthSignIn } from '@model/auth/auth-sign-in.model';
 import { UserServiceTestData } from './user.service.test.data';
 
 const USER_SERVICE_TEST_DATA: UserServiceTestData = new UserServiceTestData();
 
 export class AuthServiceTestData {
-    getAuthSignIn(): IAuthSignIn {
+    getAuthSignIn(): TAuthSignIn {
         return USER_SERVICE_TEST_DATA.getUserCreate();
     }
 

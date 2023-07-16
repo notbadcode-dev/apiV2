@@ -16,7 +16,7 @@ import {
     USER_ENTITY_TO_USER_CREATED_MAPPER,
 } from '@mapper/user/userEntityToUserCreated.mapper/userEntityToUserCreated.mapper';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
-import { IUserUpdater } from '@model/user/user-update.model';
+import { TUserUpdater } from '@model/user/user-update.model';
 import { IUser } from '@model/user/user.model';
 import { ApplicationRepository, APPLICATION_REPOSITORY_TOKEN } from '@repository/application.repository/application.repository';
 import {
@@ -64,7 +64,7 @@ export class UserService implements IUserService {
     }
 
     @LoggerMethodDecorator
-    public async updateUser(userId: number, userUpdate: IUserUpdater): Promise<IUserUpdater> {
+    public async updateUser(userId: number, userUpdate: TUserUpdater): Promise<TUserUpdater> {
         this.validateArgumentOnUpdateUser(userUpdate);
 
         this._globalUtilValidateService.controlSameIdOnParamAndBody(userId, userUpdate.id);
@@ -98,7 +98,7 @@ export class UserService implements IUserService {
     }
 
     @LoggerMethodDecorator
-    private validateArgumentOnUpdateUser(userUpdate: IUserUpdater): void {
+    private validateArgumentOnUpdateUser(userUpdate: TUserUpdater): void {
         this.validateApplicationId(userUpdate?.applicationId ?? null);
         this.validateUserId(userUpdate?.id ?? null);
         this.validateUsername(userUpdate?.username ?? '');

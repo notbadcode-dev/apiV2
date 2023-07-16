@@ -1,4 +1,4 @@
-import { IAuthSignIn } from '@model/auth/auth-sign-in.model';
+import { TAuthSignIn } from '@model/auth/auth-sign-in.model';
 import { IUserCreate } from '@model/user/user-create.model';
 import { AUTH_SERVICE_TOKEN } from '@service/auth.service/auth.service';
 import { Body, JsonController, Post } from 'routing-controllers';
@@ -16,7 +16,7 @@ export class UserController {
     }
 
     @Post('/sign-in')
-    async signIn(@Body() authSignIn: IAuthSignIn): Promise<string> {
+    async signIn(@Body() authSignIn: TAuthSignIn): Promise<string> {
         return this._authService.signIn(authSignIn);
     }
 }

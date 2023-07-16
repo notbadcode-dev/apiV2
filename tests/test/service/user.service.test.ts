@@ -4,7 +4,7 @@ import { NotFountError } from '@error/not-found.error';
 import { UserEntityToUserMapper } from '@mapper/user/userEntityToUser.mapper/userEntityToUser.mapper';
 import { UserEntityToUserCreatedMapper } from '@mapper/user/userEntityToUserCreated.mapper/userEntityToUserCreated.mapper';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
-import { IUserUpdater } from '@model/user/user-update.model';
+import { TUserUpdater } from '@model/user/user-update.model';
 import { IUser } from '@model/user/user.model';
 import { ApplicationRepository } from '@repository/application.repository/application.repository';
 import { UserApplicationRepository } from '@repository/user-application.repository/user-application.repository';
@@ -133,7 +133,7 @@ describe('createUser', () => {
 });
 
 describe('updateUser', () => {
-    const USER_UPDATE: IUserUpdater = USER_SERVICE_TEST_DATA.getUserUpdated();
+    const USER_UPDATE: TUserUpdater = USER_SERVICE_TEST_DATA.getUserUpdated();
 
     it('Should throw an ArgumentError when application id is null', async () => {
         // Arrange

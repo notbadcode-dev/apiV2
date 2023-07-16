@@ -9,7 +9,7 @@ import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorato
 import { Inject, Service, Token } from 'typedi';
 import { DataSource, QueryRunner, Repository, UpdateResult } from 'typeorm';
 import { UserEntity } from '../../entity/user.entity';
-import { IUserUpdater } from '../../model/user/user-update.model';
+import { TUserUpdater } from '../../model/user/user-update.model';
 import { IUserRepository } from './user.repository.interface';
 
 export const USER_REPOSITORY_TOKEN = new Token<IUserRepository>('UserRepository');
@@ -48,7 +48,7 @@ export class UserRepository implements IUserRepository {
     }
 
     @LoggerMethodDecorator
-    public async update(userUpdate: IUserUpdater): Promise<UserEntity> {
+    public async update(userUpdate: TUserUpdater): Promise<UserEntity> {
         const USER_ENTITY: UserEntity = this._userUpdaterToUserEntityMapper.map(userUpdate);
 
         const QUERY_RUNNER: QueryRunner = this._dataSource.createQueryRunner();

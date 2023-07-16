@@ -1,3 +1,3 @@
-export interface TranslationOptions {
+export interface ITranslationOptions {
     locale?: string;
 }

@@ -1,10 +1,10 @@
 import { UserEntity } from '@entity/user.entity';
-import { IUserUpdater } from '@model/user/user-update.model';
+import { TUserUpdater } from '@model/user/user-update.model';
 
 export interface IUserRepository {
     create(username: string, password: string): Promise<UserEntity>;
 
-    update(userUpdate: IUserUpdater): Promise<UserEntity>;
+    update(userUpdate: TUserUpdater): Promise<UserEntity>;
 
     getById(userId: number): Promise<UserEntity>;
 

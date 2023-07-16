@@ -1,9 +1,9 @@
-import { IAuthSignIn } from '@model/auth/auth-sign-in.model';
+import { TAuthSignIn } from '@model/auth/auth-sign-in.model';
 import { IUserCreate } from '@model/user/user-create.model';
 import 'reflect-metadata';
 
 export interface IAuthService {
     signUp(userCreate: IUserCreate): Promise<boolean>;
 
-    signIn(authSignIn: IAuthSignIn): Promise<string>;
+    signIn(authSignIn: TAuthSignIn): Promise<string>;
 }

@@ -1,4 +1,4 @@
-export const enum DataType {
+export const enum EDataType {
     Number = 'number',
     String = 'string',
     Boolean = 'boolean',
@@ -9,4 +9,4 @@ export const enum DataType {
     Undefined = 'undefined',
 }
 
-export const VALID_DATA_TYPE_TO_NUMBER_LIST: string[] = [DataType.Number, DataType.String];
+export const VALID_DATA_TYPE_TO_NUMBER_LIST: string[] = [EDataType.Number, EDataType.String];

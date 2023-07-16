@@ -1,5 +1,5 @@
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
-import { IUserUpdater } from '@model/user/user-update.model';
+import { TUserUpdater } from '@model/user/user-update.model';
 import { IUser } from '@model/user/user.model';
 import { Authority } from '@service/decorator/authority.decorator';
 import { USER_SERVICE_TOKEN } from '@service/user.service/user.service';
@@ -20,8 +20,8 @@ export class UserController {
 
     @Authority
     @Put('/:id')
-    async updateUser(@Param('id') userId: number, @Body() userUpdate: IUserUpdater): Promise<IUserUpdater> {
-        const UPDATED_USER: IUserUpdater = await this._userService.updateUser(userId, userUpdate);
+    async updateUser(@Param('id') userId: number, @Body() userUpdate: TUserUpdater): Promise<TUserUpdater> {
+        const UPDATED_USER: TUserUpdater = await this._userService.updateUser(userId, userUpdate);
         return UPDATED_USER;
     }
 
