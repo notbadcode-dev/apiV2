@@ -1,4 +1,4 @@
-import { IGroupLinkService } from '@interface/group-link.service.interface';
+import { IGroupLinkService } from '@service/interface/group-link.service.interface';
 import { JsonController } from 'routing-controllers';
 import { Inject, Service } from 'typedi';
 import { GROUP_LINK_SERVICE_TOKEN } from '../service/group-link.service';

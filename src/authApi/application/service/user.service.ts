@@ -7,7 +7,6 @@ import { UserEntity } from '@entity/user.entity';
 import { AlreadyExistsError } from '@error/already-exists.error';
 import { ArgumentError } from '@error/argument.error';
 import { NotFountError } from '@error/not-found.error';
-import { IUserService } from '@interface/user.service.interface';
 import { UserEntityToUserMapper } from '@mapper/user/userEntityToUser.mapper';
 import { UserEntityToUserCreatedMapper } from '@mapper/user/userEntityToUserCreated.mapper';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
@@ -17,6 +16,7 @@ import { ApplicationRepository } from '@repository/application.repository';
 import { UserApplicationRepository } from '@repository/user-application.repository';
 import { UserRepository } from '@repository/user.repository';
 import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
+import { IUserService } from '@service/interface/user.service.interface';
 import { Inject, Service, Token } from 'typedi';
 
 export const USER_SERVICE_TOKEN = new Token<IUserService>('UserService');

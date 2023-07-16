@@ -2,12 +2,12 @@ import { LinkEntityToLinkMapper } from '@app/linkApi/infrastructure/mapper/link/
 import { LinkEntity } from '@entity/link.entity';
 import { ArgumentError } from '@error/argument.error';
 import { InternalServerError } from '@error/internal-server.error';
-import { ILinkService } from '@interface/link.service.interface';
 import { ILinkCreate } from '@model/link/link-create.model';
 import { ILink } from '@model/link/link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 import { LinkRepository } from '@repository/link.repository';
 import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
+import { ILinkService } from '@service/interface/link.service.interface';
 import { LinkService } from '@service/link.service';
 import { TokenService } from '@service/token.service';
 import { LinkServiceTestData } from '@testData/service/link.service.test.data';

@@ -1,7 +1,7 @@
-import { IUserService } from '@interface/user.service.interface';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
 import { IUserUpdater } from '@model/user/user-update.model';
 import { IUser } from '@model/user/user.model';
+import { IUserService } from '@service/interface/user.service.interface';
 import { USER_SERVICE_TOKEN } from '@service/user.service';
 import { Body, Get, JsonController, Param, Post, Put } from 'routing-controllers';
 import { Inject, Service } from 'typedi';

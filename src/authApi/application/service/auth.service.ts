@@ -3,12 +3,12 @@ import { ERROR_MESSAGE_USER } from '@constant/error-message/error-message-user.c
 import { UserEntity } from '@entity/user.entity';
 import { ArgumentError } from '@error/argument.error';
 import { UnauthorizedError } from '@error/unauthorized.error';
-import { IAuthService } from '@interface/auth.service.interface';
-import { IUserService } from '@interface/user.service.interface';
 import { IAuthSignIn } from '@model/auth/auth-sign-in.model';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
 import { UserRepository } from '@repository/user.repository';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
+import { IAuthService } from '@service/interface/auth.service.interface';
+import { IUserService } from '@service/interface/user.service.interface';
 import { PasswordService } from '@service/password.service';
 import { TokenService } from '@service/token.service';
 import { Inject, Service, Token } from 'typedi';
