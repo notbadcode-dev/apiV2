@@ -2,14 +2,15 @@ import { ERROR_MESSAGE_UTIL } from '@constant/error-message/error-message-util.c
 import { DataType } from '@constant/type.constant';
 import { InternalServerError } from '@error/internal-server.error';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
-import { Service } from 'typedi';
+import { Service, Token } from 'typedi';
+import { IGlobalUtilNumberService, TNumberString } from './global.util.number.service.interface';
 
-type NumberString = number | string;
+export const GLOBAL_UTIL_NUMBER_SERVICE = new Token<IGlobalUtilNumberService>('GlobalUtilNumberService');
 
-@Service()
-export class GlobalUtilNumberService {
+@Service(GLOBAL_UTIL_NUMBER_SERVICE)
+export class GlobalUtilNumberService implements IGlobalUtilNumberService {
     @LoggerMethodDecorator
-    public convertNumber(value: NumberString): number | void {
+    public convertNumber(value: TNumberString): number | void {
         const VALUE_TYPE: string = typeof value;
         const TRANSFORM_VALUE: string = value?.toString();
 
@@ -27,7 +28,7 @@ export class GlobalUtilNumberService {
     }
 
     @LoggerMethodDecorator
-    public areNumericValuesEqual(firstValue: NumberString, secondValue: NumberString): boolean {
+    public areNumericValuesEqual(firstValue: TNumberString, secondValue: TNumberString): boolean {
         if (typeof firstValue !== typeof secondValue) {
             throw new InternalServerError(ERROR_MESSAGE_UTIL.VALUES_NOT_SAME_TYPE);
         }

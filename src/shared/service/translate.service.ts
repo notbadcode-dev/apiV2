@@ -7,17 +7,17 @@ import * as fs from 'fs';
 import { Replacements } from 'i18n';
 import * as path from 'path';
 import { Service } from 'typedi';
-import { GlobalUtilEnvService } from './global/global.util.env.service';
+import { GlobalUtilEnvService } from './global/global.util.env.service/global.util.env.service';
 import { LoggerService } from './logger.service';
 
-interface TranslationsCache {
+interface ITranslationsCache {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
 }
 
 @Service()
 export class TranslationService {
-    private static translationsCache: TranslationsCache = {};
+    private static translationsCache: ITranslationsCache = {};
 
     private static currentLocate: string = DEFAULT_TRANSLATE_LOCATE;
 

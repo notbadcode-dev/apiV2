@@ -1,4 +1,4 @@
-import { GlobalUtilEnvService } from '@service/global/global.util.env.service';
+import { GlobalUtilEnvService } from '@service/global/global.util.env.service/global.util.env.service';
 import { LoggerService } from '@service/logger.service';
 
 const LOGGER_SERVICE: LoggerService = new LoggerService();

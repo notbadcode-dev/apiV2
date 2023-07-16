@@ -1,6 +1,6 @@
 import { ERROR_MESSAGE_UTIL } from '@constant/error-message/error-message-util.constant';
 import { InternalServerError } from '@error/internal-server.error';
-import { GlobalUtilNumberService } from '@service/global/global.util.number.service';
+import { GlobalUtilNumberService } from '@service/global/global.util.number.service/global.util.number.service';
 import { GlobalUtilNumberServiceTestData } from '@testData/util-service/global.util.number.service.test.data';
 import { IAreNumericValuesEqual } from 'tests/model/global.util.number.service.test.model';
 

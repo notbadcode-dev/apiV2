@@ -7,7 +7,7 @@ import { INJECTED_DEPENDENCY } from '@constant/injected-dependency.constant';
 import { initializeDataSource } from '@database/database';
 import { LINK_DATA_SOURCE } from '@database/link.database';
 import { AUTH_API_ENTITY_LIST } from '@entity/_auth.entity.index';
-import { GlobalUtilEnvService } from '@service/global/global.util.env.service';
+import { GlobalUtilEnvService } from '@service/global/global.util.env.service/global.util.env.service';
 import express from 'express/index';
 import { linkApiEntityList } from './domain/entity/_link.entity.index';
 

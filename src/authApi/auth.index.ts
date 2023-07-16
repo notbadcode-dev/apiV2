@@ -7,7 +7,7 @@ import { INJECTED_DEPENDENCY } from '@constant/injected-dependency.constant';
 import express from 'express/index';
 
 import { EXECUTE_HOOK_RUN_EVERY_ALL_DAYS_00H } from '@constant/hook.constant';
-import { GlobalUtilEnvService } from '@service/global/global.util.env.service';
+import { GlobalUtilEnvService } from '@service/global/global.util.env.service/global.util.env.service';
 import hookService from '@service/hook.service';
 import { LoggerService } from '@service/logger.service';
 import { AUTH_DATA_SOURCE } from '../../src/shared/database/auth.database';

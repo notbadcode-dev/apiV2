@@ -1,5 +1,5 @@
 import { ERROR_MESSAGE_API } from '@constant/error-message/error-message-api.constant';
-import { GlobalUtilEnvService } from '@service/global/global.util.env.service';
+import { GlobalUtilEnvService } from '@service/global/global.util.env.service/global.util.env.service';
 
 let globalUtilEnvService: GlobalUtilEnvService;
 

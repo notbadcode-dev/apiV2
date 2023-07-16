@@ -4,7 +4,7 @@ import { ArgumentError } from '@error/argument.error';
 import { InternalServerError } from '@error/internal-server.error';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
-import { GlobalUtilNumberService } from '@service/global/global.util.number.service';
+import { GlobalUtilNumberService, GLOBAL_UTIL_NUMBER_SERVICE } from '@service/global/global.util.number.service/global.util.number.service';
 import 'reflect-metadata';
 import { Inject, Service, Token } from 'typedi';
 import { IGlobalUtilValidateService } from './global.util.validate.service.interface';
@@ -13,7 +13,7 @@ export const GLOBAL_UTIL_VALIDATE_SERVICE = new Token<IGlobalUtilValidateService
 
 @Service(GLOBAL_UTIL_VALIDATE_SERVICE)
 export class GlobalUtilValidateService implements IGlobalUtilValidateService {
-    constructor(@Inject() private _globalUtilNumberService: GlobalUtilNumberService) {}
+    constructor(@Inject(GLOBAL_UTIL_NUMBER_SERVICE) private _globalUtilNumberService: GlobalUtilNumberService) {}
 
     @LoggerMethodDecorator
     public controlSameIdOnParamAndBody(paramId: number, bodyId: number): void {

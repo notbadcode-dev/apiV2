@@ -1,6 +1,6 @@
 import { LoggerMethodDecorator } from '@decorator/logger-method.decorator';
 import { IUser } from '@model/user/user.model';
-import { GlobalUtilEnvService } from '@service/global/global.util.env.service';
+import { GlobalUtilEnvService } from '@service/global/global.util.env.service/global.util.env.service';
 import { ITokenService } from '@service/middleware/token.service/token.service.interface';
 import { USER_SERVICE_TOKEN } from '@service/user.service/user.service';
 import { IUserService } from '@service/user.service/user.service.interface';

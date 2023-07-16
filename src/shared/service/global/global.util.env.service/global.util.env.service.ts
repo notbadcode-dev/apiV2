@@ -1,11 +1,14 @@
 import { CriticalServerError } from '@error/critical-server.error';
 import { IEnvironment } from '@model/environment/environment';
-import { Service } from 'typedi';
+import { Service, Token } from 'typedi';
 
-import { ERROR_MESSAGE_API } from '../../constant/error-message/error-message-api.constant';
+import { ERROR_MESSAGE_API } from '../../../constant/error-message/error-message-api.constant';
+import { IGlobalUtilEnvService } from './global.util.env.service.interface';
 
-@Service()
-export class GlobalUtilEnvService {
+export const GLOBAL_UTIL_ENV_SERVICE = new Token<IGlobalUtilEnvService>('GlobalUtilEnvService');
+
+@Service(GLOBAL_UTIL_ENV_SERVICE)
+export class GlobalUtilEnvService implements IGlobalUtilEnvService {
     public getLoggingEnabled(): boolean {
         return process.env.LOGGING_ENABLED?.includes('true') ? true : false;
     }
