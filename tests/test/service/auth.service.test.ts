@@ -4,6 +4,7 @@ import { UserEntity } from '@entity/user.entity';
 import { UnauthorizedError } from '@error/unauthorized.error';
 import { IAuthSignIn } from '@model/auth/auth-sign-in.model';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
+import { IUserRepository } from '@repository/interface/user.repository.interface';
 import { UserRepository } from '@repository/user.repository';
 import { IAuthService } from '@service/interface/auth.service.interface';
 import { IUserService } from '@service/interface/user.service.interface';
@@ -18,7 +19,7 @@ const AUTH_SERVICE_TEST_DATA: AuthServiceTestData = new AuthServiceTestData();
 
 let authService: IAuthService;
 let userServiceMock: IUserService;
-let userRepositoryMock: UserRepository;
+let userRepositoryMock: IUserRepository;
 let passwordServiceMock: PasswordService;
 let tokenServiceMock: TokenService;
 

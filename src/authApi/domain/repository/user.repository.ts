@@ -3,15 +3,19 @@ import { InternalServerError } from '@error/internal-server.error';
 import { NotFountError } from '@error/not-found.error';
 import { UserUpdaterToUserEntityMapper } from '@mapper/user/userUpdateToUserEntity.mapper';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
-import { Inject, Service } from 'typedi';
+import { Inject, Service, Token } from 'typedi';
 import { DataSource, QueryRunner, Repository, UpdateResult } from 'typeorm';
 import { UserEntity } from '../entity/user.entity';
 import { IUserUpdater } from '../model/user/user-update.model';
+import { IUserRepository } from './interface/user.repository.interface';
 
-@Service()
-export class UserRepository {
+export const USER_REPOSITORY_TOKEN = new Token<IUserRepository>('UserRepository');
+const USER_ENTITY_REPOSITORY_TOKEN = UserEntity.name;
+
+@Service(USER_REPOSITORY_TOKEN)
+export class UserRepository implements IUserRepository {
     constructor(
-        @Inject(UserEntity.name) private _userRepository: Repository<UserEntity>,
+        @Inject(USER_ENTITY_REPOSITORY_TOKEN) private _userRepository: Repository<UserEntity>,
         @Inject() private _userUpdaterToUserEntityMapper: UserUpdaterToUserEntityMapper,
         @Inject() private _dataSource: DataSource
     ) {}

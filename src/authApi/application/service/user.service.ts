@@ -14,7 +14,7 @@ import { IUserUpdater } from '@model/user/user-update.model';
 import { IUser } from '@model/user/user.model';
 import { ApplicationRepository } from '@repository/application.repository';
 import { UserApplicationRepository } from '@repository/user-application.repository';
-import { UserRepository } from '@repository/user.repository';
+import { UserRepository, USER_REPOSITORY_TOKEN } from '@repository/user.repository';
 import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
 import { IUserService } from '@service/interface/user.service.interface';
 import { Inject, Service, Token } from 'typedi';
@@ -24,7 +24,7 @@ export const USER_SERVICE_TOKEN = new Token<IUserService>('UserService');
 @Service(USER_SERVICE_TOKEN)
 export class UserService implements IUserService {
     constructor(
-        @Inject() private _userRepository: UserRepository,
+        @Inject(USER_REPOSITORY_TOKEN) private _userRepository: UserRepository,
         @Inject() private _applicationRepository: ApplicationRepository,
         @Inject() private _userApplicationRepository: UserApplicationRepository,
         @Inject() private _userEntityToUserMapper: UserEntityToUserMapper,

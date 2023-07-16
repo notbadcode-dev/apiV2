@@ -5,7 +5,7 @@ import { ArgumentError } from '@error/argument.error';
 import { UnauthorizedError } from '@error/unauthorized.error';
 import { IAuthSignIn } from '@model/auth/auth-sign-in.model';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
-import { UserRepository } from '@repository/user.repository';
+import { UserRepository, USER_REPOSITORY_TOKEN } from '@repository/user.repository';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { IAuthService } from '@service/interface/auth.service.interface';
 import { IUserService } from '@service/interface/user.service.interface';
@@ -20,7 +20,7 @@ export const AUTH_SERVICE_TOKEN = new Token<IAuthService>('AuthService');
 export class AuthService implements IAuthService {
     constructor(
         @Inject(USER_SERVICE_TOKEN) private _userService: IUserService,
-        @Inject() private _userRepository: UserRepository,
+        @Inject(USER_REPOSITORY_TOKEN) private _userRepository: UserRepository,
         @Inject() private _passwordService: PasswordService,
         @Inject() private _tokenService: TokenService
     ) {}
