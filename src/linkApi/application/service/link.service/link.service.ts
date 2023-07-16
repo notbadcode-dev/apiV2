@@ -5,7 +5,7 @@ import { LinkEntityToLinkMapper } from '@mapper/link/linkEntityToLink.mapper';
 import { ILinkCreate } from '@model/link/link-create.model';
 import { ILink } from '@model/link/link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
-import { LinkRepository } from '@repository/link.repository';
+import { LinkRepository, LINK_REPOSITORY_TOKEN } from '@repository/link.repository/link.repository';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import {
     GlobalUtilValidateService,
@@ -20,7 +20,7 @@ export const LINK_SERVICE_TOKEN = new Token<ILinkService>('LinkService');
 @Service(LINK_SERVICE_TOKEN)
 export class LinkService implements ILinkService {
     constructor(
-        @Inject() private _linkRepository: LinkRepository,
+        @Inject(LINK_REPOSITORY_TOKEN) private _linkRepository: LinkRepository,
         @Inject(TOKEN_SERVICE_TOKEN) private _tokenService: TokenService,
         @Inject(GLOBAL_UTIL_VALIDATE_SERVICE) private _globalUtilValidateService: GlobalUtilValidateService,
         @Inject() private _linkEntityToLinkMapper: LinkEntityToLinkMapper

@@ -5,7 +5,7 @@ import { InternalServerError } from '@error/internal-server.error';
 import { ILinkCreate } from '@model/link/link-create.model';
 import { ILink } from '@model/link/link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
-import { LinkRepository } from '@repository/link.repository';
+import { LinkRepository } from '@repository/link.repository/link.repository';
 import { GlobalUtilValidateService } from '@service/global/global.util.validate.service/global.util.validate.service';
 import { LinkService } from '@service/link.service/link.service';
 import { ILinkService } from '@service/link.service/link.service.interface';

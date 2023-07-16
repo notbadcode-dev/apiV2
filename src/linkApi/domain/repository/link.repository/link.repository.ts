@@ -1,8 +1,9 @@
 import { ERROR_MESSAGE_LINK } from '@constant/error-message/error-message-link.constant';
 import { PAGINATE } from '@constant/paginate.constant';
+import { LinkEntity } from '@entity/link.entity';
 import { InternalServerError } from '@error/internal-server.error';
 import { NotFountError } from '@error/not-found.error';
-import { LinkToLinkEntityMapper } from '@mapper/link/linkToLinkEntity.mapper';
+import { LinkToLinkEntityMapper } from '@mapper/link/linkToLinkEntity.mapper/linkToLinkEntity.mapper';
 import { ILink } from '@model/link/link.model';
 import {
     IPaginateCalculateRequest,
@@ -12,14 +13,15 @@ import {
 } from '@model/pagination-item/pagination-item.model';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { TokenService, TOKEN_SERVICE_TOKEN } from '@service/middleware/token.service/token.service';
-import { Inject, Service } from 'typedi';
+import { Inject, Service, Token } from 'typedi';
 import { DataSource, DeleteResult, QueryRunner, Repository, UpdateResult } from 'typeorm';
-import { LinkEntity } from '../entity/link.entity';
+import { ILinkRepository } from './link.repository.interface';
 
+export const LINK_REPOSITORY_TOKEN = new Token<ILinkRepository>('LinkRepository');
 const LINK_ENTITY_REPOSITORY_TOKEN = LinkEntity.name;
 
-@Service()
-export class LinkRepository {
+@Service(LINK_REPOSITORY_TOKEN)
+export class LinkRepository implements ILinkRepository {
     constructor(
         @Inject(LINK_ENTITY_REPOSITORY_TOKEN)
         private readonly _linkRepository: Repository<LinkEntity>,
