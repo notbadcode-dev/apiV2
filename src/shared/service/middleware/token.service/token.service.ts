@@ -1,9 +1,9 @@
 import { LoggerMethodDecorator } from '@decorator/logger-method.decorator';
-import { ITokenService } from '@interface/token.service.interface';
 import { IUser } from '@model/user/user.model';
 import { GlobalUtilEnvService } from '@service/global/global.util.env.service';
-import { IUserService } from '@service/interface/user.service.interface';
-import { USER_SERVICE_TOKEN } from '@service/user.service';
+import { ITokenService } from '@service/middleware/token.service/token.service.interface';
+import { USER_SERVICE_TOKEN } from '@service/user.service/user.service';
+import { IUserService } from '@service/user.service/user.service.interface';
 import jwt from 'jsonwebtoken';
 import { UnauthorizedError } from 'routing-controllers';
 import { Inject, Service, Token } from 'typedi';

@@ -32,10 +32,6 @@ module.exports = {
             '<rootDir>/src/authApi/application/service/$1',
             '<rootDir>/src/linkApi/application/service/$1',
         ],
-        '^@interface/(.*)$': [
-            '<rootDir>/src/authApi/application/service/interface/$1',
-            '<rootDir>/src/linkApi/application/service/interface/$1',
-        ],
         '^@middleware/(.*)$': [
             '<rootDir>/src/shared/service/middleware/$1',
         ],

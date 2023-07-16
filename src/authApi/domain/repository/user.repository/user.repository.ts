@@ -5,9 +5,9 @@ import { UserUpdaterToUserEntityMapper } from '@mapper/user/userUpdateToUserEnti
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { Inject, Service, Token } from 'typedi';
 import { DataSource, QueryRunner, Repository, UpdateResult } from 'typeorm';
-import { UserEntity } from '../entity/user.entity';
-import { IUserUpdater } from '../model/user/user-update.model';
-import { IUserRepository } from './interface/user.repository.interface';
+import { UserEntity } from '../../entity/user.entity';
+import { IUserUpdater } from '../../model/user/user-update.model';
+import { IUserRepository } from './user.repository.interface';
 
 export const USER_REPOSITORY_TOKEN = new Token<IUserRepository>('UserRepository');
 const USER_ENTITY_REPOSITORY_TOKEN = UserEntity.name;

@@ -1,5 +1,5 @@
 import { UserEntity } from '@entity/user.entity';
-import { IUserEntityToUserCreatedMapper } from '@interface/userEntityToUserCreated.mapper.interface';
+import { IUserEntityToUserCreatedMapper } from '@mapper/user/userEntityToUserCreated.mapper/userEntityToUserCreated.mapper.interface';
 import { IUserCreated } from '@model/user/user-create.model';
 import { Service, Token } from 'typedi';
 

@@ -8,8 +8,8 @@ import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 import { LinkRepository } from '@repository/link.repository';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
-import { ILinkService } from '@service/interface/link.service.interface';
-import { TokenService, TOKEN_SERVICE_TOKEN } from '@service/token.service';
+import { ILinkService } from '@service/link.service/link.service.interface';
+import { TokenService, TOKEN_SERVICE_TOKEN } from '@service/middleware/token.service/token.service';
 import { Inject, Service, Token } from 'typedi';
 
 export const LINK_SERVICE_TOKEN = new Token<ILinkService>('LinkService');

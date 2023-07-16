@@ -1,5 +1,5 @@
 import { EntityBase } from '@entity/base.entity';
-import { PasswordService } from '@service/password.service';
+import { PasswordService } from '@service/middleware/password.service/password.service';
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 // eslint-disable-next-line hexagonal-architecture/enforce
 import { UserApplicationEntity } from './user-application.entity';

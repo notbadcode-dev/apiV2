@@ -5,7 +5,7 @@ import { Authority } from '@service/decorator/authority.decorator';
 import { Request } from 'express';
 import { Body, Delete, Get, JsonController, Param, Patch, Post, Req } from 'routing-controllers';
 import { Inject, Service } from 'typedi';
-import { LinkService, LINK_SERVICE_TOKEN } from '../service/link.service';
+import { LinkService, LINK_SERVICE_TOKEN } from '../service/link.service/link.service';
 
 @Service()
 @JsonController('/link')

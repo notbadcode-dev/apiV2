@@ -11,7 +11,7 @@ import {
     PaginateCalculateHelper,
 } from '@model/pagination-item/pagination-item.model';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
-import { TokenService } from '@service/token.service';
+import { TokenService } from '@service/middleware/token.service/token.service';
 import { Inject, Service } from 'typedi';
 import { DataSource, DeleteResult, QueryRunner, Repository, UpdateResult } from 'typeorm';
 import { LinkEntity } from '../entity/link.entity';

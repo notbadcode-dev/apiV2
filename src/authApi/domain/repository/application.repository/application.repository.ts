@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 // eslint-disable-next-line hexagonal-architecture/enforce
 import { ApplicationEntity } from '@entity/application.entity';
 // eslint-disable-next-line hexagonal-architecture/enforce
-import { IApplicationRepository } from '@interface/application.repository.interface';
+import { IApplicationRepository } from '@repository/application.repository/application.repository.interface';
 
 export const APPLICATION_REPOSITORY_TOKEN = new Token<IApplicationRepository>('ApplicationRepository');
 const APPLICATION_ENTITY_REPOSITORY_TOKEN = ApplicationEntity.name;

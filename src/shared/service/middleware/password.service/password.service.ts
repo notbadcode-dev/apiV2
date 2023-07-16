@@ -1,6 +1,6 @@
 import { ERROR_MESSAGE_PASSWORD } from '@constant/error-message/error-message-password.constant';
 import { LoggerMethodDecorator } from '@decorator/logger-method.decorator';
-import { IPasswordService } from '@interface/password.service.interface';
+import { IPasswordService } from '@service/middleware/password.service/password.service.interface';
 import * as bcrypt from 'bcrypt';
 import { Service, Token } from 'typedi';
 

@@ -4,7 +4,7 @@ import { LoggerMethodDecorator } from '@decorator/logger-method.decorator';
 import { ApplicationEntity } from '@entity/application.entity';
 import { UserApplicationEntity } from '@entity/user-application.entity';
 import { UserEntity } from '@entity/user.entity';
-import { IUserApplicationRepository } from '@interface/user-application.repository.interface';
+import { IUserApplicationRepository } from '@repository/user-application.repository/user-application.repository.interface';
 import { Inject, Service, Token } from 'typedi';
 import { Repository } from 'typeorm';
 

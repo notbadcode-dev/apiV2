@@ -18,15 +18,6 @@
         "paths": {
             "@constant/*": ["src/shared/constant/*"],
             "@service/*": ["src/shared/service/*", "src/authApi/application/service/*", "src/linkApi/application/service/*"],
-            "@interface/*": [
-                "src/shared/service/interface/*",
-                "src/authApi/application/service/interface/*",
-                "src/authApi/domain/repository/interface/*",
-                "src/authApi/infrastructure/interface/*",
-                "src/authApi/infrastructure/mapper/user/interface/*",
-                "src/linkApi/application/service/interface/*",
-                "src/linkApi/domain/repository/interface/*"
-            ],
             "@middleware/*": ["src/shared/service/middleware/*"],
             "@entity/*": ["src/shared/entity/*", "src/authApi/domain/entity/*", "src/linkApi/domain/entity/*"],
             "@model/*": ["src/shared/model/*", "src/authApi/domain/model/*", "src/linkApi/domain/model/*"],
