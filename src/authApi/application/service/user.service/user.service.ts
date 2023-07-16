@@ -24,7 +24,10 @@ import {
     USER_APPLICATION_REPOSITORY_TOKEN,
 } from '@repository/user-application.repository/user-application.repository';
 import { UserRepository, USER_REPOSITORY_TOKEN } from '@repository/user.repository/user.repository';
-import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
+import {
+    GlobalUtilValidateService,
+    GLOBAL_UTIL_VALIDATE_SERVICE,
+} from '@service/global/global.util.validate.service/global.util.validate.service';
 import { IUserService } from '@service/user.service/user.service.interface';
 import { Inject, Service, Token } from 'typedi';
 
@@ -38,7 +41,7 @@ export class UserService implements IUserService {
         @Inject(USER_APPLICATION_REPOSITORY_TOKEN) private _userApplicationRepository: UserApplicationRepository,
         @Inject(USER_ENTITY_TO_USER_MAPPER_TOKEN) private _userEntityToUserMapper: UserEntityToUserMapper,
         @Inject(USER_ENTITY_TO_USER_CREATED_MAPPER) private _userEntityToUserCreatedMapper: UserEntityToUserCreatedMapper,
-        @Inject() private _globalUtilValidateService: GlobalUtilValidateService
+        @Inject(GLOBAL_UTIL_VALIDATE_SERVICE) private _globalUtilValidateService: GlobalUtilValidateService
     ) {}
 
     @LoggerMethodDecorator

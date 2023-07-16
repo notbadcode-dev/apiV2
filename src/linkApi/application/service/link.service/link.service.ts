@@ -7,7 +7,10 @@ import { ILink } from '@model/link/link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 import { LinkRepository } from '@repository/link.repository';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
-import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
+import {
+    GlobalUtilValidateService,
+    GLOBAL_UTIL_VALIDATE_SERVICE,
+} from '@service/global/global.util.validate.service/global.util.validate.service';
 import { ILinkService } from '@service/link.service/link.service.interface';
 import { TokenService, TOKEN_SERVICE_TOKEN } from '@service/middleware/token.service/token.service';
 import { Inject, Service, Token } from 'typedi';
@@ -19,7 +22,7 @@ export class LinkService implements ILinkService {
     constructor(
         @Inject() private _linkRepository: LinkRepository,
         @Inject(TOKEN_SERVICE_TOKEN) private _tokenService: TokenService,
-        @Inject() private _globalUtilValidateService: GlobalUtilValidateService,
+        @Inject(GLOBAL_UTIL_VALIDATE_SERVICE) private _globalUtilValidateService: GlobalUtilValidateService,
         @Inject() private _linkEntityToLinkMapper: LinkEntityToLinkMapper
     ) {}
 

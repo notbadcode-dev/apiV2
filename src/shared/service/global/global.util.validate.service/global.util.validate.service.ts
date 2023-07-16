@@ -6,10 +6,13 @@ import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { GlobalUtilNumberService } from '@service/global/global.util.number.service';
 import 'reflect-metadata';
-import { Inject, Service } from 'typedi';
+import { Inject, Service, Token } from 'typedi';
+import { IGlobalUtilValidateService } from './global.util.validate.service.interface';
 
-@Service()
-export class GlobalUtilValidateService {
+export const GLOBAL_UTIL_VALIDATE_SERVICE = new Token<IGlobalUtilValidateService>('GlobalUtilValidateService');
+
+@Service(GLOBAL_UTIL_VALIDATE_SERVICE)
+export class GlobalUtilValidateService implements IGlobalUtilValidateService {
     constructor(@Inject() private _globalUtilNumberService: GlobalUtilNumberService) {}
 
     @LoggerMethodDecorator

@@ -9,7 +9,7 @@ import { IUser } from '@model/user/user.model';
 import { ApplicationRepository } from '@repository/application.repository/application.repository';
 import { UserApplicationRepository } from '@repository/user-application.repository/user-application.repository';
 import { UserRepository } from '@repository/user.repository/user.repository';
-import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
+import { GlobalUtilValidateService } from '@service/global/global.util.validate.service/global.util.validate.service';
 import { UserService } from '@service/user.service/user.service';
 import { IUserService } from '@service/user.service/user.service.interface';
 import { UserServiceTestData } from '@testData/service/user.service.test.data';

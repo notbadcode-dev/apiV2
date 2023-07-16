@@ -2,7 +2,7 @@ import { ERROR_MESSAGE_UTIL } from '@constant/error-message/error-message-util.c
 import { InternalServerError } from '@error/internal-server.error';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 import { GlobalUtilNumberService } from '@service/global/global.util.number.service';
-import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
+import { GlobalUtilValidateService } from '@service/global/global.util.validate.service/global.util.validate.service';
 import { PaginateTestData } from '@testData/service/paginate.test.data';
 import { anyNumber, instance, mock, when } from 'ts-mockito';
 
