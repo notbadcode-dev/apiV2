@@ -1,7 +1,7 @@
 import { ERROR_MESSAGE_LINK } from '@constant/error-message/error-message-link.constant';
 import { LinkEntity } from '@entity/link.entity';
 import { ArgumentError } from '@error/argument.error';
-import { LinkEntityToLinkMapper, LINK_ENTITY_TO_LINK_MAPPER } from '@mapper/link/linkEntityToLink.mapper';
+import { LinkEntityToLinkMapper, LINK_ENTITY_TO_LINK_MAPPER } from '@mapper/link/linkEntityToLink.mapper/linkEntityToLink.mapper';
 import { ILinkCreate } from '@model/link/link-create.model';
 import { ILink } from '@model/link/link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';

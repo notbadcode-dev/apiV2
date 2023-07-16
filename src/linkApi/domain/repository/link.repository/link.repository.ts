@@ -3,7 +3,7 @@ import { PAGINATE } from '@constant/paginate.constant';
 import { LinkEntity } from '@entity/link.entity';
 import { InternalServerError } from '@error/internal-server.error';
 import { NotFountError } from '@error/not-found.error';
-import { LinkToLinkEntityMapper } from '@mapper/link/linkToLinkEntity.mapper/linkToLinkEntity.mapper';
+import { LinkToLinkEntityMapper, LINK_TO_LINK_ENTITY_MAPPER } from '@mapper/link/linkToLinkEntity.mapper/linkToLinkEntity.mapper';
 import { ILink } from '@model/link/link.model';
 import {
     IPaginateCalculateRequest,
@@ -27,7 +27,7 @@ export class LinkRepository implements ILinkRepository {
         private readonly _linkRepository: Repository<LinkEntity>,
         @Inject()
         private _dataSource: DataSource,
-        @Inject() private _linkToLinkEntityMapper: LinkToLinkEntityMapper,
+        @Inject(LINK_TO_LINK_ENTITY_MAPPER) private _linkToLinkEntityMapper: LinkToLinkEntityMapper,
         @Inject(TOKEN_SERVICE_TOKEN) private _tokenService: TokenService
     ) {}
 

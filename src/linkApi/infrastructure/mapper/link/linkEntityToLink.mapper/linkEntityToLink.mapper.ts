@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 
-import { LinkGroupEntityToLinkGroupMapper } from '@app/linkApi/infrastructure/mapper/link-group/linkGroupEntityToLinkGroup.mapper';
 import { LinkGroupEntity } from '@entity/link-group.entity';
 import { LinkOrderEntity } from '@entity/link-order.entity';
 import { LinkEntity } from '@entity/link.entity';
@@ -9,12 +8,16 @@ import {
     LinkGroupRelationEntityToLinkGroupMapper,
     LINK_GROUP_RELATION_ENTITY_TO_LINK_GROUP_MAPPER,
 } from '@mapper/link-group-relation/linkGroupRelationEntityToLinkGroup.mapper/linkGroupRelationEntityToLinkGroup.mapper';
+import {
+    LinkGroupEntityToLinkGroupMapper,
+    LINK_GROUP_ENTITY_TO_GROUP_MAPPER,
+} from '@mapper/link-group/linkGroupEntityToLinkGroup.mapper/linkGroupEntityToLinkGroup.mapper';
 import { LinkTagEntityToTagMapper, LINK_TAG_ENTITY_TO_TAG } from '@mapper/link-tag/linkTagEntityToTag.mapper/linkTagEntityToTag.mapper';
 import { TagEntityToTagMapper, TAG_ENTITY_TO_TAG_MAPPER } from '@mapper/tag/tagEntityToTag.mapper/tagEntityToTag.mapper';
 import { ILinkGroup } from '@model/group/group-link.model';
 import { ILink } from '@model/link/link.model';
 import { Inject, Service, Token } from 'typedi';
-import { ILinkEntityToLinkMapper } from './linkToLinkEntity.mapper/linkToLinkEntity.mapper.interface';
+import { ILinkEntityToLinkMapper } from '../linkToLinkEntity.mapper/linkToLinkEntity.mapper.interface';
 
 export const LINK_ENTITY_TO_LINK_MAPPER = new Token<ILinkEntityToLinkMapper>('LinkEntityToLinkMapper');
 
@@ -25,7 +28,7 @@ export class LinkEntityToLinkMapper implements ILinkEntityToLinkMapper {
         @Inject(LINK_TAG_ENTITY_TO_TAG) private _linkTagEntityToTagMapper: LinkTagEntityToTagMapper,
         @Inject(LINK_GROUP_RELATION_ENTITY_TO_LINK_GROUP_MAPPER)
         private _linkGroupRelationEntityToLinkGroupMapper: LinkGroupRelationEntityToLinkGroupMapper,
-        @Inject() private _linkGroupEntityToLinkGroupMapper: LinkGroupEntityToLinkGroupMapper
+        @Inject(LINK_GROUP_ENTITY_TO_GROUP_MAPPER) private _linkGroupEntityToLinkGroupMapper: LinkGroupEntityToLinkGroupMapper
     ) {}
 
     public map(linkEntity: LinkEntity): ILink {
