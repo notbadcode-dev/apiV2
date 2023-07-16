@@ -1,8 +1,8 @@
-import { LinkToLinkEntityMapper } from '@app/linkApi/infrastructure/mapper/link/linkToLinkEntity.mapper';
 import { ERROR_MESSAGE_LINK } from '@constant/error-message/error-message-link.constant';
 import { PAGINATE } from '@constant/paginate.constant';
 import { InternalServerError } from '@error/internal-server.error';
 import { NotFountError } from '@error/not-found.error';
+import { LinkToLinkEntityMapper } from '@mapper/link/linkToLinkEntity.mapper';
 import { ILink } from '@model/link/link.model';
 import {
     IPaginateCalculateRequest,
@@ -16,14 +16,17 @@ import { Inject, Service } from 'typedi';
 import { DataSource, DeleteResult, QueryRunner, Repository, UpdateResult } from 'typeorm';
 import { LinkEntity } from '../entity/link.entity';
 
+const LINK_ENTITY_REPOSITORY_TOKEN = LinkEntity.name;
+
 @Service()
 export class LinkRepository {
     constructor(
-        @Inject(LinkEntity.name)
-        private readonly _linkRepository: Repository<LinkEntity>,
-        @Inject() private _dataSource: DataSource,
+        @Inject(LINK_ENTITY_REPOSITORY_TOKEN)
+        @Inject()
+        private _dataSource: DataSource,
         @Inject() private _linkToLinkEntityMapper: LinkToLinkEntityMapper,
-        @Inject() private _tokenService: TokenService
+        @Inject() private _tokenService: TokenService,
+        private readonly _linkRepository: Repository<LinkEntity>
     ) {}
 
     @LoggerMethodDecorator

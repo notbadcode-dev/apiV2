@@ -7,11 +7,15 @@ import { Inject, Service } from 'typedi';
 import { Repository } from 'typeorm';
 import { LinkGroupRelationEntity } from '../entity/link-group-relation.entity';
 
+const LINK_GROUP_RELATION_ENTITY_REPOSITORY_TOKEN = LinkGroupRelationEntity.name;
+const LINK_ENTITY_REPOSITORY_TOKEN = LinkEntity.name;
+
 @Service()
 export class LinkGroupRelationRepository {
     constructor(
-        @Inject(LinkGroupRelationEntity.name) private readonly _linkGroupRelationRepository: Repository<LinkGroupRelationEntity>,
-        @Inject(LinkEntity.name) private readonly _linkRepository: Repository<LinkEntity>
+        @Inject(LINK_GROUP_RELATION_ENTITY_REPOSITORY_TOKEN)
+        private readonly _linkGroupRelationRepository: Repository<LinkGroupRelationEntity>,
+        @Inject(LINK_ENTITY_REPOSITORY_TOKEN) private readonly _linkRepository: Repository<LinkEntity>
     ) {}
 
     @LoggerMethodDecorator

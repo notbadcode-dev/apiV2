@@ -7,12 +7,15 @@ import { Inject, Service } from 'typedi';
 import { Repository } from 'typeorm';
 import { LinkTagEntity } from '../entity/link-tag.entity';
 
+const LINK_TAG_ENTITY_REPOSITORY_TOKEN = LinkTagEntity.name;
+const LINK_ENTITY_REPOSITORY_TOKEN = LinkEntity.name;
+
 @Service()
 export class LinkTagRepository {
     constructor(
-        @Inject(LinkTagEntity.name)
+        @Inject(LINK_TAG_ENTITY_REPOSITORY_TOKEN)
         private readonly _linkTagRepository: Repository<LinkTagEntity>,
-        @Inject(LinkEntity.name) private readonly _linkRepository: Repository<LinkEntity>
+        @Inject(LINK_ENTITY_REPOSITORY_TOKEN) private readonly _linkRepository: Repository<LinkEntity>
     ) {}
 
     @LoggerMethodDecorator
