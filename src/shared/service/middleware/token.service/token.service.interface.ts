@@ -12,4 +12,6 @@ export interface ITokenService {
     getCurrentUser(): IUser | null;
 
     getCurrentUserId(): number;
+
+    verify(token: string): number | null;
 }

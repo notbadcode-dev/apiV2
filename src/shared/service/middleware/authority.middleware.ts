@@ -5,7 +5,7 @@
 import { Request } from 'express';
 import { UnauthorizedError } from 'routing-controllers';
 import Container from 'typedi';
-import { TokenService, TOKEN_SERVICE_TOKEN } from './token.service/token.service';
+import { TOKEN_SERVICE_TOKEN } from './token.service/token.service';
 import { ITokenService } from './token.service/token.service.interface';
 
 export async function verifyTokenMiddleware(req: Request): Promise<void> {
@@ -21,13 +21,12 @@ export async function verifyTokenMiddleware(req: Request): Promise<void> {
         throw new UnauthorizedError();
     }
 
-    const USER_ID = TokenService.verify(TOKEN);
+    const TOKEN_SERVICE: ITokenService = Container.get(TOKEN_SERVICE_TOKEN);
+    const USER_ID = TOKEN_SERVICE.verify(TOKEN);
 
     if (!USER_ID) {
         throw new UnauthorizedError();
     }
-
-    const TOKEN_SERVICE: ITokenService = Container.get(TOKEN_SERVICE_TOKEN);
 
     await TOKEN_SERVICE.setCurrentUser(USER_ID);
 }

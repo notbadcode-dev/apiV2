@@ -5,28 +5,28 @@ import { Service, Token } from 'typedi';
 import { ERROR_MESSAGE_API } from '../../../constant/error-message/error-message-api.constant';
 import { IGlobalUtilEnvService } from './global.util.env.service.interface';
 
-export const GLOBAL_UTIL_ENV_SERVICE = new Token<IGlobalUtilEnvService>('GlobalUtilEnvService');
+export const GLOBAL_UTIL_ENV_SERVICE_TOKEN = new Token<IGlobalUtilEnvService>('GlobalUtilEnvService');
 
-@Service(GLOBAL_UTIL_ENV_SERVICE)
+@Service(GLOBAL_UTIL_ENV_SERVICE_TOKEN)
 export class GlobalUtilEnvService implements IGlobalUtilEnvService {
     public getLoggingEnabled(): boolean {
         return process.env.LOGGING_ENABLED?.includes('true') ? true : false;
     }
 
-    public static getSessionSecret(): string {
+    public getSessionSecret(): string {
         return this.getStringEnvironmentVariable(process.env.SESSION_SECRET);
     }
 
-    public static getSessionExpiresIn(): string {
+    public getSessionExpiresIn(): string {
         return this.getStringEnvironmentVariable(process.env.SESSION_EXPIRES_IN);
     }
 
-    public static getRunTest(): boolean {
+    public getRunTest(): boolean {
         const RUN_TEST: string = this.getStringEnvironmentVariable(process.env.RUN_TEST);
         return RUN_TEST === 'true';
     }
 
-    public static getAuthEnvironment(): IEnvironment {
+    public getAuthEnvironment(): IEnvironment {
         return {
             port: this.getNumberEnvironmentVariable(process.env.API_AUTH_PORT),
             path: this.getStringEnvironmentVariable(process.env.API_AUTH_PATH),
@@ -34,7 +34,7 @@ export class GlobalUtilEnvService implements IGlobalUtilEnvService {
         };
     }
 
-    public static getLinkEnvironment(): IEnvironment {
+    public getLinkEnvironment(): IEnvironment {
         return {
             port: this.getNumberEnvironmentVariable(process.env.API_LINK_PORT),
             path: this.getStringEnvironmentVariable(process.env.API_LINK_PATH),
@@ -42,7 +42,7 @@ export class GlobalUtilEnvService implements IGlobalUtilEnvService {
         };
     }
 
-    private static getStringEnvironmentVariable(variable?: string): string {
+    private getStringEnvironmentVariable(variable?: string): string {
         if (!variable) {
             throw new CriticalServerError(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
         }
@@ -56,7 +56,7 @@ export class GlobalUtilEnvService implements IGlobalUtilEnvService {
         return STRING_ENVIRONMENT_VARIABLE;
     }
 
-    private static getNumberEnvironmentVariable(variable?: string): number {
+    private getNumberEnvironmentVariable(variable?: string): number {
         if (!variable) {
             throw new Error(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
         }

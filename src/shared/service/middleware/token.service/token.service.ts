@@ -1,6 +1,7 @@
 import { LoggerMethodDecorator } from '@decorator/logger-method.decorator';
 import { IUser } from '@model/user/user.model';
-import { GlobalUtilEnvService } from '@service/global/global.util.env.service/global.util.env.service';
+import { GLOBAL_UTIL_ENV_SERVICE_TOKEN } from '@service/global/global.util.env.service/global.util.env.service';
+import { IGlobalUtilEnvService } from '@service/global/global.util.env.service/global.util.env.service.interface';
 import { ITokenService } from '@service/middleware/token.service/token.service.interface';
 import { USER_SERVICE_TOKEN } from '@service/user.service/user.service';
 import { IUserService } from '@service/user.service/user.service.interface';
@@ -12,18 +13,17 @@ export const TOKEN_SERVICE_TOKEN = new Token<ITokenService>('TokenService');
 
 @Service(TOKEN_SERVICE_TOKEN)
 export class TokenService implements ITokenService {
-    private static sessionSecret = GlobalUtilEnvService.getSessionSecret();
-
-    private sessionExpiresIn = GlobalUtilEnvService.getSessionExpiresIn();
-
     private currentUser: IUser | null = null;
 
-    constructor(@Inject(USER_SERVICE_TOKEN) private _userService: IUserService) {}
+    constructor(
+        @Inject(USER_SERVICE_TOKEN) private _userService: IUserService,
+        @Inject(GLOBAL_UTIL_ENV_SERVICE_TOKEN) private _globalUtilEnvService: IGlobalUtilEnvService
+    ) {}
 
     @LoggerMethodDecorator
     public sign(userId: number): string {
-        const SESSION_SECRET = GlobalUtilEnvService.getSessionSecret();
-        const TOKEN = jwt.sign({ userId }, SESSION_SECRET, { expiresIn: this.sessionExpiresIn });
+        const SESSION_SECRET = this._globalUtilEnvService.getSessionSecret();
+        const TOKEN = jwt.sign({ userId }, SESSION_SECRET, { expiresIn: this._globalUtilEnvService.getSessionExpiresIn() });
         return TOKEN;
     }
 
@@ -63,9 +63,9 @@ export class TokenService implements ITokenService {
     }
 
     @LoggerMethodDecorator
-    public static verify(token: string): number | null {
+    public verify(token: string): number | null {
         try {
-            const DECODED = jwt.verify(token, this.sessionSecret) as { userId: number };
+            const DECODED = jwt.verify(token, this._globalUtilEnvService.getSessionSecret()) as { userId: number };
             return DECODED.userId;
         } catch {
             throw new UnauthorizedError();

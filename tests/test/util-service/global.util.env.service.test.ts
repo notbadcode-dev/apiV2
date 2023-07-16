@@ -1,7 +1,8 @@
 import { ERROR_MESSAGE_API } from '@constant/error-message/error-message-api.constant';
 import { GlobalUtilEnvService } from '@service/global/global.util.env.service/global.util.env.service';
+import { IGlobalUtilEnvService } from '@service/global/global.util.env.service/global.util.env.service.interface';
 
-let globalUtilEnvService: GlobalUtilEnvService;
+let globalUtilEnvService: IGlobalUtilEnvService;
 
 beforeEach(() => {
     globalUtilEnvService = new GlobalUtilEnvService();
@@ -37,7 +38,7 @@ describe('getSessionSecret', () => {
     it('returns the value of SESSION_SECRET environment variable', () => {
         process.env.SESSION_SECRET = 'mysecret';
 
-        const RESULT = GlobalUtilEnvService.getSessionSecret();
+        const RESULT = globalUtilEnvService.getSessionSecret();
 
         expect(RESULT).toBe('mysecret');
     });
@@ -45,7 +46,7 @@ describe('getSessionSecret', () => {
     it('throws an error when SESSION_SECRET environment variable is undefined', () => {
         delete process.env.SESSION_SECRET;
 
-        expect(() => GlobalUtilEnvService.getSessionSecret()).toThrowError(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
+        expect(() => globalUtilEnvService.getSessionSecret()).toThrowError(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
     });
 });
 
@@ -53,7 +54,7 @@ describe('getSessionExpiresIn', () => {
     it('returns the value of SESSION_EXPIRES_IN environment variable', () => {
         process.env.SESSION_EXPIRES_IN = '10m';
 
-        const RESULT = GlobalUtilEnvService.getSessionExpiresIn();
+        const RESULT = globalUtilEnvService.getSessionExpiresIn();
 
         expect(RESULT).toBe('10m');
     });
@@ -61,7 +62,7 @@ describe('getSessionExpiresIn', () => {
     it('throws an error when SESSION_EXPIRES_IN environment variable is undefined', () => {
         delete process.env.SESSION_EXPIRES_IN;
 
-        expect(() => GlobalUtilEnvService.getSessionExpiresIn()).toThrowError(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
+        expect(() => globalUtilEnvService.getSessionExpiresIn()).toThrowError(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
     });
 });
 
@@ -69,7 +70,7 @@ describe('getRunTest', () => {
     it('returns true when RUN_TEST environment variable is "true"', () => {
         process.env.RUN_TEST = 'true';
 
-        const RESULT = GlobalUtilEnvService.getRunTest();
+        const RESULT = globalUtilEnvService.getRunTest();
 
         expect(RESULT).toBe(true);
     });
@@ -77,7 +78,7 @@ describe('getRunTest', () => {
     it('returns false when RUN_TEST environment variable is not "true"', () => {
         process.env.RUN_TEST = 'false';
 
-        const RESULT = GlobalUtilEnvService.getRunTest();
+        const RESULT = globalUtilEnvService.getRunTest();
 
         expect(RESULT).toBe(false);
     });
@@ -89,7 +90,7 @@ describe('getAuthEnvironment', () => {
         process.env.API_AUTH_PATH = '/auth';
         process.env.API_AUTH_TITLE = 'Auth API';
 
-        const RESULT = GlobalUtilEnvService.getAuthEnvironment();
+        const RESULT = globalUtilEnvService.getAuthEnvironment();
 
         expect(RESULT).toEqual({ port: 1234, path: '/auth', apiTitle: 'Auth API' });
     });
@@ -97,19 +98,19 @@ describe('getAuthEnvironment', () => {
     it('throws an error when API_AUTH_PORT environment variable is undefined', () => {
         delete process.env.API_AUTH_PORT;
 
-        expect(() => GlobalUtilEnvService.getAuthEnvironment()).toThrowError(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
+        expect(() => globalUtilEnvService.getAuthEnvironment()).toThrowError(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
     });
 
     it('throws an error when API_AUTH_PATH environment variable is undefined', () => {
         delete process.env.API_AUTH_PATH;
 
-        expect(() => GlobalUtilEnvService.getAuthEnvironment()).toThrowError(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
+        expect(() => globalUtilEnvService.getAuthEnvironment()).toThrowError(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
     });
 
     it('throws an error when API_AUTH_TITLE environment variable is undefined', () => {
         delete process.env.API_AUTH_TITLE;
 
-        expect(() => GlobalUtilEnvService.getAuthEnvironment()).toThrowError(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
+        expect(() => globalUtilEnvService.getAuthEnvironment()).toThrowError(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
     });
 });
 
@@ -119,7 +120,7 @@ describe('getLinkEnvironment', () => {
         process.env.API_LINK_PATH = '/link';
         process.env.API_LINK_TITLE = 'Link API';
 
-        const RESULT = GlobalUtilEnvService.getLinkEnvironment();
+        const RESULT = globalUtilEnvService.getLinkEnvironment();
 
         expect(RESULT).toEqual({ port: 5678, path: '/link', apiTitle: 'Link API' });
     });
@@ -127,18 +128,18 @@ describe('getLinkEnvironment', () => {
     it('throws an error when API_LINK_PORT environment variable is undefined', () => {
         delete process.env.API_LINK_PORT;
 
-        expect(() => GlobalUtilEnvService.getLinkEnvironment()).toThrowError(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
+        expect(() => globalUtilEnvService.getLinkEnvironment()).toThrowError(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
     });
 
     it('throws an error when API_LINK_PATH environment variable is undefined', () => {
         delete process.env.API_LINK_PATH;
 
-        expect(() => GlobalUtilEnvService.getLinkEnvironment()).toThrowError(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
+        expect(() => globalUtilEnvService.getLinkEnvironment()).toThrowError(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
     });
 
     it('throws an error when API_LINK_TITLE environment variable is undefined', () => {
         delete process.env.API_LINK_TITLE;
 
-        expect(() => GlobalUtilEnvService.getLinkEnvironment()).toThrowError(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
+        expect(() => globalUtilEnvService.getLinkEnvironment()).toThrowError(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
     });
 });
