@@ -22,6 +22,8 @@
                 "src/shared/service/interface/*",
                 "src/authApi/application/service/interface/*",
                 "src/authApi/domain/repository/interface/*",
+                "src/authApi/infrastructure/interface/*",
+                "src/authApi/infrastructure/mapper/user/interface/*",
                 "src/linkApi/application/service/interface/*",
                 "src/linkApi/domain/repository/interface/*"
             ],

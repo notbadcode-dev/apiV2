@@ -1,9 +1,12 @@
 import { UserEntity } from '@entity/user.entity';
+import { IUserEntityToUserMapper } from '@interface/userEntityToUser.mapper.interface';
 import { IUser } from '@model/user/user.model';
-import { Service } from 'typedi';
+import { Service, Token } from 'typedi';
 
-@Service()
-export class UserEntityToUserMapper {
+export const USER_ENTITY_TO_USER_MAPPER = new Token<IUserEntityToUserMapper>('UserEntityToUserMapper');
+
+@Service(USER_ENTITY_TO_USER_MAPPER)
+export class UserEntityToUserMapper implements IUserEntityToUserMapper {
     public map(userEntity: UserEntity): IUser {
         const USER: IUser = {
             id: userEntity.id,
