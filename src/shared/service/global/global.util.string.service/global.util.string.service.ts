@@ -1,14 +1,14 @@
 import { FORMAT_DATE } from '@constant/format/format-date.constant';
 import { Inject, Service, Token } from 'typedi';
 
-import { GlobalUtilDateService } from '../global.util.date.service/global.util.date.service';
+import { GlobalUtilDateService, GLOBAL_UTIL_DATE_SERVICE } from '../global.util.date.service/global.util.date.service';
 import { IGlobalUtilStringService } from './global.util.string.service.interface';
 
 export const GLOBAL_UTIL_STRING_SERVICE = new Token<IGlobalUtilStringService>('GlobalUtilStringService');
 
 @Service(GLOBAL_UTIL_STRING_SERVICE)
 export class GlobalUtilStringService implements IGlobalUtilStringService {
-    constructor(@Inject() private _globalUtilDateService: GlobalUtilDateService) {}
+    constructor(@Inject(GLOBAL_UTIL_DATE_SERVICE) private _globalUtilDateService: GlobalUtilDateService) {}
 
     public formatValues(formattedData: string, parameterDataList: (string | number | Date)[]): string {
         return parameterDataList

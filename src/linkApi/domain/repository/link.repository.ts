@@ -11,7 +11,7 @@ import {
     PaginateCalculateHelper,
 } from '@model/pagination-item/pagination-item.model';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
-import { TokenService } from '@service/middleware/token.service/token.service';
+import { TokenService, TOKEN_SERVICE_TOKEN } from '@service/middleware/token.service/token.service';
 import { Inject, Service } from 'typedi';
 import { DataSource, DeleteResult, QueryRunner, Repository, UpdateResult } from 'typeorm';
 import { LinkEntity } from '../entity/link.entity';
@@ -22,11 +22,11 @@ const LINK_ENTITY_REPOSITORY_TOKEN = LinkEntity.name;
 export class LinkRepository {
     constructor(
         @Inject(LINK_ENTITY_REPOSITORY_TOKEN)
+        private readonly _linkRepository: Repository<LinkEntity>,
         @Inject()
         private _dataSource: DataSource,
         @Inject() private _linkToLinkEntityMapper: LinkToLinkEntityMapper,
-        @Inject() private _tokenService: TokenService,
-        private readonly _linkRepository: Repository<LinkEntity>
+        @Inject(TOKEN_SERVICE_TOKEN) private _tokenService: TokenService
     ) {}
 
     @LoggerMethodDecorator
