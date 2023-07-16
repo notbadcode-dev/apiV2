@@ -11,7 +11,7 @@ import {
     UserEntityToUserMapper,
     USER_ENTITY_TO_USER_MAPPER as USER_ENTITY_TO_USER_MAPPER_TOKEN,
 } from '@mapper/user/userEntityToUser.mapper';
-import { UserEntityToUserCreatedMapper } from '@mapper/user/userEntityToUserCreated.mapper';
+import { UserEntityToUserCreatedMapper, USER_ENTITY_TO_USER_CREATED_MAPPER } from '@mapper/user/userEntityToUserCreated.mapper';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
 import { IUserUpdater } from '@model/user/user-update.model';
 import { IUser } from '@model/user/user.model';
@@ -31,7 +31,7 @@ export class UserService implements IUserService {
         @Inject(APPLICATION_REPOSITORY_TOKEN) private _applicationRepository: ApplicationRepository,
         @Inject(USER_APPLICATION_REPOSITORY_TOKEN) private _userApplicationRepository: UserApplicationRepository,
         @Inject(USER_ENTITY_TO_USER_MAPPER_TOKEN) private _userEntityToUserMapper: UserEntityToUserMapper,
-        @Inject() private _userEntityToUserCreatedMapper: UserEntityToUserCreatedMapper,
+        @Inject(USER_ENTITY_TO_USER_CREATED_MAPPER) private _userEntityToUserCreatedMapper: UserEntityToUserCreatedMapper,
         @Inject() private _globalUtilValidateService: GlobalUtilValidateService
     ) {}
 
