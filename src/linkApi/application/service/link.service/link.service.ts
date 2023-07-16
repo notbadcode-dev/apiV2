@@ -1,7 +1,7 @@
 import { ERROR_MESSAGE_LINK } from '@constant/error-message/error-message-link.constant';
 import { LinkEntity } from '@entity/link.entity';
 import { ArgumentError } from '@error/argument.error';
-import { LinkEntityToLinkMapper } from '@mapper/link/linkEntityToLink.mapper';
+import { LinkEntityToLinkMapper, LINK_ENTITY_TO_LINK_MAPPER } from '@mapper/link/linkEntityToLink.mapper';
 import { ILinkCreate } from '@model/link/link-create.model';
 import { ILink } from '@model/link/link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
@@ -23,7 +23,7 @@ export class LinkService implements ILinkService {
         @Inject(LINK_REPOSITORY_TOKEN) private _linkRepository: LinkRepository,
         @Inject(TOKEN_SERVICE_TOKEN) private _tokenService: TokenService,
         @Inject(GLOBAL_UTIL_VALIDATE_SERVICE) private _globalUtilValidateService: GlobalUtilValidateService,
-        @Inject() private _linkEntityToLinkMapper: LinkEntityToLinkMapper
+        @Inject(LINK_ENTITY_TO_LINK_MAPPER) private _linkEntityToLinkMapper: LinkEntityToLinkMapper
     ) {}
 
     @LoggerMethodDecorator

@@ -1,9 +1,12 @@
 import { LinkTagEntity } from '@entity/link-tag.entity';
 import { TagEntity } from '@entity/tag.entity';
-import { Service } from 'typedi';
+import { Service, Token } from 'typedi';
+import { ILinkTagEntityToTagMapper } from './linkTagEntityToTag.mapper.interface';
 
-@Service()
-export class LinkTagEntityToTagEntityMapper {
+export const LINK_TAG_ENTITY_TO_TAG = new Token<ILinkTagEntityToTagMapper>('LinkTagEntityToTagMapper');
+
+@Service(LINK_TAG_ENTITY_TO_TAG)
+export class LinkTagEntityToTagMapper implements ILinkTagEntityToTagMapper {
     public mapByLinkEntityId(linkEntityId: number, linkTagEntityList?: LinkTagEntity[]): TagEntity[] {
         if (!linkEntityId || !linkTagEntityList || !linkTagEntityList?.length) {
             new Array<TagEntity>();

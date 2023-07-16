@@ -2,12 +2,12 @@ import 'reflect-metadata';
 
 import { LinkGroupRelationEntityToLinkGroupMapper } from '@app/linkApi/infrastructure/mapper/link-group-relation/linkGroupRelationEntityToLinkGroup.mapper';
 import { LinkGroupEntityToLinkGroupMapper } from '@app/linkApi/infrastructure/mapper/link-group/linkGroupEntityToLinkGroup.mapper';
-import { LinkTagEntityToTagEntityMapper } from '@app/linkApi/infrastructure/mapper/link-tag/linkTagEntityToTagEntity.mapper';
-import { TagEntityToTagMapper } from '@app/linkApi/infrastructure/mapper/tag/tagEntityToTag.mapper';
 import { LinkGroupEntity } from '@entity/link-group.entity';
 import { LinkOrderEntity } from '@entity/link-order.entity';
 import { LinkEntity } from '@entity/link.entity';
 import { TagEntity } from '@entity/tag.entity';
+import { LinkTagEntityToTagMapper, LINK_TAG_ENTITY_TO_TAG } from '@mapper/link-tag/linkTagEntityToTag.mapper/linkTagEntityToTag.mapper';
+import { TagEntityToTagMapper, TAG_ENTITY_TO_TAG_MAPPER } from '@mapper/tag/tagEntityToTag.mapper/tagEntityToTag.mapper';
 import { ILinkGroup } from '@model/group/group-link.model';
 import { ILink } from '@model/link/link.model';
 import { Inject, Service, Token } from 'typedi';
@@ -18,15 +18,15 @@ export const LINK_ENTITY_TO_LINK_MAPPER = new Token<ILinkEntityToLinkMapper>('Li
 @Service(LINK_ENTITY_TO_LINK_MAPPER)
 export class LinkEntityToLinkMapper implements ILinkEntityToLinkMapper {
     constructor(
-        @Inject() private _tagEntityToTagMapper: TagEntityToTagMapper,
-        @Inject() private _linkTagEntityToTagEntityMapper: LinkTagEntityToTagEntityMapper,
+        @Inject(TAG_ENTITY_TO_TAG_MAPPER) private _tagEntityToTagMapper: TagEntityToTagMapper,
+        @Inject(LINK_TAG_ENTITY_TO_TAG) private _linkTagEntityToTagMapper: LinkTagEntityToTagMapper,
         @Inject() private _linkGroupRelationEntityToLinkGroupMapper: LinkGroupRelationEntityToLinkGroupMapper,
         @Inject() private _linkGroupEntityToLinkGroupMapper: LinkGroupEntityToLinkGroupMapper
     ) {}
 
     public map(linkEntity: LinkEntity): ILink {
         const ORDER: number | null = this.getLinkOrderIndexByLinkEntityId(linkEntity?.id, linkEntity.linkOrderList);
-        const TAG_ENTITY_LIST: TagEntity[] = this._linkTagEntityToTagEntityMapper.mapByLinkEntityId(linkEntity.id, linkEntity.linkTagList);
+        const TAG_ENTITY_LIST: TagEntity[] = this._linkTagEntityToTagMapper.mapByLinkEntityId(linkEntity.id, linkEntity.linkTagList);
         const LINK_GROUP_ENTITY: LinkGroupEntity | null = this._linkGroupRelationEntityToLinkGroupMapper.mapByLinkEntityId(
             linkEntity.id,
             linkEntity.linkGroupRelationList
