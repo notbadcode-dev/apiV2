@@ -55,32 +55,37 @@ export class AuthService implements IAuthService {
         return TOKEN;
     }
 
+    @LoggerMethodDecorator
     private validateArgumentsOnSignUp(createUser: IUserCreate): void {
         this.validateApplicationId(createUser?.applicationId ?? null);
         this.validateUsername(createUser?.username ?? '');
         this.validatePassword(createUser?.password ?? '');
     }
 
+    @LoggerMethodDecorator
     private validateArgumentsOnSignIn(authSignIn: IAuthSignIn): void {
         this.validateApplicationId(authSignIn?.applicationId ?? null);
         this.validateUsername(authSignIn?.username ?? '');
         this.validatePassword(authSignIn?.password ?? '');
     }
 
+    @LoggerMethodDecorator
     private validateApplicationId(applicationId?: number | null): void {
-        if (!applicationId || applicationId <= 0) {
+        if (!applicationId || isNaN(Number(applicationId)) || applicationId <= 0) {
             throw new ArgumentError(ERROR_MESSAGE_USER.INVALID_APPLICATION_ID);
         }
     }
 
+    @LoggerMethodDecorator
     private validateUsername(username: string): void {
-        if (!username?.length) {
+        if (!username?.trim().length) {
             throw new ArgumentError(ERROR_MESSAGE_USER.USERNAME_CANNOT_BE_EMPTY);
         }
     }
 
+    @LoggerMethodDecorator
     private validatePassword(password: string): void {
-        if (!password?.length) {
+        if (!password?.trim().length) {
             throw new ArgumentError(ERROR_MESSAGE_USER.PASSWORD_CANNOT_BE_EMPTY);
         }
     }

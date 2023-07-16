@@ -22,7 +22,7 @@ import { Inject, Service, Token } from 'typedi';
 export const USER_SERVICE_TOKEN = new Token<IUserService>('UserService');
 
 @Service(USER_SERVICE_TOKEN)
-export class UserService {
+export class UserService implements IUserService {
     constructor(
         @Inject() private _userRepository: UserRepository,
         @Inject() private _applicationRepository: ApplicationRepository,
@@ -78,38 +78,44 @@ export class UserService {
         return USER_LIST;
     }
 
+    @LoggerMethodDecorator
     private validateArgumentOnCreateUser(createUser: IUserCreate): void {
         this.validateApplicationId(createUser?.applicationId ?? null);
         this.validateUsername(createUser?.username ?? '');
         this.validatePassword(createUser?.password ?? '');
     }
 
+    @LoggerMethodDecorator
     private validateArgumentOnUpdateUser(userUpdate: IUserUpdater): void {
         this.validateApplicationId(userUpdate?.applicationId ?? null);
         this.validateUserId(userUpdate?.id ?? null);
         this.validateUsername(userUpdate?.username ?? '');
     }
 
+    @LoggerMethodDecorator
     private validateApplicationId(applicationId?: number | null): void {
         if (!applicationId || applicationId <= 0) {
             throw new ArgumentError(ERROR_MESSAGE_USER.INVALID_APPLICATION_ID);
         }
     }
 
+    @LoggerMethodDecorator
     private validateUserId(userId?: number | null): void {
-        if (!userId || userId <= 0) {
+        if (!userId || isNaN(Number(userId)) || userId <= 0) {
             throw new ArgumentError(ERROR_MESSAGE_USER.INVALID_USER_ID);
         }
     }
 
+    @LoggerMethodDecorator
     private validateUsername(username: string): void {
-        if (!username?.length) {
+        if (!username?.trim().length) {
             throw new ArgumentError(ERROR_MESSAGE_USER.USERNAME_CANNOT_BE_EMPTY);
         }
     }
 
+    @LoggerMethodDecorator
     private validatePassword(password: string): void {
-        if (!password?.length) {
+        if (!password?.trim().length) {
             throw new ArgumentError(ERROR_MESSAGE_USER.PASSWORD_CANNOT_BE_EMPTY);
         }
     }

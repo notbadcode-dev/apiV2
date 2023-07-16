@@ -1,6 +1,7 @@
 import { ERROR_MESSAGE_LINK } from '@constant/error-message/error-message-link.constant';
 import { LinkEntity } from '@entity/link.entity';
 import { ArgumentError } from '@error/argument.error';
+import { ILinkService } from '@interface/link.service.interface';
 import { LinkEntityToLinkMapper } from '@mapper/link/linkEntityToLink.mapper';
 import { ILinkCreate } from '@model/link/link-create.model';
 import { ILink } from '@model/link/link.model';
@@ -9,10 +10,12 @@ import { LinkRepository } from '@repository/link.repository';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
 import { TokenService } from '@service/token.service';
-import { Inject, Service } from 'typedi';
+import { Inject, Service, Token } from 'typedi';
 
-@Service()
-export class LinkService {
+export const LINK_SERVICE_TOKEN = new Token<ILinkService>('LinkService');
+
+@Service(LINK_SERVICE_TOKEN)
+export class LinkService implements ILinkService {
     constructor(
         @Inject() private _linkRepository: LinkRepository,
         @Inject() private _tokenService: TokenService,
@@ -51,7 +54,7 @@ export class LinkService {
 
     @LoggerMethodDecorator
     public async getLink(linkId: number): Promise<ILink> {
-        this.validateIdArgument(linkId);
+        this.validateId(linkId);
 
         const LINK_ENTITY = await this._linkRepository.getById(linkId);
         const LINK: ILink = this._linkEntityToLinkMapper.map(LINK_ENTITY);
@@ -70,6 +73,8 @@ export class LinkService {
 
     @LoggerMethodDecorator
     public async getPaginateLinkList(paginateLinkList: IPaginateItem<ILink>): Promise<IPaginateItem<ILink>> {
+        this._globalUtilValidateService.validatePaginate<ILink>(paginateLinkList);
+
         const PAGINATE_LINK_ENTITY: IPaginateItem<LinkEntity> = await this._linkRepository.getAllPaginated(paginateLinkList);
         const LINK_LIST: ILink[] =
             PAGINATE_LINK_ENTITY?.itemList?.map((LINK_ENTITY: LinkEntity) => this._linkEntityToLinkMapper.map(LINK_ENTITY)) ?? [];
@@ -83,9 +88,11 @@ export class LinkService {
 
     @LoggerMethodDecorator
     public async changeActiveLink(linkId: number, active: boolean): Promise<ILink> {
+        this.validateId(linkId);
+
         const LINK: ILink = await this.getLinkFromLinkId(linkId);
 
-        if (LINK.active === active) {
+        if (LINK.active === active || typeof active !== 'boolean') {
             return LINK;
         }
 
@@ -98,9 +105,11 @@ export class LinkService {
 
     @LoggerMethodDecorator
     public async changeFavoriteLink(linkId: number, favorite: boolean): Promise<ILink> {
+        this.validateId(linkId);
+
         const LINK: ILink = await this.getLinkFromLinkId(linkId);
 
-        if (LINK.favorite === favorite) {
+        if (LINK.favorite === favorite || typeof favorite !== 'boolean') {
             return LINK;
         }
 
@@ -113,7 +122,7 @@ export class LinkService {
 
     @LoggerMethodDecorator
     public async deleteLink(deleteLinkId: number): Promise<boolean> {
-        this.validateIdArgument(deleteLinkId);
+        this.validateId(deleteLinkId);
 
         const SUCCESSFULLY_DELETE_LINK = await this._linkRepository.delete(deleteLinkId);
         return SUCCESSFULLY_DELETE_LINK;
@@ -136,29 +145,35 @@ export class LinkService {
 
     @LoggerMethodDecorator
     private validateArgumentForCreateLink(linkCreate: ILinkCreate): void {
-        if (!linkCreate?.name?.trim().length) {
-            throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_NAME_ARGUMENT);
-        }
-
-        if (!linkCreate?.url?.trim().length) {
-            throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_URL_ARGUMENT);
-        }
+        this.validateName(linkCreate?.name?.trim());
+        this.validateUrl(linkCreate?.url?.trim());
     }
 
     @LoggerMethodDecorator
     private validateArgumentForUpdateLink(updateLink: ILink): void {
-        this.validateArgumentForCreateLink(updateLink);
-        this.validateIdArgument(updateLink?.id);
+        this.validateName(updateLink?.name?.trim());
+        this.validateUrl(updateLink?.url?.trim());
+        this.validateId(updateLink?.id);
     }
 
     @LoggerMethodDecorator
-    private validateIdArgument(id: number): void {
-        if (!id) {
+    private validateId(linkId: number): void {
+        if (!linkId || isNaN(Number(linkId)) || linkId <= 0) {
             throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_ID_ARGUMENT);
         }
+    }
 
-        if (isNaN(Number(id))) {
-            throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_ID_ARGUMENT);
+    @LoggerMethodDecorator
+    private validateName(nameLink?: string): void {
+        if (!nameLink?.trim().length) {
+            throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_NAME_ARGUMENT);
+        }
+    }
+
+    @LoggerMethodDecorator
+    private validateUrl(urlLink?: string): void {
+        if (!urlLink?.trim().length) {
+            throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_URL_ARGUMENT);
         }
     }
 }

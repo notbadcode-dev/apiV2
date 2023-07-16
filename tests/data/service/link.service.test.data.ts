@@ -144,11 +144,11 @@ export class LinkServiceTestData {
         const LINKS_PER_PAGE = 5;
         const CURRENT_PAGE = 1;
         const TOTAL_PAGES = Math.ceil(TOTAL_LINKS / LINKS_PER_PAGE);
-        const linkList: ILink[] = [];
+        const LINK_LIST: ILink[] = [];
 
         // eslint-disable-next-line @typescript-eslint/naming-convention
         for (let i = 1; i <= TOTAL_LINKS; i++) {
-            linkList.push({
+            LINK_LIST.push({
                 id: i,
                 name: `Link ${i}`,
                 url: `https://www.link${i}.com`,
@@ -164,26 +164,10 @@ export class LinkServiceTestData {
             totalPages: TOTAL_PAGES,
             currentPage: CURRENT_PAGE,
             currentPageTotal: LINKS_PER_PAGE,
-            itemList: linkList.slice(0, LINKS_PER_PAGE),
+            itemList: LINK_LIST.slice(0, LINKS_PER_PAGE),
         };
 
         return PAGINATE_LINK_LIST;
-    }
-
-    getSimplePaginateLinkList(): IPaginateItem<ILink> {
-        return {
-            totalPages: 1,
-            currentPage: 10,
-            take: 10,
-        };
-    }
-
-    getSimplePaginateEntityLinkListWithEmptyList(): IPaginateItem<LinkEntity> {
-        return {
-            itemList: [],
-            total: 0,
-            take: 10,
-        };
     }
 
     getSimpleWithUndefinedItemListPaginateLinkList(): IPaginateItem<ILink> {

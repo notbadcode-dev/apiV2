@@ -1,8 +1,12 @@
 import { ERROR_MESSAGE_UTIL } from '@constant/error-message/error-message-util.constant';
 import { InternalServerError } from '@error/internal-server.error';
+import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 import { GlobalUtilNumberService } from '@service/global/global.util.number.service';
 import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
+import { PaginateTestData } from '@testData/service/paginate.test.data';
 import { anyNumber, instance, mock, when } from 'ts-mockito';
+
+const PAGINATE_TEST_DATA: PaginateTestData = new PaginateTestData();
 
 let globalUtilValidateService: GlobalUtilValidateService;
 let globalUtilNumberServiceMock: GlobalUtilNumberService;
@@ -31,5 +35,37 @@ describe('controlSameIdOnParamAndBody', () => {
         expect(() => {
             globalUtilValidateService.controlSameIdOnParamAndBody(1, 1);
         }).not.toThrow();
+    });
+});
+
+describe('validatePaginate', () => {
+    it('Should throw an ArgumentError when paginate take is Null', async () => {
+        // Arrange
+        const PAGINATE_ITEM_LINK: IPaginateItem<number> = PAGINATE_TEST_DATA.getPaginateWithTakeIsNull();
+
+        // Act & Assert
+        expect(() => {
+            globalUtilValidateService.validatePaginate(PAGINATE_ITEM_LINK);
+        }).toThrowError(PAGINATE_TEST_DATA.getArgumentErrorInvalidPaginate());
+    });
+
+    it('Should throw an ArgumentError when paginate take is NaN', async () => {
+        // Arrange
+        const PAGINATE_ITEM_LINK: IPaginateItem<number> = PAGINATE_TEST_DATA.getPaginateWithTakeIsNaN();
+
+        // Act & Assert
+        expect(() => {
+            globalUtilValidateService.validatePaginate(PAGINATE_ITEM_LINK);
+        }).toThrowError(PAGINATE_TEST_DATA.getArgumentErrorInvalidPaginate());
+    });
+
+    it('Should throw an ArgumentError when paginate take is Zero', async () => {
+        // Arrange
+        const PAGINATE_ITEM_LINK: IPaginateItem<number> = PAGINATE_TEST_DATA.getPaginateWithTakeIsZero();
+
+        // Act & Assert
+        expect(() => {
+            globalUtilValidateService.validatePaginate(PAGINATE_ITEM_LINK);
+        }).toThrowError(PAGINATE_TEST_DATA.getArgumentErrorInvalidPaginate());
     });
 });

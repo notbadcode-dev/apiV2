@@ -37,6 +37,9 @@
             "application_with_id_not_found": "Application with id: {0}, not found.",
             "could_not_associate_application_and_user": "Could not associate application {0} and user with username {1}."
         },
+        "pagination": {
+            "malformed_pagination": "Malformed pagination object."
+        },
         "user": {
             "invalid_application_id": "Application ID cannot be null or less than 0.",
             "invalid_user_id": "User ID cannot be null or less than 0.",

@@ -8,8 +8,6 @@ import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
 import { IUserUpdater } from '@model/user/user-update.model';
 import { IUser } from '@model/user/user.model';
 
-type NullableUserCreated = IUserCreated & { applicationId: null };
-
 export class UserServiceTestData {
     public getUserCreate(): IUserCreate {
         return {
@@ -37,14 +35,14 @@ export class UserServiceTestData {
     }
 
     public getUserEntityList(): UserEntity[] {
-        const userEntityOne: UserEntity = this.getUserEntity();
-        const userEntityTwo: UserEntity = {
+        const USER_ENTITY_ONE: UserEntity = this.getUserEntity();
+        const USER_ENTITY_TWO: UserEntity = {
             ...this.getUserEntity(),
             id: 2,
             hashPassword: () => Promise.resolve(),
         };
 
-        return [userEntityOne, userEntityTwo];
+        return [USER_ENTITY_ONE, USER_ENTITY_TWO];
     }
 
     public getUser(): IUser {
@@ -56,28 +54,28 @@ export class UserServiceTestData {
     }
 
     public getUserList(): IUser[] {
-        const userOne: IUser = this.getUser();
-        const userTwo: IUser = {
+        const USER_ONE: IUser = this.getUser();
+        const USER_TWO: IUser = {
             ...this.getUser(),
             id: 2,
         };
 
-        return [userOne, userTwo];
+        return [USER_ONE, USER_TWO];
     }
 
     public getUserCreated(): IUserCreated {
-        const userCreate: IUserCreate = this.getUserCreate();
+        const USER_CREATE: IUserCreate = this.getUserCreate();
 
-        return { ...this.getUserEntity(), applicationId: userCreate.applicationId };
+        return { ...this.getUserEntity(), applicationId: USER_CREATE.applicationId };
     }
 
     public getUserCreatedExpired(): IUserCreated {
-        const userCreated: IUserCreated = this.getUserCreated();
+        const USER_CREATED: IUserCreated = this.getUserCreated();
 
         return {
-            id: userCreated.id,
-            username: userCreated.username,
-            applicationId: userCreated.applicationId,
+            id: USER_CREATED.id,
+            username: USER_CREATED.username,
+            applicationId: USER_CREATED.applicationId,
         };
     }
 

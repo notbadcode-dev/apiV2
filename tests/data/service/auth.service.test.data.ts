@@ -4,11 +4,11 @@ import { UnauthorizedError } from '@error/unauthorized.error';
 import { IAuthSignIn } from '@model/auth/auth-sign-in.model';
 import { UserServiceTestData } from './user.service.test.data';
 
-const userServiceTestData: UserServiceTestData = new UserServiceTestData();
+const USER_SERVICE_TEST_DATA: UserServiceTestData = new UserServiceTestData();
 
 export class AuthServiceTestData {
     getAuthSignIn(): IAuthSignIn {
-        return userServiceTestData.getUserCreate();
+        return USER_SERVICE_TEST_DATA.getUserCreate();
     }
 
     public getToken(): string {
