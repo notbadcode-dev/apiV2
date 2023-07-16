@@ -1,10 +1,13 @@
 import { ERROR_MESSAGE_PASSWORD } from '@constant/error-message/error-message-password.constant';
+import { LoggerMethodDecorator } from '@decorator/logger-method.decorator';
+import { IPasswordService } from '@interface/password.service.interface';
 import * as bcrypt from 'bcrypt';
-import { Service } from 'typedi';
-import { LoggerMethodDecorator } from './decorator/logger-method.decorator';
+import { Service, Token } from 'typedi';
 
-@Service()
-export class PasswordService {
+export const PASSWORD_SERVICE_TOKEN = new Token<IPasswordService>('PasswordService');
+
+@Service(PASSWORD_SERVICE_TOKEN)
+export class PasswordService implements IPasswordService {
     private saltRounds = 10;
 
     @LoggerMethodDecorator

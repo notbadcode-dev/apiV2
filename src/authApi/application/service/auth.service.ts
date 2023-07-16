@@ -9,10 +9,10 @@ import { UserRepository, USER_REPOSITORY_TOKEN } from '@repository/user.reposito
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { IAuthService } from '@service/interface/auth.service.interface';
 import { IUserService } from '@service/interface/user.service.interface';
-import { PasswordService } from '@service/password.service';
-import { TokenService } from '@service/token.service';
+import { PasswordService, PASSWORD_SERVICE_TOKEN } from '@service/password.service';
+import { TokenService, TOKEN_SERVICE_TOKEN } from '@service/token.service';
+import { USER_SERVICE_TOKEN } from '@service/user.service';
 import { Inject, Service, Token } from 'typedi';
-import { USER_SERVICE_TOKEN } from './user.service';
 
 export const AUTH_SERVICE_TOKEN = new Token<IAuthService>('AuthService');
 
@@ -21,8 +21,8 @@ export class AuthService implements IAuthService {
     constructor(
         @Inject(USER_SERVICE_TOKEN) private _userService: IUserService,
         @Inject(USER_REPOSITORY_TOKEN) private _userRepository: UserRepository,
-        @Inject() private _passwordService: PasswordService,
-        @Inject() private _tokenService: TokenService
+        @Inject(PASSWORD_SERVICE_TOKEN) private _passwordService: PasswordService,
+        @Inject(TOKEN_SERVICE_TOKEN) private _tokenService: TokenService
     ) {}
 
     @LoggerMethodDecorator

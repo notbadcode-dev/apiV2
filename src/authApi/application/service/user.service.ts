@@ -12,7 +12,7 @@ import { UserEntityToUserCreatedMapper } from '@mapper/user/userEntityToUserCrea
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
 import { IUserUpdater } from '@model/user/user-update.model';
 import { IUser } from '@model/user/user.model';
-import { ApplicationRepository } from '@repository/application.repository';
+import { ApplicationRepository, APPLICATION_REPOSITORY_TOKEN } from '@repository/application.repository';
 import { UserApplicationRepository } from '@repository/user-application.repository';
 import { UserRepository, USER_REPOSITORY_TOKEN } from '@repository/user.repository';
 import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
@@ -25,7 +25,7 @@ export const USER_SERVICE_TOKEN = new Token<IUserService>('UserService');
 export class UserService implements IUserService {
     constructor(
         @Inject(USER_REPOSITORY_TOKEN) private _userRepository: UserRepository,
-        @Inject() private _applicationRepository: ApplicationRepository,
+        @Inject(APPLICATION_REPOSITORY_TOKEN) private _applicationRepository: ApplicationRepository,
         @Inject() private _userApplicationRepository: UserApplicationRepository,
         @Inject() private _userEntityToUserMapper: UserEntityToUserMapper,
         @Inject() private _userEntityToUserCreatedMapper: UserEntityToUserCreatedMapper,

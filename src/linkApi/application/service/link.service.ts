@@ -9,7 +9,7 @@ import { LinkRepository } from '@repository/link.repository';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { GlobalUtilValidateService } from '@service/global/global.util.validate.service';
 import { ILinkService } from '@service/interface/link.service.interface';
-import { TokenService } from '@service/token.service';
+import { TokenService, TOKEN_SERVICE_TOKEN } from '@service/token.service';
 import { Inject, Service, Token } from 'typedi';
 
 export const LINK_SERVICE_TOKEN = new Token<ILinkService>('LinkService');
@@ -18,7 +18,7 @@ export const LINK_SERVICE_TOKEN = new Token<ILinkService>('LinkService');
 export class LinkService implements ILinkService {
     constructor(
         @Inject() private _linkRepository: LinkRepository,
-        @Inject() private _tokenService: TokenService,
+        @Inject(TOKEN_SERVICE_TOKEN) private _tokenService: TokenService,
         @Inject() private _globalUtilValidateService: GlobalUtilValidateService,
         @Inject() private _linkEntityToLinkMapper: LinkEntityToLinkMapper
     ) {}

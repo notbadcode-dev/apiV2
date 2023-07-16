@@ -1,14 +1,19 @@
 // eslint-disable-next-line hexagonal-architecture/enforce
 import { ERROR_MESSAGE_APPLICATION } from '@constant/error-message/error-message-application.constant';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
-import { Inject, Service } from 'typedi';
+import { Inject, Service, Token } from 'typedi';
 import { Repository } from 'typeorm';
 // eslint-disable-next-line hexagonal-architecture/enforce
-import { ApplicationEntity } from '../entity/application.entity';
+import { ApplicationEntity } from '@entity/application.entity';
+// eslint-disable-next-line hexagonal-architecture/enforce
+import { IApplicationRepository } from '@interface/application.repository.interface';
 
-@Service()
-export class ApplicationRepository {
-    constructor(@Inject(ApplicationEntity.name) private _applicationRepository: Repository<ApplicationEntity>) {}
+export const APPLICATION_REPOSITORY_TOKEN = new Token<IApplicationRepository>('ApplicationRepository');
+const APPLICATION_ENTITY_REPOSITORY_TOKEN = ApplicationEntity.name;
+
+@Service(APPLICATION_REPOSITORY_TOKEN)
+export class ApplicationRepository implements IApplicationRepository {
+    constructor(@Inject(APPLICATION_ENTITY_REPOSITORY_TOKEN) private _applicationRepository: Repository<ApplicationEntity>) {}
 
     @LoggerMethodDecorator
     public async getById(applicationId: number): Promise<ApplicationEntity> {
