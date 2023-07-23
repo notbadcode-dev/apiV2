@@ -52,7 +52,9 @@
             "could_not_update_user": "Could not updated user with username: {0}"
         },
         "group_link": {
-            "group_link_with_id_not_found": "Group with id: {0}, not found."
+            "group_link_with_id_not_found": "Group with id: {0}, not found.",
+            "wrong_name_argument": "Wrong name argument.",
+            "wrong_id_argument": "Wrong id argument."
         },
         "link": {
             "link_with_id_not_found": "Link with id: {0}, not found.",

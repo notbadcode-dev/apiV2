@@ -6,4 +6,6 @@ export const ERROR_MESSAGE_GROUP_LINK = {
             groupLinkId.toString(),
         ]);
     },
+    WRONG_NAME_ARGUMENT: 'error_message.group_link.wrong_name_argument',
+    WRONG_ID_ARGUMENT: 'error_message.group_link.wrong_id_argument',
 };

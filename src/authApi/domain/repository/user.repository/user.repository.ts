@@ -1,16 +1,16 @@
 import { ERROR_MESSAGE_USER } from '@constant/error-message/error-message-user.constant';
+import { UserEntity } from '@entity/user.entity';
 import { InternalServerError } from '@error/internal-server.error';
 import { NotFountError } from '@error/not-found.error';
 import {
     UserUpdaterToUserEntityMapper,
     USER_UPDATER_TO_USER_ENTITY_MAPPER,
 } from '@mapper/user/userUpdateToUserEntity.mapper/userUpdateToUserEntity.mapper';
+import { TUserUpdater } from '@model/user/user-update.model';
+import { IUserRepository } from '@repository/user.repository/user.repository.interface';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { Inject, Service, Token } from 'typedi';
 import { DataSource, QueryRunner, Repository, UpdateResult } from 'typeorm';
-import { UserEntity } from '../../entity/user.entity';
-import { TUserUpdater } from '../../model/user/user-update.model';
-import { IUserRepository } from './user.repository.interface';
 
 export const USER_REPOSITORY_TOKEN = new Token<IUserRepository>('UserRepository');
 const USER_ENTITY_REPOSITORY_TOKEN = UserEntity.name;

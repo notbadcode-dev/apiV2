@@ -1,6 +1,6 @@
-import { ILinkGroup } from '../group/group-link.model';
-import { ITag } from '../tag/tag.model';
-import { ICommonLink } from './link-common.model';
+import { ILinkGroup } from '@model/group/group-link.model';
+import { ICommonLink } from '@model/link/link-common.model';
+import { ITag } from '@model/tag/tag.model';
 
 export interface ILink extends ICommonLink {
     id: number;

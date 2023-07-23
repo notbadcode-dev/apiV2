@@ -1,3 +1,3 @@
-import { IUserCreate } from '../user/user-create.model';
+import { IUserCreate } from '@model/user/user-create.model';
 
 export type TAuthSignIn = IUserCreate;

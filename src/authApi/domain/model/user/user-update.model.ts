@@ -1,3 +1,3 @@
-import { IUser } from './user.model';
+import { IUser } from '@model/user/user.model';
 
 export type TUserUpdater = IUser;

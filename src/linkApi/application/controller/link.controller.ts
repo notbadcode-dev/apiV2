@@ -2,10 +2,10 @@ import { ILinkCreate } from '@model/link/link-create.model';
 import { ILink } from '@model/link/link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 import { Authority } from '@service/decorator/authority.decorator';
+import { LinkService, LINK_SERVICE_TOKEN } from '@service/link.service/link.service';
 import { Request } from 'express';
 import { Body, Delete, Get, JsonController, Param, Patch, Post, Req } from 'routing-controllers';
 import { Inject, Service } from 'typedi';
-import { LinkService, LINK_SERVICE_TOKEN } from '../service/link.service/link.service';
 
 @Service()
 @JsonController('/link')

@@ -1,4 +1,4 @@
-import { ICommonLink } from './link-common.model';
+import { ICommonLink } from '@model/link/link-common.model';
 
 export interface ILinkCreate extends ICommonLink {
     groupLinkId?: number;

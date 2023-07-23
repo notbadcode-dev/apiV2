@@ -7,7 +7,7 @@ import { LinkOrderEntity } from './link-order.entity';
 import { LinkTagEntity } from './link-tag.entity';
 import { UserLinkRelationEntity } from './user-link-relationship.entity';
 
-@Entity({ name: 'link.group_link' })
+@Entity({ name: 'link.link_group' })
 export class LinkGroupEntity extends EntityBase {
     @PrimaryGeneratedColumn('increment', { name: 'link_group_id' })
     id!: number;
@@ -21,7 +21,7 @@ export class LinkGroupEntity extends EntityBase {
     @Column({ name: 'color2', type: 'char', length: 9 })
     colorTo!: string;
 
-    @Column({ type: 'enum', enum: EGroupLinkGradientType })
+    @Column({ name: 'gradient_type', type: 'enum', enum: EGroupLinkGradientType })
     gradientType!: string;
 
     @OneToMany(() => LinkGroupRelationEntity, (linkGroup) => linkGroup.group)
