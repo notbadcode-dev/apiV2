@@ -7,10 +7,10 @@ import { Inject, Service } from 'typedi';
 import { Repository } from 'typeorm';
 import { LinkGroupRelationEntity } from '../entity/link-group-relation.entity';
 
-const LINK_GROUP_RELATION_ENTITY_REPOSITORY_TOKEN = LinkGroupRelationEntity.name;
+export const LINK_GROUP_RELATION_ENTITY_REPOSITORY_TOKEN = LinkGroupRelationEntity.name;
 const LINK_ENTITY_REPOSITORY_TOKEN = LinkEntity.name;
 
-@Service()
+@Service(LINK_GROUP_RELATION_ENTITY_REPOSITORY_TOKEN)
 export class LinkGroupRelationRepository {
     constructor(
         @Inject(LINK_GROUP_RELATION_ENTITY_REPOSITORY_TOKEN)

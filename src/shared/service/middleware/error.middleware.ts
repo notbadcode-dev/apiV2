@@ -16,18 +16,39 @@ export class ErrorMiddleware implements ExpressErrorMiddlewareInterface {
             next(error);
         }
 
-        const STATUS = error.status || error.httpCode || HTTP_RESPONSE_STATUS.INTERNAL_SERVER_ERROR;
-        const MESSAGE = error?.message ?? TranslationService.translate(HTTP_RESPONSE_MESSAGE[STATUS]);
+        const STATUS = this.getStatus(error?.status, error?.httpCode);
+        const MESSAGE = this.getMessage(STATUS, error?.message);
+        const MESSAGE_TYPE = HTTP_RESPONSE_MESSAGE_TYPE[STATUS];
         const HTTP_RESPONSE: IHttpResponse<null> = {
             data: null,
             messageList: [
                 {
-                    type: HTTP_RESPONSE_MESSAGE_TYPE[STATUS],
+                    type: MESSAGE_TYPE,
                     content: MESSAGE,
                 },
             ],
         };
 
         response.status(STATUS).send(HTTP_RESPONSE);
+    }
+
+    getStatus(status?: number, httpCode?: number): number {
+        if (status) {
+            return status;
+        }
+
+        if (httpCode) {
+            return httpCode;
+        }
+
+        return HTTP_RESPONSE_STATUS.INTERNAL_SERVER_ERROR;
+    }
+
+    getMessage(status: number, message?: string): string {
+        if (!message || !message?.length) {
+            return TranslationService.translate(HTTP_RESPONSE_MESSAGE[status]);
+        }
+
+        return message;
     }
 }

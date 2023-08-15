@@ -32,6 +32,6 @@ export class UserLinkRelationEntity extends UserEntity {
     linkTagList!: LinkTagEntity[];
 
     @ManyToOne(() => UserEntity)
-    @JoinColumn()
+    @JoinColumn({ name: 'user_id' })
     user!: UserEntity;
 }

@@ -1,3 +1,4 @@
+import { DEFAULT_COLOR_GROUP_LINK, DEFAULT_GRADIENT_GROUP_LINK } from '@constant/group-link.constant';
 import { EntityBase } from '@entity/base.entity';
 import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { EGroupLinkGradientType } from '../../../../src/shared/enum/group-link-gradient-type.enum';
@@ -15,30 +16,30 @@ export class LinkGroupEntity extends EntityBase {
     @Column({ type: 'varchar', length: 255 })
     name!: string;
 
-    @Column({ name: 'color1', type: 'char', length: 9 })
+    @Column({ name: 'color1', type: 'char', length: 9, default: DEFAULT_COLOR_GROUP_LINK, nullable: true })
     colorFrom!: string;
 
-    @Column({ name: 'color2', type: 'char', length: 9 })
+    @Column({ name: 'color2', type: 'char', length: 9, default: DEFAULT_COLOR_GROUP_LINK, nullable: true })
     colorTo!: string;
 
-    @Column({ name: 'gradient_type', type: 'enum', enum: EGroupLinkGradientType })
-    gradientType!: string;
+    @Column({ name: 'gradient_type', type: 'enum', enum: EGroupLinkGradientType, default: DEFAULT_GRADIENT_GROUP_LINK, nullable: false })
+    gradientType!: EGroupLinkGradientType;
 
     @OneToMany(() => LinkGroupRelationEntity, (linkGroup) => linkGroup.group)
-    linkGroupList!: LinkGroupRelationEntity[];
+    linkGroupList?: LinkGroupRelationEntity[];
 
     @OneToMany(() => LinkTagEntity, (linkTag) => linkTag.group)
-    linkTagList!: LinkTagEntity[];
+    linkTagList?: LinkTagEntity[];
 
     @OneToMany(() => GroupTagEntity, (groupTag) => groupTag.group)
-    groupTagList!: GroupTagEntity[];
+    groupTagList?: GroupTagEntity[];
 
-    @OneToMany(() => LinkOrderEntity, (groupTag) => groupTag.group)
-    linkOrderList!: GroupTagEntity[];
+    @OneToMany(() => LinkOrderEntity, (linkOrder) => linkOrder.group)
+    linkOrderList?: LinkOrderEntity[];
 
     @ManyToOne(() => UserLinkRelationEntity, (user) => user.groupLinkList)
     @JoinColumn({ name: 'user_id' })
-    user!: UserLinkRelationEntity;
+    user?: UserLinkRelationEntity;
 
     @Index('ix_user_id')
     @Column({ name: 'user_id' })

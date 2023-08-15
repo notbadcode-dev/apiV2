@@ -54,13 +54,17 @@
         "group_link": {
             "group_link_with_id_not_found": "Group with id: {0}, not found.",
             "wrong_name_argument": "Wrong name argument.",
-            "wrong_id_argument": "Wrong id argument."
+            "wrong_id_argument": "Wrong id argument.",
+            "could_not_create_group_link": "Could not created group with name: {0}",
+            "could_not_update_group_link": "Could not updated group with name: {0}",
+            "could_not_delete_group_link": "Could not deleted group with name: {0}"
         },
         "link": {
             "link_with_id_not_found": "Link with id: {0}, not found.",
             "wrong_name_argument": "Wrong name argument.",
             "wrong_url_argument": "Wrong URL argument.",
             "wrong_id_argument": "Wrong id argument.",
+            "could_not_create_link": "Could not created link with name: {0}",
             "could_not_update_link": "Could not updated link with name: {0}",
             "could_not_delete_link": "Could not deleted link with name: {0}"
         },

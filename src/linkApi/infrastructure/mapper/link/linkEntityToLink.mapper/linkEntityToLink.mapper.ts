@@ -10,7 +10,7 @@ import {
 } from '@mapper/link-group-relation/linkGroupRelationEntityToLinkGroup.mapper/linkGroupRelationEntityToLinkGroup.mapper';
 import {
     LinkGroupEntityToLinkGroupMapper,
-    LINK_GROUP_ENTITY_TO_GROUP_MAPPER,
+    LINK_GROUP_ENTITY_TO_LINK_GROUP_MAPPER,
 } from '@mapper/link-group/linkGroupEntityToLinkGroup.mapper/linkGroupEntityToLinkGroup.mapper';
 import { LinkTagEntityToTagMapper, LINK_TAG_ENTITY_TO_TAG } from '@mapper/link-tag/linkTagEntityToTag.mapper/linkTagEntityToTag.mapper';
 import { TagEntityToTagMapper, TAG_ENTITY_TO_TAG_MAPPER } from '@mapper/tag/tagEntityToTag.mapper/tagEntityToTag.mapper';
@@ -28,7 +28,7 @@ export class LinkEntityToLinkMapper implements ILinkEntityToLinkMapper {
         @Inject(LINK_TAG_ENTITY_TO_TAG) private _linkTagEntityToTagMapper: LinkTagEntityToTagMapper,
         @Inject(LINK_GROUP_RELATION_ENTITY_TO_LINK_GROUP_MAPPER)
         private _linkGroupRelationEntityToLinkGroupMapper: LinkGroupRelationEntityToLinkGroupMapper,
-        @Inject(LINK_GROUP_ENTITY_TO_GROUP_MAPPER) private _linkGroupEntityToLinkGroupMapper: LinkGroupEntityToLinkGroupMapper
+        @Inject(LINK_GROUP_ENTITY_TO_LINK_GROUP_MAPPER) private _linkGroupEntityToLinkGroupMapper: LinkGroupEntityToLinkGroupMapper
     ) {}
 
     public map(linkEntity: LinkEntity): ILink {

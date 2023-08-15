@@ -5,8 +5,8 @@ import { ITag } from '@model/tag/tag.model';
 
 export interface IGroup extends ILinkGroup {
     linkList: ILink[];
-    tagList: ITag[];
-    colorFrom: string;
-    colorTo: string;
-    gradientType: EGroupLinkGradientType;
+    tagList?: ITag[];
+    colorFrom?: string;
+    colorTo?: string;
+    gradientType?: EGroupLinkGradientType;
 }

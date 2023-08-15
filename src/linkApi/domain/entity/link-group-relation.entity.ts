@@ -11,7 +11,7 @@ export class LinkGroupRelationEntity extends EntityBase {
     id!: number;
 
     @Column({ name: 'order_index', type: 'int' })
-    order_index!: number;
+    order_index?: number;
 
     @ManyToOne(() => LinkEntity, (link) => link.linkGroupRelationList)
     @JoinColumn({ name: 'link_id' })
@@ -22,7 +22,7 @@ export class LinkGroupRelationEntity extends EntityBase {
 
     @ManyToOne(() => UserLinkRelationEntity, (user) => user.linkGroupList)
     @JoinColumn({ name: 'user_id' })
-    user!: UserLinkRelationEntity;
+    user?: UserLinkRelationEntity;
 
     @Index('ix_user_id_order_index')
     @Column({ name: 'user_id' })

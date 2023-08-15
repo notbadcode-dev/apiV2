@@ -14,7 +14,7 @@ import {
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { TokenService, TOKEN_SERVICE_TOKEN } from '@service/middleware/token.service/token.service';
 import { Inject, Service, Token } from 'typedi';
-import { DataSource, DeleteResult, QueryRunner, Repository, UpdateResult } from 'typeorm';
+import { DataSource, DeleteResult, In, QueryRunner, Repository, UpdateResult } from 'typeorm';
 import { ILinkRepository } from './link.repository.interface';
 
 export const LINK_REPOSITORY_TOKEN = new Token<ILinkRepository>('LinkRepository');
@@ -36,8 +36,8 @@ export class LinkRepository implements ILinkRepository {
         const NEW_LINK = new LinkEntity();
         NEW_LINK.name = link.name;
         NEW_LINK.url = link.url;
-        NEW_LINK.favorite = link.favorite;
-        NEW_LINK.active = link.active;
+        NEW_LINK.favorite = link.favorite ?? false;
+        NEW_LINK.active = true;
         NEW_LINK.userId = link.userId;
 
         const QUERY_RUNNER: QueryRunner = this._dataSource.createQueryRunner();
@@ -55,6 +55,39 @@ export class LinkRepository implements ILinkRepository {
         await QUERY_RUNNER.release();
 
         const CREATED_LINK_ENTITY: LinkEntity = await this.getById(SAVED_CREATED_LINK?.id);
+        return CREATED_LINK_ENTITY;
+    }
+
+    @LoggerMethodDecorator
+    async createList(linkList: LinkEntity[]): Promise<LinkEntity[]> {
+        // const CREATED_LINK_ENTITY_LIST: LinkEntity[] = await Promise.all(linkList.map((link: LinkEntity) => this.create(link)));
+        // return CREATED_LINK_ENTITY_LIST;
+
+        const QUERY_RUNNER: QueryRunner = this._dataSource.createQueryRunner();
+        QUERY_RUNNER.connect();
+        QUERY_RUNNER.startTransaction();
+
+        const PROMISE_NEW_LINK_LIST = linkList.map((link: LinkEntity) => {
+            const NEW_LINK = new LinkEntity();
+            NEW_LINK.name = link.name;
+            NEW_LINK.url = link.url;
+            NEW_LINK.favorite = link.favorite ?? false;
+            NEW_LINK.active = true;
+            NEW_LINK.userId = link.userId;
+
+            QUERY_RUNNER.manager.save(NEW_LINK);
+
+            return NEW_LINK;
+        });
+
+        const CREATED_LINK_ENTITY_LIST: LinkEntity[] = await Promise.all(PROMISE_NEW_LINK_LIST);
+
+        await QUERY_RUNNER.commitTransaction();
+        await QUERY_RUNNER.release();
+
+        const CREATED_LINK_ENTITY_ID_LIST: number[] = CREATED_LINK_ENTITY_LIST.map((linkEntity: LinkEntity) => linkEntity.id);
+
+        const CREATED_LINK_ENTITY: LinkEntity[] = await this.getLinkListByLinkListId(CREATED_LINK_ENTITY_ID_LIST);
         return CREATED_LINK_ENTITY;
     }
 
@@ -151,5 +184,19 @@ export class LinkRepository implements ILinkRepository {
         await QUERY_RUNNER.release();
 
         return DELETED_LINK?.affected > 0;
+    }
+
+    @LoggerMethodDecorator
+    public async getLinkListByLinkListId(linkIdList: number[]): Promise<LinkEntity[]> {
+        const USER_ID: number = this._tokenService.getCurrentUserId();
+        const LINK_ENTITY_LIST: LinkEntity[] =
+            (await this._linkRepository.find({
+                where: {
+                    id: In(linkIdList),
+                    userId: USER_ID,
+                },
+            })) ?? [];
+
+        return LINK_ENTITY_LIST;
     }
 }

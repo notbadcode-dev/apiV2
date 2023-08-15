@@ -16,7 +16,7 @@
         "skipLibCheck": true,
         "strictPropertyInitialization": true,
         "paths": {
-            "@constant/*": ["src/shared/constant/*"],
+            "@constant/*": ["src/shared/constant/*", "src/linkApi/infrastructure/constant/*"],
             "@service/*": ["src/shared/service/*", "src/authApi/application/service/*", "src/linkApi/application/service/*"],
             "@middleware/*": ["src/shared/service/middleware/*"],
             "@entity/*": ["src/shared/entity/*", "src/authApi/domain/entity/*", "src/linkApi/domain/entity/*"],

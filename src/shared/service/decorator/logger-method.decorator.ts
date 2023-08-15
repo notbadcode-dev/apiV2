@@ -53,7 +53,8 @@ export function LoggerMethodDecorator(
         try {
             const RESULT = ORIGINAL_METHOD.apply(this, args);
             endMethod(key, CLASS_NAME, IP);
-            LOGGER_SERVICE.infoLogger(`End method ${key} on class ${CLASS_NAME} from IP ${IP}`);
+            const IP_PARTIAL_MASSAGE = IP ? `rom IP ${IP}` : '';
+            LOGGER_SERVICE.infoLogger(`End method ${key} on class ${CLASS_NAME} ${IP_PARTIAL_MASSAGE}`.trim());
             return RESULT;
         } catch (error) {
             errorOnMethod(error + '', key, CLASS_NAME, IP);
