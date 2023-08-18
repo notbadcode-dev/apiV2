@@ -1,6 +1,6 @@
-import { DEFAULT_GRADIENT_GROUP_LINK } from '@app/linkApi/infrastructure/constant/group-link.constant';
-import { LinkGroupRelationEntity } from '@entity/link-group-relation.entity';
-import { LinkGroupEntity } from '@entity/link-group.entity';
+import { GROUP_LINK_CONSTANT } from '@constant/group-link.constant';
+import { GroupLinkEntity } from '@entity/group_link.entity';
+import { LinkEntity } from '@entity/link.entity';
 import { LinkEntityToLinkMapper, LINK_ENTITY_TO_LINK_MAPPER } from '@mapper/link/linkEntityToLink.mapper/linkEntityToLink.mapper';
 import { IGroup } from '@model/group/group.model';
 import { ILink } from '@model/link/link.model';
@@ -14,15 +14,13 @@ export const LINK_GROUP_ENTITY_TO_GROUP_MAPPER = new Token<ILinkGroupEntityToGro
 export class LinkGroupEntityToGroupMapper implements ILinkGroupEntityToGroupMapper {
     constructor(@Inject(LINK_ENTITY_TO_LINK_MAPPER) private _linkEntityToLinkMapper: LinkEntityToLinkMapper) {}
 
-    public map(linkGroupEntity?: LinkGroupEntity | null): IGroup | null {
+    public map(linkGroupEntity?: GroupLinkEntity | null): IGroup | null {
         if (!linkGroupEntity || !linkGroupEntity.id || !linkGroupEntity.name) {
             return null;
         }
 
         const LINK_LIST: ILink[] =
-            linkGroupEntity?.linkGroupList?.map((linkGroupRelationEntity: LinkGroupRelationEntity) =>
-                this._linkEntityToLinkMapper.map(linkGroupRelationEntity.link)
-            ) ?? [];
+            linkGroupEntity.linkList?.map((linkEntity: LinkEntity) => this._linkEntityToLinkMapper.map(linkEntity)) ?? [];
 
         let tagLinkList: ITag[] = new Array<ITag>();
 
@@ -37,7 +35,7 @@ export class LinkGroupEntityToGroupMapper implements ILinkGroupEntityToGroupMapp
             tagList: tagLinkList,
             colorFrom: linkGroupEntity.colorFrom,
             colorTo: linkGroupEntity.colorTo,
-            gradientType: linkGroupEntity.gradientType ?? DEFAULT_GRADIENT_GROUP_LINK,
+            gradientType: linkGroupEntity?.gradientType ?? GROUP_LINK_CONSTANT.DEFAULT_GRADIENT_GROUP_LINK,
         };
 
         return LINK_GROUP;

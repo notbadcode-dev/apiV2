@@ -1,12 +1,12 @@
-import { DEFAULT_COLOR_GROUP_LINK, DEFAULT_GRADIENT_GROUP_LINK } from '@app/linkApi/infrastructure/constant/group-link.constant';
 import { ERROR_MESSAGE_GROUP_LINK } from '@constant/error-message/error-message-group-link.constant';
-import { LinkGroupEntity } from '@entity/link-group.entity';
-import { LinkEntity } from '@entity/link.entity';
+import { GROUP_LINK_CONSTANT } from '@constant/group-link.constant';
+import { GroupLinkEntity } from '@entity/group_link.entity';
 import { ArgumentError } from '@error/argument.error';
 import {
     LinkGroupEntityToGroupMapper,
     LINK_GROUP_ENTITY_TO_GROUP_MAPPER,
 } from '@mapper/link-group/linkGroupEntityToGroup/linkGroupEntityToGroup.mapper';
+import { LinkToLinkEntityMapper, LINK_TO_LINK_ENTITY_MAPPER } from '@mapper/link/linkToLinkEntity.mapper/linkToLinkEntity.mapper';
 
 import { ILinkGroup } from '@model/group/group-link.model';
 import { IGroup } from '@model/group/group.model';
@@ -24,9 +24,10 @@ export const GROUP_LINK_SERVICE_TOKEN = new Token<IGroupLinkService>('GroupLinkS
 export class GroupLinkService {
     constructor(
         @Inject(GROUP_LINK_REPOSITORY_TOKEN) private _groupLinkRepository: GroupLinkRepository,
-        @Inject(LINK_REPOSITORY_TOKEN) private _linkRepository: LinkRepository,
         @Inject(LINK_GROUP_ENTITY_TO_GROUP_MAPPER) private _linkGroupEntityToGroupMapper: LinkGroupEntityToGroupMapper,
-        @Inject(TOKEN_SERVICE_TOKEN) private _tokenService: TokenService
+        @Inject(TOKEN_SERVICE_TOKEN) private _tokenService: TokenService,
+        @Inject(LINK_TO_LINK_ENTITY_MAPPER) private _linkToLinkEntityMapper: LinkToLinkEntityMapper,
+        @Inject(LINK_REPOSITORY_TOKEN) private _linkRepository: LinkRepository
     ) {}
 
     @LoggerMethodDecorator
@@ -42,30 +43,31 @@ export class GroupLinkService {
     @LoggerMethodDecorator
     public async createGroupLink(createGroupLink: IGroup): Promise<IGroup | null> {
         const USER_ID: number = this._tokenService.getCurrentUserId();
-        const LINK_GROUP_ENTITY: LinkGroupEntity = {
-            id: 0,
-            name: createGroupLink.name,
-            colorFrom: createGroupLink?.colorFrom ?? DEFAULT_COLOR_GROUP_LINK,
-            colorTo: createGroupLink?.colorTo ?? DEFAULT_COLOR_GROUP_LINK,
-            gradientType: DEFAULT_GRADIENT_GROUP_LINK,
-            userId: USER_ID,
-        };
-        const GROUP_LINK_CREATED_SAVED = await this._groupLinkRepository.create(LINK_GROUP_ENTITY);
-        const LINK_ENTITY_LIST = createGroupLink.linkList.map((link: ILink) => {
-            const LINK_ENTITY = new LinkEntity();
-            LINK_ENTITY.name = link.name;
-            LINK_ENTITY.url = link.url;
-            return LINK_ENTITY;
-        });
-        const LINK_LIST_CREATED_SAVED = await this._linkRepository.createList(LINK_ENTITY_LIST);
-        const LINK_ID_LIST: number[] = LINK_LIST_CREATED_SAVED.map((link: ILink) => link.id) ?? [];
-        const FIRST_ORDER: number = Math.max(...(createGroupLink?.linkList?.map((link: ILink) => link?.order ?? 0) ?? []));
+        const LINK_GROUP_ENTITY: GroupLinkEntity = new GroupLinkEntity();
 
-        if (LINK_ID_LIST.length) {
-            await this._groupLinkRepository.associateLinkListToGroup(GROUP_LINK_CREATED_SAVED.id, LINK_ID_LIST, FIRST_ORDER);
+        LINK_GROUP_ENTITY.id = 0;
+        LINK_GROUP_ENTITY.name = createGroupLink.name;
+        LINK_GROUP_ENTITY.colorFrom = createGroupLink?.colorFrom ?? GROUP_LINK_CONSTANT.DEFAULT_COLOR_GROUP_LINK;
+        LINK_GROUP_ENTITY.colorTo = createGroupLink?.colorTo ?? GROUP_LINK_CONSTANT.DEFAULT_COLOR_GROUP_LINK;
+        LINK_GROUP_ENTITY.gradientType = createGroupLink?.gradientType ?? GROUP_LINK_CONSTANT.DEFAULT_GRADIENT_GROUP_LINK;
+        LINK_GROUP_ENTITY.userId = USER_ID;
+
+        const GROUP_LINK_CREATED_SAVED = await this._groupLinkRepository.create(LINK_GROUP_ENTITY);
+
+        if (createGroupLink?.linkList?.length) {
+            const LINK_ENTITY_LIST = createGroupLink?.linkList.map((link: ILink) => {
+                const LINK_ENTITY = this._linkToLinkEntityMapper.map(link);
+                LINK_ENTITY.id = 0;
+                LINK_ENTITY.groupLinkId = GROUP_LINK_CREATED_SAVED.id;
+                LINK_ENTITY.userId = USER_ID;
+                LINK_ENTITY.displayOrder = link.displayOrder;
+                return LINK_ENTITY;
+            });
+            await this._linkRepository.createList(LINK_ENTITY_LIST);
         }
 
-        const GROUP_LINK: IGroup | null = this._linkGroupEntityToGroupMapper.map(GROUP_LINK_CREATED_SAVED) ?? null;
+        const GROUP_LINK_CREATED = await this._groupLinkRepository.getById(GROUP_LINK_CREATED_SAVED.id);
+        const GROUP_LINK: IGroup | null = this._linkGroupEntityToGroupMapper.map(GROUP_LINK_CREATED) ?? null;
         return GROUP_LINK;
     }
 
@@ -74,18 +76,5 @@ export class GroupLinkService {
         if (!groupLinkId || isNaN(Number(groupLinkId)) || groupLinkId <= 0) {
             throw new ArgumentError(ERROR_MESSAGE_GROUP_LINK.WRONG_ID_ARGUMENT);
         }
-    }
-
-    private async createGroupLinkWithoutLinkList(createGroupLink: IGroup, userId: number): Promise<LinkGroupEntity> {
-        const LINK_GROUP_ENTITY: LinkGroupEntity = {
-            id: 0,
-            name: createGroupLink.name,
-            colorFrom: createGroupLink?.colorFrom ?? DEFAULT_COLOR_GROUP_LINK,
-            colorTo: createGroupLink?.colorTo ?? DEFAULT_COLOR_GROUP_LINK,
-            gradientType: DEFAULT_GRADIENT_GROUP_LINK,
-            userId: userId,
-        };
-        const LINK_CREATED_SAVED = await this._groupLinkRepository.create(LINK_GROUP_ENTITY);
-        return LINK_CREATED_SAVED;
     }
 }

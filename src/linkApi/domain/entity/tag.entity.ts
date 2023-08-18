@@ -1,28 +1,25 @@
+import { TAG_CONSTANT } from '@constant/tag.constant';
 import { EntityBase } from '@entity/base.entity';
-import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { GroupTagEntity } from './group-tag.entity';
-import { LinkTagEntity } from './link-tag.entity';
+import { LinkEntity } from '@entity/link.entity';
+import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserLinkRelationEntity } from './user-link-relationship.entity';
 
-@Entity({ name: 'link.tag' })
+@Entity({ name: 'tag' })
 export class TagEntity extends EntityBase {
     @PrimaryGeneratedColumn({ name: 'tag_id' })
     id!: number;
 
-    @Column({ type: 'varchar', length: 250, nullable: false })
+    @Column({ type: 'varchar', length: TAG_CONSTANT.TAG_MAX_LENGTH })
     name!: string;
 
-    @OneToMany(() => LinkTagEntity, (linkTags) => linkTags.tag)
-    linkTagList!: LinkTagEntity[];
-
-    @OneToMany(() => GroupTagEntity, (groupTag) => groupTag.tag)
-    groupTagList!: GroupTagEntity[];
+    @ManyToOne(() => LinkEntity, (link) => link.tagList)
+    link!: LinkEntity;
 
     @ManyToOne(() => UserLinkRelationEntity, (user) => user.tagList)
     @JoinColumn({ name: 'user_id' })
     user!: UserLinkRelationEntity;
 
-    @Index('ix_tag_id_user_id')
+    @Index('ix_user_id')
     @Column({ name: 'user_id' })
     userId!: number;
 }

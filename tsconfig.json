@@ -17,6 +17,7 @@
         "strictPropertyInitialization": true,
         "paths": {
             "@constant/*": ["src/shared/constant/*", "src/linkApi/infrastructure/constant/*"],
+            "@enum/*": ["src/shared/enum/*", "src/linkApi/infrastructure/enum/*"],
             "@service/*": ["src/shared/service/*", "src/authApi/application/service/*", "src/linkApi/application/service/*"],
             "@middleware/*": ["src/shared/service/middleware/*"],
             "@entity/*": ["src/shared/entity/*", "src/authApi/domain/entity/*", "src/linkApi/domain/entity/*"],

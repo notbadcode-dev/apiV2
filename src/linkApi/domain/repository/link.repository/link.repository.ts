@@ -3,7 +3,6 @@ import { PAGINATE } from '@constant/paginate.constant';
 import { LinkEntity } from '@entity/link.entity';
 import { InternalServerError } from '@error/internal-server.error';
 import { NotFountError } from '@error/not-found.error';
-import { LinkToLinkEntityMapper, LINK_TO_LINK_ENTITY_MAPPER } from '@mapper/link/linkToLinkEntity.mapper/linkToLinkEntity.mapper';
 import { ILink } from '@model/link/link.model';
 import {
     IPaginateCalculateRequest,
@@ -18,7 +17,7 @@ import { DataSource, DeleteResult, In, QueryRunner, Repository, UpdateResult } f
 import { ILinkRepository } from './link.repository.interface';
 
 export const LINK_REPOSITORY_TOKEN = new Token<ILinkRepository>('LinkRepository');
-const LINK_ENTITY_REPOSITORY_TOKEN = LinkEntity.name;
+export const LINK_ENTITY_REPOSITORY_TOKEN = 'LinkEntity';
 
 @Service(LINK_REPOSITORY_TOKEN)
 export class LinkRepository implements ILinkRepository {
@@ -27,28 +26,20 @@ export class LinkRepository implements ILinkRepository {
         private readonly _linkRepository: Repository<LinkEntity>,
         @Inject()
         private _dataSource: DataSource,
-        @Inject(LINK_TO_LINK_ENTITY_MAPPER) private _linkToLinkEntityMapper: LinkToLinkEntityMapper,
         @Inject(TOKEN_SERVICE_TOKEN) private _tokenService: TokenService
     ) {}
 
     @LoggerMethodDecorator
-    async create(link: LinkEntity): Promise<LinkEntity> {
-        const NEW_LINK = new LinkEntity();
-        NEW_LINK.name = link.name;
-        NEW_LINK.url = link.url;
-        NEW_LINK.favorite = link.favorite ?? false;
-        NEW_LINK.active = true;
-        NEW_LINK.userId = link.userId;
-
+    async create(linkEntity: LinkEntity): Promise<LinkEntity> {
         const QUERY_RUNNER: QueryRunner = this._dataSource.createQueryRunner();
         QUERY_RUNNER.connect();
         QUERY_RUNNER.startTransaction();
 
-        const SAVED_CREATED_LINK: LinkEntity = await QUERY_RUNNER.manager.save(NEW_LINK);
+        const SAVED_CREATED_LINK: LinkEntity = await QUERY_RUNNER.manager.save(linkEntity);
 
         if (!SAVED_CREATED_LINK || !SAVED_CREATED_LINK?.id) {
             await QUERY_RUNNER.rollbackTransaction();
-            throw new InternalServerError(ERROR_MESSAGE_LINK.COULD_NOT_CREATED_LINK_WITH_NAME(link.name));
+            throw new InternalServerError(ERROR_MESSAGE_LINK.COULD_NOT_CREATED_LINK_WITH_NAME(linkEntity.name));
         }
 
         await QUERY_RUNNER.commitTransaction();
@@ -59,57 +50,56 @@ export class LinkRepository implements ILinkRepository {
     }
 
     @LoggerMethodDecorator
-    async createList(linkList: LinkEntity[]): Promise<LinkEntity[]> {
-        // const CREATED_LINK_ENTITY_LIST: LinkEntity[] = await Promise.all(linkList.map((link: LinkEntity) => this.create(link)));
-        // return CREATED_LINK_ENTITY_LIST;
-
+    async createList(linkEntities: LinkEntity[]): Promise<LinkEntity[]> {
         const QUERY_RUNNER: QueryRunner = this._dataSource.createQueryRunner();
-        QUERY_RUNNER.connect();
-        QUERY_RUNNER.startTransaction();
+        await QUERY_RUNNER.connect();
+        await QUERY_RUNNER.startTransaction();
 
-        const PROMISE_NEW_LINK_LIST = linkList.map((link: LinkEntity) => {
-            const NEW_LINK = new LinkEntity();
-            NEW_LINK.name = link.name;
-            NEW_LINK.url = link.url;
-            NEW_LINK.favorite = link.favorite ?? false;
-            NEW_LINK.active = true;
-            NEW_LINK.userId = link.userId;
+        const SAVED_CREATED_LINK_LIST: LinkEntity[] = [];
 
-            QUERY_RUNNER.manager.save(NEW_LINK);
+        try {
+            for (const LINK_ENTITY of linkEntities) {
+                const SAVED_LINK_ENTITY: LinkEntity = await QUERY_RUNNER.manager.save(LINK_ENTITY);
 
-            return NEW_LINK;
-        });
+                if (!SAVED_LINK_ENTITY || !SAVED_LINK_ENTITY?.id) {
+                    await QUERY_RUNNER.rollbackTransaction();
+                    throw new InternalServerError(ERROR_MESSAGE_LINK.COULD_NOT_CREATED_LINK_WITH_NAME(LINK_ENTITY.name));
+                }
 
-        const CREATED_LINK_ENTITY_LIST: LinkEntity[] = await Promise.all(PROMISE_NEW_LINK_LIST);
+                SAVED_CREATED_LINK_LIST.push(SAVED_LINK_ENTITY);
+            }
 
-        await QUERY_RUNNER.commitTransaction();
-        await QUERY_RUNNER.release();
+            await QUERY_RUNNER.commitTransaction();
+        } catch (error) {
+            await QUERY_RUNNER.rollbackTransaction();
+            throw error;
+        } finally {
+            await QUERY_RUNNER.release();
+        }
 
-        const CREATED_LINK_ENTITY_ID_LIST: number[] = CREATED_LINK_ENTITY_LIST.map((linkEntity: LinkEntity) => linkEntity.id);
-
-        const CREATED_LINK_ENTITY: LinkEntity[] = await this.getLinkListByLinkListId(CREATED_LINK_ENTITY_ID_LIST);
-        return CREATED_LINK_ENTITY;
+        const CREATED_LINK_ENTITY_LIST: LinkEntity[] = await this.getByIdList(
+            SAVED_CREATED_LINK_LIST.map((linkEntity: LinkEntity) => linkEntity.id)
+        );
+        return CREATED_LINK_ENTITY_LIST;
     }
 
     @LoggerMethodDecorator
-    public async update(link: ILink): Promise<LinkEntity> {
-        const UPDATE_LINK_ENTITY: LinkEntity = await this._linkToLinkEntityMapper.map(link);
-
+    public async update(updateLinkEntity: LinkEntity): Promise<LinkEntity> {
         const QUERY_RUNNER: QueryRunner = this._dataSource.createQueryRunner();
         QUERY_RUNNER.connect();
         QUERY_RUNNER.startTransaction();
 
-        const UPDATED_USER: UpdateResult = await QUERY_RUNNER.manager.update(LinkEntity, link.id, UPDATE_LINK_ENTITY);
+        const UPDATED_USER: UpdateResult = await QUERY_RUNNER.manager.update(LinkEntity, updateLinkEntity.id, updateLinkEntity);
 
         if (!UPDATED_USER || !UPDATED_USER?.affected) {
             await QUERY_RUNNER.rollbackTransaction();
-            throw new InternalServerError(ERROR_MESSAGE_LINK.COULD_NOT_UPDATE_LINK(link.name));
+            throw new InternalServerError(ERROR_MESSAGE_LINK.COULD_NOT_UPDATE_LINK(updateLinkEntity.name));
         }
 
         await QUERY_RUNNER.commitTransaction();
         await QUERY_RUNNER.release();
 
-        const UPDATED_LINK_ENTITY: LinkEntity = await this.getById(link.id);
+        const UPDATED_LINK_ENTITY: LinkEntity = await this.getById(updateLinkEntity.id);
         return UPDATED_LINK_ENTITY;
     }
 
@@ -123,6 +113,20 @@ export class LinkRepository implements ILinkRepository {
         }
 
         return LINK_ENTITY;
+    }
+
+    @LoggerMethodDecorator
+    public async getByIdList(linkIdList: number[]): Promise<LinkEntity[]> {
+        const USER_ID: number = this._tokenService.getCurrentUserId();
+        const LINK_ENTITY_LIST: LinkEntity[] = await this._linkRepository.find({
+            where: { id: In(linkIdList), userId: USER_ID },
+        });
+
+        if (!LINK_ENTITY_LIST || LINK_ENTITY_LIST.length === 0) {
+            throw new NotFountError(ERROR_MESSAGE_LINK.LINK_WITH_ID_NOT_FOUND(linkIdList[0]));
+        }
+
+        return LINK_ENTITY_LIST;
     }
 
     @LoggerMethodDecorator

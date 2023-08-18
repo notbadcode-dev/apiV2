@@ -1,7 +1,7 @@
-import { LinkGroupEntity } from '@entity/link-group.entity';
+import { GroupLinkEntity } from '@entity/group_link.entity';
 
 export interface IGroupLinkRepository {
-    create(link: LinkGroupEntity): Promise<LinkGroupEntity>;
+    create(link: GroupLinkEntity): Promise<GroupLinkEntity>;
 
-    getById(groupLinkId: number): Promise<LinkGroupEntity>;
+    getById(groupLinkId: number): Promise<GroupLinkEntity>;
 }

@@ -1,35 +1,43 @@
+import { API_LINK_CONSTANT } from '@constant/link-api.constant';
+import { LINK_CONSTANT } from '@constant/link.constant copy';
 import { EntityBase } from '@entity/base.entity';
-import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { LinkGroupRelationEntity } from './link-group-relation.entity';
-import { LinkOrderEntity } from './link-order.entity';
-import { LinkTagEntity } from './link-tag.entity';
+import { GroupLinkEntity } from '@entity/group_link.entity';
+import { TagEntity } from '@entity/tag.entity';
+import { BooleanTransformer } from '@entity/transformer-boolean.class';
+import { LINK_ENTITY_REPOSITORY_TOKEN } from '@repository/link.repository/link.repository';
+import Container from 'typedi';
+import { BeforeInsert, Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Repository } from 'typeorm';
 import { UserLinkRelationEntity } from './user-link-relationship.entity';
 
-@Entity({ name: 'link.link' })
+@Entity({ name: 'link' })
 export class LinkEntity extends EntityBase {
     @PrimaryGeneratedColumn({ name: 'link_id' })
     id!: number;
 
-    @Column({ length: 250 })
+    @Column({ name: 'group_link_id', nullable: true, default: null })
+    groupLinkId?: number;
+
+    @Column({ type: 'varchar', length: API_LINK_CONSTANT.MEDIUM_TEXT_MAX_LENGTH })
     name!: string;
 
-    @Column({ length: 250 })
+    @Column({ type: 'varchar', length: API_LINK_CONSTANT.LONG_TEXT_MAX_LENGTH })
     url!: string;
 
-    @Column({ name: 'favorite', default: false })
+    @Column({ type: 'tinyint', default: LINK_CONSTANT.DEFAULT_FAVORITE, transformer: new BooleanTransformer() })
     favorite!: boolean;
 
-    @Column({ name: 'active', default: true })
+    @Column({ type: 'tinyint', default: LINK_CONSTANT.DEFAULT_ACTIVE, transformer: new BooleanTransformer() })
     active!: boolean;
 
-    @OneToMany(() => LinkGroupRelationEntity, (linkGroupRelation) => linkGroupRelation.link)
-    linkGroupRelationList?: LinkGroupRelationEntity[];
+    @Column({ name: 'display_order', type: 'int', nullable: true, default: null })
+    displayOrder?: number | null;
 
-    @OneToMany(() => LinkOrderEntity, (linkOrder) => linkOrder.link)
-    linkOrderList?: LinkOrderEntity[];
+    @OneToMany(() => TagEntity, (tag) => tag.link)
+    tagList?: TagEntity[];
 
-    @OneToMany(() => LinkTagEntity, (linkTag) => linkTag.link)
-    linkTagList?: LinkTagEntity[];
+    @ManyToOne(() => GroupLinkEntity, (groupLink) => groupLink.linkList)
+    @JoinColumn({ name: 'group_link_id' })
+    groupLink?: GroupLinkEntity;
 
     @ManyToOne(() => UserLinkRelationEntity, (userLinkRelation) => userLinkRelation.linkList, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'user_id' })
@@ -38,4 +46,23 @@ export class LinkEntity extends EntityBase {
     @Index('ix_user_id')
     @Column({ name: 'user_id' })
     userId!: number;
+
+    @BeforeInsert()
+    async beforeInsertActions(): Promise<void> {
+        await this.setDefaultDisplayOrder();
+    }
+
+    private async setDefaultDisplayOrder(): Promise<void> {
+        if (this.displayOrder === null || this.displayOrder === undefined) {
+            const LINK_REPOSITORY: Repository<LinkEntity> = Container.get(LINK_ENTITY_REPOSITORY_TOKEN);
+
+            const MAX_DISPLAY_ORDER = await LINK_REPOSITORY.createQueryBuilder('link')
+                .select('MAX(link.displayOrder)', 'maxDisplayOrder')
+                .where('link.userId = :userId', { userId: this.userId })
+                .getRawOne();
+
+            const NEXT_DISPLAY_ORDER = (MAX_DISPLAY_ORDER.maxDisplayOrder || 0) + 1;
+            this.displayOrder = NEXT_DISPLAY_ORDER;
+        }
+    }
 }

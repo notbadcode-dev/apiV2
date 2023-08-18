@@ -19,7 +19,7 @@ export class LinkServiceTestData {
     getLink(): ILink {
         return {
             id: 1,
-            order: 0,
+            displayOrder: 0,
             name: 'Test',
             url: 'http://www.test.com',
             active: true,

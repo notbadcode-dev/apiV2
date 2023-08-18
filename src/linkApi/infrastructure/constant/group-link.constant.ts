@@ -1,5 +1,8 @@
-import { EGroupLinkGradientType } from '@app/shared/enum/group-link-gradient-type.enum';
+import { EGroupLinkGradientType } from '@enum/group-link-gradient-type.enum';
 
-export const DEFAULT_COLOR_GROUP_LINK = '000000';
+export const GROUP_LINK_CONSTANT = {
+    COLOR_MAX_LENGTH: 9,
 
-export const DEFAULT_GRADIENT_GROUP_LINK = EGroupLinkGradientType.Linear;
+    DEFAULT_COLOR_GROUP_LINK: '000000',
+    DEFAULT_GRADIENT_GROUP_LINK: EGroupLinkGradientType.linear,
+};

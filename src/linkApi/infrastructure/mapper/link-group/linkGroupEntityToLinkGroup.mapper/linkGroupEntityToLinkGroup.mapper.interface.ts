@@ -1,6 +1,6 @@
-import { LinkGroupEntity } from '@entity/link-group.entity';
+import { GroupLinkEntity } from '@entity/group_link.entity';
 import { ILinkGroup } from '@model/group/group-link.model';
 
 export interface ILinkGroupEntityToLinkGroupMapper {
-    map(linkGroupEntity?: LinkGroupEntity | null): ILinkGroup | null;
+    map(linkGroupEntity?: GroupLinkEntity | null): ILinkGroup | null;
 }

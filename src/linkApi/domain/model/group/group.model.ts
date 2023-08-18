@@ -1,4 +1,4 @@
-import { EGroupLinkGradientType } from '@app/shared/enum/group-link-gradient-type.enum';
+import { TGroupLinkGradientType } from '@enum/group-link-gradient-type.enum';
 import { ILinkGroup } from '@model/group/group-link.model';
 import { ILink } from '@model/link/link.model';
 import { ITag } from '@model/tag/tag.model';
@@ -8,5 +8,5 @@ export interface IGroup extends ILinkGroup {
     tagList?: ITag[];
     colorFrom?: string;
     colorTo?: string;
-    gradientType?: EGroupLinkGradientType;
+    gradientType?: TGroupLinkGradientType;
 }
