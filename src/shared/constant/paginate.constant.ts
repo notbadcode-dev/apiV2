@@ -1,4 +1,4 @@
-export const PAGINATE = {
+export const PAGINATE_CONSTANT = {
     DEFAULT_SKIP: 0,
     DEFAULT_TAKE: 0,
     DEFAULT_CURRENT_PAGE: 1,

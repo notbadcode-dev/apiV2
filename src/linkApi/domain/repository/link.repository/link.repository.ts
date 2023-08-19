@@ -1,5 +1,5 @@
 import { ERROR_MESSAGE_LINK } from '@constant/error-message/error-message-link.constant';
-import { PAGINATE } from '@constant/paginate.constant';
+import { PAGINATE_CONSTANT } from '@constant/paginate.constant';
 import { LinkEntity } from '@entity/link.entity';
 import { InternalServerError } from '@error/internal-server.error';
 import { NotFountError } from '@error/not-found.error';
@@ -12,6 +12,7 @@ import {
 } from '@model/pagination-item/pagination-item.model';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { TokenService, TOKEN_SERVICE_TOKEN } from '@service/middleware/token.service/token.service';
+import { NotFoundError } from 'routing-controllers';
 import { Inject, Service, Token } from 'typedi';
 import { DataSource, DeleteResult, In, QueryRunner, Repository, UpdateResult } from 'typeorm';
 import { ILinkRepository } from './link.repository.interface';
@@ -88,9 +89,9 @@ export class LinkRepository implements ILinkRepository {
         const QUERY_RUNNER: QueryRunner = this._dataSource.createQueryRunner();
         QUERY_RUNNER.connect();
         QUERY_RUNNER.startTransaction();
-        const UPDATED_USER: UpdateResult = await QUERY_RUNNER.manager.update(LinkEntity, updateLinkEntity.id, updateLinkEntity);
+        const UPDATED_LINK: UpdateResult = await QUERY_RUNNER.manager.update(LinkEntity, updateLinkEntity.id, updateLinkEntity);
 
-        if (!UPDATED_USER || !UPDATED_USER?.affected) {
+        if (!UPDATED_LINK || !UPDATED_LINK?.affected) {
             await QUERY_RUNNER.rollbackTransaction();
             throw new InternalServerError(ERROR_MESSAGE_LINK.COULD_NOT_UPDATE_LINK(updateLinkEntity.name));
         }
@@ -102,10 +103,14 @@ export class LinkRepository implements ILinkRepository {
         return UPDATED_LINK_ENTITY;
     }
 
-    @LoggerMethodDecorator
     public async getById(linkId: number): Promise<LinkEntity> {
         const USER_ID: number = this._tokenService.getCurrentUserId();
-        const LINK_ENTITY: LinkEntity | null = await this._linkRepository.findOneBy({ id: linkId, userId: USER_ID });
+        const LINK_ENTITY: LinkEntity | null = await this._linkRepository
+            .createQueryBuilder('link')
+            .leftJoinAndSelect('link.groupLink', 'groupLink')
+            .where('link.id = :linkId', { linkId })
+            .andWhere('link.userId = :userId', { userId: USER_ID })
+            .getOne();
 
         if (!LINK_ENTITY || !LINK_ENTITY.id) {
             throw new NotFountError(ERROR_MESSAGE_LINK.LINK_WITH_ID_NOT_FOUND(linkId));
@@ -147,9 +152,9 @@ export class LinkRepository implements ILinkRepository {
 
         const PAGINATE_DATA: IPaginateCalculateRequest = {
             totalCount: LINK_COUNT,
-            startIndex: paginateItem.skip ?? PAGINATE.DEFAULT_SKIP,
-            take: paginateItem.take ?? PAGINATE.DEFAULT_TAKE,
-            currentPage: paginateItem?.currentPage ?? PAGINATE.DEFAULT_CURRENT_PAGE,
+            startIndex: paginateItem.skip ?? PAGINATE_CONSTANT.DEFAULT_SKIP,
+            take: paginateItem.take ?? PAGINATE_CONSTANT.DEFAULT_TAKE,
+            currentPage: paginateItem?.currentPage ?? PAGINATE_CONSTANT.DEFAULT_CURRENT_PAGE,
         };
 
         const PAGINATE_INFO: IPaginateCalculateResult = PaginateCalculateHelper.calculate(PAGINATE_DATA);
@@ -190,6 +195,42 @@ export class LinkRepository implements ILinkRepository {
     }
 
     @LoggerMethodDecorator
+    public async deleteList(linkIdList: number[]): Promise<boolean[]> {
+        const DELETE_RESULT_LIST: boolean[] = [];
+
+        const QUERY_RUNNER: QueryRunner = this._dataSource.createQueryRunner();
+        QUERY_RUNNER.connect();
+        QUERY_RUNNER.startTransaction();
+
+        try {
+            for (const LINK_ID of linkIdList) {
+                const DELETE_LINK_ENTITY: LinkEntity | null = await this.getById(LINK_ID);
+
+                if (!DELETE_LINK_ENTITY || !DELETE_LINK_ENTITY?.id) {
+                    throw new NotFoundError(ERROR_MESSAGE_LINK.LINK_WITH_ID_NOT_FOUND(LINK_ID));
+                }
+
+                const DELETED_LINK: DeleteResult = await QUERY_RUNNER.manager.delete(LinkEntity, DELETE_LINK_ENTITY?.id);
+
+                if (!DELETED_LINK || !DELETED_LINK?.affected) {
+                    await QUERY_RUNNER.rollbackTransaction();
+                    throw new InternalServerError(ERROR_MESSAGE_LINK.COULD_NOT_DELETE_LINK(DELETE_LINK_ENTITY?.name ?? ''));
+                }
+
+                DELETE_RESULT_LIST.push(DELETED_LINK?.affected > 0);
+            }
+
+            await QUERY_RUNNER.commitTransaction();
+            return DELETE_RESULT_LIST;
+        } catch (error) {
+            await QUERY_RUNNER.rollbackTransaction();
+            throw error;
+        } finally {
+            await QUERY_RUNNER.release();
+        }
+    }
+
+    @LoggerMethodDecorator
     public async getLinkListByLinkListId(linkIdList: number[]): Promise<LinkEntity[]> {
         const USER_ID: number = this._tokenService.getCurrentUserId();
         const LINK_ENTITY_LIST: LinkEntity[] =
@@ -203,7 +244,8 @@ export class LinkRepository implements ILinkRepository {
         return LINK_ENTITY_LIST;
     }
 
-    public async getNextDisplayOrder(userId?: number, groupLinkId?: number): Promise<number | null> {
+    @LoggerMethodDecorator
+    public async getNextDisplayOrder(userId?: number, groupLinkId?: number | null): Promise<number | null> {
         if (!userId) {
             return null;
         }
@@ -216,6 +258,7 @@ export class LinkRepository implements ILinkRepository {
         return NEXT_DISPLAY_ORDER;
     }
 
+    @LoggerMethodDecorator
     private async getNextDisplayOrderOnGroup(userId?: number, groupLinkId?: number): Promise<number | null> {
         if (!userId || !groupLinkId) {
             return null;
@@ -232,6 +275,7 @@ export class LinkRepository implements ILinkRepository {
         return NEXT_DISPLAY_ORDER;
     }
 
+    @LoggerMethodDecorator
     private async getNextDisplayOrderOutGroup(userId?: number): Promise<number | null> {
         if (!userId) {
             return null;

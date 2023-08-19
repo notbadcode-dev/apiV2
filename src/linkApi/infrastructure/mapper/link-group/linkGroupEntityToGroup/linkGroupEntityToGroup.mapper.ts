@@ -1,26 +1,34 @@
 import { GROUP_LINK_CONSTANT } from '@constant/group-link.constant';
 import { GroupLinkEntity } from '@entity/group_link.entity';
 import { LinkEntity } from '@entity/link.entity';
-import { LinkEntityToLinkMapper, LINK_ENTITY_TO_LINK_MAPPER } from '@mapper/link/linkEntityToLink.mapper/linkEntityToLink.mapper';
 import { IGroup } from '@model/group/group.model';
 import { ILink } from '@model/link/link.model';
 import { ITag } from '@model/tag/tag.model';
-import { Inject, Service, Token } from 'typedi';
+import { Service, Token } from 'typedi';
 import { ILinkGroupEntityToGroupMapper } from './linkGroupEntityToGroup.mapper.interface';
 
 export const LINK_GROUP_ENTITY_TO_GROUP_MAPPER = new Token<ILinkGroupEntityToGroupMapper>('LinkGroupEntityToLinkGroupMapper');
 
 @Service(LINK_GROUP_ENTITY_TO_GROUP_MAPPER)
 export class LinkGroupEntityToGroupMapper implements ILinkGroupEntityToGroupMapper {
-    constructor(@Inject(LINK_ENTITY_TO_LINK_MAPPER) private _linkEntityToLinkMapper: LinkEntityToLinkMapper) {}
-
     public map(linkGroupEntity?: GroupLinkEntity | null): IGroup | null {
         if (!linkGroupEntity || !linkGroupEntity.id || !linkGroupEntity.name) {
             return null;
         }
 
         const LINK_LIST: ILink[] =
-            linkGroupEntity.linkList?.map((linkEntity: LinkEntity) => this._linkEntityToLinkMapper.map(linkEntity)) ?? [];
+            linkGroupEntity.linkList?.map((linkEntity: LinkEntity) => {
+                return {
+                    id: linkEntity.id,
+                    name: linkEntity.name,
+                    url: linkEntity.url,
+                    favorite: linkEntity.favorite,
+                    active: linkEntity.active,
+                    displayOrder: linkEntity?.displayOrder ?? null,
+                    tagList: linkEntity?.tagList ?? [],
+                    linkGroupId: linkEntity.groupLinkId,
+                };
+            }) ?? [];
 
         let tagLinkList: ITag[] = new Array<ITag>();
 

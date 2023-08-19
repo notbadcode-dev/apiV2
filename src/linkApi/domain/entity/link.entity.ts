@@ -17,7 +17,7 @@ export class LinkEntity extends EntityBase {
     id!: number;
 
     @Column({ name: 'group_link_id', nullable: true, default: null })
-    groupLinkId?: number;
+    groupLinkId?: number | null;
 
     @Column({ type: 'varchar', length: API_LINK_CONSTANT.MEDIUM_TEXT_MAX_LENGTH })
     name!: string;
@@ -39,7 +39,7 @@ export class LinkEntity extends EntityBase {
 
     @ManyToOne(() => GroupLinkEntity, (groupLink) => groupLink.linkList)
     @JoinColumn({ name: 'group_link_id' })
-    groupLink?: GroupLinkEntity;
+    groupLink?: GroupLinkEntity | null;
 
     @ManyToOne(() => UserLinkRelationEntity, (userLinkRelation) => userLinkRelation.linkList, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'user_id' })

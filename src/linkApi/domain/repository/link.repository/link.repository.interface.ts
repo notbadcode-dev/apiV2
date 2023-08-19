@@ -15,5 +15,5 @@ export interface ILinkRepository {
 
     delete(linkId: number): Promise<boolean>;
 
-    getNextDisplayOrder(userId?: number, groupLinkId?: number): Promise<number | null>;
+    getNextDisplayOrder(userId?: number, groupLinkId?: number | null): Promise<number | null>;
 }

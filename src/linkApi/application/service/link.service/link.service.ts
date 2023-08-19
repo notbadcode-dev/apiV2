@@ -1,9 +1,9 @@
+import { ENTITY_CONSTANT } from '@constant/entity.constant';
 import { ERROR_MESSAGE_LINK } from '@constant/error-message/error-message-link.constant';
 import { LINK_CONSTANT } from '@constant/link.constant copy';
 import { LinkEntity } from '@entity/link.entity';
 import { ArgumentError } from '@error/argument.error';
 import { LinkEntityToLinkMapper, LINK_ENTITY_TO_LINK_MAPPER } from '@mapper/link/linkEntityToLink.mapper/linkEntityToLink.mapper';
-import { LinkToLinkEntityMapper, LINK_TO_LINK_ENTITY_MAPPER } from '@mapper/link/linkToLinkEntity.mapper/linkToLinkEntity.mapper';
 import { ILinkCreate } from '@model/link/link-create.model';
 import { ILink } from '@model/link/link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
@@ -25,8 +25,7 @@ export class LinkService implements ILinkService {
         @Inject(LINK_REPOSITORY_TOKEN) private _linkRepository: LinkRepository,
         @Inject(TOKEN_SERVICE_TOKEN) private _tokenService: TokenService,
         @Inject(GLOBAL_UTIL_VALIDATE_SERVICE) private _globalUtilValidateService: GlobalUtilValidateService,
-        @Inject(LINK_ENTITY_TO_LINK_MAPPER) private _linkEntityToLinkMapper: LinkEntityToLinkMapper,
-        @Inject(LINK_TO_LINK_ENTITY_MAPPER) private _linkToLinkEntityMapper: LinkToLinkEntityMapper
+        @Inject(LINK_ENTITY_TO_LINK_MAPPER) private _linkEntityToLinkMapper: LinkEntityToLinkMapper
     ) {}
 
     @LoggerMethodDecorator
@@ -35,7 +34,7 @@ export class LinkService implements ILinkService {
 
         const USER_ID: number = this._tokenService.getCurrentUserId();
         const LINK_ENTITY: LinkEntity = new LinkEntity();
-        LINK_ENTITY.id = 0;
+        LINK_ENTITY.id = ENTITY_CONSTANT.CREATE_DEFAULT_ID;
         LINK_ENTITY.name = linkCreate.name;
         LINK_ENTITY.url = linkCreate.url;
         LINK_ENTITY.favorite = linkCreate?.favorite ?? LINK_CONSTANT.DEFAULT_FAVORITE;
@@ -140,11 +139,13 @@ export class LinkService implements ILinkService {
 
         UPDATE_LINK_ENTITY.name = updaterLink.name;
         UPDATE_LINK_ENTITY.url = updaterLink.url;
+        UPDATE_LINK_ENTITY.favorite = updaterLink?.favorite ?? LINK_CONSTANT.DEFAULT_ACTIVE;
+        UPDATE_LINK_ENTITY.active = updaterLink?.active ?? LINK_CONSTANT.DEFAULT_FAVORITE;
 
         if (!UPDATE_LINK_ENTITY.displayOrder) {
             UPDATE_LINK_ENTITY.displayOrder = await this._linkRepository.getNextDisplayOrder(
                 UPDATE_LINK_ENTITY.userId,
-                UPDATE_LINK_ENTITY.groupLinkId
+                UPDATE_LINK_ENTITY?.groupLinkId
             );
         }
 
@@ -182,15 +183,15 @@ export class LinkService implements ILinkService {
     }
 
     @LoggerMethodDecorator
-    private validateName(nameLink?: string): void {
-        if (!nameLink?.trim().length) {
+    private validateName(linkName?: string): void {
+        if (!linkName?.trim().length) {
             throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_NAME_ARGUMENT);
         }
     }
 
     @LoggerMethodDecorator
-    private validateUrl(urlLink?: string): void {
-        if (!urlLink?.trim().length) {
+    private validateUrl(linkUrl?: string): void {
+        if (!linkUrl?.trim().length) {
             throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_URL_ARGUMENT);
         }
     }
