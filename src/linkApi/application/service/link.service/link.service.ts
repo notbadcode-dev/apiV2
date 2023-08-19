@@ -136,7 +136,18 @@ export class LinkService implements ILinkService {
 
     @LoggerMethodDecorator
     private async updaterLink(updaterLink: ILink): Promise<ILink> {
-        const UPDATE_LINK_ENTITY: LinkEntity = await this._linkToLinkEntityMapper.map(updaterLink);
+        const UPDATE_LINK_ENTITY = await this._linkRepository.getById(updaterLink.id);
+
+        UPDATE_LINK_ENTITY.name = updaterLink.name;
+        UPDATE_LINK_ENTITY.url = updaterLink.url;
+
+        if (!UPDATE_LINK_ENTITY.displayOrder) {
+            UPDATE_LINK_ENTITY.displayOrder = await this._linkRepository.getNextDisplayOrder(
+                UPDATE_LINK_ENTITY.userId,
+                UPDATE_LINK_ENTITY.groupLinkId
+            );
+        }
+
         const LINK_UPDATED = await this._linkRepository.update(UPDATE_LINK_ENTITY);
         const LINK_MAPPED: ILink = this._linkEntityToLinkMapper.map(LINK_UPDATED);
         return LINK_MAPPED;

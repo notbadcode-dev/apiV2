@@ -88,7 +88,6 @@ export class LinkRepository implements ILinkRepository {
         const QUERY_RUNNER: QueryRunner = this._dataSource.createQueryRunner();
         QUERY_RUNNER.connect();
         QUERY_RUNNER.startTransaction();
-
         const UPDATED_USER: UpdateResult = await QUERY_RUNNER.manager.update(LinkEntity, updateLinkEntity.id, updateLinkEntity);
 
         if (!UPDATED_USER || !UPDATED_USER?.affected) {
@@ -202,5 +201,49 @@ export class LinkRepository implements ILinkRepository {
             })) ?? [];
 
         return LINK_ENTITY_LIST;
+    }
+
+    public async getNextDisplayOrder(userId?: number, groupLinkId?: number): Promise<number | null> {
+        if (!userId) {
+            return null;
+        }
+
+        if (!groupLinkId) {
+            return this.getNextDisplayOrderOutGroup(userId);
+        }
+
+        const NEXT_DISPLAY_ORDER = this.getNextDisplayOrderOnGroup(userId, groupLinkId);
+        return NEXT_DISPLAY_ORDER;
+    }
+
+    private async getNextDisplayOrderOnGroup(userId?: number, groupLinkId?: number): Promise<number | null> {
+        if (!userId || !groupLinkId) {
+            return null;
+        }
+
+        const MAX_DISPLAY_ORDER = await this._linkRepository
+            .createQueryBuilder('link')
+            .select('MAX(link.displayOrder)', 'maxDisplayOrder')
+            .where('link.userId = :userId', { userId: userId })
+            .where('link.groupLinkId = :groupLinkId', { groupLinkId: groupLinkId })
+            .getRawOne();
+
+        const NEXT_DISPLAY_ORDER = (MAX_DISPLAY_ORDER.maxDisplayOrder || 0) + 1;
+        return NEXT_DISPLAY_ORDER;
+    }
+
+    private async getNextDisplayOrderOutGroup(userId?: number): Promise<number | null> {
+        if (!userId) {
+            return null;
+        }
+
+        const MAX_DISPLAY_ORDER = await this._linkRepository
+            .createQueryBuilder('link')
+            .select('MAX(link.displayOrder)', 'maxDisplayOrder')
+            .where('link.userId = :userId', { userId: userId })
+            .getRawOne();
+
+        const NEXT_DISPLAY_ORDER = (MAX_DISPLAY_ORDER.maxDisplayOrder || 0) + 1;
+        return NEXT_DISPLAY_ORDER;
     }
 }

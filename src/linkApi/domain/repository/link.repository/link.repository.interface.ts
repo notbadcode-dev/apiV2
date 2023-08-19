@@ -14,4 +14,6 @@ export interface ILinkRepository {
     getAllPaginated(paginateItem: IPaginateItem<ILink>): Promise<IPaginateItem<LinkEntity>>;
 
     delete(linkId: number): Promise<boolean>;
+
+    getNextDisplayOrder(userId?: number, groupLinkId?: number): Promise<number | null>;
 }
