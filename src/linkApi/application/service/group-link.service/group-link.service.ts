@@ -8,12 +8,16 @@ import {
 } from '@mapper/link-group/linkGroupEntityToGroup/linkGroupEntityToGroup.mapper';
 import { LinkToLinkEntityMapper, LINK_TO_LINK_ENTITY_MAPPER } from '@mapper/link/linkToLinkEntity.mapper/linkToLinkEntity.mapper';
 
-import { ILinkGroup } from '@model/group/group-link.model';
 import { IGroup } from '@model/group/group.model';
 import { ILink } from '@model/link/link.model';
+import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 import { GroupLinkRepository, GROUP_LINK_REPOSITORY_TOKEN } from '@repository/group-link.repository/group-link.repository';
 import { LinkRepository, LINK_REPOSITORY_TOKEN } from '@repository/link.repository/link.repository';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
+import {
+    GlobalUtilValidateService,
+    GLOBAL_UTIL_VALIDATE_SERVICE,
+} from '@service/global/global.util.validate.service/global.util.validate.service';
 import { IGroupLinkService } from '@service/group-link.service/group-link.service.interface';
 import { TokenService, TOKEN_SERVICE_TOKEN } from '@service/middleware/token.service/token.service';
 import { Inject, Service, Token } from 'typedi';
@@ -27,18 +31,9 @@ export class GroupLinkService {
         @Inject(LINK_GROUP_ENTITY_TO_GROUP_MAPPER) private _linkGroupEntityToGroupMapper: LinkGroupEntityToGroupMapper,
         @Inject(TOKEN_SERVICE_TOKEN) private _tokenService: TokenService,
         @Inject(LINK_TO_LINK_ENTITY_MAPPER) private _linkToLinkEntityMapper: LinkToLinkEntityMapper,
-        @Inject(LINK_REPOSITORY_TOKEN) private _linkRepository: LinkRepository
+        @Inject(LINK_REPOSITORY_TOKEN) private _linkRepository: LinkRepository,
+        @Inject(GLOBAL_UTIL_VALIDATE_SERVICE) private _globalUtilValidateService: GlobalUtilValidateService
     ) {}
-
-    @LoggerMethodDecorator
-    public async getGroupLink(groupLinkId: number): Promise<ILinkGroup | null> {
-        this.validateId(groupLinkId);
-
-        const GROUP_LINK_ENTITY = await this._groupLinkRepository.getById(groupLinkId);
-        const GROUP_LINK: ILinkGroup | null = this._linkGroupEntityToGroupMapper.map(GROUP_LINK_ENTITY);
-
-        return GROUP_LINK;
-    }
 
     @LoggerMethodDecorator
     public async createGroupLink(createGroupLink: IGroup): Promise<IGroup | null> {
@@ -69,6 +64,46 @@ export class GroupLinkService {
         const GROUP_LINK_CREATED = await this._groupLinkRepository.getById(GROUP_LINK_CREATED_SAVED.id);
         const GROUP_LINK: IGroup | null = this._linkGroupEntityToGroupMapper.map(GROUP_LINK_CREATED) ?? null;
         return GROUP_LINK;
+    }
+
+    @LoggerMethodDecorator
+    public async getGroupLink(groupLinkId: number): Promise<IGroup | null> {
+        this.validateId(groupLinkId);
+
+        const GROUP_LINK_ENTITY = await this._groupLinkRepository.getById(groupLinkId);
+        const GROUP_LINK: IGroup | null = this._linkGroupEntityToGroupMapper.map(GROUP_LINK_ENTITY);
+
+        return GROUP_LINK;
+    }
+
+    @LoggerMethodDecorator
+    public async getGroupLinkList(): Promise<(IGroup | null)[]> {
+        const GROUP_LINK_ENTITY_LIST = await this._groupLinkRepository.getAll();
+        const GROUP_LINK_LIST: (IGroup | null)[] = GROUP_LINK_ENTITY_LIST.map((GROUP_LINK_ENTITY: GroupLinkEntity) => {
+            const GROUP_LINK = this._linkGroupEntityToGroupMapper.map(GROUP_LINK_ENTITY);
+            return GROUP_LINK;
+        }).filter((group: IGroup | null) => group !== null);
+
+        return GROUP_LINK_LIST;
+    }
+
+    @LoggerMethodDecorator
+    public async getPaginateLinkList(paginateGroupLinkList: IPaginateItem<IGroup>): Promise<IPaginateItem<IGroup | null>> {
+        this._globalUtilValidateService.validatePaginate<IGroup>(paginateGroupLinkList);
+
+        const PAGINATE_GROUP_LINK_ENTITY: IPaginateItem<GroupLinkEntity> = await this._groupLinkRepository.getAllPaginated(
+            paginateGroupLinkList
+        );
+        const GROUP_LINK_LIST: (IGroup | null)[] =
+            PAGINATE_GROUP_LINK_ENTITY?.itemList?.map((GROUP_LINK_ENTITY: GroupLinkEntity) =>
+                this._linkGroupEntityToGroupMapper.map(GROUP_LINK_ENTITY)
+            ) ?? [];
+
+        const PAGINATE_LINK_LIST: IPaginateItem<IGroup | null> = {
+            ...PAGINATE_GROUP_LINK_ENTITY,
+            itemList: GROUP_LINK_LIST,
+        };
+        return PAGINATE_LINK_LIST;
     }
 
     @LoggerMethodDecorator

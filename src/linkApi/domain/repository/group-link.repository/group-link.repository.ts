@@ -1,7 +1,15 @@
 import { ERROR_MESSAGE_GROUP_LINK } from '@constant/error-message/error-message-group-link.constant';
+import { PAGINATE } from '@constant/paginate.constant';
 import { GroupLinkEntity } from '@entity/group_link.entity';
 import { InternalServerError } from '@error/internal-server.error';
 import { NotFountError } from '@error/not-found.error';
+import { IGroup } from '@model/group/group.model';
+import {
+    IPaginateCalculateRequest,
+    IPaginateCalculateResult,
+    IPaginateItem,
+    PaginateCalculateHelper,
+} from '@model/pagination-item/pagination-item.model';
 import { LinkRepository, LINK_REPOSITORY_TOKEN } from '@repository/link.repository/link.repository';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { TokenService, TOKEN_SERVICE_TOKEN } from '@service/middleware/token.service/token.service';
@@ -75,5 +83,44 @@ export class GroupLinkRepository implements IGroupLinkRepository {
         }
 
         return GROUP_LINK_ENTITY;
+    }
+
+    @LoggerMethodDecorator
+    public async getAll(): Promise<GroupLinkEntity[]> {
+        const USER_ID: number = this._tokenService.getCurrentUserId();
+        const GROUP_LINK_ENTITY_LIST: GroupLinkEntity[] | null = await this._linkGroupRepository.find({
+            where: { userId: USER_ID },
+            relations: ['linkList'],
+        });
+
+        if (!GROUP_LINK_ENTITY_LIST || !GROUP_LINK_ENTITY_LIST.length) {
+            return new Array<GroupLinkEntity>();
+        }
+
+        return GROUP_LINK_ENTITY_LIST;
+    }
+
+    @LoggerMethodDecorator
+    public async getAllPaginated(paginateItem: IPaginateItem<IGroup>): Promise<IPaginateItem<GroupLinkEntity>> {
+        const USER_ID = this._tokenService.getCurrentUserId();
+        const GROUP_LINK_COUNT = await this._linkGroupRepository.count({ where: { userId: USER_ID } });
+
+        const PAGINATE_DATA: IPaginateCalculateRequest = {
+            totalCount: GROUP_LINK_COUNT,
+            startIndex: paginateItem.skip ?? PAGINATE.DEFAULT_SKIP,
+            take: paginateItem.take ?? PAGINATE.DEFAULT_TAKE,
+            currentPage: paginateItem?.currentPage ?? PAGINATE.DEFAULT_CURRENT_PAGE,
+        };
+
+        const PAGINATE_INFO: IPaginateCalculateResult = PaginateCalculateHelper.calculate(PAGINATE_DATA);
+
+        const GROUP_LINK_ENTITY_LIST = await this._linkGroupRepository.find({
+            where: { userId: USER_ID },
+            skip: PAGINATE_INFO.currentPageStartIndex,
+            take: PAGINATE_INFO.currentPageTotal,
+        });
+
+        const RESULT: IPaginateItem<GroupLinkEntity> = PaginateCalculateHelper.result(PAGINATE_INFO, GROUP_LINK_ENTITY_LIST);
+        return RESULT;
     }
 }

@@ -5,7 +5,18 @@ import { LinkEntity } from '@entity/link.entity';
 import { EGroupLinkGradientType } from '@enum/group-link-gradient-type.enum';
 import { LINK_GROUP_ENTITY } from '@repository/group-link.repository/group-link.repository';
 import Container from 'typedi';
-import { BeforeInsert, Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Repository } from 'typeorm';
+import {
+    BeforeInsert,
+    BeforeUpdate,
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn,
+    Repository,
+} from 'typeorm';
 import { UserLinkRelationEntity } from './user-link-relationship.entity';
 
 @Entity({ name: 'group_link' })
@@ -48,6 +59,11 @@ export class GroupLinkEntity extends EntityBase {
     @Index('ix_user_id')
     @Column({ name: 'user_id' })
     userId!: number;
+
+    @BeforeUpdate()
+    async beforeUpdateActions(): Promise<void> {
+        await this.setDefaultDisplayOrder();
+    }
 
     @BeforeInsert()
     async beforeInsertActions(): Promise<void> {

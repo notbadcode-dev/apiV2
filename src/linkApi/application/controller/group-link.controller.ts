@@ -1,5 +1,5 @@
-import { ILinkGroup } from '@model/group/group-link.model';
 import { IGroup } from '@model/group/group.model';
+import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 import { Authority } from '@service/decorator/authority.decorator';
 import { GroupLinkService, GROUP_LINK_SERVICE_TOKEN } from '@service/group-link.service/group-link.service';
 import { Request } from 'express';
@@ -20,8 +20,23 @@ export class GroupLinkController {
 
     @Authority
     @Get('/:id')
-    async getGroupLink(@Req() req: Request, @Param('id') groupLinkId: number): Promise<ILinkGroup | null> {
-        const RESULT: ILinkGroup | null = await this._groupLinkService.getGroupLink(groupLinkId);
+    async getGroupLink(@Req() req: Request, @Param('id') groupLinkId: number): Promise<IGroup | null> {
+        const RESULT: IGroup | null = await this._groupLinkService.getGroupLink(groupLinkId);
+        return RESULT;
+    }
+
+    @Authority
+    @Get('/')
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
+    async getLinkList(@Req() req: Request): Promise<(IGroup | null)[]> {
+        const RESULT: (IGroup | null)[] = await this._groupLinkService.getGroupLinkList();
+        return RESULT;
+    }
+
+    @Authority
+    @Post('/paginate/')
+    async getPaginateLinkList(@Req() req: Request, @Body() paginateLinkList: IPaginateItem<IGroup>): Promise<IPaginateItem<IGroup | null>> {
+        const RESULT: IPaginateItem<IGroup | null> = await this._groupLinkService.getPaginateLinkList(paginateLinkList);
         return RESULT;
     }
 }

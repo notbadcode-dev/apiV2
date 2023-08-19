@@ -6,7 +6,18 @@ import { TagEntity } from '@entity/tag.entity';
 import { BooleanTransformer } from '@entity/transformer-boolean.class';
 import { LINK_ENTITY_REPOSITORY_TOKEN } from '@repository/link.repository/link.repository';
 import Container from 'typedi';
-import { BeforeInsert, Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Repository } from 'typeorm';
+import {
+    BeforeInsert,
+    BeforeUpdate,
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn,
+    Repository,
+} from 'typeorm';
 import { UserLinkRelationEntity } from './user-link-relationship.entity';
 
 @Entity({ name: 'link' })
@@ -47,22 +58,48 @@ export class LinkEntity extends EntityBase {
     @Column({ name: 'user_id' })
     userId!: number;
 
+    @BeforeUpdate()
+    async beforeUpdateActions(): Promise<void> {
+        await this.setDefaultDisplayOrder();
+    }
+
     @BeforeInsert()
     async beforeInsertActions(): Promise<void> {
         await this.setDefaultDisplayOrder();
     }
 
     private async setDefaultDisplayOrder(): Promise<void> {
-        if (this.displayOrder === null || this.displayOrder === undefined) {
-            const LINK_REPOSITORY: Repository<LinkEntity> = Container.get(LINK_ENTITY_REPOSITORY_TOKEN);
-
-            const MAX_DISPLAY_ORDER = await LINK_REPOSITORY.createQueryBuilder('link')
-                .select('MAX(link.displayOrder)', 'maxDisplayOrder')
-                .where('link.userId = :userId', { userId: this.userId })
-                .getRawOne();
-
-            const NEXT_DISPLAY_ORDER = (MAX_DISPLAY_ORDER.maxDisplayOrder || 0) + 1;
-            this.displayOrder = NEXT_DISPLAY_ORDER;
+        if (!this.displayOrder) {
+            if (!this.groupLink) {
+                this.setDefaultDisplayOrderOutGroup();
+            } else {
+                this.setDefaultDisplayOrderOnGroup();
+            }
         }
+    }
+
+    private async setDefaultDisplayOrderOnGroup(): Promise<void> {
+        const LINK_REPOSITORY: Repository<LinkEntity> = Container.get(LINK_ENTITY_REPOSITORY_TOKEN);
+
+        const MAX_DISPLAY_ORDER = await LINK_REPOSITORY.createQueryBuilder('link')
+            .select('MAX(link.displayOrder)', 'maxDisplayOrder')
+            .where('link.userId = :userId', { userId: this.userId })
+            .where('link.groupLinkId = :groupLinkId', { groupLinkId: this.groupLinkId })
+            .getRawOne();
+
+        const NEXT_DISPLAY_ORDER = (MAX_DISPLAY_ORDER.maxDisplayOrder || 0) + 1;
+        this.displayOrder = NEXT_DISPLAY_ORDER;
+    }
+
+    private async setDefaultDisplayOrderOutGroup(): Promise<void> {
+        const LINK_REPOSITORY: Repository<LinkEntity> = Container.get(LINK_ENTITY_REPOSITORY_TOKEN);
+
+        const MAX_DISPLAY_ORDER = await LINK_REPOSITORY.createQueryBuilder('link')
+            .select('MAX(link.displayOrder)', 'maxDisplayOrder')
+            .where('link.userId = :userId', { userId: this.userId })
+            .getRawOne();
+
+        const NEXT_DISPLAY_ORDER = (MAX_DISPLAY_ORDER.maxDisplayOrder || 0) + 1;
+        this.displayOrder = NEXT_DISPLAY_ORDER;
     }
 }
