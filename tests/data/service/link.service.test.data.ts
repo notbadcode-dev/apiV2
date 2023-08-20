@@ -44,14 +44,16 @@ export class LinkServiceTestData {
     }
 
     getLinkEntity(): LinkEntity {
-        return {
-            id: 1,
-            name: 'Test',
-            url: 'http://www.test.com',
-            favorite: false,
-            active: true,
-            userId: this.getUserId(),
-        };
+        const LINK_ENTITY = new LinkEntity();
+        LINK_ENTITY.id = 1;
+        LINK_ENTITY.name = 'Test';
+        LINK_ENTITY.url = 'http://www.test.com';
+        LINK_ENTITY.favorite = false;
+        LINK_ENTITY.active = true;
+        LINK_ENTITY.userId = this.getUserId();
+        LINK_ENTITY.displayOrder = 1;
+
+        return LINK_ENTITY;
     }
 
     getLinkEntityList(): LinkEntity[] {
@@ -63,24 +65,24 @@ export class LinkServiceTestData {
     }
 
     getLinkEntityWithZeroId(): LinkEntity {
-        return {
-            ...this.getLinkEntity(),
-            id: 0,
-        };
+        const LINK_ENTITY = this.getLinkEntity();
+        LINK_ENTITY.id = 0;
+
+        return LINK_ENTITY;
     }
 
     getFavoriteLinkEntity(): LinkEntity {
-        return {
-            ...this.getLinkEntity(),
-            favorite: true,
-        };
+        const LINK_ENTITY = this.getLinkEntity();
+        LINK_ENTITY.favorite = true;
+
+        return LINK_ENTITY;
     }
 
     getInactiveLinkEntity(): LinkEntity {
-        return {
-            ...this.getLinkEntity(),
-            active: false,
-        };
+        const LINK_ENTITY = this.getLinkEntity();
+        LINK_ENTITY.active = false;
+
+        return LINK_ENTITY;
     }
 
     getLinkWithEmptyName(): ILink {
@@ -123,6 +125,13 @@ export class LinkServiceTestData {
             ...this.getLink(),
             url: '',
         };
+    }
+
+    getLinkEntityWithDisplayOrderNull(): LinkEntity {
+        const LINK_ENTITY = this.getLinkEntity();
+        LINK_ENTITY.displayOrder = null;
+
+        return LINK_ENTITY;
     }
 
     getLinkCreateWithEmptyName(): ILinkCreate {

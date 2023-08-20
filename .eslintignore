@@ -1,1 +1,5 @@
+## types
 *.d.ts
+
+## testing
+jest.config.js

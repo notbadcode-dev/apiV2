@@ -26,6 +26,11 @@ module.exports = {
         '^src/(.*)$': ['<rootDir>/src/$1'],
         '^@constant/(.*)$': [
             '<rootDir>/src/shared/constant/$1',
+            '<rootDir>/src/linkApi/infrastructure/constant/$1'
+        ],
+        '^@enum/(.*)$': [
+            '<rootDir>/src/shared/constant/$1',
+            '<rootDir>/src/linkApi/infrastructure/enum/$1'
         ],
         '^@service/(.*)$': [
             '<rootDir>/src/shared/service/$1',

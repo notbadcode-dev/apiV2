@@ -1,8 +1,8 @@
 import { TAG_CONSTANT } from '@constant/tag.constant';
 import { EntityBase } from '@entity/base.entity';
 import { LinkEntity } from '@entity/link.entity';
+import { UserLinkRelationEntity } from '@entity/user-link-relationship.entity';
 import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { UserLinkRelationEntity } from './user-link-relationship.entity';
 
 @Entity({ name: 'tag' })
 export class TagEntity extends EntityBase {

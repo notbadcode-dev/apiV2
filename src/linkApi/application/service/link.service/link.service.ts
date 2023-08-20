@@ -21,12 +21,18 @@ export const LINK_SERVICE_TOKEN = new Token<ILinkService>('LinkService');
 
 @Service(LINK_SERVICE_TOKEN)
 export class LinkService implements ILinkService {
+    //#region Constructor
+
     constructor(
         @Inject(LINK_REPOSITORY_TOKEN) private _linkRepository: LinkRepository,
         @Inject(TOKEN_SERVICE_TOKEN) private _tokenService: TokenService,
         @Inject(GLOBAL_UTIL_VALIDATE_SERVICE) private _globalUtilValidateService: GlobalUtilValidateService,
         @Inject(LINK_ENTITY_TO_LINK_MAPPER) private _linkEntityToLinkMapper: LinkEntityToLinkMapper
     ) {}
+
+    //#endregion
+
+    //#region Public Methods
 
     @LoggerMethodDecorator
     public async createLink(linkCreate: ILinkCreate): Promise<ILink> {
@@ -133,6 +139,10 @@ export class LinkService implements ILinkService {
         return SUCCESSFULLY_DELETE_LINK;
     }
 
+    //#endregion
+
+    //#region Private Methods
+
     @LoggerMethodDecorator
     private async updaterLink(updaterLink: ILink): Promise<ILink> {
         const UPDATE_LINK_ENTITY = await this._linkRepository.getById(updaterLink.id);
@@ -195,4 +205,6 @@ export class LinkService implements ILinkService {
             throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_URL_ARGUMENT);
         }
     }
+
+    //#endregion
 }

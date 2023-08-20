@@ -106,8 +106,37 @@ describe('updateLink', () => {
 
     it('Updating a link should return a link entity', async () => {
         // Arrange
+        when(linkRepositoryMock.getById(anything())).thenCall(async () => {
+            return Promise.resolve(LINK_ENTITY);
+        });
+
         when(linkRepositoryMock.update(anything())).thenCall(async () => {
             return Promise.resolve(LINK_ENTITY);
+        });
+
+        when(linkEntityToLinkMapperMock.map(anything())).thenReturn(LINK);
+
+        // Act
+        const RESULT = await linkService.updateLink(LINK.id, LINK);
+
+        // Assert
+        expect(RESULT.id).toEqual(LINK.id);
+    });
+
+    it('Updating a link with display order null should return a link entity', async () => {
+        // Arrange
+        const LINK_ENTITY_WITH_DISPLAY_ORDER_NULL: LinkEntity = LINK_SERVICE_TEST_DATA.getLinkEntity();
+
+        when(linkRepositoryMock.getById(anything())).thenCall(async () => {
+            return Promise.resolve(LINK_ENTITY_WITH_DISPLAY_ORDER_NULL);
+        });
+
+        when(linkRepositoryMock.update(anything())).thenCall(async () => {
+            return Promise.resolve(LINK_ENTITY_WITH_DISPLAY_ORDER_NULL);
+        });
+
+        when(linkRepositoryMock.getNextDisplayOrder(anything())).thenCall(async () => {
+            return Promise.resolve(LINK_ENTITY.displayOrder);
         });
 
         when(linkEntityToLinkMapperMock.map(anything())).thenReturn(LINK);
@@ -348,6 +377,7 @@ describe('changeActive', () => {
         expect(RESULT.active).toBe(LINK_IS_INACTIVE);
     });
 });
+
 describe('changeFavorite', () => {
     const LINK_UNFAVORITE: ILink = LINK_SERVICE_TEST_DATA.getLinkWithUnfavorite();
     const LINK_IS_FAVORITE = true;
