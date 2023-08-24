@@ -8,7 +8,7 @@ import { IGroup } from '@model/group/group.model';
 import { ILink } from '@model/link/link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 
-export class GroupLinkTestData {
+export class GroupLinkServiceTestData {
     public getGroupCreate(): IGroup {
         return {
             id: 1,
