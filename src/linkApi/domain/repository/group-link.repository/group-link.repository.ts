@@ -98,7 +98,7 @@ export class GroupLinkRepository implements IGroupLinkRepository {
             relations: ['linkList'],
         });
 
-        if (!GROUP_LINK_ENTITY || !GROUP_LINK_ENTITY.id) {
+        if (!GROUP_LINK_ENTITY || !GROUP_LINK_ENTITY?.id) {
             throw new NotFountError(ERROR_MESSAGE_GROUP_LINK.GROUP_LINK_WITH_ID_NOT_FOUND(groupLinkId));
         }
 

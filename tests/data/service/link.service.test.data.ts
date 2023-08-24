@@ -7,6 +7,9 @@ import { ILinkCreate } from '@model/link/link-create.model';
 import { ILink } from '@model/link/link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 import { ITag } from '@model/tag/tag.model';
+import { GenericTestData } from './generic.test.data';
+
+const GENERIC_TEST_DATA: GenericTestData = new GenericTestData();
 
 export class LinkServiceTestData {
     getLinkCreate(): ILinkCreate {
@@ -50,7 +53,7 @@ export class LinkServiceTestData {
         LINK_ENTITY.url = 'http://www.test.com';
         LINK_ENTITY.favorite = false;
         LINK_ENTITY.active = true;
-        LINK_ENTITY.userId = this.getUserId();
+        LINK_ENTITY.userId = GENERIC_TEST_DATA.getUserId();
         LINK_ENTITY.displayOrder = 1;
 
         return LINK_ENTITY;
@@ -205,10 +208,6 @@ export class LinkServiceTestData {
 
     getInternalServerErrorNotDeleteLink(linkName: string): InternalServerError {
         return new InternalServerError(ERROR_MESSAGE_LINK.COULD_NOT_DELETE_LINK(linkName));
-    }
-
-    getUserId(): number {
-        return 1;
     }
 
     getMessageError(): string {

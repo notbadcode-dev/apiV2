@@ -1,5 +1,7 @@
 import { GroupLinkEntity } from '@entity/group_link.entity';
+import { ArgumentError } from '@error/argument.error';
 import { LinkGroupEntityToGroupMapper } from '@mapper/link-group/linkGroupEntityToGroup/linkGroupEntityToGroup.mapper';
+import { IDeleteGroup } from '@model/group/delete-group.model';
 import { IGroup } from '@model/group/group.model';
 import { GroupLinkRepository } from '@repository/group-link.repository/group-link.repository';
 import { LinkRepository } from '@repository/link.repository/link.repository';
@@ -7,11 +9,13 @@ import { GlobalUtilValidateService } from '@service/global/global.util.validate.
 import { GroupLinkService } from '@service/group-link.service/group-link.service';
 import { IGroupLinkService } from '@service/group-link.service/group-link.service.interface';
 import { TokenService } from '@service/middleware/token.service/token.service';
+import { GenericTestData } from '@testData/service/generic.test.data';
 import { GroupLinkServiceTestData } from '@testData/service/group-link.service.test.data';
-import { anything, instance, mock, when } from 'ts-mockito';
+import { anyNumber, anything, instance, mock, verify, when } from 'ts-mockito';
 
 const GROUP_LINK_SERVICE_TEST_DATA: GroupLinkServiceTestData = new GroupLinkServiceTestData();
 // const PAGINATE_TEST_DATA: PaginateTestData = new PaginateTestData();
+const GENERIC_TEST_DATA: GenericTestData = new GenericTestData();
 
 let groupLinkServiceMock: IGroupLinkService;
 let groupLinkRepositoryMock: GroupLinkRepository;
@@ -26,9 +30,11 @@ beforeEach(() => {
 });
 
 const GROUP_LINK_EMPTY_NAME_ARGUMENT_ERROR = GROUP_LINK_SERVICE_TEST_DATA.getArgumentErrorEmptyGroupLinkName();
+const GROUP_LINK_WRONG_ID_ARGUMENT_ERROR: ArgumentError = GROUP_LINK_SERVICE_TEST_DATA.getArgumentErrorWrongId();
+
 // const LINK_EMPTY_URL_ARGUMENT_ERROR = LINK_SERVICE_TEST_DATA.getArgumentErrorEmptyLinkUrl();
-const USER_ID = GROUP_LINK_SERVICE_TEST_DATA.getUserId();
-const GROUP_LINK: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroupLink();
+const USER_ID = GENERIC_TEST_DATA.getUserId();
+const GROUP_LINK: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroup();
 const GROUP_LINK_ENTITY: GroupLinkEntity = GROUP_LINK_SERVICE_TEST_DATA.getGroupLinkEntity();
 // const PAGINATE_LINK_LIST: IPaginateItem<ILink> = LINK_SERVICE_TEST_DATA.getPaginateLinkList();
 // const ARGUMENT_ERROR: ArgumentError = LINK_SERVICE_TEST_DATA.getArgumentErrorWrongId();
@@ -44,153 +50,237 @@ describe('createGroupLink', () => {
         );
     });
 
-    it('Creating a link should return a link entity', async () => {
+    it('Creating a group link without link list should return a group link entity', async () => {
         // Arrange
         const GROUP_LINK_CREATE: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroupCreate();
 
         when(tokenServiceMock.getCurrentUserId()).thenReturn(USER_ID);
-        when(groupLinkRepositoryMock.create(anything())).thenCall(async () => {
-            return Promise.resolve(GROUP_LINK_ENTITY);
-        });
+        when(groupLinkRepositoryMock.create(anything())).thenResolve(GROUP_LINK_ENTITY);
         when(linkGroupEntityToGroupMapper.map(anything())).thenReturn(GROUP_LINK);
 
         // Act
         const RESULT = await groupLinkServiceMock.createGroupLink(GROUP_LINK_CREATE);
 
         // Assert
+        expect(RESULT?.id).not.toBeNull();
+        expect(RESULT?.id).toBeGreaterThan(0);
         expect(RESULT?.id).toEqual(GROUP_LINK.id);
+    });
+
+    it('Creating a group link with link list should return a group link entity', async () => {
+        // Arrange
+        const GROUP_LINK_CREATE_WITH_LINK_LIST: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroupCreateWithLinkList();
+        const GROUP_LINK_ENTITY_WITH_LIST_LIST: GroupLinkEntity = GROUP_LINK_SERVICE_TEST_DATA.getGroupLinkEntityWithLinkList();
+        const GROUP_LINK_WITH_LIST_LIST: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroupWithLinkList();
+
+        when(tokenServiceMock.getCurrentUserId()).thenReturn(USER_ID);
+        when(groupLinkRepositoryMock.create(anything())).thenResolve(GROUP_LINK_ENTITY_WITH_LIST_LIST);
+        when(linkGroupEntityToGroupMapper.map(anything())).thenReturn(GROUP_LINK_WITH_LIST_LIST);
+        when(linkRepositoryMock.createList(anything())).thenResolve(GROUP_LINK_ENTITY_WITH_LIST_LIST?.linkList ?? []);
+
+        // Act
+        const RESULT = await groupLinkServiceMock.createGroupLink(GROUP_LINK_CREATE_WITH_LINK_LIST);
+
+        // Assert
+        verify(linkRepositoryMock.createList(anything())).once();
+        expect(RESULT?.linkList.length).toEqual(GROUP_LINK_CREATE_WITH_LINK_LIST.linkList.length);
+        expect(RESULT?.id).toEqual(GROUP_LINK_WITH_LIST_LIST.id);
     });
 });
 
-// describe('updateLink', () => {
-//     it('Updating a link with empty name should throw an argument error', async () => {
-//         // Arrange
-//         const LINK_EMPTY_NAME: ILink = LINK_SERVICE_TEST_DATA.getLinkWithEmptyName();
+describe('updateGroupLink', () => {
+    it('Updating a group link with empty name should throw an argument error', async () => {
+        // Arrange
+        const GROUP_LINK_CREATE_EMPTY_NAME: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroupWithEmptyName();
 
-//         // Act & Assert
-//         await expect(linkService.updateLink(LINK_EMPTY_NAME.id, LINK_EMPTY_NAME)).rejects.toThrowError(LINK_EMPTY_NAME_ARGUMENT_ERROR);
-//     });
+        // Act & Assert
+        await expect(
+            groupLinkServiceMock.updateGroupLink(GROUP_LINK_CREATE_EMPTY_NAME.id, GROUP_LINK_CREATE_EMPTY_NAME)
+        ).rejects.toThrowError(GROUP_LINK_EMPTY_NAME_ARGUMENT_ERROR);
+    });
 
-//     it('Updating a link with empty URL should throw an argument error', async () => {
-//         // Arrange
-//         const LINK_EMPTY_URL: ILink = LINK_SERVICE_TEST_DATA.getLinkWithEmptyUrl();
+    it('Updating a group link with zero ID should throw an argument error', async () => {
+        // Arrange
+        const GROUP_LINK_CREATE_ZERO_ID: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroupWithZeroId();
 
-//         // Act & Assert
-//         await expect(linkService.updateLink(LINK_EMPTY_URL.id, LINK_EMPTY_URL)).rejects.toThrow(LINK_EMPTY_URL_ARGUMENT_ERROR);
-//     });
+        // Act & Assert
+        await expect(groupLinkServiceMock.updateGroupLink(GROUP_LINK_CREATE_ZERO_ID.id, GROUP_LINK_CREATE_ZERO_ID)).rejects.toThrowError(
+            GROUP_LINK_WRONG_ID_ARGUMENT_ERROR
+        );
+    });
 
-//     it('Updating a link with zero ID should throw an argument error', async () => {
-//         // Arrange
-//         const LINK_ID_IS_ZERO: ILink = LINK_SERVICE_TEST_DATA.getLinkWithZeroId();
+    it('Updating a group link with nullish ID should throw an argument error', async () => {
+        // Arrange
+        const GROUP_LINK_CREATE_NULLISH_ID: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroupLinkWithNullishId();
 
-//         // Act & Assert
-//         await expect(linkService.updateLink(anyNumber(), LINK_ID_IS_ZERO)).rejects.toThrow(ARGUMENT_ERROR);
-//     });
+        // Act & Assert
+        await expect(
+            groupLinkServiceMock.updateGroupLink(GROUP_LINK_CREATE_NULLISH_ID.id, GROUP_LINK_CREATE_NULLISH_ID)
+        ).rejects.toThrowError(GROUP_LINK_WRONG_ID_ARGUMENT_ERROR);
+    });
 
-//     it('Updating a link with nullish ID should throw an argument error', async () => {
-//         // Arrange
-//         const LINK_ID_IS_NULL: ILink = LINK_SERVICE_TEST_DATA.getLinkWithNullishId();
+    it('Updating a group link should return a group link entity', async () => {
+        // Arrange
+        when(groupLinkRepositoryMock.getById(anything())).thenResolve(GROUP_LINK_ENTITY);
+        when(groupLinkRepositoryMock.update(anything())).thenResolve(GROUP_LINK_ENTITY);
+        when(linkGroupEntityToGroupMapper.map(anything())).thenReturn(GROUP_LINK);
 
-//         // Act & Assert
-//         await expect(linkService.updateLink(Number(null), LINK_ID_IS_NULL)).rejects.toThrow(ARGUMENT_ERROR);
-//     });
+        // Act
+        const RESULT = await groupLinkServiceMock.updateGroupLink(GROUP_LINK.id, GROUP_LINK);
 
-//     it('Updating a link should return a link entity', async () => {
-//         // Arrange
-//         when(linkRepositoryMock.getById(anything())).thenCall(async () => {
-//             return Promise.resolve(LINK_ENTITY);
-//         });
+        // Assert
+        expect(RESULT?.id).not.toBeNull();
+        expect(RESULT?.id).toBeGreaterThan(0);
+        expect(RESULT?.id).toEqual(GROUP_LINK?.id);
+    });
 
-//         when(linkRepositoryMock.update(anything())).thenCall(async () => {
-//             return Promise.resolve(LINK_ENTITY);
-//         });
+    it('Updating a link with display order null should return a link entity', async () => {
+        // Arrange
+        const LINK_ENTITY_WITH_DISPLAY_ORDER_NULL: GroupLinkEntity = GROUP_LINK_SERVICE_TEST_DATA.getGroupLinkEntityWithDisplayOrderNull();
 
-//         when(linkEntityToLinkMapperMock.map(anything())).thenReturn(LINK);
+        when(groupLinkRepositoryMock.getById(anything())).thenResolve(LINK_ENTITY_WITH_DISPLAY_ORDER_NULL);
+        when(groupLinkRepositoryMock.update(anything())).thenResolve(LINK_ENTITY_WITH_DISPLAY_ORDER_NULL);
+        when(groupLinkRepositoryMock.getNextDisplayOrder(anyNumber())).thenResolve(GROUP_LINK_SERVICE_TEST_DATA.getNextDisplayOrder());
+        when(linkGroupEntityToGroupMapper.map(anything())).thenReturn(GROUP_LINK);
 
-//         // Act
-//         const RESULT = await linkService.updateLink(LINK.id, LINK);
+        // Act
+        const RESULT = await groupLinkServiceMock.updateGroupLink(GROUP_LINK.id, GROUP_LINK);
 
-//         // Assert
-//         expect(RESULT.id).toEqual(LINK.id);
-//     });
+        // Assert
+        expect(RESULT?.displayOrder).not.toBeNull();
+        expect(RESULT?.displayOrder).toBeGreaterThan(0);
+        expect(RESULT?.id).toEqual(GROUP_LINK?.id);
+    });
+});
 
-//     it('Updating a link with display order null should return a link entity', async () => {
-//         // Arrange
-//         const LINK_ENTITY_WITH_DISPLAY_ORDER_NULL: LinkEntity = LINK_SERVICE_TEST_DATA.getLinkEntityWithDisplayOrderNull();
+describe('deleteGroupLink', () => {
+    it('Deleting a link with zero ID should throw an argument error', async () => {
+        // Arrange
+        const DELETE_GROUP_WITH_ZERO_ID: IDeleteGroup = GROUP_LINK_SERVICE_TEST_DATA.getDeleteWithZeroId();
 
-//         when(linkRepositoryMock.getById(anything())).thenCall(async () => {
-//             return Promise.resolve(LINK_ENTITY_WITH_DISPLAY_ORDER_NULL);
-//         });
+        // Act & Assert
+        await expect(groupLinkServiceMock.deleteGroupLink(DELETE_GROUP_WITH_ZERO_ID)).rejects.toThrowError(
+            GROUP_LINK_WRONG_ID_ARGUMENT_ERROR
+        );
+    });
 
-//         when(linkRepositoryMock.update(anything())).thenCall(async () => {
-//             return Promise.resolve(LINK_ENTITY_WITH_DISPLAY_ORDER_NULL);
-//         });
+    it('Deleting a link with nullish ID should throw an argument error', async () => {
+        // Arrange
+        const DELETE_GROUP_WITH_NULLISH_ID: IDeleteGroup = GROUP_LINK_SERVICE_TEST_DATA.getDeleteWithNullishId();
 
-//         when(linkRepositoryMock.getNextDisplayOrder(anyNumber(), anyNumber())).thenCall(async () => {
-//             return Promise.resolve(LINK_SERVICE_TEST_DATA.getNextDisplayOrder());
-//         });
+        // Act & Assert
+        await expect(groupLinkServiceMock.deleteGroupLink(DELETE_GROUP_WITH_NULLISH_ID)).rejects.toThrowError(
+            GROUP_LINK_WRONG_ID_ARGUMENT_ERROR
+        );
+    });
 
-//         when(linkEntityToLinkMapperMock.map(anything())).thenReturn(LINK);
+    it('Should delete non existing link and return true', async () => {
+        const DELETE_GROUP: IDeleteGroup = GROUP_LINK_SERVICE_TEST_DATA.getDeleteGroup();
 
-//         // Act
-//         const RESULT = await linkService.updateLink(LINK.id, LINK);
+        // Arrange
+        when(groupLinkRepositoryMock.getById(DELETE_GROUP.id)).thenResolve(GROUP_LINK_ENTITY);
+        when(groupLinkRepositoryMock.delete(DELETE_GROUP)).thenResolve(true);
 
-//         // Assert
-//         expect(RESULT.id).toEqual(LINK.id);
-//     });
-// });
+        // Act
+        const RESULT: boolean = await groupLinkServiceMock.deleteGroupLink(DELETE_GROUP);
 
-// describe('getLink', () => {
-//     it('Getting a link with zero ID should throw an argument error', async () => {
-//         // Act & Assert
-//         await expect(linkService.deleteLink(anyNumber())).rejects.toThrow(ARGUMENT_ERROR);
-//     });
+        // Assert
+        expect(RESULT).toBe(true);
+    });
 
-//     it('Getting a link with nullish ID should throw an argument error', async () => {
-//         // Act & Assert
-//         await expect(linkService.deleteLink(Number(null))).rejects.toThrow(ARGUMENT_ERROR);
-//     });
+    it('Should delete non existing link and return false', async () => {
+        const DELETE_GROUP: IDeleteGroup = GROUP_LINK_SERVICE_TEST_DATA.getDeleteGroup();
 
-//     it('Should return a list', async () => {
-//         // Arrange
-//         when(linkRepositoryMock.getById(anyNumber())).thenResolve(LINK_ENTITY);
-//         when(linkEntityToLinkMapperMock.map(anything())).thenReturn(LINK);
+        // Arrange
+        when(groupLinkRepositoryMock.getById(DELETE_GROUP.id)).thenResolve(GROUP_LINK_ENTITY);
+        when(groupLinkRepositoryMock.delete(DELETE_GROUP)).thenResolve(false);
 
-//         // Act
-//         const RESULT = await linkService.getLink(LINK_ENTITY.id);
+        // Act
+        const RESULT: boolean = await groupLinkServiceMock.deleteGroupLink(DELETE_GROUP);
 
-//         // Assert
-//         expect(RESULT.id).toEqual(LINK?.id);
-//     });
-// });
+        // Assert
+        expect(RESULT).toBe(false);
+    });
 
-// describe('getLinkList', () => {
-//     it('Should return a list of links', async () => {
-//         // Arrange
-//         when(linkRepositoryMock.getAll()).thenResolve([LINK_ENTITY]);
-//         when(linkEntityToLinkMapperMock.map(LINK_ENTITY)).thenReturn(LINK);
+    it('Should delete existing link and return true', async () => {
+        const DELETE_GROUP_WITH_LINK_LIST_TRUE: IDeleteGroup = GROUP_LINK_SERVICE_TEST_DATA.getDeleteWithLinkListTrue();
 
-//         // Act
-//         const RESULT = await linkService.getLinkList();
+        // Arrange
+        when(groupLinkRepositoryMock.getById(DELETE_GROUP_WITH_LINK_LIST_TRUE.id)).thenResolve(GROUP_LINK_ENTITY);
+        when(groupLinkRepositoryMock.delete(DELETE_GROUP_WITH_LINK_LIST_TRUE)).thenResolve(true);
 
-//         // Assert
-//         expect(RESULT).toHaveLength([LINK_ENTITY].length);
-//         expect(RESULT.at(0)?.id).toEqual(LINK?.id);
-//     });
+        // Act
+        const RESULT: boolean = await groupLinkServiceMock.deleteGroupLink(DELETE_GROUP_WITH_LINK_LIST_TRUE);
 
-//     it('Should return a empty list of links', async () => {
-//         // Arrange
-//         const LINK_ENTITY_EMPTY_LIST: LinkEntity[] = LINK_SERVICE_TEST_DATA.getLinkEntityEmptyList();
-//         when(linkRepositoryMock.getAll()).thenResolve(LINK_ENTITY_EMPTY_LIST);
+        // Assert
+        verify(linkRepositoryMock.deleteList(anything())).once();
+        expect(RESULT).toBe(true);
+    });
+});
 
-//         // Act
-//         const RESULT = await linkService.getLinkList();
+describe('getGroupLink', () => {
+    it('Getting a group link with zero ID should throw an argument error', async () => {
+        // Arrange
+        const GROUP_LINK_CREATE_ZERO_ID: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroupWithZeroId();
 
-//         // Assert
-//         expect(RESULT).toHaveLength(LINK_ENTITY_EMPTY_LIST.length);
-//         expect(RESULT).toEqual([]);
-//     });
-// });
+        // Act & Assert
+        await expect(groupLinkServiceMock.getGroupLink(GROUP_LINK_CREATE_ZERO_ID.id)).rejects.toThrowError(
+            GROUP_LINK_WRONG_ID_ARGUMENT_ERROR
+        );
+    });
+
+    it('Getting a group link with nullish ID should throw an argument error', async () => {
+        // Arrange
+        const GROUP_LINK_CREATE_NULLISH_ID: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroupLinkWithNullishId();
+
+        // Act & Assert
+        await expect(groupLinkServiceMock.getGroupLink(GROUP_LINK_CREATE_NULLISH_ID.id)).rejects.toThrowError(
+            GROUP_LINK_WRONG_ID_ARGUMENT_ERROR
+        );
+    });
+
+    it('Should return a group link', async () => {
+        // Arrange
+        when(groupLinkRepositoryMock.getById(anyNumber())).thenResolve(GROUP_LINK_ENTITY);
+        when(linkGroupEntityToGroupMapper.map(anything())).thenReturn(GROUP_LINK);
+
+        // Act
+        const RESULT = await groupLinkServiceMock.getGroupLink(GROUP_LINK.id);
+
+        // Assert
+        expect(RESULT?.name).not.toBeNull();
+        expect(RESULT?.name.length).toBeGreaterThan(0);
+        expect(RESULT?.id).not.toBeNull();
+        expect(RESULT?.id).toBeGreaterThan(0);
+        expect(RESULT?.id).toEqual(GROUP_LINK?.id);
+    });
+});
+
+describe('getGroupLinkList', () => {
+    it('Should return a list of links', async () => {
+        // Arrange
+        when(groupLinkRepositoryMock.getAll()).thenResolve([GROUP_LINK_ENTITY]);
+        when(linkGroupEntityToGroupMapper.map(GROUP_LINK_ENTITY)).thenReturn(GROUP_LINK);
+
+        // Act
+        const RESULT = await groupLinkServiceMock.getGroupLinkList();
+
+        // Assert
+        expect(RESULT.length).toEqual([GROUP_LINK_ENTITY].length);
+        expect(RESULT.at(0)?.id).toEqual(GROUP_LINK?.id);
+    });
+
+    it('Should return a empty list of links', async () => {
+        // Arrange
+        when(groupLinkRepositoryMock.getAll()).thenResolve([]);
+
+        // Act
+        const RESULT = await groupLinkServiceMock.getGroupLinkList();
+
+        // Assert
+        expect(RESULT.length).toEqual(0);
+    });
+});
 
 // describe('getPaginateLinkList', () => {
 //     it('Should return a paginated list of links', async () => {
@@ -272,42 +362,6 @@ describe('createGroupLink', () => {
 //         // Assert
 //         expect(RESULT?.itemList?.length ?? 0).toEqual(PAGINATE_LINK_LIST_WITH_EMPTY_LIST.itemList?.length);
 //         expect(RESULT.total).toEqual(PAGINATE_LINK_LIST_WITH_EMPTY_LIST.itemList?.length);
-//     });
-// });
-
-// describe('deleteLink', () => {
-//     const INTERNAL_SERVER_ERROR_DELETE_LINK: InternalServerError = LINK_SERVICE_TEST_DATA.getInternalServerErrorNotDeleteLink(
-//         LINK_ENTITY.name
-//     );
-
-//     it('Deleting a link with zero ID should throw an argument error', async () => {
-//         // Act & Assert
-//         await expect(linkService.deleteLink(anyNumber())).rejects.toThrow(ARGUMENT_ERROR);
-//     });
-
-//     it('Deleting a link with nullish ID should throw an argument error', async () => {
-//         // Act & Assert
-//         await expect(linkService.deleteLink(Number(null))).rejects.toThrow(ARGUMENT_ERROR);
-//     });
-
-//     it('Should throw error when delete operation fails', async () => {
-//         // Arrange
-//         when(linkRepositoryMock.delete(LINK_ENTITY.id)).thenReject(INTERNAL_SERVER_ERROR_DELETE_LINK);
-
-//         // Act & Assert
-//         await expect(linkService.deleteLink(LINK_ENTITY.id)).rejects.toThrowError(INTERNAL_SERVER_ERROR_DELETE_LINK);
-//     });
-
-//     it('Should delete existing link and return true', async () => {
-//         // Arrange
-//         when(linkRepositoryMock.getById(LINK_ENTITY.id)).thenResolve(LINK_ENTITY);
-//         when(linkRepositoryMock.delete(LINK_ENTITY.id)).thenResolve(true);
-
-//         // Act
-//         const RESULT: boolean = await linkService.deleteLink(LINK_ENTITY.id);
-
-//         // Assert
-//         expect(RESULT).toBe(true);
 //     });
 // });
 

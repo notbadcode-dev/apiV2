@@ -10,12 +10,14 @@ import { GlobalUtilValidateService } from '@service/global/global.util.validate.
 import { LinkService } from '@service/link.service/link.service';
 import { ILinkService } from '@service/link.service/link.service.interface';
 import { TokenService } from '@service/middleware/token.service/token.service';
+import { GenericTestData } from '@testData/service/generic.test.data';
 import { LinkServiceTestData } from '@testData/service/link.service.test.data';
 import { PaginateTestData } from '@testData/service/paginate.test.data';
 import { anyNumber, anything, instance, mock, when } from 'ts-mockito';
 
 const LINK_SERVICE_TEST_DATA: LinkServiceTestData = new LinkServiceTestData();
 const PAGINATE_TEST_DATA: PaginateTestData = new PaginateTestData();
+const GENERIC_TEST_DATA: GenericTestData = new GenericTestData();
 
 let linkServiceMock: ILinkService;
 let tokenServiceMock: TokenService;
@@ -28,13 +30,13 @@ beforeEach(() => {
     generateLinkService();
 });
 
-const LINK_EMPTY_NAME_ARGUMENT_ERROR = LINK_SERVICE_TEST_DATA.getArgumentErrorEmptyLinkName();
-const LINK_EMPTY_URL_ARGUMENT_ERROR = LINK_SERVICE_TEST_DATA.getArgumentErrorEmptyLinkUrl();
-const USER_ID = LINK_SERVICE_TEST_DATA.getUserId();
 const LINK: ILink = LINK_SERVICE_TEST_DATA.getLink();
 const LINK_ENTITY: LinkEntity = LINK_SERVICE_TEST_DATA.getLinkEntity();
+const LINK_EMPTY_NAME_ARGUMENT_ERROR = LINK_SERVICE_TEST_DATA.getArgumentErrorEmptyLinkName();
+const LINK_EMPTY_URL_ARGUMENT_ERROR = LINK_SERVICE_TEST_DATA.getArgumentErrorEmptyLinkUrl();
+const LINK_WRONG_ID_ARGUMENT_ERROR: ArgumentError = LINK_SERVICE_TEST_DATA.getArgumentErrorWrongId();
 const PAGINATE_LINK_LIST: IPaginateItem<ILink> = LINK_SERVICE_TEST_DATA.getPaginateLinkList();
-const ARGUMENT_ERROR: ArgumentError = LINK_SERVICE_TEST_DATA.getArgumentErrorWrongId();
+const USER_ID = GENERIC_TEST_DATA.getUserId();
 
 describe('createLink', () => {
     it('Creating a link with empty name should throw an argument error', async () => {
@@ -93,7 +95,7 @@ describe('updateLink', () => {
         const LINK_ID_IS_ZERO: ILink = LINK_SERVICE_TEST_DATA.getLinkWithZeroId();
 
         // Act & Assert
-        await expect(linkServiceMock.updateLink(anyNumber(), LINK_ID_IS_ZERO)).rejects.toThrow(ARGUMENT_ERROR);
+        await expect(linkServiceMock.updateLink(anyNumber(), LINK_ID_IS_ZERO)).rejects.toThrow(LINK_WRONG_ID_ARGUMENT_ERROR);
     });
 
     it('Updating a link with nullish ID should throw an argument error', async () => {
@@ -101,7 +103,7 @@ describe('updateLink', () => {
         const LINK_ID_IS_NULL: ILink = LINK_SERVICE_TEST_DATA.getLinkWithNullishId();
 
         // Act & Assert
-        await expect(linkServiceMock.updateLink(Number(null), LINK_ID_IS_NULL)).rejects.toThrow(ARGUMENT_ERROR);
+        await expect(linkServiceMock.updateLink(Number(null), LINK_ID_IS_NULL)).rejects.toThrow(LINK_WRONG_ID_ARGUMENT_ERROR);
     });
 
     it('Updating a link should return a link entity', async () => {
@@ -152,12 +154,12 @@ describe('updateLink', () => {
 describe('getLink', () => {
     it('Getting a link with zero ID should throw an argument error', async () => {
         // Act & Assert
-        await expect(linkServiceMock.deleteLink(anyNumber())).rejects.toThrow(ARGUMENT_ERROR);
+        await expect(linkServiceMock.deleteLink(anyNumber())).rejects.toThrow(LINK_WRONG_ID_ARGUMENT_ERROR);
     });
 
     it('Getting a link with nullish ID should throw an argument error', async () => {
         // Act & Assert
-        await expect(linkServiceMock.deleteLink(Number(null))).rejects.toThrow(ARGUMENT_ERROR);
+        await expect(linkServiceMock.deleteLink(Number(null))).rejects.toThrow(LINK_WRONG_ID_ARGUMENT_ERROR);
     });
 
     it('Should return a list', async () => {
@@ -294,7 +296,7 @@ describe('changeActive', () => {
         const LINK_ID_IS_ZERO: ILink = LINK_SERVICE_TEST_DATA.getLinkWithZeroId();
 
         // Act & Assert
-        await expect(linkServiceMock.changeActiveLink(LINK_ID_IS_ZERO.id, true)).rejects.toThrow(ARGUMENT_ERROR);
+        await expect(linkServiceMock.changeActiveLink(LINK_ID_IS_ZERO.id, true)).rejects.toThrow(LINK_WRONG_ID_ARGUMENT_ERROR);
     });
 
     it('Changing a link active with nullish ID should throw an argument error', async () => {
@@ -302,7 +304,7 @@ describe('changeActive', () => {
         const LINK_ID_IS_NULL: ILink = LINK_SERVICE_TEST_DATA.getLinkWithNullishId();
 
         // Act & Assert
-        await expect(linkServiceMock.changeActiveLink(LINK_ID_IS_NULL.id, true)).rejects.toThrow(ARGUMENT_ERROR);
+        await expect(linkServiceMock.changeActiveLink(LINK_ID_IS_NULL.id, true)).rejects.toThrow(LINK_WRONG_ID_ARGUMENT_ERROR);
     });
 
     it('Changing a link active status from false to true should return the updated link', async () => {
@@ -388,7 +390,7 @@ describe('changeFavorite', () => {
         const LINK_ID_IS_ZERO: ILink = LINK_SERVICE_TEST_DATA.getLinkWithZeroId();
 
         // Act & Assert
-        await expect(linkServiceMock.changeFavoriteLink(LINK_ID_IS_ZERO.id, true)).rejects.toThrow(ARGUMENT_ERROR);
+        await expect(linkServiceMock.changeFavoriteLink(LINK_ID_IS_ZERO.id, true)).rejects.toThrow(LINK_WRONG_ID_ARGUMENT_ERROR);
     });
 
     it('Changing a link favorite with nullish ID should throw an argument error', async () => {
@@ -396,7 +398,7 @@ describe('changeFavorite', () => {
         const LINK_ID_IS_NULL: ILink = LINK_SERVICE_TEST_DATA.getLinkWithNullishId();
 
         // Act & Assert
-        await expect(linkServiceMock.changeFavoriteLink(LINK_ID_IS_NULL.id, true)).rejects.toThrow(ARGUMENT_ERROR);
+        await expect(linkServiceMock.changeFavoriteLink(LINK_ID_IS_NULL.id, true)).rejects.toThrow(LINK_WRONG_ID_ARGUMENT_ERROR);
     });
 
     it('Changing a link favorite status from false to true should return the updated link', async () => {
@@ -479,12 +481,12 @@ describe('deleteLink', () => {
 
     it('Deleting a link with zero ID should throw an argument error', async () => {
         // Act & Assert
-        await expect(linkServiceMock.deleteLink(anyNumber())).rejects.toThrow(ARGUMENT_ERROR);
+        await expect(linkServiceMock.deleteLink(anyNumber())).rejects.toThrow(LINK_WRONG_ID_ARGUMENT_ERROR);
     });
 
     it('Deleting a link with nullish ID should throw an argument error', async () => {
         // Act & Assert
-        await expect(linkServiceMock.deleteLink(Number(null))).rejects.toThrow(ARGUMENT_ERROR);
+        await expect(linkServiceMock.deleteLink(Number(null))).rejects.toThrow(LINK_WRONG_ID_ARGUMENT_ERROR);
     });
 
     it('Should throw error when delete operation fails', async () => {

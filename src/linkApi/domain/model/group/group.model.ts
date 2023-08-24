@@ -9,4 +9,5 @@ export interface IGroup extends ILinkGroup {
     colorFrom?: string;
     colorTo?: string;
     gradientType?: TGroupLinkGradientType;
+    displayOrder?: number | null;
 }
