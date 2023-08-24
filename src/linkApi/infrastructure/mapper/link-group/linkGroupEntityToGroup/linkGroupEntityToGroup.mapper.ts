@@ -12,12 +12,12 @@ export const LINK_GROUP_ENTITY_TO_GROUP_MAPPER = new Token<ILinkGroupEntityToGro
 @Service(LINK_GROUP_ENTITY_TO_GROUP_MAPPER)
 export class LinkGroupEntityToGroupMapper implements ILinkGroupEntityToGroupMapper {
     public map(linkGroupEntity?: GroupLinkEntity | null): IGroup | null {
-        if (!linkGroupEntity || !linkGroupEntity.id || !linkGroupEntity.name) {
+        if (!linkGroupEntity || !linkGroupEntity?.id || !linkGroupEntity?.name) {
             return null;
         }
 
         const LINK_LIST: ILink[] =
-            linkGroupEntity.linkList?.map((linkEntity: LinkEntity) => {
+            linkGroupEntity?.linkList?.map((linkEntity: LinkEntity) => {
                 return {
                     id: linkEntity.id,
                     name: linkEntity.name,

@@ -66,8 +66,7 @@ export class GroupLinkService implements IGroupLinkService {
                 LINK_ENTITY.displayOrder = index + 1;
                 return LINK_ENTITY;
             });
-            const LINK_ENTITY_CREATED = await this._linkRepository.createList(LINK_ENTITY_LIST);
-            console.log(LINK_ENTITY_CREATED);
+            await this._linkRepository.createList(LINK_ENTITY_LIST);
         }
 
         const GROUP_LINK_CREATED = await this._groupLinkRepository.getById(GROUP_LINK_CREATED_SAVED.id);

@@ -50,7 +50,7 @@ describe('createLink', () => {
         const LINK_CREATE_EMPTY_URL: ILinkCreate = LINK_SERVICE_TEST_DATA.getLinkCreateWithEmptyUrl();
 
         // Act & Assert
-        await expect(linkService.createLink(LINK_CREATE_EMPTY_URL)).rejects.toThrow(LINK_EMPTY_URL_ARGUMENT_ERROR);
+        await expect(linkService.createLink(LINK_CREATE_EMPTY_URL)).rejects.toThrowError(LINK_EMPTY_URL_ARGUMENT_ERROR);
     });
 
     it('Creating a link should return a link entity', async () => {
@@ -125,7 +125,7 @@ describe('updateLink', () => {
 
     it('Updating a link with display order null should return a link entity', async () => {
         // Arrange
-        const LINK_ENTITY_WITH_DISPLAY_ORDER_NULL: LinkEntity = LINK_SERVICE_TEST_DATA.getLinkEntity();
+        const LINK_ENTITY_WITH_DISPLAY_ORDER_NULL: LinkEntity = LINK_SERVICE_TEST_DATA.getLinkEntityWithDisplayOrderNull();
 
         when(linkRepositoryMock.getById(anything())).thenCall(async () => {
             return Promise.resolve(LINK_ENTITY_WITH_DISPLAY_ORDER_NULL);
@@ -135,8 +135,8 @@ describe('updateLink', () => {
             return Promise.resolve(LINK_ENTITY_WITH_DISPLAY_ORDER_NULL);
         });
 
-        when(linkRepositoryMock.getNextDisplayOrder(anything())).thenCall(async () => {
-            return Promise.resolve(LINK_ENTITY.displayOrder);
+        when(linkRepositoryMock.getNextDisplayOrder(anyNumber(), anyNumber())).thenCall(async () => {
+            return Promise.resolve(LINK_SERVICE_TEST_DATA.getNextDisplayOrder());
         });
 
         when(linkEntityToLinkMapperMock.map(anything())).thenReturn(LINK);

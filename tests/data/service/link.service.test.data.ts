@@ -56,6 +56,10 @@ export class LinkServiceTestData {
         return LINK_ENTITY;
     }
 
+    getNextDisplayOrder(): number {
+        return this.getLinkEntity().displayOrder ?? 1;
+    }
+
     getLinkEntityList(): LinkEntity[] {
         return new Array<LinkEntity>(this.getLinkEntity());
     }
