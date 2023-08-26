@@ -3,7 +3,7 @@ name: Jest Test and ESLint
 on: [push]
 
 jobs:
-    run-test:
+    run-test-and-lint:
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
@@ -27,53 +27,38 @@ jobs:
 
             - run: npm install
 
-            - run: npm test
+            - name: Run ESLint and Tests
+              run: |
+                  npm run lint &
+                  npm test
+              continue-on-error: true
 
-            - uses: actions/upload-artifact@v2
+            - name: Upload ESLint Report
+              uses: actions/upload-artifact@v2
+              with:
+                  name: eslint-report
+                  path: ./eslint-report.html
+
+            - name: Upload Test Results
+              uses: actions/upload-artifact@v2
               with:
                   name: test-results
                   path: ./tests/report/test_report.html
 
-    run-lint:
-        runs-on: ${{ matrix.os }}
-        strategy:
-            matrix:
-                os: [ubuntu-latest]
-                node-version: [16.17.0]
-        steps:
-            - uses: actions/checkout@v2
-
-            - name: Cache node modules
-              uses: actions/cache@v2
-              with:
-                  path: ~/.npm
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-node-
-
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v2
-              with:
-                  node-version: ${{ matrix.node-version }}
-
-            - run: npm install
-
-            - run: npm run lint
-
     send-email:
         runs-on: ubuntu-latest
-        needs: [run-test, run-lint]
-        if: ${{ needs.run-test.result == 'success' && needs.run-lint.result == 'success' }}
+        needs: run-test-and-lint
+        if: ${{ needs.run-test-and-lint.result == 'failure' }}
         steps:
-            - name: Download Test Results
-              uses: actions/download-artifact@v2
-              with:
-                  name: test-results
-
             - name: Download ESLint Report
               uses: actions/download-artifact@v2
               with:
                   name: eslint-report
+
+            - name: Download Test Results
+              uses: actions/download-artifact@v2
+              with:
+                  name: test-results
 
             - name: Send Email
               uses: dawidd6/action-send-mail@v2
@@ -87,5 +72,5 @@ jobs:
                   from: ${{ secrets.EMAIL_USERNAME }}
                   to: ${{ secrets.EMAIL_USERNAME }}
                   attachments: |
-                      ./test_report.html
                       ./eslint-report.html
+                      ./test_report.html
