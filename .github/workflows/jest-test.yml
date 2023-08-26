@@ -1,9 +1,9 @@
-name: Jest Test and Lint
+name: Jest Test and ESLint
 
 on: [push]
 
 jobs:
-    run-test-and-lint:
+    run-test:
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
@@ -29,25 +29,63 @@ jobs:
 
             - run: npm test
 
-            - name: Run ESLint
-              run: npm run lint
-
             - uses: actions/upload-artifact@v2
               with:
                   name: test-results
                   path: ./tests/report/test_report.html
 
+    run-lint:
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [ubuntu-latest]
+                node-version: [16.17.0]
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Cache node modules
+              uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
+
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v2
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - run: npm install
+
+            - run: npm run lint
+
+    send-email:
+        runs-on: ubuntu-latest
+        needs: [run-test, run-lint]
+        if: ${{ needs.run-test.result == 'success' && needs.run-lint.result == 'success' }}
+        steps:
+            - name: Download Test Results
+              uses: actions/download-artifact@v2
+              with:
+                  name: test-results
+
+            - name: Download ESLint Report
+              uses: actions/download-artifact@v2
+              with:
+                  name: eslint-report
+
             - name: Send Email
-              if: ${{ always() }} # Send email regardless of test and lint results
               uses: dawidd6/action-send-mail@v2
               with:
                   server_address: smtp.gmail.com
                   server_port: 587
                   username: ${{ secrets.EMAIL_USERNAME }}
                   password: ${{ secrets.EMAIL_PASSWORD }}
-                  subject: 'Test and Lint Results'
-                  body: 'The test and lint results are attached.'
+                  subject: 'Test and ESLint Results'
+                  body: 'The test and ESLint results are attached.'
                   from: ${{ secrets.EMAIL_USERNAME }}
                   to: ${{ secrets.EMAIL_USERNAME }}
                   attachments: |
                       ./test_report.html
+                      ./eslint-report.html
