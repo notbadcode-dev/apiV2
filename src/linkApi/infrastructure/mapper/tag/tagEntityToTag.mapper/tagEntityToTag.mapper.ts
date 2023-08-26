@@ -1,7 +1,7 @@
 import { TagEntity } from '@entity/tag.entity';
+import { ITagEntityToTagMapper } from '@mapper/tag/tagEntityToTag.mapper/tagEntityToTag.mapper.interface';
 import { ITag } from '@model/tag/tag.model';
 import { Service, Token } from 'typedi';
-import { ITagEntityToTagMapper } from './tagEntityToTag.mapper.interface';
 
 export const TAG_ENTITY_TO_TAG_MAPPER = new Token<ITagEntityToTagMapper>('TagEntityToTagMapper');
 

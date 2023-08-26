@@ -1,7 +1,7 @@
 import { UserEntity } from '@entity/user.entity';
+import { IUserUpdaterToUserEntityMapper } from '@mapper/user/userUpdateToUserEntity.mapper/userUpdateToUserEntity.mapper.interface';
 import { TUserUpdater } from '@model/user/user-update.model';
 import { Service, Token } from 'typedi';
-import { IUserUpdaterToUserEntityMapper } from './userUpdateToUserEntity.mapper.interface';
 
 export const USER_UPDATER_TO_USER_ENTITY_MAPPER = new Token<IUserUpdaterToUserEntityMapper>('UserUpdaterToUserEntityMapper');
 

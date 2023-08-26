@@ -1,9 +1,9 @@
 import { TAuthSignIn } from '@model/auth/auth-sign-in.model';
 import { IUserCreate } from '@model/user/user-create.model';
 import { AUTH_SERVICE_TOKEN } from '@service/auth.service/auth.service';
+import { IAuthService } from '@service/auth.service/auth.service.interface';
 import { Body, JsonController, Post } from 'routing-controllers';
 import { Inject, Service } from 'typedi';
-import { IAuthService } from '../service/auth.service/auth.service.interface';
 
 @Service()
 @JsonController('/authentication')

@@ -1,8 +1,8 @@
-import { EntityBase } from '@entity/base.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 // eslint-disable-next-line hexagonal-architecture/enforce
-import { ApplicationEntity } from './application.entity';
-import { UserEntity } from './user.entity';
+import { ApplicationEntity } from '@entity/application.entity';
+import { EntityBase } from '@entity/base.entity';
+import { UserEntity } from '@entity/user.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'auth.user_application' })
 export class UserApplicationEntity extends EntityBase {

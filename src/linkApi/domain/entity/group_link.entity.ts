@@ -2,13 +2,13 @@ import { GROUP_LINK_CONSTANT } from '@constant/group-link.constant';
 import { API_LINK_CONSTANT } from '@constant/link-api.constant';
 import { EntityBase } from '@entity/base.entity';
 import { LinkEntity } from '@entity/link.entity';
+import { UserLinkRelationEntity } from '@entity/user-link-relationship.entity';
 import { EGroupLinkGradientType } from '@enum/group-link-gradient-type.enum';
 import { GROUP_LINK_REPOSITORY_TOKEN } from '@repository/group-link.repository/group-link.repository';
 import { IGroupLinkRepository } from '@repository/group-link.repository/group-link.repository.interface';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import Container from 'typedi';
 import { BeforeInsert, Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { UserLinkRelationEntity } from './user-link-relationship.entity';
 
 @Entity({ name: 'group_link' })
 export class GroupLinkEntity extends EntityBase {

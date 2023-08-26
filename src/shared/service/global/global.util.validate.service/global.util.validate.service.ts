@@ -5,9 +5,9 @@ import { InternalServerError } from '@error/internal-server.error';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { GlobalUtilNumberService, GLOBAL_UTIL_NUMBER_SERVICE } from '@service/global/global.util.number.service/global.util.number.service';
+import { IGlobalUtilValidateService } from '@service/global/global.util.validate.service/global.util.validate.service.interface';
 import 'reflect-metadata';
 import { Inject, Service, Token } from 'typedi';
-import { IGlobalUtilValidateService } from './global.util.validate.service.interface';
 
 export const GLOBAL_UTIL_VALIDATE_SERVICE = new Token<IGlobalUtilValidateService>('GlobalUtilValidateService');
 

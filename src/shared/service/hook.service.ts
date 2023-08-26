@@ -1,6 +1,6 @@
 import { EXECUTE_HOOK_ZONE } from '@constant/hook.constant';
+import { LoggerMethodDecorator } from '@decorator/logger-method.decorator';
 import { CronJob } from 'cron';
-import { LoggerMethodDecorator } from './decorator/logger-method.decorator';
 
 class HookService {
     //#region Attributes

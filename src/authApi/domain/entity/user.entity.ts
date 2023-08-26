@@ -1,8 +1,8 @@
 import { EntityBase } from '@entity/base.entity';
+// eslint-disable-next-line hexagonal-architecture/enforce
+import { UserApplicationEntity } from '@entity/user-application.entity';
 import { PasswordService } from '@service/middleware/password.service/password.service';
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-// eslint-disable-next-line hexagonal-architecture/enforce
-import { UserApplicationEntity } from './user-application.entity';
 
 @Entity({ name: 'auth.user' })
 export class UserEntity extends EntityBase {

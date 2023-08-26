@@ -12,12 +12,12 @@ import {
     IPaginateItem,
     PaginateCalculateHelper,
 } from '@model/pagination-item/pagination-item.model';
+import { IGroupLinkRepository } from '@repository/group-link.repository/group-link.repository.interface';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { TokenService, TOKEN_SERVICE_TOKEN } from '@service/middleware/token.service/token.service';
 import { NotFoundError } from 'routing-controllers';
 import { Inject, Service, Token } from 'typedi';
 import { DataSource, DeleteResult, QueryRunner, Repository } from 'typeorm';
-import { IGroupLinkRepository } from './group-link.repository.interface';
 
 export const GROUP_LINK_REPOSITORY_TOKEN = new Token<IGroupLinkRepository>('GroupLinkRepository');
 export const LINK_GROUP_ENTITY = 'GroupLinkEntity';

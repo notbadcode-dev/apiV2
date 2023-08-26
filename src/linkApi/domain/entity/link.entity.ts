@@ -4,12 +4,12 @@ import { EntityBase } from '@entity/base.entity';
 import { GroupLinkEntity } from '@entity/group_link.entity';
 import { TagEntity } from '@entity/tag.entity';
 import { BooleanTransformer } from '@entity/transformer-boolean.class';
+import { UserLinkRelationEntity } from '@entity/user-link-relationship.entity';
 import { LINK_REPOSITORY_TOKEN } from '@repository/link.repository/link.repository';
 import { ILinkRepository } from '@repository/link.repository/link.repository.interface';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import Container from 'typedi';
 import { BeforeInsert, Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { UserLinkRelationEntity } from './user-link-relationship.entity';
 
 @Entity({ name: 'link' })
 export class LinkEntity extends EntityBase {

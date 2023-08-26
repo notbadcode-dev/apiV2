@@ -1,11 +1,11 @@
 import { GROUP_LINK_CONSTANT } from '@constant/group-link.constant';
 import { GroupLinkEntity } from '@entity/group_link.entity';
 import { LinkEntity } from '@entity/link.entity';
+import { ILinkGroupEntityToGroupMapper } from '@mapper/link-group/linkGroupEntityToGroup/linkGroupEntityToGroup.mapper.interface';
 import { IGroup } from '@model/group/group.model';
 import { ILink } from '@model/link/link.model';
 import { ITag } from '@model/tag/tag.model';
 import { Service, Token } from 'typedi';
-import { ILinkGroupEntityToGroupMapper } from './linkGroupEntityToGroup.mapper.interface';
 
 export const LINK_GROUP_ENTITY_TO_GROUP_MAPPER = new Token<ILinkGroupEntityToGroupMapper>('LinkGroupEntityToLinkGroupMapper');
 

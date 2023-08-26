@@ -2,8 +2,8 @@ import { CriticalServerError } from '@error/critical-server.error';
 import { IEnvironment } from '@model/environment/environment';
 import { Service, Token } from 'typedi';
 
-import { ERROR_MESSAGE_API } from '../../../constant/error-message/error-message-api.constant';
-import { IGlobalUtilEnvService } from './global.util.env.service.interface';
+import { ERROR_MESSAGE_API } from '@constant/error-message/error-message-api.constant';
+import { IGlobalUtilEnvService } from '@service/global/global.util.env.service/global.util.env.service.interface';
 
 export const GLOBAL_UTIL_ENV_SERVICE_TOKEN = new Token<IGlobalUtilEnvService>('GlobalUtilEnvService');
 

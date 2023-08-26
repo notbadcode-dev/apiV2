@@ -2,7 +2,7 @@ import { ERROR_MESSAGE_PASSWORD } from '@constant/error-message/error-message-pa
 import { ERROR_MESSAGE_USER } from '@constant/error-message/error-message-user.constant';
 import { UnauthorizedError } from '@error/unauthorized.error';
 import { TAuthSignIn } from '@model/auth/auth-sign-in.model';
-import { UserServiceTestData } from './user.service.test.data';
+import { UserServiceTestData } from '@testData/service/user.service.test.data';
 
 const USER_SERVICE_TEST_DATA: UserServiceTestData = new UserServiceTestData();
 

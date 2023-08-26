@@ -1,6 +1,6 @@
+import { IGlobalUtilDateService } from '@service/global/global.util.date.service/global.util.date.service.interface';
 import dayjs from 'dayjs';
 import { Service, Token } from 'typedi';
-import { IGlobalUtilDateService } from './global.util.date.service.interface';
 
 export const GLOBAL_UTIL_DATE_SERVICE = new Token<IGlobalUtilDateService>('GlobalUtilDateService');
 

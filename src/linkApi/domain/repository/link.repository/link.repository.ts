@@ -10,12 +10,12 @@ import {
     IPaginateItem,
     PaginateCalculateHelper,
 } from '@model/pagination-item/pagination-item.model';
+import { ILinkRepository } from '@repository/link.repository/link.repository.interface';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { TokenService, TOKEN_SERVICE_TOKEN } from '@service/middleware/token.service/token.service';
 import { NotFoundError } from 'routing-controllers';
 import { Inject, Service, Token } from 'typedi';
 import { DataSource, DeleteResult, In, QueryRunner, Repository, UpdateResult } from 'typeorm';
-import { ILinkRepository } from './link.repository.interface';
 
 export const LINK_REPOSITORY_TOKEN = new Token<ILinkRepository>('LinkRepository');
 export const LINK_ENTITY_REPOSITORY_TOKEN = 'LinkEntity';

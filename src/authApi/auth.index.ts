@@ -6,14 +6,14 @@ import { initializeListener, initializerApplication, initializerDependencies } f
 import { INJECTED_DEPENDENCY } from '@constant/injected-dependency.constant';
 import express from 'express/index';
 
+import { AUTH_API_ENTITY_LIST } from '@app/authApi/domain/entity/_auth.entity.index';
+import { AUTH_DATA_SOURCE } from '@app/shared/database/auth.database';
+import { initializeDataSource } from '@app/shared/database/database';
 import { EXECUTE_HOOK_RUN_EVERY_ALL_DAYS_00H } from '@constant/hook.constant';
 import { GLOBAL_UTIL_ENV_SERVICE_TOKEN } from '@service/global/global.util.env.service/global.util.env.service';
 import hookService from '@service/hook.service';
 import { LoggerService } from '@service/logger.service';
 import Container from 'typedi';
-import { AUTH_DATA_SOURCE } from '../../src/shared/database/auth.database';
-import { initializeDataSource } from '../../src/shared/database/database';
-import { AUTH_API_ENTITY_LIST } from './domain/entity/_auth.entity.index';
 
 const LOGGER_SERVICE: LoggerService = new LoggerService();
 

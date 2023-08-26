@@ -1,5 +1,5 @@
+import { LoggerMethodDecorator } from '@decorator/logger-method.decorator';
 import cache from 'memory-cache';
-import { LoggerMethodDecorator } from './decorator/logger-method.decorator';
 
 export class CacheService {
     //#region Attributes

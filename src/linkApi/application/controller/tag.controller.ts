@@ -1,6 +1,6 @@
+import { TagService, TAG_SERVICE_TOKEN } from '@service/tag.service/tag.service';
 import { JsonController } from 'routing-controllers';
 import { Inject, Service } from 'typedi';
-import { TagService, TAG_SERVICE_TOKEN } from '../service/tag.service/tag.service';
 
 @Service()
 @JsonController('/tag')

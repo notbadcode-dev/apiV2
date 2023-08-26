@@ -2,7 +2,7 @@ import { EntityBase } from '@entity/base.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 // eslint-disable-next-line hexagonal-architecture/enforce
-import { UserApplicationEntity } from './user-application.entity';
+import { UserApplicationEntity } from '@entity/user-application.entity';
 
 @Entity({ name: 'auth.application' })
 export class ApplicationEntity extends EntityBase {

@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 module.exports = {
+    watch: false,
     preset: 'ts-jest',
     testEnvironment: 'node',
     setupFilesAfterEnv: ['./jest.setup.ts'],

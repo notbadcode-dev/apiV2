@@ -9,8 +9,8 @@ import { IDeleteGroup } from '@model/group/delete-group.model';
 import { IGroup } from '@model/group/group.model';
 import { ILink } from '@model/link/link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
-import { GenericTestData } from './generic.test.data';
-import { PaginateTestData } from './paginate.test.data';
+import { GenericTestData } from '@testData/service/generic.test.data';
+import { PaginateTestData } from '@testData/service/paginate.test.data';
 
 const PAGINATE_TEST_DATA: PaginateTestData = new PaginateTestData();
 const GENERIC_TEST_DATA: GenericTestData = new GenericTestData();

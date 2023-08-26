@@ -3,6 +3,7 @@ import 'express-async-errors';
 import 'reflect-metadata';
 
 import { initializeListener, initializerApplication, initializerDependencies } from '@app/app';
+import { LINK_API_ENTITY_LIST } from '@app/linkApi/domain/entity/_link.entity.index';
 import { INJECTED_DEPENDENCY } from '@constant/injected-dependency.constant';
 import { initializeDataSource } from '@database/database';
 import { LINK_DATA_SOURCE } from '@database/link.database';
@@ -10,7 +11,6 @@ import { AUTH_API_ENTITY_LIST } from '@entity/_auth.entity.index';
 import { GLOBAL_UTIL_ENV_SERVICE_TOKEN } from '@service/global/global.util.env.service/global.util.env.service';
 import express from 'express/index';
 import Container from 'typedi';
-import { LINK_API_ENTITY_LIST } from './domain/entity/_link.entity.index';
 
 function linkExpressApp(): void {
     const APP: express.Application = express();

@@ -1,12 +1,11 @@
 /* eslint-disable consistent-return */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// archivo: validar-token-middleware.js
+import { TOKEN_SERVICE_TOKEN } from '@service/middleware/token.service/token.service';
+import { ITokenService } from '@service/middleware/token.service/token.service.interface';
 
 import { Request } from 'express';
 import { UnauthorizedError } from 'routing-controllers';
 import Container from 'typedi';
-import { TOKEN_SERVICE_TOKEN } from './token.service/token.service';
-import { ITokenService } from './token.service/token.service.interface';
 
 export async function verifyTokenMiddleware(req: Request): Promise<void> {
     const HEADER_AUTHORIZATION: string | null = req?.headers?.authorization ?? null;

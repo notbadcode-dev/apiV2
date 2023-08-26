@@ -3,9 +3,9 @@ import {
     LinkGroupEntityToGroupMapper,
     LINK_GROUP_ENTITY_TO_GROUP_MAPPER,
 } from '@mapper/link-group/linkGroupEntityToGroup/linkGroupEntityToGroup.mapper';
+import { ILinkEntityToLinkMapper } from '@mapper/link/linkEntityToLink.mapper/linkEntityToLink.mapper.interface';
 import { ILink } from '@model/link/link.model';
 import { Inject, Service, Token } from 'typedi';
-import { ILinkEntityToLinkMapper } from './linkEntityToLink.mapper.interface';
 
 export const LINK_ENTITY_TO_LINK_MAPPER = new Token<ILinkEntityToLinkMapper>('LinkEntityToLinkMapper');
 

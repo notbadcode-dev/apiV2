@@ -3,12 +3,12 @@ import { ERROR_MESSAGE_API } from '@constant/error-message/error-message-api.con
 import { REGEX } from '@constant/regex.constant';
 import { DEFAULT_TRANSLATE_LOCATE } from '@constant/translate.constant';
 import { InternalServerError } from '@error/internal-server.error';
+import { GlobalUtilEnvService } from '@service/global/global.util.env.service/global.util.env.service';
+import { LoggerService } from '@service/logger.service';
 import * as fs from 'fs';
 import { Replacements } from 'i18n';
 import * as path from 'path';
 import { Service } from 'typedi';
-import { GlobalUtilEnvService } from './global/global.util.env.service/global.util.env.service';
-import { LoggerService } from './logger.service';
 
 interface ITranslationsCache {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -63,7 +63,9 @@ export class TranslationService {
 
             return EXISTS_TRANSLATION;
         } catch (err) {
-            this.loggerService.errorLogger('NOT READ FILE TRANSLATION - ' + LANGUAGE);
+            if (!this.globalUtilEnvService.getRunTest()) {
+                this.loggerService.errorLogger('NOT READ FILE TRANSLATION - ' + LANGUAGE);
+            }
             return false;
         }
     }

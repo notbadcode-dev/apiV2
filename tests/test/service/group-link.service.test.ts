@@ -160,7 +160,7 @@ describe('updateGroupLink', () => {
         expect(RESULT?.id).toEqual(GROUP_LINK?.id);
     });
 
-    it('Updating a link with display order null should return a link entity', async () => {
+    it('Updating a group link with display order null should return a link entity', async () => {
         // Arrange
         const LINK_ENTITY_WITH_DISPLAY_ORDER_NULL: GroupLinkEntity = GROUP_LINK_SERVICE_TEST_DATA.getGroupLinkEntityWithDisplayOrderNull();
 
@@ -180,7 +180,7 @@ describe('updateGroupLink', () => {
 });
 
 describe('deleteGroupLink', () => {
-    it('Deleting a link with zero ID should throw an argument error', async () => {
+    it('Deleting a group link with zero ID should throw an argument error', async () => {
         // Arrange
         const DELETE_GROUP_WITH_ZERO_ID: IDeleteGroup = GROUP_LINK_SERVICE_TEST_DATA.getDeleteWithZeroId();
 
@@ -190,7 +190,7 @@ describe('deleteGroupLink', () => {
         );
     });
 
-    it('Deleting a link with nullish ID should throw an argument error', async () => {
+    it('Deleting a group link with nullish ID should throw an argument error', async () => {
         // Arrange
         const DELETE_GROUP_WITH_NULLISH_ID: IDeleteGroup = GROUP_LINK_SERVICE_TEST_DATA.getDeleteWithNullishId();
 
@@ -200,7 +200,7 @@ describe('deleteGroupLink', () => {
         );
     });
 
-    it('Should delete non existing link and return true', async () => {
+    it('Should delete non existing group link and return true', async () => {
         const DELETE_GROUP: IDeleteGroup = GROUP_LINK_SERVICE_TEST_DATA.getDeleteGroup();
 
         // Arrange
@@ -214,7 +214,7 @@ describe('deleteGroupLink', () => {
         expect(RESULT).toBe(true);
     });
 
-    it('Should delete non existing link and return false', async () => {
+    it('Should delete non existing group link and return false', async () => {
         const DELETE_GROUP: IDeleteGroup = GROUP_LINK_SERVICE_TEST_DATA.getDeleteGroup();
 
         // Arrange
@@ -228,7 +228,7 @@ describe('deleteGroupLink', () => {
         expect(RESULT).toBe(false);
     });
 
-    it('Should delete existing link and return true', async () => {
+    it('Should delete existing group link and return true', async () => {
         const DELETE_GROUP_WITH_LINK_LIST_TRUE: IDeleteGroup = GROUP_LINK_SERVICE_TEST_DATA.getDeleteWithLinkListTrue();
 
         // Arrange
@@ -283,7 +283,7 @@ describe('getGroupLink', () => {
 });
 
 describe('getGroupLinkList', () => {
-    it('Should return a list of links', async () => {
+    it('Should return a group list of group links', async () => {
         // Arrange
         when(_groupLinkRepositoryMock.getAll()).thenResolve([GROUP_LINK_ENTITY]);
         when(_linkGroupEntityToGroupMapperMock.map(GROUP_LINK_ENTITY)).thenReturn(GROUP_LINK);
@@ -296,7 +296,7 @@ describe('getGroupLinkList', () => {
         expect(RESULT.at(0)?.id).toEqual(GROUP_LINK?.id);
     });
 
-    it('Should return a empty list of links', async () => {
+    it('Should return a empty group list of group links', async () => {
         // Arrange
         when(_groupLinkRepositoryMock.getAll()).thenResolve([]);
 
@@ -309,7 +309,7 @@ describe('getGroupLinkList', () => {
 });
 
 describe('getPaginateLinkList', () => {
-    it('Should return a paginated list of links', async () => {
+    it('Should return a paginated group list of group links', async () => {
         // Arrange
         const EXPECTED_ITEM_LIST: IGroup[] = [GROUP_LINK];
         const EXPECTED_PAGINATE_LINK_LIST: IPaginateItem<IGroup> = {
@@ -334,7 +334,7 @@ describe('getPaginateLinkList', () => {
         expect(RESULT.itemList?.length).toEqual(EXPECTED_PAGINATE_LINK_LIST.itemList?.length);
     });
 
-    it('Should return an empty paginated list when no links are available', async () => {
+    it('Should return an empty paginated group list when no group links are available', async () => {
         // Arrange
         const EXPECTED_ITEM_LIST: IGroup[] = [];
         const EXPECTED_PAGINATE_LINK_LIST: IPaginateItem<IGroup> = {
@@ -359,7 +359,7 @@ describe('getPaginateLinkList', () => {
         expect(RESULT).toEqual(EXPECTED_PAGINATE_LINK_LIST);
     });
 
-    it('Should throw an error when there is an error getting paginated links', async () => {
+    it('Should throw an error when there is an error getting paginated group links', async () => {
         // Arrange
         const ERROR_MESSAGE = GENERIC_TEST_DATA.getMessageError();
         when(_groupLinkRepositoryMock.getAllPaginated(PAGINATE_GROUP_LINK_LIST)).thenReject(new Error(ERROR_MESSAGE));
@@ -368,7 +368,7 @@ describe('getPaginateLinkList', () => {
         await expect(_groupLinkServiceMock.getPaginateGroupLinkList(PAGINATE_GROUP_LINK_LIST)).rejects.toThrowError(ERROR_MESSAGE);
     });
 
-    it('Should return an empty list when the itemList property of the paginateLinkList parameter is undefined or null', async () => {
+    it('Should return an empty group list when the itemList property of the paginateGroupLinkList parameter is undefined or null', async () => {
         // Act
         const RESULT = await _groupLinkServiceMock.getPaginateGroupLinkList(PAGINATE_GROUP_LINK_LIST);
 
@@ -376,7 +376,7 @@ describe('getPaginateLinkList', () => {
         expect(RESULT.itemList).toEqual([]);
     });
 
-    it('Should return an empty list when no links are available for pagination', async () => {
+    it('Should return an empty group list when no group links are available for pagination', async () => {
         // Arrange
         const PAGINATE_GROUP_LINK_LIST_WITH_EMPTY_LIST: IPaginateItem<GroupLinkEntity> = PAGINATE_TEST_DATA.getPaginateWithEmptyList();
 
