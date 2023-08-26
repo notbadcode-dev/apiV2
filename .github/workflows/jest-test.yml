@@ -1,76 +1,91 @@
-name: Jest Test and ESLint
+ name: Jest Test and ESLint
 
 on: [push]
 
 jobs:
-    run-test-and-lint:
-        runs-on: ${{ matrix.os }}
-        strategy:
-            matrix:
-                os: [ubuntu-latest]
-                node-version: [16.17.0]
-        steps:
-            - uses: actions/checkout@v2
+  run-lint:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [16.17.0]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm run lint > eslint-report.html 2>&1 || true
+      - uses: actions/upload-artifact@v2
+        with:
+          name: eslint-report
+          path: eslint-report.html
 
-            - name: Cache node modules
-              uses: actions/cache@v2
-              with:
-                  path: ~/.npm
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-node-
+  run-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [16.17.0]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm test
+      - uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: ./tests/report/test_report.html
 
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v2
-              with:
-                  node-version: ${{ matrix.node-version }}
+  send-email:
+    runs-on: ubuntu-latest
+    needs: [run-lint, run-test]
+    if: ${{ needs.run-lint.result == 'failure' || needs.run-test.result == 'failure' }}
+    steps:
+      - name: Download ESLint Report
+        uses: actions/download-artifact@v2
+        with:
+          name: eslint-report
 
-            - run: npm install
+      - name: Download Test Results
+        uses: actions/download-artifact@v2
+        with:
+          name: test-results
 
-            - name: Run ESLint and Tests
-              run: |
-                  npm run lint &
-                  npm test
-              continue-on-error: true
+      - name: Combine Reports
+        run: |
+          cat eslint-report.html > combined-report.html
+          cat ./tests/report/test_report.html >> combined-report.html
+        shell: bash
 
-            - name: Upload ESLint Report
-              uses: actions/upload-artifact@v2
-              with:
-                  name: eslint-report
-                  path: ./eslint-report.html
-
-            - name: Upload Test Results
-              uses: actions/upload-artifact@v2
-              with:
-                  name: test-results
-                  path: ./tests/report/test_report.html
-
-    send-email:
-        runs-on: ubuntu-latest
-        needs: run-test-and-lint
-        if: ${{ needs.run-test-and-lint.result == 'failure' }}
-        steps:
-            - name: Download ESLint Report
-              uses: actions/download-artifact@v2
-              with:
-                  name: eslint-report
-
-            - name: Download Test Results
-              uses: actions/download-artifact@v2
-              with:
-                  name: test-results
-
-            - name: Send Email
-              uses: dawidd6/action-send-mail@v2
-              with:
-                  server_address: smtp.gmail.com
-                  server_port: 587
-                  username: ${{ secrets.EMAIL_USERNAME }}
-                  password: ${{ secrets.EMAIL_PASSWORD }}
-                  subject: 'Test and ESLint Results'
-                  body: 'The test and ESLint results are attached.'
-                  from: ${{ secrets.EMAIL_USERNAME }}
-                  to: ${{ secrets.EMAIL_USERNAME }}
-                  attachments: |
-                      ./eslint-report.html
-                      ./test_report.html
+      - name: Send Email
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: 'Test and ESLint Results'
+          body: 'The combined test and ESLint results are attached.'
+          from: ${{ secrets.EMAIL_USERNAME }}
+          to: ${{ secrets.EMAIL_USERNAME }}
+          attachments: |
+            ./combined-report.html
