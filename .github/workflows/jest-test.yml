@@ -78,22 +78,21 @@ jobs:
                 cat ./tests/report/test_report.html >> result-report.html
                 shell: bash
 
-
     send-email:
         runs-on: ubuntu-latest
-        needs: combine-reports
-        if: ${{ needs.combine-reports.result == 'failure' }}
+        needs: result-reports
+        if: ${{ needs.run-create-result-report.result == 'success' }}
         steps:
-            - name: Upload Combined Report
+            - name: Upload Result Report
                 uses: actions/upload-artifact@v2
                 with:
-                name: combined-report
-                path: combined-report.html
+                name: result-report
+                path: result-report.html
 
-            - name: Download Combined Report
+            - name: Download Result Report
                 uses: actions/download-artifact@v2
                 with:
-                name: combined-report
+                name: result-report
 
             - name: Send Email
                 uses: dawidd6/action-send-mail@v2
@@ -103,8 +102,8 @@ jobs:
                 username: ${{ secrets.EMAIL_USERNAME }}
                 password: ${{ secrets.EMAIL_PASSWORD }}
                 subject: 'Test and ESLint Results'
-                body: 'The combined test and ESLint results are attached.'
+                body: 'The result Jest test and ESLint results are attached.'
                 from: ${{ secrets.EMAIL_USERNAME }}
                 to: ${{ secrets.EMAIL_USERNAME }}
                 attachments: |
-                    ./combined-report.html
+                    ./result-report.html
