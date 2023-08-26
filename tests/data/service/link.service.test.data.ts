@@ -8,7 +8,9 @@ import { ILink } from '@model/link/link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 import { ITag } from '@model/tag/tag.model';
 import { GenericTestData } from './generic.test.data';
+import { PaginateTestData } from './paginate.test.data';
 
+const PAGINATE_TEST_DATA: PaginateTestData = new PaginateTestData();
 const GENERIC_TEST_DATA: GenericTestData = new GenericTestData();
 
 export class LinkServiceTestData {
@@ -156,34 +158,7 @@ export class LinkServiceTestData {
     }
 
     getPaginateLinkList(): IPaginateItem<ILink> {
-        const TOTAL_LINKS = 10;
-        const LINKS_PER_PAGE = 5;
-        const CURRENT_PAGE = 1;
-        const TOTAL_PAGES = Math.ceil(TOTAL_LINKS / LINKS_PER_PAGE);
-        const LINK_LIST: ILink[] = [];
-
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        for (let i = 1; i <= TOTAL_LINKS; i++) {
-            LINK_LIST.push({
-                id: i,
-                name: `Link ${i}`,
-                url: `https://www.link${i}.com`,
-                favorite: false,
-                active: true,
-            });
-        }
-
-        const PAGINATE_LINK_LIST: IPaginateItem<ILink> = {
-            skip: (CURRENT_PAGE - 1) * LINKS_PER_PAGE,
-            take: LINKS_PER_PAGE,
-            total: TOTAL_LINKS,
-            totalPages: TOTAL_PAGES,
-            currentPage: CURRENT_PAGE,
-            currentPageTotal: LINKS_PER_PAGE,
-            itemList: LINK_LIST.slice(0, LINKS_PER_PAGE),
-        };
-
-        return PAGINATE_LINK_LIST;
+        return PAGINATE_TEST_DATA.getPaginateItemList<ILink>(this.getLinkList(PAGINATE_TEST_DATA.getPaginateItemListTotal()));
     }
 
     getSimpleWithUndefinedItemListPaginateLinkList(): IPaginateItem<ILink> {
@@ -210,7 +185,18 @@ export class LinkServiceTestData {
         return new InternalServerError(ERROR_MESSAGE_LINK.COULD_NOT_DELETE_LINK(linkName));
     }
 
-    getMessageError(): string {
-        return 'Test';
+    private getLinkList(numberOfLinks: number): ILink[] {
+        return Array.from({ length: numberOfLinks }).map((_, index) => {
+            const ID: number = index + 1;
+            const LINK: ILink = {
+                id: ID,
+                name: `Test link ${ID}`,
+                url: `https://www.testUrl${ID}.com`,
+                favorite: false,
+                active: true,
+            };
+
+            return LINK;
+        });
     }
 }

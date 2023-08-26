@@ -8,15 +8,23 @@ import { InternalServerError } from '@error/internal-server.error';
 import { IDeleteGroup } from '@model/group/delete-group.model';
 import { IGroup } from '@model/group/group.model';
 import { ILink } from '@model/link/link.model';
+import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
+import { GenericTestData } from './generic.test.data';
+import { PaginateTestData } from './paginate.test.data';
+
+const PAGINATE_TEST_DATA: PaginateTestData = new PaginateTestData();
+const GENERIC_TEST_DATA: GenericTestData = new GenericTestData();
 
 export class GroupLinkServiceTestData {
+    //#region Public methods
+
     //#region return GroupLinkEntity
 
     public getGroupLinkEntity(): GroupLinkEntity {
         const GROUP_LINK_ENTITY = new GroupLinkEntity();
         GROUP_LINK_ENTITY.id = 1;
         GROUP_LINK_ENTITY.name = 'Test Group';
-        GROUP_LINK_ENTITY.userId = 123;
+        GROUP_LINK_ENTITY.userId = GENERIC_TEST_DATA.getUserId();
         GROUP_LINK_ENTITY.colorFrom = GROUP_LINK_CONSTANT.DEFAULT_COLOR_GROUP_LINK;
         GROUP_LINK_ENTITY.colorTo = GROUP_LINK_CONSTANT.DEFAULT_COLOR_GROUP_LINK;
         GROUP_LINK_ENTITY.gradientType = GROUP_LINK_CONSTANT.DEFAULT_GRADIENT_GROUP_LINK;
@@ -146,7 +154,7 @@ export class GroupLinkServiceTestData {
         LINK_ENTITY.id = 1;
         LINK_ENTITY.name = 'Test Link';
         LINK_ENTITY.url = 'https://www.testlink.com';
-        LINK_ENTITY.userId = 123;
+        LINK_ENTITY.userId = GENERIC_TEST_DATA.getUserId();
         LINK_ENTITY.groupLinkId = null;
         LINK_ENTITY.groupLink = null;
         return LINK_ENTITY;
@@ -175,6 +183,14 @@ export class GroupLinkServiceTestData {
 
     //#endregion
 
+    //#region return IPaginateItem<IGroup>
+
+    getPaginateGroupLinkList(): IPaginateItem<IGroup> {
+        return PAGINATE_TEST_DATA.getPaginateItemList<IGroup>(this.getGroupLinkList(PAGINATE_TEST_DATA.getPaginateItemListTotal()));
+    }
+
+    //#endregion
+
     //#region return throw exception
 
     public getArgumentErrorEmptyGroupLinkName(): ArgumentError {
@@ -187,6 +203,30 @@ export class GroupLinkServiceTestData {
 
     public getInternalServerErrorNotMatchParamAndBodyId(): InternalServerError {
         return new InternalServerError(ERROR_MESSAGE_UTIL.NOT_MATCH_PARAM_ID_BODY_ID);
+    }
+
+    //#endregion
+
+    //#endregion
+
+    //#region Private methods
+
+    private getGroupLinkList(numberOfGroupLinks: number): IGroup[] {
+        return Array.from({ length: numberOfGroupLinks }).map((_, index) => {
+            const ID: number = index + 1;
+            const GROUP_LINK: IGroup = {
+                id: ID,
+                name: `Test group link ${ID}`,
+                colorFrom: GROUP_LINK_CONSTANT.DEFAULT_COLOR_GROUP_LINK,
+                colorTo: GROUP_LINK_CONSTANT.DEFAULT_COLOR_GROUP_LINK,
+                gradientType: GROUP_LINK_CONSTANT.DEFAULT_GRADIENT_GROUP_LINK,
+                linkList: [],
+                tagList: [],
+                displayOrder: this.getNextDisplayOrder(),
+            };
+
+            return GROUP_LINK;
+        });
     }
 
     //#endregion

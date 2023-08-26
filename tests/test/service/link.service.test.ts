@@ -256,7 +256,7 @@ describe('getPaginateLinkList', () => {
 
     it('Should throw an error when there is an error getting paginated links', async () => {
         // Arrange
-        const ERROR_MESSAGE = LINK_SERVICE_TEST_DATA.getMessageError();
+        const ERROR_MESSAGE = GENERIC_TEST_DATA.getMessageError();
         when(linkRepositoryMock.getAllPaginated(PAGINATE_LINK_LIST)).thenReject(new Error(ERROR_MESSAGE));
 
         // Act & Assert
