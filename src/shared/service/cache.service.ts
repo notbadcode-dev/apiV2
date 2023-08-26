@@ -2,7 +2,13 @@ import cache from 'memory-cache';
 import { LoggerMethodDecorator } from './decorator/logger-method.decorator';
 
 export class CacheService {
+    //#region Attributes
+
     private static instance: CacheService;
+
+    //#endregion
+
+    //#region Public methods
 
     @LoggerMethodDecorator
     public static getInstance(): CacheService {
@@ -32,6 +38,8 @@ export class CacheService {
     public clear(): void {
         cache.clear();
     }
+
+    //#endregion
 }
 
 export default CacheService.getInstance();

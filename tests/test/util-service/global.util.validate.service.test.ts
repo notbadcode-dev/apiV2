@@ -6,15 +6,27 @@ import { GlobalUtilValidateService } from '@service/global/global.util.validate.
 import { PaginateTestData } from '@testData/service/paginate.test.data';
 import { anyNumber, instance, mock, when } from 'ts-mockito';
 
-const PAGINATE_TEST_DATA: PaginateTestData = new PaginateTestData();
+//#region Attributes
 
 let globalUtilValidateService: GlobalUtilValidateService;
 let globalUtilNumberServiceMock: GlobalUtilNumberService;
+
+//#endregion
+
+//#region Constructor
 
 beforeEach(() => {
     globalUtilNumberServiceMock = mock(GlobalUtilNumberService);
     globalUtilValidateService = new GlobalUtilValidateService(instance(globalUtilNumberServiceMock));
 });
+
+//#endregion
+
+//#region Test data
+
+const PAGINATE_TEST_DATA: PaginateTestData = new PaginateTestData();
+
+//#endregion
 
 describe('controlSameIdOnParamAndBody', () => {
     it('Should throw an InternalServerError when non match same id', () => {

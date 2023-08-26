@@ -9,6 +9,8 @@ export const GLOBAL_UTIL_ENV_SERVICE_TOKEN = new Token<IGlobalUtilEnvService>('G
 
 @Service(GLOBAL_UTIL_ENV_SERVICE_TOKEN)
 export class GlobalUtilEnvService implements IGlobalUtilEnvService {
+    //#region Public methods
+
     public getLoggingEnabled(): boolean {
         return process.env.LOGGING_ENABLED?.includes('true') ? true : false;
     }
@@ -42,6 +44,10 @@ export class GlobalUtilEnvService implements IGlobalUtilEnvService {
         };
     }
 
+    //#endregion
+
+    //#region Private methods
+
     private getStringEnvironmentVariable(variable?: string): string {
         if (!variable) {
             throw new CriticalServerError(ERROR_MESSAGE_API.DOT_ENV_VARIABLE_IS_UNDEFINED());
@@ -69,4 +75,6 @@ export class GlobalUtilEnvService implements IGlobalUtilEnvService {
 
         return NUMBER_ENVIRONMENT_VARIABLE;
     }
+
+    //#endregion
 }

@@ -9,6 +9,8 @@ export const GLOBAL_UTIL_NUMBER_SERVICE = new Token<IGlobalUtilNumberService>('G
 
 @Service(GLOBAL_UTIL_NUMBER_SERVICE)
 export class GlobalUtilNumberService implements IGlobalUtilNumberService {
+    //#region Public methods
+
     @LoggerMethodDecorator
     public convertNumber(value: TNumberString): number | void {
         const VALUE_TYPE: string = typeof value;
@@ -39,4 +41,6 @@ export class GlobalUtilNumberService implements IGlobalUtilNumberService {
         const ARE_NUMERIC_EQUAL: boolean = PARSED_FIRST_VALUE === PARSED_SECOND_VALUE;
         return ARE_NUMERIC_EQUAL;
     }
+
+    //#endregion
 }

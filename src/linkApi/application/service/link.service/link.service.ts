@@ -32,7 +32,7 @@ export class LinkService implements ILinkService {
 
     //#endregion
 
-    //#region Public Methods
+    //#region Public methods
 
     @LoggerMethodDecorator
     public async createLink(linkCreate: ILinkCreate): Promise<ILink> {
@@ -141,7 +141,7 @@ export class LinkService implements ILinkService {
 
     //#endregion
 
-    //#region Private Methods
+    //#region Private methods
 
     @LoggerMethodDecorator
     private async updaterLink(updaterLink: ILink): Promise<ILink> {

@@ -17,6 +17,8 @@ interface ITranslationsCache {
 
 @Service()
 export class TranslationService {
+    //#region Attributes
+
     private static translationsCache: ITranslationsCache = {};
 
     private static currentLocate: string = DEFAULT_TRANSLATE_LOCATE;
@@ -25,12 +27,16 @@ export class TranslationService {
 
     private static globalUtilEnvService: GlobalUtilEnvService = new GlobalUtilEnvService();
 
-    static setLocale(locale: string): void {
+    //#endregion
+
+    //#region Public methods
+
+    public static setLocale(locale: string): void {
         this.setCurrentLocale(locale);
         translate.setLocale(this.getCurrentLocale());
     }
 
-    static translationKeyExists(key: string): boolean {
+    public static translationKeyExists(key: string): boolean {
         const LOGGING_ENABLE: boolean = this.globalUtilEnvService.getLoggingEnabled();
         if (LOGGING_ENABLE) {
             return true;
@@ -62,7 +68,7 @@ export class TranslationService {
         }
     }
 
-    static translate(key: string | i18n.TranslateOptions): string {
+    public static translate(key: string | i18n.TranslateOptions): string {
         if (this.translationKeyExists(key.toString())) {
             return translate.__(key);
         }
@@ -71,13 +77,17 @@ export class TranslationService {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    static translateWithParameters(key: string, parameterList: string[]): string {
+    public static translateWithParameters(key: string, parameterList: string[]): string {
         TranslationService.controlNumberParametersAvailable(key, parameterList);
 
         const PARAMETERS: Replacements = TranslationService.generateParametersFromTextList(parameterList);
         const TRANSLATED: string = translate.__mf(key, { ...PARAMETERS });
         return TRANSLATED;
     }
+
+    //#endregion
+
+    //#region Private methods
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private static generateParametersFromTextList(parameterList: string[]): any {
@@ -109,6 +119,8 @@ export class TranslationService {
 
         this.currentLocate = locale;
     }
+
+    //#endregion
 }
 
 export default TranslationService;

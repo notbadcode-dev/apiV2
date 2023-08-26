@@ -8,7 +8,13 @@ export const GLOBAL_UTIL_STRING_SERVICE = new Token<IGlobalUtilStringService>('G
 
 @Service(GLOBAL_UTIL_STRING_SERVICE)
 export class GlobalUtilStringService implements IGlobalUtilStringService {
+    //#region Constructor
+
     constructor(@Inject(GLOBAL_UTIL_DATE_SERVICE) private _globalUtilDateService: GlobalUtilDateService) {}
+
+    //#endregion
+
+    //#region Public methods
 
     public formatValues(formattedData: string, parameterDataList: (string | number | Date)[]): string {
         return parameterDataList
@@ -17,6 +23,10 @@ export class GlobalUtilStringService implements IGlobalUtilStringService {
                 return (formattedData = formattedData.replace(`{${index}}`, value));
             }, '');
     }
+
+    //#endregion
+
+    //#region Private methods
 
     private convertToString(data: number | string | Date): string {
         if (!data) {
@@ -37,4 +47,6 @@ export class GlobalUtilStringService implements IGlobalUtilStringService {
 
         return data?.toString();
     }
+
+    //#endregion
 }

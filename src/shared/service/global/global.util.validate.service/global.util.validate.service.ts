@@ -13,7 +13,13 @@ export const GLOBAL_UTIL_VALIDATE_SERVICE = new Token<IGlobalUtilValidateService
 
 @Service(GLOBAL_UTIL_VALIDATE_SERVICE)
 export class GlobalUtilValidateService implements IGlobalUtilValidateService {
+    //#region Constructor
+
     constructor(@Inject(GLOBAL_UTIL_NUMBER_SERVICE) private _globalUtilNumberService: GlobalUtilNumberService) {}
+
+    //#endregion
+
+    //#region Public methods
 
     @LoggerMethodDecorator
     public controlSameIdOnParamAndBody(paramId: number, bodyId: number): void {
@@ -39,4 +45,6 @@ export class GlobalUtilValidateService implements IGlobalUtilValidateService {
             throw new ArgumentError(ERROR_MESSAGE_PAGINATION.MALFORMED_PAGINATION);
         }
     }
+
+    //#endregion
 }

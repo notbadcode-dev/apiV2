@@ -2,11 +2,19 @@ import { ERROR_MESSAGE_API } from '@constant/error-message/error-message-api.con
 import { GlobalUtilEnvService } from '@service/global/global.util.env.service/global.util.env.service';
 import { IGlobalUtilEnvService } from '@service/global/global.util.env.service/global.util.env.service.interface';
 
+//#region Attributes
+
 let globalUtilEnvService: IGlobalUtilEnvService;
+
+//#endregion
+
+//#region Constructor
 
 beforeEach(() => {
     globalUtilEnvService = new GlobalUtilEnvService();
 });
+
+//#endregion
 
 describe('getLoggingEnabled', () => {
     it('returns true when LOGGING_ENABLED environment variable includes "true"', () => {

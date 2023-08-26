@@ -4,6 +4,8 @@ import { Service } from 'typedi';
 
 @Service()
 export class LoggerService {
+    //#region Public methods
+
     public infoLogger(message: string, meta?: object): void {
         LOGGER.info(message, { meta });
     }
@@ -23,6 +25,8 @@ export class LoggerService {
     public requestLogger(req: Request): void {
         LOGGER.info(`[${req.ip}] [${req.method}] ${req.url}`, { headers: req.headers, body: req.body });
     }
+
+    //#endregion
 }
 
 export default { LoggerService };

@@ -3,7 +3,13 @@ import { CronJob } from 'cron';
 import { LoggerMethodDecorator } from './decorator/logger-method.decorator';
 
 class HookService {
+    //#region Attributes
+
     private jobs: { [key: string]: CronJob } = {};
+
+    //#endregion
+
+    //#region Public methods
 
     @LoggerMethodDecorator
     public schedule(cronTime: string | Date, onTick: () => void, onComplete?: () => void, name?: string): void {
@@ -16,6 +22,8 @@ class HookService {
             this.jobs[name] = JOB;
         }
     }
+
+    //#endregion
 }
 
 export default new HookService();

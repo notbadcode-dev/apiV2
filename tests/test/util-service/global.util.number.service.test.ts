@@ -4,12 +4,25 @@ import { GlobalUtilNumberService } from '@service/global/global.util.number.serv
 import { GlobalUtilNumberServiceTestData } from '@testData/util-service/global.util.number.service.test.data';
 import { IAreNumericValuesEqual } from 'tests/model/global.util.number.service.test.model';
 
-const GLOBAL_UTIL_NUMBER_SERVICE_TEST_DATA: GlobalUtilNumberServiceTestData = new GlobalUtilNumberServiceTestData();
+//#region Attributes
+
 let globalUtilNumberService: GlobalUtilNumberService;
+
+//#endregion
+
+//#region Constructor
 
 beforeEach(() => {
     globalUtilNumberService = new GlobalUtilNumberService();
 });
+
+//#endregion
+
+//#region Test data
+
+const GLOBAL_UTIL_NUMBER_SERVICE_TEST_DATA: GlobalUtilNumberServiceTestData = new GlobalUtilNumberServiceTestData();
+
+//#endregion
 
 describe('convertNumber', () => {
     it('Should return a number when passed a number value', () => {

@@ -29,6 +29,8 @@ export const GROUP_LINK_SERVICE_TOKEN = new Token<IGroupLinkService>('GroupLinkS
 
 @Service(GROUP_LINK_SERVICE_TOKEN)
 export class GroupLinkService implements IGroupLinkService {
+    //#region Constructor
+
     constructor(
         @Inject(GROUP_LINK_REPOSITORY_TOKEN) private _groupLinkRepository: GroupLinkRepository,
         @Inject(LINK_GROUP_ENTITY_TO_GROUP_MAPPER) private _linkGroupEntityToGroupMapper: LinkGroupEntityToGroupMapper,
@@ -36,6 +38,10 @@ export class GroupLinkService implements IGroupLinkService {
         @Inject(LINK_REPOSITORY_TOKEN) private _linkRepository: LinkRepository,
         @Inject(GLOBAL_UTIL_VALIDATE_SERVICE) private _globalUtilValidateService: GlobalUtilValidateService
     ) {}
+
+    //#endregion
+
+    //#region Public methods
 
     @LoggerMethodDecorator
     public async createGroupLink(createGroupLink: IGroup): Promise<IGroup | null> {
@@ -137,6 +143,10 @@ export class GroupLinkService implements IGroupLinkService {
         return PAGINATE_LINK_LIST;
     }
 
+    //#endregion
+
+    //#region Private methods
+
     @LoggerMethodDecorator
     private async updaterGroupLink(updateGroupLink: IGroup): Promise<IGroup | null> {
         const UPDATE_GROUP_LINK_ENTITY = await this._groupLinkRepository.getById(updateGroupLink.id);
@@ -179,4 +189,6 @@ export class GroupLinkService implements IGroupLinkService {
             throw new ArgumentError(ERROR_MESSAGE_GROUP_LINK.WRONG_ID_ARGUMENT);
         }
     }
+
+    //#endregion
 }
