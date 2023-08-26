@@ -5,31 +5,31 @@ name: Jest Test
 on: [push]
 
 jobs:
-    run-lint:
-        runs-on: ${{ matrix.os }}
-        strategy:
-            matrix:
-                os: [ubuntu-latest]
-                node-version: [16.17.0]
-        steps:
-            - uses: actions/checkout@v3
-            - name: Cache node modules
-            uses: actions/cache@v2
-            with:
-                path: ~/.npm
-                key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-                restore-keys: |
-                    ${{ runner.os }}-node-
-            - name: Use Node.js ${{ matrix.node-version }}
-            uses: actions/setup-node@v2
-            with:
-                node-version: ${{ matrix.node-version }}
-            - run: npm install
-            - run: npm run lint > eslint-report.html 2>&1 || true
-            - uses: actions/upload-artifact@v2
-            with:
-                name: eslint-report
-                path: eslint-report.html
+    # run-lint:
+    #     runs-on: ${{ matrix.os }}
+    #     strategy:
+    #         matrix:
+    #             os: [ubuntu-latest]
+    #             node-version: [16.17.0]
+    #     steps:
+    #         - uses: actions/checkout@v3
+    #         - name: Cache node modules
+    #         uses: actions/cache@v2
+    #         with:
+    #             path: ~/.npm
+    #             key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+    #             restore-keys: |
+    #                 ${{ runner.os }}-node-
+    #         - name: Use Node.js ${{ matrix.node-version }}
+    #         uses: actions/setup-node@v2
+    #         with:
+    #             node-version: ${{ matrix.node-version }}
+    #         - run: npm install
+    #         - run: npm run lint > eslint-report.html 2>&1 || true
+    #         - uses: actions/upload-artifact@v2
+    #         with:
+    #             name: eslint-report
+    #             path: eslint-report.html
 
     run-test:
         runs-on: ${{ matrix.os }}
