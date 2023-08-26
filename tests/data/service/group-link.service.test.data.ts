@@ -6,7 +6,7 @@ import { LinkEntity } from '@entity/link.entity';
 import { ArgumentError } from '@error/argument.error';
 import { InternalServerError } from '@error/internal-server.error';
 import { IDeleteGroup } from '@model/group/delete-group.model';
-import { IGroup } from '@model/group/group.model';
+import { IGroupLink } from '@model/group/group-link.model';
 import { ILink } from '@model/link/link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 import { GenericTestData } from '@testData/service/generic.test.data';
@@ -51,9 +51,9 @@ export class GroupLinkServiceTestData {
 
     //#endregion
 
-    //#region return IGroup
+    //#region return IGroupLink
 
-    public getGroup(): IGroup {
+    public getGroup(): IGroupLink {
         return {
             id: 1,
             name: 'Test Group',
@@ -66,7 +66,7 @@ export class GroupLinkServiceTestData {
         };
     }
 
-    public getGroupWithLinkList(): IGroup {
+    public getGroupWithLinkList(): IGroupLink {
         return {
             id: 1,
             name: 'Test Group',
@@ -78,35 +78,35 @@ export class GroupLinkServiceTestData {
         };
     }
 
-    public getGroupCreate(): IGroup {
+    public getGroupCreate(): IGroupLink {
         return {
             ...this.getGroup(),
             id: 0,
         };
     }
 
-    public getGroupCreateWithLinkList(): IGroup {
+    public getGroupCreateWithLinkList(): IGroupLink {
         return {
             ...this.getGroupWithLinkList(),
             id: 0,
         };
     }
 
-    public getGroupWithEmptyName(): IGroup {
+    public getGroupWithEmptyName(): IGroupLink {
         return {
             ...this.getGroup(),
             name: '',
         };
     }
 
-    public getGroupWithZeroId(): IGroup {
+    public getGroupWithZeroId(): IGroupLink {
         return {
             ...this.getGroup(),
             id: 0,
         };
     }
 
-    public getGroupLinkWithNullishId(): IGroup {
+    public getGroupLinkWithNullishId(): IGroupLink {
         return {
             ...this.getGroup(),
             id: Number(null),
@@ -185,8 +185,8 @@ export class GroupLinkServiceTestData {
 
     //#region return IPaginateItem<IGroup>
 
-    getPaginateGroupLinkList(): IPaginateItem<IGroup> {
-        return PAGINATE_TEST_DATA.getPaginateItemList<IGroup>(this.getGroupLinkList(PAGINATE_TEST_DATA.getPaginateItemListTotal()));
+    getPaginateGroupLinkList(): IPaginateItem<IGroupLink> {
+        return PAGINATE_TEST_DATA.getPaginateItemList<IGroupLink>(this.getGroupLinkList(PAGINATE_TEST_DATA.getPaginateItemListTotal()));
     }
 
     //#endregion
@@ -211,10 +211,10 @@ export class GroupLinkServiceTestData {
 
     //#region Private methods
 
-    private getGroupLinkList(numberOfGroupLinks: number): IGroup[] {
+    private getGroupLinkList(numberOfGroupLinks: number): IGroupLink[] {
         return Array.from({ length: numberOfGroupLinks }).map((_, index) => {
             const ID: number = index + 1;
-            const GROUP_LINK: IGroup = {
+            const GROUP_LINK: IGroupLink = {
                 id: ID,
                 name: `Test group link ${ID}`,
                 colorFrom: GROUP_LINK_CONSTANT.DEFAULT_COLOR_GROUP_LINK,

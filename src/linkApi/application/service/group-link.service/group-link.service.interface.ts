@@ -1,17 +1,17 @@
 import { IDeleteGroup } from '@model/group/delete-group.model';
-import { IGroup } from '@model/group/group.model';
+import { IGroupLink } from '@model/group/group-link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 
 export interface IGroupLinkService {
-    createGroupLink(createGroupLink: IGroup): Promise<IGroup | null>;
+    createGroupLink(createGroupLink: IGroupLink): Promise<IGroupLink | null>;
 
-    updateGroupLink(updateGroupLinkId: number, updateGroupLink: IGroup): Promise<IGroup | null>;
+    updateGroupLink(updateGroupLinkId: number, updateGroupLink: IGroupLink): Promise<IGroupLink | null>;
 
-    getGroupLink(groupLinkId: number): Promise<IGroup | null>;
+    getGroupLink(groupLinkId: number): Promise<IGroupLink | null>;
 
-    getGroupLinkList(): Promise<(IGroup | null)[]>;
+    getGroupLinkList(): Promise<(IGroupLink | null)[]>;
 
-    getPaginateGroupLinkList(paginateGroupLinkList: IPaginateItem<IGroup>): Promise<IPaginateItem<IGroup | null>>;
+    getPaginateGroupLinkList(paginateGroupLinkList: IPaginateItem<IGroupLink>): Promise<IPaginateItem<IGroupLink | null>>;
 
     deleteGroupLink(deleteGroupLink: IDeleteGroup): Promise<boolean>;
 }

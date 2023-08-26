@@ -2,7 +2,7 @@ import { GroupLinkEntity } from '@entity/group_link.entity';
 import { ArgumentError } from '@error/argument.error';
 import { LinkGroupEntityToGroupMapper } from '@mapper/link-group/linkGroupEntityToGroup/linkGroupEntityToGroup.mapper';
 import { IDeleteGroup } from '@model/group/delete-group.model';
-import { IGroup } from '@model/group/group.model';
+import { IGroupLink } from '@model/group/group-link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 import { GroupLinkRepository } from '@repository/group-link.repository/group-link.repository';
 import { LinkRepository } from '@repository/link.repository/link.repository';
@@ -56,11 +56,11 @@ const GROUP_LINK_SERVICE_TEST_DATA: GroupLinkServiceTestData = new GroupLinkServ
 const PAGINATE_TEST_DATA: PaginateTestData = new PaginateTestData();
 const GENERIC_TEST_DATA: GenericTestData = new GenericTestData();
 
-const GROUP_LINK: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroup();
+const GROUP_LINK: IGroupLink = GROUP_LINK_SERVICE_TEST_DATA.getGroup();
 const GROUP_LINK_ENTITY: GroupLinkEntity = GROUP_LINK_SERVICE_TEST_DATA.getGroupLinkEntity();
 const GROUP_LINK_EMPTY_NAME_ARGUMENT_ERROR = GROUP_LINK_SERVICE_TEST_DATA.getArgumentErrorEmptyGroupLinkName();
 const GROUP_LINK_WRONG_ID_ARGUMENT_ERROR: ArgumentError = GROUP_LINK_SERVICE_TEST_DATA.getArgumentErrorWrongId();
-const PAGINATE_GROUP_LINK_LIST: IPaginateItem<IGroup> = GROUP_LINK_SERVICE_TEST_DATA.getPaginateGroupLinkList();
+const PAGINATE_GROUP_LINK_LIST: IPaginateItem<IGroupLink> = GROUP_LINK_SERVICE_TEST_DATA.getPaginateGroupLinkList();
 const USER_ID = GENERIC_TEST_DATA.getUserId();
 
 //#endregion
@@ -68,7 +68,7 @@ const USER_ID = GENERIC_TEST_DATA.getUserId();
 describe('createGroupLink', () => {
     it('Creating a group link with empty name should throw an argument error', async () => {
         // Arrange
-        const GROUP_LINK_CREATE_EMPTY_NAME: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroupWithEmptyName();
+        const GROUP_LINK_CREATE_EMPTY_NAME: IGroupLink = GROUP_LINK_SERVICE_TEST_DATA.getGroupWithEmptyName();
 
         // Act & Assert
         await expect(_groupLinkServiceMock.createGroupLink(GROUP_LINK_CREATE_EMPTY_NAME)).rejects.toThrowError(
@@ -78,7 +78,7 @@ describe('createGroupLink', () => {
 
     it('Creating a group link without link list should return a group link entity', async () => {
         // Arrange
-        const GROUP_LINK_CREATE: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroupCreate();
+        const GROUP_LINK_CREATE: IGroupLink = GROUP_LINK_SERVICE_TEST_DATA.getGroupCreate();
 
         when(_tokenServiceMock.getCurrentUserId()).thenReturn(USER_ID);
         when(_groupLinkRepositoryMock.create(anything())).thenResolve(GROUP_LINK_ENTITY);
@@ -95,9 +95,9 @@ describe('createGroupLink', () => {
 
     it('Creating a group link with link list should return a group link entity', async () => {
         // Arrange
-        const GROUP_LINK_CREATE_WITH_LINK_LIST: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroupCreateWithLinkList();
+        const GROUP_LINK_CREATE_WITH_LINK_LIST: IGroupLink = GROUP_LINK_SERVICE_TEST_DATA.getGroupCreateWithLinkList();
         const GROUP_LINK_ENTITY_WITH_LIST_LIST: GroupLinkEntity = GROUP_LINK_SERVICE_TEST_DATA.getGroupLinkEntityWithLinkList();
-        const GROUP_LINK_WITH_LIST_LIST: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroupWithLinkList();
+        const GROUP_LINK_WITH_LIST_LIST: IGroupLink = GROUP_LINK_SERVICE_TEST_DATA.getGroupWithLinkList();
 
         when(_tokenServiceMock.getCurrentUserId()).thenReturn(USER_ID);
         when(_groupLinkRepositoryMock.create(anything())).thenResolve(GROUP_LINK_ENTITY_WITH_LIST_LIST);
@@ -117,7 +117,7 @@ describe('createGroupLink', () => {
 describe('updateGroupLink', () => {
     it('Updating a group link with empty name should throw an argument error', async () => {
         // Arrange
-        const GROUP_LINK_CREATE_EMPTY_NAME: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroupWithEmptyName();
+        const GROUP_LINK_CREATE_EMPTY_NAME: IGroupLink = GROUP_LINK_SERVICE_TEST_DATA.getGroupWithEmptyName();
 
         // Act & Assert
         await expect(
@@ -127,7 +127,7 @@ describe('updateGroupLink', () => {
 
     it('Updating a group link with zero ID should throw an argument error', async () => {
         // Arrange
-        const GROUP_LINK_CREATE_ZERO_ID: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroupWithZeroId();
+        const GROUP_LINK_CREATE_ZERO_ID: IGroupLink = GROUP_LINK_SERVICE_TEST_DATA.getGroupWithZeroId();
 
         // Act & Assert
         await expect(_groupLinkServiceMock.updateGroupLink(GROUP_LINK_CREATE_ZERO_ID.id, GROUP_LINK_CREATE_ZERO_ID)).rejects.toThrowError(
@@ -137,7 +137,7 @@ describe('updateGroupLink', () => {
 
     it('Updating a group link with nullish ID should throw an argument error', async () => {
         // Arrange
-        const GROUP_LINK_CREATE_NULLISH_ID: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroupLinkWithNullishId();
+        const GROUP_LINK_CREATE_NULLISH_ID: IGroupLink = GROUP_LINK_SERVICE_TEST_DATA.getGroupLinkWithNullishId();
 
         // Act & Assert
         await expect(
@@ -247,7 +247,7 @@ describe('deleteGroupLink', () => {
 describe('getGroupLink', () => {
     it('Getting a group link with zero ID should throw an argument error', async () => {
         // Arrange
-        const GROUP_LINK_CREATE_ZERO_ID: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroupWithZeroId();
+        const GROUP_LINK_CREATE_ZERO_ID: IGroupLink = GROUP_LINK_SERVICE_TEST_DATA.getGroupWithZeroId();
 
         // Act & Assert
         await expect(_groupLinkServiceMock.getGroupLink(GROUP_LINK_CREATE_ZERO_ID.id)).rejects.toThrowError(
@@ -257,7 +257,7 @@ describe('getGroupLink', () => {
 
     it('Getting a group link with nullish ID should throw an argument error', async () => {
         // Arrange
-        const GROUP_LINK_CREATE_NULLISH_ID: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroupLinkWithNullishId();
+        const GROUP_LINK_CREATE_NULLISH_ID: IGroupLink = GROUP_LINK_SERVICE_TEST_DATA.getGroupLinkWithNullishId();
 
         // Act & Assert
         await expect(_groupLinkServiceMock.getGroupLink(GROUP_LINK_CREATE_NULLISH_ID.id)).rejects.toThrowError(
@@ -311,8 +311,8 @@ describe('getGroupLinkList', () => {
 describe('getPaginateLinkList', () => {
     it('Should return a paginated group list of group links', async () => {
         // Arrange
-        const EXPECTED_ITEM_LIST: IGroup[] = [GROUP_LINK];
-        const EXPECTED_PAGINATE_LINK_LIST: IPaginateItem<IGroup> = {
+        const EXPECTED_ITEM_LIST: IGroupLink[] = [GROUP_LINK];
+        const EXPECTED_PAGINATE_LINK_LIST: IPaginateItem<IGroupLink> = {
             itemList: EXPECTED_ITEM_LIST,
             total: PAGINATE_GROUP_LINK_LIST.total,
             totalPages: PAGINATE_GROUP_LINK_LIST.totalPages,
@@ -328,7 +328,7 @@ describe('getPaginateLinkList', () => {
         });
 
         // Act
-        const RESULT: IPaginateItem<IGroup | null> = await _groupLinkServiceMock.getPaginateGroupLinkList(PAGINATE_GROUP_LINK_LIST);
+        const RESULT: IPaginateItem<IGroupLink | null> = await _groupLinkServiceMock.getPaginateGroupLinkList(PAGINATE_GROUP_LINK_LIST);
 
         // Assert
         expect(RESULT.itemList?.length).toEqual(EXPECTED_PAGINATE_LINK_LIST.itemList?.length);
@@ -336,8 +336,8 @@ describe('getPaginateLinkList', () => {
 
     it('Should return an empty paginated group list when no group links are available', async () => {
         // Arrange
-        const EXPECTED_ITEM_LIST: IGroup[] = [];
-        const EXPECTED_PAGINATE_LINK_LIST: IPaginateItem<IGroup> = {
+        const EXPECTED_ITEM_LIST: IGroupLink[] = [];
+        const EXPECTED_PAGINATE_LINK_LIST: IPaginateItem<IGroupLink> = {
             itemList: EXPECTED_ITEM_LIST,
             total: PAGINATE_GROUP_LINK_LIST.total,
             totalPages: PAGINATE_GROUP_LINK_LIST.totalPages,
@@ -353,7 +353,7 @@ describe('getPaginateLinkList', () => {
         });
 
         // Act
-        const RESULT: IPaginateItem<IGroup | null> = await _groupLinkServiceMock.getPaginateGroupLinkList(PAGINATE_GROUP_LINK_LIST);
+        const RESULT: IPaginateItem<IGroupLink | null> = await _groupLinkServiceMock.getPaginateGroupLinkList(PAGINATE_GROUP_LINK_LIST);
 
         // Assert
         expect(RESULT).toEqual(EXPECTED_PAGINATE_LINK_LIST);

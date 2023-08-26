@@ -11,7 +11,7 @@ import {
 } from '@mapper/link-group/linkGroupEntityToGroup/linkGroupEntityToGroup.mapper';
 import { IDeleteGroup } from '@model/group/delete-group.model';
 
-import { IGroup } from '@model/group/group.model';
+import { IGroupLink } from '@model/group/group-link.model';
 import { ILink } from '@model/link/link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 import { GroupLinkRepository, GROUP_LINK_REPOSITORY_TOKEN } from '@repository/group-link.repository/group-link.repository';
@@ -44,7 +44,7 @@ export class GroupLinkService implements IGroupLinkService {
     //#region Public methods
 
     @LoggerMethodDecorator
-    public async createGroupLink(createGroupLink: IGroup): Promise<IGroup | null> {
+    public async createGroupLink(createGroupLink: IGroupLink): Promise<IGroupLink | null> {
         this.validateArgumentForCreateGroupLink(createGroupLink);
 
         const USER_ID: number = this._tokenService.getCurrentUserId();
@@ -76,16 +76,16 @@ export class GroupLinkService implements IGroupLinkService {
         }
 
         const GROUP_LINK_CREATED = await this._groupLinkRepository.getById(GROUP_LINK_CREATED_SAVED.id);
-        const GROUP_LINK: IGroup | null = this._linkGroupEntityToGroupMapper.map(GROUP_LINK_CREATED) ?? null;
+        const GROUP_LINK: IGroupLink | null = this._linkGroupEntityToGroupMapper.map(GROUP_LINK_CREATED) ?? null;
         return GROUP_LINK;
     }
 
     @LoggerMethodDecorator
-    public async updateGroupLink(updateGroupLinkId: number, updateGroupLink: IGroup): Promise<IGroup | null> {
+    public async updateGroupLink(updateGroupLinkId: number, updateGroupLink: IGroupLink): Promise<IGroupLink | null> {
         this._globalUtilValidateService.controlSameIdOnParamAndBody(updateGroupLinkId, updateGroupLink.id);
         this.validateArgumentForUpdateGroupLink(updateGroupLink);
 
-        const LINK_UPDATED: IGroup | null = await this.updaterGroupLink(updateGroupLink);
+        const LINK_UPDATED: IGroupLink | null = await this.updaterGroupLink(updateGroupLink);
         return LINK_UPDATED;
     }
 
@@ -104,39 +104,39 @@ export class GroupLinkService implements IGroupLinkService {
     }
 
     @LoggerMethodDecorator
-    public async getGroupLink(groupLinkId: number): Promise<IGroup | null> {
+    public async getGroupLink(groupLinkId: number): Promise<IGroupLink | null> {
         this.validateId(groupLinkId);
 
         const GROUP_LINK_ENTITY = await this._groupLinkRepository.getById(groupLinkId);
-        const GROUP_LINK: IGroup | null = this._linkGroupEntityToGroupMapper.map(GROUP_LINK_ENTITY);
+        const GROUP_LINK: IGroupLink | null = this._linkGroupEntityToGroupMapper.map(GROUP_LINK_ENTITY);
 
         return GROUP_LINK;
     }
 
     @LoggerMethodDecorator
-    public async getGroupLinkList(): Promise<(IGroup | null)[]> {
+    public async getGroupLinkList(): Promise<(IGroupLink | null)[]> {
         const GROUP_LINK_ENTITY_LIST = await this._groupLinkRepository.getAll();
-        const GROUP_LINK_LIST: (IGroup | null)[] = GROUP_LINK_ENTITY_LIST.map((GROUP_LINK_ENTITY: GroupLinkEntity) => {
+        const GROUP_LINK_LIST: (IGroupLink | null)[] = GROUP_LINK_ENTITY_LIST.map((GROUP_LINK_ENTITY: GroupLinkEntity) => {
             const GROUP_LINK = this._linkGroupEntityToGroupMapper.map(GROUP_LINK_ENTITY);
             return GROUP_LINK;
-        }).filter((group: IGroup | null) => group !== null);
+        }).filter((group: IGroupLink | null) => group !== null);
 
         return GROUP_LINK_LIST;
     }
 
     @LoggerMethodDecorator
-    public async getPaginateGroupLinkList(paginateGroupLinkList: IPaginateItem<IGroup>): Promise<IPaginateItem<IGroup | null>> {
-        this._globalUtilValidateService.validatePaginate<IGroup>(paginateGroupLinkList);
+    public async getPaginateGroupLinkList(paginateGroupLinkList: IPaginateItem<IGroupLink>): Promise<IPaginateItem<IGroupLink | null>> {
+        this._globalUtilValidateService.validatePaginate<IGroupLink>(paginateGroupLinkList);
 
         const PAGINATE_GROUP_LINK_ENTITY: IPaginateItem<GroupLinkEntity> = await this._groupLinkRepository.getAllPaginated(
             paginateGroupLinkList
         );
-        const GROUP_LINK_LIST: (IGroup | null)[] =
+        const GROUP_LINK_LIST: (IGroupLink | null)[] =
             PAGINATE_GROUP_LINK_ENTITY?.itemList?.map((GROUP_LINK_ENTITY: GroupLinkEntity) =>
                 this._linkGroupEntityToGroupMapper.map(GROUP_LINK_ENTITY)
             ) ?? [];
 
-        const PAGINATE_LINK_LIST: IPaginateItem<IGroup | null> = {
+        const PAGINATE_LINK_LIST: IPaginateItem<IGroupLink | null> = {
             ...PAGINATE_GROUP_LINK_ENTITY,
             itemList: GROUP_LINK_LIST,
         };
@@ -148,7 +148,7 @@ export class GroupLinkService implements IGroupLinkService {
     //#region Private methods
 
     @LoggerMethodDecorator
-    private async updaterGroupLink(updateGroupLink: IGroup): Promise<IGroup | null> {
+    private async updaterGroupLink(updateGroupLink: IGroupLink): Promise<IGroupLink | null> {
         const UPDATE_GROUP_LINK_ENTITY = await this._groupLinkRepository.getById(updateGroupLink.id);
 
         UPDATE_GROUP_LINK_ENTITY.name = updateGroupLink.name;
@@ -161,17 +161,17 @@ export class GroupLinkService implements IGroupLinkService {
         }
 
         const GROUP_LINK_UPDATED = await this._groupLinkRepository.update(UPDATE_GROUP_LINK_ENTITY);
-        const GROUP_LINK_MAPPED: IGroup | null = this._linkGroupEntityToGroupMapper.map(GROUP_LINK_UPDATED) ?? null;
+        const GROUP_LINK_MAPPED: IGroupLink | null = this._linkGroupEntityToGroupMapper.map(GROUP_LINK_UPDATED) ?? null;
         return GROUP_LINK_MAPPED;
     }
 
     @LoggerMethodDecorator
-    private validateArgumentForCreateGroupLink(groupLinkCreate: IGroup): void {
+    private validateArgumentForCreateGroupLink(groupLinkCreate: IGroupLink): void {
         this.validateName(groupLinkCreate?.name?.trim());
     }
 
     @LoggerMethodDecorator
-    private validateArgumentForUpdateGroupLink(groupUpdateLink: IGroup): void {
+    private validateArgumentForUpdateGroupLink(groupUpdateLink: IGroupLink): void {
         this.validateId(groupUpdateLink?.id);
         this.validateName(groupUpdateLink?.name?.trim());
     }

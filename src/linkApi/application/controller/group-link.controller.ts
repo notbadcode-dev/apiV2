@@ -1,5 +1,5 @@
 import { IDeleteGroup } from '@model/group/delete-group.model';
-import { IGroup } from '@model/group/group.model';
+import { IGroupLink } from '@model/group/group-link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 import { Authority } from '@service/decorator/authority.decorator';
 import { GroupLinkService, GROUP_LINK_SERVICE_TOKEN } from '@service/group-link.service/group-link.service';
@@ -14,37 +14,40 @@ export class GroupLinkController {
 
     @Authority
     @Post('/')
-    async createGroupLink(@Req() req: Request, @Body() createGroupLink: IGroup): Promise<IGroup | null> {
-        const RESULT: IGroup | null = await this._groupLinkService.createGroupLink(createGroupLink);
+    async createGroupLink(@Req() req: Request, @Body() createGroupLink: IGroupLink): Promise<IGroupLink | null> {
+        const RESULT: IGroupLink | null = await this._groupLinkService.createGroupLink(createGroupLink);
         return RESULT;
     }
 
     @Authority
     @Patch('/:id')
-    async updateLink(@Req() req: Request, @Param('id') groupLinkId: number, @Body() updateLink: IGroup): Promise<IGroup | null> {
-        const RESULT: IGroup | null = await this._groupLinkService.updateGroupLink(groupLinkId, updateLink);
+    async updateLink(@Req() req: Request, @Param('id') groupLinkId: number, @Body() updateLink: IGroupLink): Promise<IGroupLink | null> {
+        const RESULT: IGroupLink | null = await this._groupLinkService.updateGroupLink(groupLinkId, updateLink);
         return RESULT;
     }
 
     @Authority
     @Get('/:id')
-    async getGroupLink(@Req() req: Request, @Param('id') groupLinkId: number): Promise<IGroup | null> {
-        const RESULT: IGroup | null = await this._groupLinkService.getGroupLink(groupLinkId);
+    async getGroupLink(@Req() req: Request, @Param('id') groupLinkId: number): Promise<IGroupLink | null> {
+        const RESULT: IGroupLink | null = await this._groupLinkService.getGroupLink(groupLinkId);
         return RESULT;
     }
 
     @Authority
     @Get('/')
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
-    async getLinkList(@Req() req: Request): Promise<(IGroup | null)[]> {
-        const RESULT: (IGroup | null)[] = await this._groupLinkService.getGroupLinkList();
+    async getLinkList(@Req() req: Request): Promise<(IGroupLink | null)[]> {
+        const RESULT: (IGroupLink | null)[] = await this._groupLinkService.getGroupLinkList();
         return RESULT;
     }
 
     @Authority
     @Post('/paginate/')
-    async getPaginateLinkList(@Req() req: Request, @Body() paginateLinkList: IPaginateItem<IGroup>): Promise<IPaginateItem<IGroup | null>> {
-        const RESULT: IPaginateItem<IGroup | null> = await this._groupLinkService.getPaginateGroupLinkList(paginateLinkList);
+    async getPaginateLinkList(
+        @Req() req: Request,
+        @Body() paginateLinkList: IPaginateItem<IGroupLink>
+    ): Promise<IPaginateItem<IGroupLink | null>> {
+        const RESULT: IPaginateItem<IGroupLink | null> = await this._groupLinkService.getPaginateGroupLinkList(paginateLinkList);
         return RESULT;
     }
 

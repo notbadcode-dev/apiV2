@@ -2,7 +2,7 @@ import { GROUP_LINK_CONSTANT } from '@constant/group-link.constant';
 import { GroupLinkEntity } from '@entity/group_link.entity';
 import { LinkEntity } from '@entity/link.entity';
 import { ILinkGroupEntityToGroupMapper } from '@mapper/link-group/linkGroupEntityToGroup/linkGroupEntityToGroup.mapper.interface';
-import { IGroup } from '@model/group/group.model';
+import { IGroupLink } from '@model/group/group-link.model';
 import { ILink } from '@model/link/link.model';
 import { ITag } from '@model/tag/tag.model';
 import { Service, Token } from 'typedi';
@@ -11,7 +11,7 @@ export const LINK_GROUP_ENTITY_TO_GROUP_MAPPER = new Token<ILinkGroupEntityToGro
 
 @Service(LINK_GROUP_ENTITY_TO_GROUP_MAPPER)
 export class LinkGroupEntityToGroupMapper implements ILinkGroupEntityToGroupMapper {
-    public map(linkGroupEntity?: GroupLinkEntity | null): IGroup | null {
+    public map(linkGroupEntity?: GroupLinkEntity | null): IGroupLink | null {
         if (!linkGroupEntity || !linkGroupEntity?.id || !linkGroupEntity?.name) {
             return null;
         }
@@ -36,7 +36,7 @@ export class LinkGroupEntityToGroupMapper implements ILinkGroupEntityToGroupMapp
             tagLinkList = [...tagLinkList, ...(LINK?.tagList ?? [])];
         }
 
-        const LINK_GROUP: IGroup = {
+        const LINK_GROUP: IGroupLink = {
             id: linkGroupEntity.id,
             name: linkGroupEntity.name,
             linkList: LINK_LIST,

@@ -2,7 +2,7 @@ import { TGroupLinkGradientType } from '@enum/group-link-gradient-type.enum';
 import { ILink } from '@model/link/link.model';
 import { ITag } from '@model/tag/tag.model';
 
-export interface IGroup {
+export interface IGroupLink {
     id: number;
     name: string;
     linkList: ILink[];

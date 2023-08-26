@@ -1,5 +1,5 @@
 import { GroupLinkEntity } from '@entity/group_link.entity';
-import { IGroup } from '@model/group/group.model';
+import { IGroupLink } from '@model/group/group-link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 
 export interface IGroupLinkRepository {
@@ -11,7 +11,7 @@ export interface IGroupLinkRepository {
 
     getAll(): Promise<GroupLinkEntity[]>;
 
-    getAllPaginated(paginateItem: IPaginateItem<IGroup>): Promise<IPaginateItem<GroupLinkEntity>>;
+    getAllPaginated(paginateItem: IPaginateItem<IGroupLink>): Promise<IPaginateItem<GroupLinkEntity>>;
 
     getNextDisplayOrder(userId?: number): Promise<number | null>;
 }

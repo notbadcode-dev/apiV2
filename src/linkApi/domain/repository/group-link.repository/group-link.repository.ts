@@ -5,7 +5,7 @@ import { LinkEntity } from '@entity/link.entity';
 import { InternalServerError } from '@error/internal-server.error';
 import { NotFountError } from '@error/not-found.error';
 import { IDeleteGroup } from '@model/group/delete-group.model';
-import { IGroup } from '@model/group/group.model';
+import { IGroupLink } from '@model/group/group-link.model';
 import {
     IPaginateCalculateRequest,
     IPaginateCalculateResult,
@@ -121,7 +121,7 @@ export class GroupLinkRepository implements IGroupLinkRepository {
     }
 
     @LoggerMethodDecorator
-    public async getAllPaginated(paginateItem: IPaginateItem<IGroup>): Promise<IPaginateItem<GroupLinkEntity>> {
+    public async getAllPaginated(paginateItem: IPaginateItem<IGroupLink>): Promise<IPaginateItem<GroupLinkEntity>> {
         const USER_ID = this._tokenService.getCurrentUserId();
         const GROUP_LINK_COUNT = await this._linkGroupRepository.count({ where: { userId: USER_ID } });
 
