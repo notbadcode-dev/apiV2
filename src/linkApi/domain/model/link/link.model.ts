@@ -1,4 +1,4 @@
-import { ILinkGroup } from '@model/group/group-link.model';
+import { IGroup } from '@model/group/group.model';
 import { ICommonLink } from '@model/link/link-common.model';
 import { ITag } from '@model/tag/tag.model';
 
@@ -7,5 +7,5 @@ export interface ILink extends ICommonLink {
     displayOrder?: number | null;
     tagList?: ITag[];
     linkGroupId?: number | null;
-    linkGroup?: ILinkGroup | null;
+    linkGroup?: IGroup | null;
 }
