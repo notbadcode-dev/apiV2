@@ -13,8 +13,7 @@ import { AuthServiceTestData } from '@testData/service/auth.service.test.data';
 import { UserServiceTestData } from '@testData/service/user.service.test.data';
 import { anyString, anything, instance, mock, when } from 'ts-mockito';
 
-const USER_SERVICE_TEST_DATA: UserServiceTestData = new UserServiceTestData();
-const AUTH_SERVICE_TEST_DATA: AuthServiceTestData = new AuthServiceTestData();
+//#region Attributes
 
 let authService: IAuthService;
 let userServiceMock: IUserService;
@@ -22,10 +21,36 @@ let userRepositoryMock: UserRepository;
 let passwordServiceMock: PasswordService;
 let tokenServiceMock: TokenService;
 
+//#endregion
+
+//#region Constructor
+
+function generateAuthService(): void {
+    userServiceMock = mock(UserService);
+    userRepositoryMock = mock(UserRepository);
+    passwordServiceMock = mock(PasswordService);
+    tokenServiceMock = mock(TokenService);
+
+    authService = new AuthService(
+        instance(userServiceMock),
+        instance(userRepositoryMock),
+        instance(passwordServiceMock),
+        instance(tokenServiceMock)
+    );
+}
+
 beforeEach(() => {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     generateAuthService();
 });
+
+//#endregion
+
+//#region Test data
+
+const USER_SERVICE_TEST_DATA: UserServiceTestData = new UserServiceTestData();
+const AUTH_SERVICE_TEST_DATA: AuthServiceTestData = new AuthServiceTestData();
+
+//#endregion
 
 describe('signUp', () => {
     const USER_CREATE: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreate();
@@ -194,17 +219,3 @@ describe('signIn', () => {
         expect(RESULT).toBe(TOKEN);
     });
 });
-
-function generateAuthService(): void {
-    userServiceMock = mock(UserService);
-    userRepositoryMock = mock(UserRepository);
-    passwordServiceMock = mock(PasswordService);
-    tokenServiceMock = mock(TokenService);
-
-    authService = new AuthService(
-        instance(userServiceMock),
-        instance(userRepositoryMock),
-        instance(passwordServiceMock),
-        instance(tokenServiceMock)
-    );
-}

@@ -14,14 +14,68 @@ const PAGINATE_TEST_DATA: PaginateTestData = new PaginateTestData();
 const GENERIC_TEST_DATA: GenericTestData = new GenericTestData();
 
 export class LinkServiceTestData {
-    getLinkCreate(): ILinkCreate {
-        return {
-            name: 'Test',
-            url: 'http://www.test.com',
-        };
+    //#region Public methods
+
+    //#region LinkEntity
+
+    public getLinkEntity(): LinkEntity {
+        const LINK_ENTITY = new LinkEntity();
+        LINK_ENTITY.id = 1;
+        LINK_ENTITY.name = 'Test';
+        LINK_ENTITY.url = 'http://www.test.com';
+        LINK_ENTITY.favorite = false;
+        LINK_ENTITY.active = true;
+        LINK_ENTITY.userId = GENERIC_TEST_DATA.getUserId();
+        LINK_ENTITY.displayOrder = 1;
+
+        return LINK_ENTITY;
     }
 
-    getLink(): ILink {
+    public getLinkEntityList(): LinkEntity[] {
+        return new Array<LinkEntity>(this.getLinkEntity());
+    }
+
+    public getLinkEntityEmptyList(): LinkEntity[] {
+        return new Array<LinkEntity>();
+    }
+
+    public getLinkEntityWithZeroId(): LinkEntity {
+        const LINK_ENTITY = this.getLinkEntity();
+        LINK_ENTITY.id = 0;
+
+        return LINK_ENTITY;
+    }
+
+    public getFavoriteLinkEntity(): LinkEntity {
+        const LINK_ENTITY = this.getLinkEntity();
+        LINK_ENTITY.favorite = true;
+
+        return LINK_ENTITY;
+    }
+
+    public getInactiveLinkEntity(): LinkEntity {
+        const LINK_ENTITY = this.getLinkEntity();
+        LINK_ENTITY.active = false;
+
+        return LINK_ENTITY;
+    }
+
+    public getLinkEntityWithDisplayOrderNull(): LinkEntity {
+        const LINK_ENTITY = this.getLinkEntity();
+        LINK_ENTITY.displayOrder = null;
+
+        return LINK_ENTITY;
+    }
+
+    public getNextDisplayOrder(): number {
+        return this.getLinkEntity().displayOrder ?? 1;
+    }
+
+    //#endregion
+
+    //#region return ILink
+
+    public getLink(): ILink {
         return {
             id: 1,
             displayOrder: 0,
@@ -35,7 +89,7 @@ export class LinkServiceTestData {
         };
     }
 
-    getLinkAlternative(): ILink {
+    public getLinkAlternative(): ILink {
         return {
             id: 2,
             name: 'Test',
@@ -48,99 +102,57 @@ export class LinkServiceTestData {
         };
     }
 
-    getLinkEntity(): LinkEntity {
-        const LINK_ENTITY = new LinkEntity();
-        LINK_ENTITY.id = 1;
-        LINK_ENTITY.name = 'Test';
-        LINK_ENTITY.url = 'http://www.test.com';
-        LINK_ENTITY.favorite = false;
-        LINK_ENTITY.active = true;
-        LINK_ENTITY.userId = GENERIC_TEST_DATA.getUserId();
-        LINK_ENTITY.displayOrder = 1;
-
-        return LINK_ENTITY;
-    }
-
-    getNextDisplayOrder(): number {
-        return this.getLinkEntity().displayOrder ?? 1;
-    }
-
-    getLinkEntityList(): LinkEntity[] {
-        return new Array<LinkEntity>(this.getLinkEntity());
-    }
-
-    getLinkEntityEmptyList(): LinkEntity[] {
-        return new Array<LinkEntity>();
-    }
-
-    getLinkEntityWithZeroId(): LinkEntity {
-        const LINK_ENTITY = this.getLinkEntity();
-        LINK_ENTITY.id = 0;
-
-        return LINK_ENTITY;
-    }
-
-    getFavoriteLinkEntity(): LinkEntity {
-        const LINK_ENTITY = this.getLinkEntity();
-        LINK_ENTITY.favorite = true;
-
-        return LINK_ENTITY;
-    }
-
-    getInactiveLinkEntity(): LinkEntity {
-        const LINK_ENTITY = this.getLinkEntity();
-        LINK_ENTITY.active = false;
-
-        return LINK_ENTITY;
-    }
-
-    getLinkWithEmptyName(): ILink {
+    public getLinkWithEmptyName(): ILink {
         return {
             ...this.getLink(),
             name: '',
         };
     }
 
-    getLinkWithInactive(): ILink {
+    public getLinkWithInactive(): ILink {
         return {
             ...this.getLink(),
             active: false,
         };
     }
 
-    getLinkWithUnfavorite(): ILink {
+    public getLinkWithUnfavorite(): ILink {
         return {
             ...this.getLink(),
             favorite: false,
         };
     }
 
-    getLinkWithZeroId(): ILink {
+    public getLinkWithZeroId(): ILink {
         return {
             ...this.getLink(),
             id: 0,
         };
     }
 
-    getLinkWithNullishId(): ILink {
+    public getLinkWithNullishId(): ILink {
         return {
             ...this.getLink(),
             id: Number(null),
         };
     }
 
-    getLinkWithEmptyUrl(): ILink {
+    public getLinkWithEmptyUrl(): ILink {
         return {
             ...this.getLink(),
             url: '',
         };
     }
 
-    getLinkEntityWithDisplayOrderNull(): LinkEntity {
-        const LINK_ENTITY = this.getLinkEntity();
-        LINK_ENTITY.displayOrder = null;
+    //#endregion
 
-        return LINK_ENTITY;
+    //#region return ILinkCreate
+
+    getLinkCreate(): ILinkCreate {
+        return {
+            name: 'Test',
+            url: 'http://www.test.com',
+        };
     }
 
     getLinkCreateWithEmptyName(): ILinkCreate {
@@ -157,6 +169,10 @@ export class LinkServiceTestData {
         };
     }
 
+    //#endregion
+
+    //#region return IPaginateItem<ILink>
+
     getPaginateLinkList(): IPaginateItem<ILink> {
         return PAGINATE_TEST_DATA.getPaginateItemList<ILink>(this.getLinkList(PAGINATE_TEST_DATA.getPaginateItemListTotal()));
     }
@@ -165,25 +181,35 @@ export class LinkServiceTestData {
         return { total: 0, itemList: undefined, take: 10 };
     }
 
-    getArgumentErrorEmptyLinkName(): ArgumentError {
+    //#endregion
+
+    //#region return throw exception
+
+    public getArgumentErrorEmptyLinkName(): ArgumentError {
         return new ArgumentError(ERROR_MESSAGE_LINK.WRONG_NAME_ARGUMENT);
     }
 
-    getArgumentErrorEmptyLinkUrl(): ArgumentError {
+    public getArgumentErrorEmptyLinkUrl(): ArgumentError {
         return new ArgumentError(ERROR_MESSAGE_LINK.WRONG_URL_ARGUMENT);
     }
 
-    getArgumentErrorWrongId(): ArgumentError {
+    public getArgumentErrorWrongId(): ArgumentError {
         return new ArgumentError(ERROR_MESSAGE_LINK.WRONG_ID_ARGUMENT);
     }
 
-    getInternalServerErrorNotMatchParamAndBodyId(): InternalServerError {
+    public getInternalServerErrorNotMatchParamAndBodyId(): InternalServerError {
         return new InternalServerError(ERROR_MESSAGE_UTIL.NOT_MATCH_PARAM_ID_BODY_ID);
     }
 
-    getInternalServerErrorNotDeleteLink(linkName: string): InternalServerError {
+    public getInternalServerErrorNotDeleteLink(linkName: string): InternalServerError {
         return new InternalServerError(ERROR_MESSAGE_LINK.COULD_NOT_DELETE_LINK(linkName));
     }
+
+    //#endregion
+
+    //#endregion
+
+    //#region Private methods
 
     private getLinkList(numberOfLinks: number): ILink[] {
         return Array.from({ length: numberOfLinks }).map((_, index) => {
@@ -199,4 +225,6 @@ export class LinkServiceTestData {
             return LINK;
         });
     }
+
+    //#endregion
 }

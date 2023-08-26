@@ -9,13 +9,9 @@ import { TUserUpdater } from '@model/user/user-update.model';
 import { IUser } from '@model/user/user.model';
 
 export class UserServiceTestData {
-    public getUserCreate(): IUserCreate {
-        return {
-            username: this.getUsername(),
-            password: this.getUserPassword(),
-            applicationId: 1,
-        };
-    }
+    //#region Public methods
+
+    //#region return UserEntity
 
     public getUserEntity(): UserEntity {
         return {
@@ -45,6 +41,10 @@ export class UserServiceTestData {
         return [USER_ENTITY_ONE, USER_ENTITY_TWO];
     }
 
+    //#endregion
+
+    //#region return IUser
+
     public getUser(): IUser {
         return {
             id: this.getUserId(),
@@ -61,62 +61,6 @@ export class UserServiceTestData {
         };
 
         return [USER_ONE, USER_TWO];
-    }
-
-    public getUserCreated(): IUserCreated {
-        const USER_CREATE: IUserCreate = this.getUserCreate();
-
-        return { ...this.getUserEntity(), applicationId: USER_CREATE.applicationId };
-    }
-
-    public getUserCreatedExpired(): IUserCreated {
-        const USER_CREATED: IUserCreated = this.getUserCreated();
-
-        return {
-            id: USER_CREATED.id,
-            username: USER_CREATED.username,
-            applicationId: USER_CREATED.applicationId,
-        };
-    }
-
-    public getUserUpdated(): TUserUpdater {
-        return {
-            id: this.getUserId(),
-            username: this.getUsername(),
-            password: this.getUserPassword(),
-            applicationId: this.getApplicationId(),
-        };
-    }
-
-    public getUserCreatedWithApplicationIdIsNull(): IUserCreate {
-        return {
-            ...this.getUserUpdated(),
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            applicationId: null as any,
-        };
-    }
-
-    public getUserCreatedWithApplicationIdIsZero(): IUserCreate {
-        return {
-            ...this.getUserUpdated(),
-            applicationId: 0,
-        };
-    }
-
-    public getUserCreatedWithUsernameIsEmpty(): IUserCreate {
-        return {
-            ...this.getUserUpdated(),
-            applicationId: 10,
-            username: '',
-        };
-    }
-
-    public getUserCreatedWithPasswordIsEmpty(): IUserCreate {
-        return {
-            ...this.getUserUpdated(),
-            applicationId: 10,
-            password: '',
-        };
     }
 
     public getUserWithApplicationIdIsNull(): IUser {
@@ -160,17 +104,85 @@ export class UserServiceTestData {
         };
     }
 
-    public getApplicationId(): number {
-        return 1;
+    //#endregion
+
+    //#region return IUserCreate
+
+    public getUserCreate(): IUserCreate {
+        return {
+            username: this.getUsername(),
+            password: this.getUserPassword(),
+            applicationId: 1,
+        };
     }
 
-    public getSuccessfullyCreated(): boolean {
-        return true;
+    public getUserCreatedWithApplicationIdIsNull(): IUserCreate {
+        return {
+            ...this.getUserUpdated(),
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            applicationId: null as any,
+        };
     }
 
-    public getNotSuccessfullyCreated(): boolean {
-        return false;
+    public getUserCreatedWithApplicationIdIsZero(): IUserCreate {
+        return {
+            ...this.getUserUpdated(),
+            applicationId: 0,
+        };
     }
+
+    public getUserCreatedWithUsernameIsEmpty(): IUserCreate {
+        return {
+            ...this.getUserUpdated(),
+            applicationId: 10,
+            username: '',
+        };
+    }
+
+    public getUserCreatedWithPasswordIsEmpty(): IUserCreate {
+        return {
+            ...this.getUserUpdated(),
+            applicationId: 10,
+            password: '',
+        };
+    }
+
+    //#endregion
+
+    //#region return IUserCreate
+
+    public getUserCreated(): IUserCreated {
+        const USER_CREATE: IUserCreate = this.getUserCreate();
+
+        return { ...this.getUserEntity(), applicationId: USER_CREATE.applicationId };
+    }
+
+    public getUserCreatedExpired(): IUserCreated {
+        const USER_CREATED: IUserCreated = this.getUserCreated();
+
+        return {
+            id: USER_CREATED.id,
+            username: USER_CREATED.username,
+            applicationId: USER_CREATED.applicationId,
+        };
+    }
+
+    //#endregion
+
+    //#region return TUserUpdater
+
+    public getUserUpdated(): TUserUpdater {
+        return {
+            id: this.getUserId(),
+            username: this.getUsername(),
+            password: this.getUserPassword(),
+            applicationId: this.getApplicationId(),
+        };
+    }
+
+    //#endregion
+
+    //#region return throw exception
 
     public getArgumentErrorInvalidApplicationId(): ArgumentError {
         return new ArgumentError(ERROR_MESSAGE_USER.INVALID_APPLICATION_ID);
@@ -198,6 +210,22 @@ export class UserServiceTestData {
 
     public getUserIdNotFoundError(userId: number): NotFountError {
         return new NotFountError(ERROR_MESSAGE_USER.USER_WITH_ID_NOT_FOUND(userId));
+    }
+
+    //#endregion
+
+    //#endregion
+
+    public getApplicationId(): number {
+        return 1;
+    }
+
+    public getSuccessfullyCreated(): boolean {
+        return true;
+    }
+
+    public getNotSuccessfullyCreated(): boolean {
+        return false;
     }
 
     private getUserId(): number {

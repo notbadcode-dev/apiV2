@@ -17,10 +17,6 @@ import { anyNumber, anything, instance, mock, verify, when } from 'ts-mockito';
 
 //#region Attributes
 
-const GROUP_LINK_SERVICE_TEST_DATA: GroupLinkServiceTestData = new GroupLinkServiceTestData();
-const PAGINATE_TEST_DATA: PaginateTestData = new PaginateTestData();
-const GENERIC_TEST_DATA: GenericTestData = new GenericTestData();
-
 let _groupLinkServiceMock: IGroupLinkService;
 let _groupLinkRepositoryMock: GroupLinkRepository;
 let _linkGroupEntityToGroupMapperMock: LinkGroupEntityToGroupMapper;
@@ -48,18 +44,26 @@ function generateGroupLinkService(): void {
     );
 }
 
-//#endregion
-
 beforeEach(() => {
     generateGroupLinkService();
 });
 
-const GROUP_LINK_EMPTY_NAME_ARGUMENT_ERROR = GROUP_LINK_SERVICE_TEST_DATA.getArgumentErrorEmptyGroupLinkName();
-const GROUP_LINK_WRONG_ID_ARGUMENT_ERROR: ArgumentError = GROUP_LINK_SERVICE_TEST_DATA.getArgumentErrorWrongId();
+//#endregion
+
+//#region Test data
+
+const GROUP_LINK_SERVICE_TEST_DATA: GroupLinkServiceTestData = new GroupLinkServiceTestData();
+const PAGINATE_TEST_DATA: PaginateTestData = new PaginateTestData();
+const GENERIC_TEST_DATA: GenericTestData = new GenericTestData();
+
 const GROUP_LINK: IGroup = GROUP_LINK_SERVICE_TEST_DATA.getGroup();
 const GROUP_LINK_ENTITY: GroupLinkEntity = GROUP_LINK_SERVICE_TEST_DATA.getGroupLinkEntity();
-const USER_ID = GENERIC_TEST_DATA.getUserId();
+const GROUP_LINK_EMPTY_NAME_ARGUMENT_ERROR = GROUP_LINK_SERVICE_TEST_DATA.getArgumentErrorEmptyGroupLinkName();
+const GROUP_LINK_WRONG_ID_ARGUMENT_ERROR: ArgumentError = GROUP_LINK_SERVICE_TEST_DATA.getArgumentErrorWrongId();
 const PAGINATE_GROUP_LINK_LIST: IPaginateItem<IGroup> = GROUP_LINK_SERVICE_TEST_DATA.getPaginateGroupLinkList();
+const USER_ID = GENERIC_TEST_DATA.getUserId();
+
+//#endregion
 
 describe('createGroupLink', () => {
     it('Creating a group link with empty name should throw an argument error', async () => {

@@ -15,7 +15,7 @@ import { IUserService } from '@service/user.service/user.service.interface';
 import { UserServiceTestData } from '@testData/service/user.service.test.data';
 import { anyNumber, anyString, anything, instance, mock, when } from 'ts-mockito';
 
-const USER_SERVICE_TEST_DATA: UserServiceTestData = new UserServiceTestData();
+//#region Attributes
 
 let userService: IUserService;
 let userRepositoryMock: UserRepository;
@@ -25,13 +25,42 @@ let userEntityToUserMapperMock: UserEntityToUserMapper;
 let userEntityToUserCreatedMapperMock: UserEntityToUserCreatedMapper;
 let globalUtilValidateServiceMock: GlobalUtilValidateService;
 
+//#endregion
+
+//#region Constructor
+
+function generateUserService(): void {
+    userRepositoryMock = mock(UserRepository);
+    applicationRepositoryMock = mock(ApplicationRepository);
+    userApplicationRepositoryMock = mock(UserApplicationRepository);
+    userEntityToUserMapperMock = mock(UserEntityToUserMapper);
+    userEntityToUserCreatedMapperMock = mock(UserEntityToUserCreatedMapper);
+    globalUtilValidateServiceMock = mock(GlobalUtilValidateService);
+
+    userService = new UserService(
+        instance(userRepositoryMock),
+        instance(applicationRepositoryMock),
+        instance(userApplicationRepositoryMock),
+        instance(userEntityToUserMapperMock),
+        instance(userEntityToUserCreatedMapperMock),
+        instance(globalUtilValidateServiceMock)
+    );
+}
+
 beforeEach(() => {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     generateUserService();
 });
 
+//#endregion
+
+//#region Test data
+
+const USER_SERVICE_TEST_DATA: UserServiceTestData = new UserServiceTestData();
+
 const USER: IUser = USER_SERVICE_TEST_DATA.getUser();
 const USER_ENTITY: UserEntity = USER_SERVICE_TEST_DATA.getUserEntity();
+
+//#endregion
 
 describe('createUser', () => {
     const USER_CREATE: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreate();
@@ -302,21 +331,3 @@ describe('getAllUserList', () => {
         expect(USER_LIST).toEqual(new Array<IUser>());
     });
 });
-
-function generateUserService(): void {
-    userRepositoryMock = mock(UserRepository);
-    applicationRepositoryMock = mock(ApplicationRepository);
-    userApplicationRepositoryMock = mock(UserApplicationRepository);
-    userEntityToUserMapperMock = mock(UserEntityToUserMapper);
-    userEntityToUserCreatedMapperMock = mock(UserEntityToUserCreatedMapper);
-    globalUtilValidateServiceMock = mock(GlobalUtilValidateService);
-
-    userService = new UserService(
-        instance(userRepositoryMock),
-        instance(applicationRepositoryMock),
-        instance(userApplicationRepositoryMock),
-        instance(userEntityToUserMapperMock),
-        instance(userEntityToUserCreatedMapperMock),
-        instance(globalUtilValidateServiceMock)
-    );
-}

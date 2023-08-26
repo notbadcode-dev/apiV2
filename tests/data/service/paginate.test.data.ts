@@ -3,6 +3,10 @@ import { ArgumentError } from '@error/argument.error';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 
 export class PaginateTestData {
+    //#region Public methods
+
+    //#region return : IPaginateItem<T>
+
     public getPaginateItemListTotal(): number {
         return 10;
     }
@@ -70,4 +74,8 @@ export class PaginateTestData {
             itemList: new Array<T>(),
         };
     }
+
+    //#endregion
+
+    //#endregion
 }

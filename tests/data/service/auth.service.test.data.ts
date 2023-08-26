@@ -7,9 +7,15 @@ import { UserServiceTestData } from './user.service.test.data';
 const USER_SERVICE_TEST_DATA: UserServiceTestData = new UserServiceTestData();
 
 export class AuthServiceTestData {
-    getAuthSignIn(): TAuthSignIn {
+    //#region Public methods
+
+    //#region return TAuthSignIn
+
+    public getAuthSignIn(): TAuthSignIn {
         return USER_SERVICE_TEST_DATA.getUserCreate();
     }
+
+    //#endregion
 
     public getToken(): string {
         return 'testToken';
@@ -31,6 +37,8 @@ export class AuthServiceTestData {
         return false;
     }
 
+    //#region return throw exception
+
     public getUnauthorizedErrorNotGetUserEntity(userName: string): UnauthorizedError {
         return new UnauthorizedError(ERROR_MESSAGE_USER.USER_WITH_USERNAME_NOT_FOUND(userName));
     }
@@ -38,4 +46,8 @@ export class AuthServiceTestData {
     public getUnauthorizedErrorNotVerifyPassword(): UnauthorizedError {
         return new UnauthorizedError(ERROR_MESSAGE_PASSWORD.FAILED_TO_VERIFY_PASSWORD);
     }
+
+    //#endregion
+
+    //#endregion
 }

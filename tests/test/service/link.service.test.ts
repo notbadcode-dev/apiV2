@@ -15,9 +15,7 @@ import { LinkServiceTestData } from '@testData/service/link.service.test.data';
 import { PaginateTestData } from '@testData/service/paginate.test.data';
 import { anyNumber, anything, instance, mock, when } from 'ts-mockito';
 
-const LINK_SERVICE_TEST_DATA: LinkServiceTestData = new LinkServiceTestData();
-const PAGINATE_TEST_DATA: PaginateTestData = new PaginateTestData();
-const GENERIC_TEST_DATA: GenericTestData = new GenericTestData();
+//#region Attributes
 
 let linkServiceMock: ILinkService;
 let tokenServiceMock: TokenService;
@@ -25,10 +23,35 @@ let linkRepositoryMock: LinkRepository;
 let globalUtilValidateServiceMock: GlobalUtilValidateService;
 let linkEntityToLinkMapperMock: LinkEntityToLinkMapper;
 
+//#endregion
+
+//#region Constructor
+
+function generateLinkService(): void {
+    tokenServiceMock = mock(TokenService);
+    linkRepositoryMock = mock(LinkRepository);
+    globalUtilValidateServiceMock = mock(GlobalUtilValidateService);
+    linkEntityToLinkMapperMock = mock(LinkEntityToLinkMapper);
+
+    linkServiceMock = new LinkService(
+        instance(linkRepositoryMock),
+        instance(tokenServiceMock),
+        instance(globalUtilValidateServiceMock),
+        instance(linkEntityToLinkMapperMock)
+    );
+}
+
 beforeEach(() => {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     generateLinkService();
 });
+
+//#endregion
+
+//#region Test data
+
+const LINK_SERVICE_TEST_DATA: LinkServiceTestData = new LinkServiceTestData();
+const PAGINATE_TEST_DATA: PaginateTestData = new PaginateTestData();
+const GENERIC_TEST_DATA: GenericTestData = new GenericTestData();
 
 const LINK: ILink = LINK_SERVICE_TEST_DATA.getLink();
 const LINK_ENTITY: LinkEntity = LINK_SERVICE_TEST_DATA.getLinkEntity();
@@ -37,6 +60,8 @@ const LINK_EMPTY_URL_ARGUMENT_ERROR = LINK_SERVICE_TEST_DATA.getArgumentErrorEmp
 const LINK_WRONG_ID_ARGUMENT_ERROR: ArgumentError = LINK_SERVICE_TEST_DATA.getArgumentErrorWrongId();
 const PAGINATE_LINK_LIST: IPaginateItem<ILink> = LINK_SERVICE_TEST_DATA.getPaginateLinkList();
 const USER_ID = GENERIC_TEST_DATA.getUserId();
+
+//#endregion
 
 describe('createLink', () => {
     it('Creating a link with empty name should throw an argument error', async () => {
@@ -509,17 +534,3 @@ describe('deleteLink', () => {
         expect(RESULT).toBe(true);
     });
 });
-
-function generateLinkService(): void {
-    tokenServiceMock = mock(TokenService);
-    linkRepositoryMock = mock(LinkRepository);
-    globalUtilValidateServiceMock = mock(GlobalUtilValidateService);
-    linkEntityToLinkMapperMock = mock(LinkEntityToLinkMapper);
-
-    linkServiceMock = new LinkService(
-        instance(linkRepositoryMock),
-        instance(tokenServiceMock),
-        instance(globalUtilValidateServiceMock),
-        instance(linkEntityToLinkMapperMock)
-    );
-}
