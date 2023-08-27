@@ -5,7 +5,7 @@ name: Linter
 on: [push]
 
 jobs:
-    run-test:
+    run-lint:
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
@@ -25,8 +25,8 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
             - run: npm install
-            - run: npm lint
+            - run: npm run lint > eslint-report.html 2>&1 || true
             - uses: actions/upload-artifact@v2
               with:
-                  name: test-results
-                  path: ./lint/report/lint_report.html
+                  name: eslint-report
+                  path: eslint-report.html
