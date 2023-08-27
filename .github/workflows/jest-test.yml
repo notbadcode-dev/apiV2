@@ -80,19 +80,19 @@ jobs:
 
     send-email:
         runs-on: ubuntu-latest
-        needs: result-reports
-        if: ${{ needs.result-reports.result == 'success' }}
+        needs: create-result-reports
+        if: ${{ needs.create-result-reports.result == 'success' }}
         steps:
             - name: Upload Combined Report
               uses: actions/upload-artifact@v2
               with:
-                  name: combined-report
-                  path: combined-report.html
+                  name: result-report
+                  path: result-report.html
 
             - name: Download Combined Report
               uses: actions/download-artifact@v2
               with:
-                  name: combined-report
+                  name: result-report
 
             - name: Send Email
               uses: dawidd6/action-send-mail@v2
