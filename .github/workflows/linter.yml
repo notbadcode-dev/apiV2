@@ -31,18 +31,13 @@ jobs:
                   sed -i 's/src\//\nFile: src\//g' eslint-report.txt
                   sed -i 's/  \([0-9]\+\):\([0-9]\+\)/  Line \1, Column \2:/g' eslint-report.txt
                   sed -i 's/error \([^ ]\+\) \([^\n]\+\)/Rule: \1\n\2/g' eslint-report.txt
-                  echo "<!DOCTYPE html><html><head><style>body { font-family: Arial, sans-serif; }</style></head><body>" > eslint-report.html
-                  sed -i 's/>&gt;/&gt;/' eslint-report.txt
-                  sed -i 's/&gt;/</' eslint-report.txt
-                  sed -i 's/&lt;/</' eslint-report.txt
-                  sed -i 's/&quot;/"/' eslint-report.txt
-                  sed -i 's/&amp;/&/' eslint-report.txt
-                  cat eslint-report.txt >> eslint-report.html
-                  echo "</body></html>" >> eslint-report.html
+                  echo "Linting Report:" > improved-eslint-report.txt
+                  cat eslint-report.txt >> improved-eslint-report.txt
+                  mv improved-eslint-report.txt eslint-report.txt
             - uses: actions/upload-artifact@v2
               with:
                   name: eslint-report
-                  path: eslint-report.html
+                  path: eslint-report.txt
 
     send-email:
         runs-on: ubuntu-latest
@@ -66,4 +61,4 @@ jobs:
                   from: ${{ secrets.EMAIL_USERNAME }}
                   to: ${{ secrets.EMAIL_USERNAME }}
                   attachments: |
-                      ./eslint-report.html
+                      ./eslint-report.txt
