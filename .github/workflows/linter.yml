@@ -26,7 +26,7 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
             - run: npm install
-            - run: npm run lint > eslint-report.txt 2>&1 || true
+            - run: npm run lint > eslint-report.html 2>&1 || true
             - run: |
                   sed -i 's/src\//\nFile: src\//g' eslint-report.txt
                   sed -i 's/  \([0-9]\+\):\([0-9]\+\)/  Line \1, Column \2:/g' eslint-report.txt
@@ -37,7 +37,7 @@ jobs:
             - uses: actions/upload-artifact@v2
               with:
                   name: eslint-report
-                  path: eslint-report.txt
+                  path: eslint-report.html
 
     send-email:
         runs-on: ubuntu-latest
