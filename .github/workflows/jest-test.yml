@@ -1,11 +1,11 @@
 # Este archivo contiene la configuración para ejecutar pruebas automatizadas en GitHub Actions
 
-name: Jest Test
+name: Jest test
 
 on: [push]
 
 jobs:
-    run-lint:
+    run-test:
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
@@ -25,11 +25,11 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
             - run: npm install
-            - run: npm run lint > eslint_report.html 2>&1 || true
+            - run: npm test
             - uses: actions/upload-artifact@v2
               with:
-                  name lint-results
-                  path: ./lint/report/eslint_report.html
+                  name: test-results
+                  path: ./test/report/test_report.html
 
     send-email:
         runs-on: ubuntu-latest
@@ -52,4 +52,4 @@ jobs:
                   from: ${{ secrets.EMAIL_USERNAME }}
                   to: ${{ secrets.EMAIL_USERNAME }}
                   attachments: |
-                      ./eslint_report.html
+                      ./test_report.html

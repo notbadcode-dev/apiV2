@@ -5,7 +5,7 @@ name: Linter
 on: [push]
 
 jobs:
-    run-test:
+    run-lint:
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
@@ -25,11 +25,11 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
             - run: npm install
-            - run: npm test
+            - run: npm run lint > eslint_report.html 2>&1 || true
             - uses: actions/upload-artifact@v2
               with:
-                  name: test-results
-                  path: ./test/report/test_report.html
+                  name lint-results
+                  path: ./lint/report/eslint_report.html
 
     send-email:
         runs-on: ubuntu-latest
@@ -52,4 +52,4 @@ jobs:
                   from: ${{ secrets.EMAIL_USERNAME }}
                   to: ${{ secrets.EMAIL_USERNAME }}
                   attachments: |
-                      ./test_report.html
+                      ./eslint_report.html
