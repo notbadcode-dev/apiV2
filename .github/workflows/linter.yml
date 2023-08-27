@@ -28,12 +28,13 @@ jobs:
             - run: npm install
             - run: npm run lint > eslint-report.txt 2>&1 || true
             - run: |
-                  sed -i 's/src\//\nFile: src\//g' eslint-report.txt
-                  sed -i 's/  \([0-9]\+\):\([0-9]\+\)/  Line \1, Column \2:/g' eslint-report.txt
-                  sed -i 's/error \([^ ]\+\) \([^\n]\+\)/<\/div><div class="lint-result">Rule: \1<br>\2<\/div><div class="lint-result">/g' eslint-report.txt
-                  echo "<!DOCTYPE html><html><head><style>body { font-family: Arial, sans-serif; } .lint-result { border: 1px solid #ccc; padding: 10px; margin: 10px; }</style></head><body><div class='lint-results'>" > eslint-report.html
+                  sed -i 's|src/|</div>\n<div class="_script">|g' eslint-report.txt
+                  sed -i 's| \([0-9]\+\):\([0-9]\+\)|</div>\n<div class="_error">Line \1, Column \2:</div>|g' eslint-report.txt
+                  sed -i 's|error \([^ ]\+\) \([^\n]\+\)|<div class="_error">Rule: \1</div>\n<div class="_error-description">\2</div>|g' eslint-report.txt
+                  sed -i 's|^>\([^>]\+\) \(.*\)|<div class="_result">>\1 \2</div>|g' eslint-report.txt
+                  echo "<!DOCTYPE html><html><head><style>body { font-family: Arial, sans-serif; }</style></head><body>" > eslint-report.html
                   cat eslint-report.txt >> eslint-report.html
-                  echo "</div><p class='lint-summary'>Linting Summary:</p><p class='lint-summary'>✖ 3 problems (3 errors, 0 warnings)</p></body></html>" >> eslint-report.html
+                  echo "</body></html>" >> eslint-report.html
             - uses: actions/upload-artifact@v2
               with:
                   name: eslint-report
