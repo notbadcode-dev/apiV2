@@ -1,4 +1,4 @@
-name: Linter
+name: ESLint analyzer
 
 on:
     push:
@@ -26,18 +26,11 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
             - run: npm install
-            - run: npm run lint > eslint-report.txt 2>&1 || true
-            - run: |
-                  sed -i 's/src\//\nFile: src\//g' eslint-report.txt
-                  sed -i 's/  \([0-9]\+\):\([0-9]\+\)/  Line \1, Column \2:/g' eslint-report.txt
-                  sed -i 's/error \([^ ]\+\) \([^\n]\+\)/Rule: \1\n\2/g' eslint-report.txt
-                  echo "Linting Report:" > improved-eslint-report.txt
-                  cat eslint-report.txt >> improved-eslint-report.txt
-                  mv improved-eslint-report.txt eslint-report.txt
+            - run: npm run lint
             - uses: actions/upload-artifact@v2
               with:
                   name: eslint-report
-                  path: eslint-report.txt
+                  path: ./eslint/report/eslint_report.html
 
     send-email:
         runs-on: ubuntu-latest
