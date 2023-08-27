@@ -1,6 +1,6 @@
 # Este archivo contiene la configuración para ejecutar pruebas automatizadas en GitHub Actions
 
-name: Jest test
+name: Jest Test
 
 on: [push]
 
@@ -29,7 +29,7 @@ jobs:
             - uses: actions/upload-artifact@v2
               with:
                   name: test-results
-                  path: ./test/report/test_report.html
+                  path: ./tests/report/test_report.html
 
     send-email:
         runs-on: ubuntu-latest
