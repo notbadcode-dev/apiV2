@@ -29,7 +29,7 @@ jobs:
             - uses: actions/upload-artifact@v2
               with:
                   name: eslint-report
-                  path: eslint-report.html
+                  path: ./tests/report/eslint_report.html
 
     run-test:
         runs-on: ${{ matrix.os }}
@@ -74,8 +74,8 @@ jobs:
 
             - name: Combine Reports
               run: |
-                  cat eslint-report.html > result-report.html
-                  cat ./tests/report/test_report.html >> result-report.html
+                  cat ./eslint-report.html > result-report.html
+                  cat ./test_report.html >> result-report.html
               shell: bash
 
     send-email:
