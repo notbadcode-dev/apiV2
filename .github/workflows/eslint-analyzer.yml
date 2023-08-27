@@ -26,7 +26,7 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
             - run: npm install
-            - run: npm run lint
+            - run: npm run lint > eslint_report.txt
             - uses: actions/upload-artifact@v2
               with:
                   name: eslint-report
@@ -54,4 +54,4 @@ jobs:
                   from: ${{ secrets.EMAIL_USERNAME }}
                   to: ${{ secrets.EMAIL_USERNAME }}
                   attachments: |
-                      ./eslint_report.html
+                      ./eslint-eslint_report.html
