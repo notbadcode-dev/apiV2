@@ -11,7 +11,7 @@
         "dev:link:a": "concurrently --kill-others \"npm run dev:auth\" \"npm run dev:link\"",
         "start:link:a": "concurrently --kill-others \"npm run start:auth\" \"npm run start:link\"",
         "build": "tsc",
-        "lint": "./node_modules/.bin/eslint '**/*.ts' --ignore-pattern node_modules/ --format html > ./eslint/report/eslint-report.html",
+        "lint": "./node_modules/.bin/eslint '**/*.ts' --ignore-pattern",
         "lint:fix": "./node_modules/.bin/eslint '**/*.ts' --fix --ignore-pattern node_modules/",
         "test": "jest --verbose --detectOpenHandles --coverage",
         "test:watch": "jest --watchAll --verbose --detectOpenHandles",
