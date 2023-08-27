@@ -5,7 +5,7 @@ name: Jest Test
 on:
     push:
         branches:
-            - main
+            - master
 
 jobs:
     run-test:
