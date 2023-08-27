@@ -29,7 +29,7 @@ jobs:
             - run: npm run lint > eslint-report.txt 2>&1 || true
             - uses: actions/upload-artifact@v2
               with:
-                  name: eslint-report
+                  name: eslint-results
                   path: ./eslint/report/eslint_report.html
 
     send-email:
@@ -40,9 +40,8 @@ jobs:
             - name: Download ESLint Report
               uses: actions/download-artifact@v2
               with:
-                  name: eslint-report
-
-            - name: Send Lint Email
+                  name: eslint-results
+            - name: Send result lint email
               uses: dawidd6/action-send-mail@v2
               with:
                   server_address: smtp.gmail.com
