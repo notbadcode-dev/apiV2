@@ -1,6 +1,6 @@
 # Este archivo contiene la configuración para ejecutar pruebas automatizadas en GitHub Actions
 
-name: Jest Test
+name: Linter
 
 on: [push]
 
