@@ -42,7 +42,6 @@ jobs:
                   name: eslint-report
                   path: eslint-report.html
 
-
     run-test:
         runs-on: ${{ matrix.os }}
         strategy:
@@ -96,5 +95,5 @@ jobs:
                   from: ${{ secrets.EMAIL_USERNAME }}
                   to: ${{ secrets.EMAIL_USERNAME }}
                   attachments: |
-                        ./eslint-report.html
+                      ./eslint-report.html
                       ./test_report.html
