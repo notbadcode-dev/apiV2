@@ -31,12 +31,13 @@ jobs:
             - run: npm install
             - run: npm run lint > eslint-report.html 2>&1 || true
             - run: |
-                  sed -i 's/src\//\nFile: src\//g' eslint-report.html
-                  sed -i 's/  \([0-9]\+\):\([0-9]\+\)/  Line \1, Column \2:/g' eslint-report.html
-                  sed -i 's/error \([^ ]\+\) \([^\n]\+\)/Rule: \1\n\2/g' eslint-report.html
+                  sed 's/src\//\nFile: src\//g' eslint-report.html > eslint-report-temp.html
+                  sed -i 's/  \([0-9]\+\):\([0-9]\+\)/  Line \1, Column \2:/g' eslint-report-temp.html
+                  sed -i 's/error \([^ ]\+\) \([^\n]\+\)/Rule: \1\n\2/g' eslint-report-temp.html
                   echo "<html><body><pre>" > eslint-report.html
-                  cat eslint-report.html >> eslint-report.html
+                  cat eslint-report-temp.html >> eslint-report.html
                   echo "</pre></body></html>" >> eslint-report.html
+                  rm eslint-report-temp.html
             - uses: actions/upload-artifact@v3
               with:
                   name: eslint-report
