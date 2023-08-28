@@ -1,44 +1,40 @@
----
-name: ESLint analyzer
+name: Linter
 
-# yamllint disable-line rule:truthy
 on:
     push:
-        branches: [master]
+        branches:
+            - master
 
 jobs:
     run-lint:
-        runs-on: ${{ matrix.os }}
+        runs-on: ubuntu-latest
         strategy:
             matrix:
                 os: [ubuntu-latest]
                 node-version: [16.17.0]
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v2
             - name: Cache node modules
-              uses: actions/cache@v3
+              uses: actions/cache@v2
               with:
                   path: ~/.npm
-                  key: ${{ runner.os }}-node-${{
-                      hashFiles('**/package-lock.json')
-                      }}
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
                   restore-keys: |
                       ${{ runner.os }}-node-
             - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v3
+              uses: actions/setup-node@v2
               with:
                   node-version: ${{ matrix.node-version }}
             - run: npm install
-            - run: npm run lint > eslint-report.html 2>&1 || true
+            - run: npm run lint > eslint-report.txt 2>&1 || true
             - run: |
-                  sed 's/src\//\nFile: src\//g' eslint-report.html > eslint-report-temp.html
-                  sed -i 's/  \([0-9]\+\):\([0-9]\+\)/  Line \1, Column \2:/g' eslint-report-temp.html
-                  sed -i 's/error \([^ ]\+\) \([^\n]\+\)/Rule: \1\n\2/g' eslint-report-temp.html
-                  echo "<html><body><pre>" > eslint-report.html
-                  cat eslint-report-temp.html >> eslint-report.html
+                  sed -i 's/src\//\nFile: src\//g' eslint-report.txt
+                  sed -i 's/  \([0-9]\+\):\([0-9]\+\)/  Line \1, Column \2:/g' eslint-report.txt
+                  sed -i 's/error \([^ ]\+\) \([^\n]\+\)/Rule: \1\n\2/g' eslint-report.txt
+                  echo "<!DOCTYPE html><html><head><style>body { font-family: Arial, sans-serif; }</style></head><body><pre>" > eslint-report.html
+                  cat eslint-report.txt >> eslint-report.html
                   echo "</pre></body></html>" >> eslint-report.html
-                  rm eslint-report-temp.html
-            - uses: actions/upload-artifact@v3
+            - uses: actions/upload-artifact@v2
               with:
                   name: eslint-report
                   path: eslint-report.html
@@ -49,11 +45,12 @@ jobs:
         if: ${{ needs.run-lint.result == 'success' }}
         steps:
             - name: Download ESLint Report
-              uses: actions/download-artifact@v3
+              uses: actions/download-artifact@v2
               with:
-                  name: eslint-results
-            - name: Send result lint email
-              uses: dawidd6/action-send-mail@v3
+                  name: eslint-report
+
+            - name: Send Lint Email
+              uses: dawidd6/action-send-mail@v2
               with:
                   server_address: smtp.gmail.com
                   server_port: 587
@@ -64,4 +61,4 @@ jobs:
                   from: ${{ secrets.EMAIL_USERNAME }}
                   to: ${{ secrets.EMAIL_USERNAME }}
                   attachments: |
-                      ./eslint_report.html
+                      ./eslint-report.html
