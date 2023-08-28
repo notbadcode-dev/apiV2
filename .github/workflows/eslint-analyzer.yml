@@ -30,7 +30,7 @@ jobs:
             - run: npm install
             - run: npm run lint > eslint-report.txt 2>&1 || true
             - run: |
-                  echo "Linting Report:" > eslint-report.txt
+                  echo "Linting Report: \n" > eslint-report.txt
                   sed -i 's/src\//\nFile: src\//g' eslint-report.txt
                   sed -i 's/  \([0-9]\+\):\([0-9]\+\)/  Line \1, Column \2:/g' eslint-report.txt
                   sed -i 's/error \([^ ]\+\) \([^\n]\+\)/Rule: \1\n\2/g' eslint-report.txt
