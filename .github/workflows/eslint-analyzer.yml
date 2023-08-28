@@ -53,4 +53,4 @@ jobs:
                   from: ${{ secrets.EMAIL_USERNAME }}
                   to: ${{ secrets.EMAIL_USERNAME }}
                   attachments: |
-                      ./eslint/report/eslint_report.html
+                      ./eslint_report.html
