@@ -34,7 +34,7 @@ jobs:
                   sed -i 's/  \([0-9]\+\):\([0-9]\+\)/  Line \1, Column \2:/g' eslint-report.txt
                   sed -i 's/error \([^ ]\+\) \([^\n]\+\)/Rule: \1\n\2/g' eslint-report.txt
                   echo "<!DOCTYPE html><html><head><style>body { font-family: Arial, sans-serif; }</style></head><body><pre>" > eslint-report.html
-                  echo "Linting Report:  >> eslint-report.html
+                  echo "Linting Report: \n" >> eslint-report.html
                   cat eslint-report.txt >> eslint-report.html
                   echo "</pre></body></html>" >> eslint-report.html
             - uses: actions/upload-artifact@v3
@@ -51,6 +51,7 @@ jobs:
               uses: actions/download-artifact@v3
               with:
                   name: eslint-report
+
             - name: Send Lint Email
               uses: dawidd6/action-send-mail@v3
               with:
