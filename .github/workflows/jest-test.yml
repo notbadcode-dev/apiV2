@@ -7,6 +7,34 @@ on:
         branches: [master]
 
 jobs:
+    run-lint:
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [ubuntu-latest]
+                node-version: [16.17.0]
+        steps:
+            - uses: actions/checkout@v2
+            - name: Cache node modules
+              uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{
+                      hashFiles('**/package-lock.json')
+                      }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v2
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: npm install
+            - run: npm run lint || true
+            - uses: actions/upload-artifact@v2
+              with:
+                  name: eslint-results
+                  path: ./eslint/report/eslint_report.html
+
     run-test:
         runs-on: ${{ matrix.os }}
         strategy:
@@ -37,8 +65,8 @@ jobs:
 
     send-email:
         runs-on: ubuntu-latest
-        needs: run-test
-        if: ${{ needs.run-test.result == 'success' }}
+        needs: [run-test, run-lint]
+        if: ${{ needs.run-test.result == 'success' && needs.run-lint.result == 'success'  }}
         steps:
             - name: Download Test Results
               uses: actions/download-artifact@v2
@@ -56,4 +84,5 @@ jobs:
                   from: ${{ secrets.EMAIL_USERNAME }}
                   to: ${{ secrets.EMAIL_USERNAME }}
                   attachments: |
-                      ./tests/report/test_report.html
+                      ./test_report.html
+                      ./eslint_report.html
