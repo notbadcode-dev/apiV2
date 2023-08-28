@@ -85,4 +85,4 @@ jobs:
                   to: ${{ secrets.EMAIL_USERNAME }}
                   attachments: |
                       ./test_report.html
-                      ./eslint_report.html
+                      ./eslint/report/eslint_report.html
