@@ -1,9 +1,10 @@
+---
 name: Jest Test
 
+# yamllint disable-line rule:truthy
 on:
     push:
-        branches:
-            - master
+        branches: [master]
 
 jobs:
     run-test:
@@ -13,12 +14,14 @@ jobs:
                 os: [ubuntu-latest]
                 node-version: [16.17.0]
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v2
             - name: Cache node modules
               uses: actions/cache@v2
               with:
                   path: ~/.npm
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                  key: ${{ runner.os }}-node-${{
+                      hashFiles('**/package-lock.json')
+                      }}
                   restore-keys: |
                       ${{ runner.os }}-node-
             - name: Use Node.js ${{ matrix.node-version }}
@@ -53,4 +56,4 @@ jobs:
                   from: ${{ secrets.EMAIL_USERNAME }}
                   to: ${{ secrets.EMAIL_USERNAME }}
                   attachments: |
-                      ./test_report.html
+                      ./tests/report/test_report.html

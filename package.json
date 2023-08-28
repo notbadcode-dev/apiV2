@@ -15,7 +15,9 @@
         "lint:fix": "./node_modules/.bin/eslint '**/*.ts' --fix --ignore-pattern node_modules/",
         "test": "jest --verbose --detectOpenHandles --coverage",
         "test:watch": "jest --watchAll --verbose --detectOpenHandles",
-        "format": "npx prettier --write ."
+        "format": "npx prettier --write .",
+        "verify-jest-test-yml": "yamllint ./.github/workflows/jest-test.yml",
+        "verify-eslint-analyzer-yml": "yamllint ./.github/workflows/eslint-analyzer.yml"
     },
     "keywords": [],
     "author": "",
