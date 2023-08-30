@@ -1,3 +1,5 @@
+import { PAGINATE_CONSTANT } from '@constant/paginate.constant';
+
 export interface IPartialPaginateItem {
     take: number;
     currentPage?: number;
@@ -6,8 +8,8 @@ export interface IPartialPaginateItem {
 export class PartialPaginateItemHelper {
     static mapToObject(currentPage?: number, take?: number): IPartialPaginateItem {
         return {
-            take: take ?? 0,
-            currentPage: currentPage ?? 0,
+            take: take ?? PAGINATE_CONSTANT.DEFAULT_TAKE,
+            currentPage: currentPage ?? PAGINATE_CONSTANT.DEFAULT_CURRENT_PAGE,
         };
     }
 }
@@ -23,11 +25,11 @@ export interface IPaginateItem<T> extends IPartialPaginateItem {
 export class PaginateItemHelper {
     static getDefault<T>(): IPaginateItem<T> {
         return {
-            skip: 0,
-            take: 0,
-            total: 0,
-            currentPageTotal: null,
-            totalPages: null,
+            skip: PAGINATE_CONSTANT.DEFAULT_SKIP,
+            take: PAGINATE_CONSTANT.DEFAULT_TAKE,
+            total: PAGINATE_CONSTANT.DEFAULT_TOTAL,
+            currentPageTotal: PAGINATE_CONSTANT.DEFAULT_CURRENT_PAGE,
+            totalPages: PAGINATE_CONSTANT.DEFAULT_TOTAL_PAGES,
             itemList: new Array<T>(),
         };
     }
@@ -40,7 +42,7 @@ export class PaginateItemHelper {
 
     static getCurrentPage(startIndex: number, take: number, currentPage?: number | null): number {
         if (!currentPage) {
-            const CURRENT_PAGE: number = Math.ceil((startIndex + 1) / take);
+            const CURRENT_PAGE: number = Math.ceil((startIndex + PAGINATE_CONSTANT.DEFAULT_CURRENT_PAGE) / take);
             return CURRENT_PAGE;
         }
 
@@ -48,7 +50,7 @@ export class PaginateItemHelper {
     }
 
     static getCurrentPageStartIndex(startIndex: number, currentPage: number, take: number): number {
-        const CURRENT_PAGE_START_INDEX: number = startIndex + (currentPage - 1) * take;
+        const CURRENT_PAGE_START_INDEX: number = startIndex + (currentPage - PAGINATE_CONSTANT.DEFAULT_CURRENT_PAGE) * take;
         return CURRENT_PAGE_START_INDEX;
     }
 
@@ -57,7 +59,7 @@ export class PaginateItemHelper {
     }
 
     static getCurrentPageTotal(currentPageEndIndex: number, currentPageStartIndex: number, take: number): number {
-        return Math.min(currentPageEndIndex - currentPageStartIndex + 2, take);
+        return Math.min(currentPageEndIndex - currentPageStartIndex + PAGINATE_CONSTANT.DEFAULT_CURRENT_PAGE * 2, take);
     }
 }
 

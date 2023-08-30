@@ -22,6 +22,8 @@ export const LINK_ENTITY_REPOSITORY_TOKEN = 'LinkEntity';
 
 @Service(LINK_REPOSITORY_TOKEN)
 export class LinkRepository implements ILinkRepository {
+    //#region Constructor
+
     constructor(
         @Inject(LINK_ENTITY_REPOSITORY_TOKEN)
         private readonly _linkRepository: Repository<LinkEntity>,
@@ -30,8 +32,12 @@ export class LinkRepository implements ILinkRepository {
         @Inject(TOKEN_SERVICE_TOKEN) private _tokenService: TokenService
     ) {}
 
+    //#endregion
+
+    //#region Public methods
+
     @LoggerMethodDecorator
-    async create(linkEntity: LinkEntity): Promise<LinkEntity> {
+    public async create(linkEntity: LinkEntity): Promise<LinkEntity> {
         const QUERY_RUNNER: QueryRunner = this._dataSource.createQueryRunner();
         QUERY_RUNNER.connect();
         QUERY_RUNNER.startTransaction();
@@ -51,7 +57,7 @@ export class LinkRepository implements ILinkRepository {
     }
 
     @LoggerMethodDecorator
-    async createList(linkEntities: LinkEntity[]): Promise<LinkEntity[]> {
+    public async createList(linkEntities: LinkEntity[]): Promise<LinkEntity[]> {
         const QUERY_RUNNER: QueryRunner = this._dataSource.createQueryRunner();
         await QUERY_RUNNER.connect();
         await QUERY_RUNNER.startTransaction();
@@ -103,11 +109,13 @@ export class LinkRepository implements ILinkRepository {
         return UPDATED_LINK_ENTITY;
     }
 
+    @LoggerMethodDecorator
     public async getById(linkId: number): Promise<LinkEntity> {
         const USER_ID: number = this._tokenService.getCurrentUserId();
         const LINK_ENTITY: LinkEntity | null = await this._linkRepository
             .createQueryBuilder('link')
             .leftJoinAndSelect('link.groupLink', 'groupLink')
+            .leftJoinAndSelect('link.tagList', 'tag')
             .where('link.id = :linkId', { linkId })
             .andWhere('link.userId = :userId', { userId: USER_ID })
             .getOne();
@@ -258,6 +266,10 @@ export class LinkRepository implements ILinkRepository {
         return NEXT_DISPLAY_ORDER;
     }
 
+    //#endregion
+
+    //#region Private methods
+
     @LoggerMethodDecorator
     private async getNextDisplayOrderOnGroup(userId?: number, groupLinkId?: number): Promise<number | null> {
         if (!userId || !groupLinkId) {
@@ -290,4 +302,6 @@ export class LinkRepository implements ILinkRepository {
         const NEXT_DISPLAY_ORDER = (MAX_DISPLAY_ORDER.maxDisplayOrder || 0) + 1;
         return NEXT_DISPLAY_ORDER;
     }
+
+    //#endregion
 }

@@ -16,7 +16,7 @@ export class LinkEntity extends EntityBase {
     @PrimaryGeneratedColumn({ name: 'link_id' })
     id!: number;
 
-    @Column({ name: 'group_link_id', nullable: true, default: null })
+    @Column({ name: 'group_link_id', nullable: true, default: null, type: 'int' })
     groupLinkId?: number | null;
 
     @Column({ type: 'varchar', length: API_LINK_CONSTANT.MEDIUM_TEXT_MAX_LENGTH })
@@ -35,7 +35,7 @@ export class LinkEntity extends EntityBase {
     displayOrder?: number | null;
 
     @OneToMany(() => TagEntity, (tag) => tag.link)
-    tagList?: TagEntity[];
+    tagList!: TagEntity[];
 
     @ManyToOne(() => GroupLinkEntity, (groupLink) => groupLink.linkList)
     @JoinColumn({ name: 'group_link_id' })

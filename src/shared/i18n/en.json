@@ -68,8 +68,14 @@
             "could_not_update_link": "Could not updated link with name: {0}",
             "could_not_delete_link": "Could not deleted link with name: {0}"
         },
-        "link_tag": {
-            "link_tag_with_id_not_found": "The Tag associated with the Link ID {0} was not found."
+        "tag": {
+            "tag_with_id_not_found": "Tag with id: {0}, not found.",
+            "wrong_name_argument": "Wrong name argument.",
+            "wrong_id_argument": "Wrong id argument.",
+            "wrong_link_id_argument": "Wrong link argument.",
+            "could_not_create_tag": "Could not created tag with name: {0}",
+            "could_not_update_tag": "Could not updated tag with name: {0}",
+            "could_not_delete_tag": "Could not deleted tag with name: {0}"
         }
     }
 }

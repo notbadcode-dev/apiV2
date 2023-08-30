@@ -5,8 +5,6 @@ import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
 export interface IGroupLinkRepository {
     create(link: GroupLinkEntity): Promise<GroupLinkEntity>;
 
-    associateLinkListToGroup(groupLinkId: number): Promise<boolean>;
-
     getById(groupLinkId: number): Promise<GroupLinkEntity>;
 
     getAll(): Promise<GroupLinkEntity[]>;

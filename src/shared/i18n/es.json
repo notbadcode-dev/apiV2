@@ -68,8 +68,14 @@
             "could_not_update_link": "No se pudo actualizar el link con el nombre: {0}",
             "could_not_delete_link": "No se pudo borrar el link con el nombre: {0}"
         },
-        "link_tag": {
-            "link_tag_with_id_not_found": "No se encontró el Tag asociado al Link con la identificación: {0}."
+        "tag": {
+            "tag_with_id_not_found": "No se encontró el tag con la identificación: {0}.",
+            "wrong_name_argument": "Argumento de nombre incorrecto.",
+            "wrong_id_argument": "Argumento de id incorrecto.",
+            "wrong_link_id_argument": "Argumento de link incorrecto.",
+            "could_not_create_tag": "No se pudo crear el tag con el nombre: {0}",
+            "could_not_update_tag": "No se pudo actualizar el tag con el nombre: {0}",
+            "could_not_delete_tag": "No se pudo borrar el tag con el nombre: {0}"
         }
     }
 }

@@ -12,7 +12,12 @@ export class TagEntity extends EntityBase {
     @Column({ type: 'varchar', length: TAG_CONSTANT.TAG_MAX_LENGTH })
     name!: string;
 
+    @Index('ix_link_id')
+    @Column({ name: 'link_id' })
+    linkId!: number;
+
     @ManyToOne(() => LinkEntity, (link) => link.tagList)
+    @JoinColumn({ name: 'link_id' })
     link!: LinkEntity;
 
     @ManyToOne(() => UserLinkRelationEntity, (user) => user.tagList)

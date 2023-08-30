@@ -1,0 +1,4 @@
+export const AUTOCOMPLETE_CONSTANT = {
+    DEFAULT_SKIP: 0,
+    DEFAULT_TAKE: 10,
+};

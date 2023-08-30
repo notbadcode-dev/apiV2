@@ -24,6 +24,8 @@ export const LINK_GROUP_ENTITY = 'GroupLinkEntity';
 
 @Service(GROUP_LINK_REPOSITORY_TOKEN)
 export class GroupLinkRepository implements IGroupLinkRepository {
+    //#region Constructor
+
     constructor(
         @Inject(LINK_GROUP_ENTITY)
         private readonly _linkGroupRepository: Repository<GroupLinkEntity>,
@@ -31,6 +33,10 @@ export class GroupLinkRepository implements IGroupLinkRepository {
         @Inject()
         private _dataSource: DataSource
     ) {}
+
+    //#endregion
+
+    //#region Public methods
 
     @LoggerMethodDecorator
     public async create(groupLinkEntity: GroupLinkEntity): Promise<GroupLinkEntity> {
@@ -69,25 +75,6 @@ export class GroupLinkRepository implements IGroupLinkRepository {
 
         const UPDATED_GROUP_LINK_ENTITY: GroupLinkEntity = await this.getById(updateGroupLinkEntity.id);
         return UPDATED_GROUP_LINK_ENTITY;
-    }
-
-    public async associateLinkListToGroup(groupLinkId: number): Promise<boolean> {
-        const USER_ID: number = this._tokenService.getCurrentUserId();
-        const GROUP_LINK_ENTITY: GroupLinkEntity | null = await this._linkGroupRepository.findOneBy({ id: groupLinkId, userId: USER_ID });
-
-        const QUERY_RUNNER: QueryRunner = this._dataSource.createQueryRunner();
-        QUERY_RUNNER.connect();
-        QUERY_RUNNER.startTransaction();
-
-        if (!GROUP_LINK_ENTITY || !GROUP_LINK_ENTITY.id) {
-            throw new NotFountError(ERROR_MESSAGE_GROUP_LINK.GROUP_LINK_WITH_ID_NOT_FOUND(groupLinkId));
-        }
-
-        await QUERY_RUNNER.commitTransaction();
-        await QUERY_RUNNER.release();
-
-        const SAVED_GROUP: GroupLinkEntity = await this.getById(GROUP_LINK_ENTITY.id);
-        return !!SAVED_GROUP;
     }
 
     @LoggerMethodDecorator
@@ -194,4 +181,6 @@ export class GroupLinkRepository implements IGroupLinkRepository {
         const NEXT_DISPLAY_ORDER = (MAX_DISPLAY_ORDER.maxDisplayOrder || 0) + 1;
         return NEXT_DISPLAY_ORDER;
     }
+
+    //#endregion
 }
