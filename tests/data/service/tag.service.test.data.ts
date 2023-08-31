@@ -3,6 +3,7 @@ import { ERROR_MESSAGE_UTIL } from '@constant/error-message/error-message-util.c
 import { TagEntity } from '@entity/tag.entity';
 import { ArgumentError } from '@error/argument.error';
 import { InternalServerError } from '@error/internal-server.error';
+import { AutocompleteSearchHelper, IAutocompleteSearch } from '@model/autocomplete/autocomplete-search.model';
 import { ITagCreate } from '@model/tag/tag-create.model';
 import { ITag } from '@model/tag/tag.model';
 
@@ -62,6 +63,25 @@ export class TagServiceTestData {
             id: 1,
         };
     }
+
+    //#endregion
+
+    //#region return IAutocompleteSearch
+
+    public getDefaultAutocompleteSearch(): IAutocompleteSearch {
+        return AutocompleteSearchHelper.getDefault();
+    }
+
+    public getAutocompleteSearchWithSearchText(): IAutocompleteSearch {
+        return {
+            ...AutocompleteSearchHelper.getDefault(),
+            search: 'Test text',
+        };
+    }
+
+    //#endregion
+
+    //#region return IAutocompleteResult<ITag>
 
     //#endregion
 

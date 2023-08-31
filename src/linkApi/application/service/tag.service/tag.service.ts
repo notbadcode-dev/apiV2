@@ -3,7 +3,7 @@ import { ERROR_MESSAGE_TAG } from '@constant/error-message/error-message-tag.con
 import { TagEntity } from '@entity/tag.entity';
 import { ArgumentError } from '@error/argument.error';
 import { TagEntityToTagMapper, TAG_ENTITY_TO_TAG_MAPPER } from '@mapper/tag/tagEntityToTag.mapper/tagEntityToTag.mapper';
-import { IAutocompleteResult, IAutocompleteResultHelper } from '@model/autocomplete/autocomplete-result.model';
+import { AutocompleteResultHelper, IAutocompleteResult } from '@model/autocomplete/autocomplete-result.model';
 import { IAutocompleteSearch } from '@model/autocomplete/autocomplete-search.model';
 import { ITagCreate } from '@model/tag/tag-create.model';
 import { ITag } from '@model/tag/tag.model';
@@ -51,13 +51,13 @@ export class TagService implements ITagService {
         const SEARCH_TEXT: string = tagAutocompleteSearch?.search ?? '';
 
         if (!SEARCH_TEXT?.length) {
-            return IAutocompleteResultHelper.mapFromAutocompleteSearch(tagAutocompleteSearch, new Array<ITag>());
+            return AutocompleteResultHelper.mapFromAutocompleteSearch(tagAutocompleteSearch, new Array<ITag>());
         }
 
         const TAG_ENTITY_LIST = await this._tagRepository.getAll();
 
         if (!TAG_ENTITY_LIST?.length) {
-            return IAutocompleteResultHelper.mapFromAutocompleteSearch(tagAutocompleteSearch, new Array<ITag>());
+            return AutocompleteResultHelper.mapFromAutocompleteSearch(tagAutocompleteSearch, new Array<ITag>());
         }
 
         let tagListFilteredWithSearchText: ITag[] = this.getTagListFilteredWithSearchText(
@@ -67,7 +67,7 @@ export class TagService implements ITagService {
 
         tagListFilteredWithSearchText = this.getTagListFiltered(tagListFilteredWithSearchText, tagAutocompleteSearch);
 
-        const AUTOCOMPLETE_RESULT = IAutocompleteResultHelper.mapFromAutocompleteSearch(
+        const AUTOCOMPLETE_RESULT = AutocompleteResultHelper.mapFromAutocompleteSearch(
             tagAutocompleteSearch,
             tagListFilteredWithSearchText
         );

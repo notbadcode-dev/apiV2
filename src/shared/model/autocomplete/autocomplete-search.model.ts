@@ -9,9 +9,10 @@ export interface IAutocompleteSearch extends IAutocompleteCommon {
     returnedLastUsedItems: boolean;
 }
 
-export class IAutocompleteSearchHelper {
+export class AutocompleteSearchHelper {
     static getDefault(): IAutocompleteSearch {
         return {
+            search: '',
             skip: AUTOCOMPLETE_CONSTANT.DEFAULT_SKIP,
             take: AUTOCOMPLETE_CONSTANT.DEFAULT_TAKE,
             returnExcludedList: false,

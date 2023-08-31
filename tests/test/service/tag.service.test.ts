@@ -2,6 +2,7 @@ import { TagEntity } from '@entity/tag.entity';
 import { ArgumentError } from '@error/argument.error';
 import { InternalServerError } from '@error/internal-server.error';
 import { TagEntityToTagMapper } from '@mapper/tag/tagEntityToTag.mapper/tagEntityToTag.mapper';
+import { IAutocompleteResult } from '@model/autocomplete/autocomplete-result.model';
 import { ITagCreate } from '@model/tag/tag-create.model';
 import { ITag } from '@model/tag/tag.model';
 import { TagRepository } from '@repository/tag.repository/tag.repository';
@@ -127,5 +128,92 @@ describe('deleteLink', () => {
 
         // Assert
         expect(RESULT).toBe(true);
+    });
+});
+
+describe('getAutocomplete', () => {
+    describe('getAutocomplete', () => {
+        it('Should return empty result when search text is empty', async () => {
+            // Act
+            const RESULT: IAutocompleteResult<ITag> = await _tagServiceMock.getAutocomplete(
+                TAG_SERVICE_TEST_DATA.getDefaultAutocompleteSearch()
+            );
+
+            // Assert
+            expect(RESULT.search?.length).toStrictEqual(0);
+            expect(RESULT.itemList?.length).toStrictEqual(0);
+            expect(RESULT.lastUsedItemList?.length).toStrictEqual(0);
+        });
+
+        it('Should return empty result when tag list is empty', async () => {
+            // Arrange
+            when(_tagRepositoryMock.getAll()).thenResolve([]);
+
+            // Act
+            const RESULT: IAutocompleteResult<ITag> = await _tagServiceMock.getAutocomplete(
+                TAG_SERVICE_TEST_DATA.getAutocompleteSearchWithSearchText()
+            );
+
+            // Assert
+            expect(RESULT.search?.length).toBeGreaterThan(0);
+            expect(RESULT.itemList?.length).toStrictEqual(0);
+            expect(RESULT.lastUsedItemList?.length).toStrictEqual(0);
+        });
+
+        it('Should return all tags when search text is empty and returnExcludedList is true', async () => {
+            // TODO: Implementar prueba: Debería devolver todas las etiquetas cuando el texto de búsqueda está vacío y returnExcludedList es true
+        });
+
+        it('Should filter excluded items and return last used items when configured', async () => {
+            // TODO: Implementar prueba: Debería filtrar elementos excluidos y devolver elementos utilizados recientemente cuando está configurado
+        });
+
+        it('Should return filtered and mapped results when search text is provided', async () => {
+            // TODO: Implementar prueba: Debería devolver resultados filtrados y mapeados cuando se proporciona el texto de búsqueda
+        });
+
+        it('Should filter excluded items when returnExcludedList is true', async () => {
+            // TODO: Implementar prueba: Debería filtrar elementos excluidos cuando returnExcludedList es true
+        });
+
+        it('Should return last used items when returnedLastUsedItems is true', async () => {
+            // TODO: Implementar prueba: Debería devolver elementos utilizados recientemente cuando returnedLastUsedItems es true
+        });
+
+        it('Should filter excluded items and return last used items when both configurations are true', async () => {
+            // TODO: Implementar prueba: Debería filtrar elementos excluidos y devolver elementos utilizados recientemente cuando ambas configuraciones son true
+        });
+
+        it('Should return last used items even if no other results match', async () => {
+            // TODO: Implementar prueba: Debería devolver elementos utilizados recientemente incluso si no coinciden con otros resultados
+        });
+
+        it('Should skip specified number of items', async () => {
+            // TODO: Implementar prueba: Debería omitir el número especificado de elementos
+        });
+
+        it('Should take specified number of items', async () => {
+            // TODO: Implementar prueba: Debería tomar el número especificado de elementos
+        });
+
+        it('Should return correct results when both skip and take are specified', async () => {
+            // TODO: Implementar prueba: Debería devolver resultados correctos cuando se especifican ambos omitir y tomar
+        });
+
+        it('Should take default "take" value if not provided', async () => {
+            // TODO: Implementar prueba: Debería tomar el valor predeterminado de "take" si no se proporciona
+        });
+
+        it('Should skip default "skip" value if not provided', async () => {
+            // TODO: Implementar prueba: Debería omitir el valor predeterminado de "skip" si no se proporciona
+        });
+
+        it('Last used items list should have a maximum of 3 items', async () => {
+            // TODO: Implementar prueba: La lista de elementos utilizados recientemente debería tener un máximo de 3 elementos
+        });
+
+        it('Should not consider excluded items if they are part of excludedItemContainTextList', async () => {
+            // TODO: Implementar prueba: No debería considerar elementos excluidos si están en excludedItemContainTextList y buscarlos de todos modos
+        });
     });
 });

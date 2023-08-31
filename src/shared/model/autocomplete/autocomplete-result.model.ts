@@ -8,7 +8,7 @@ export interface IAutocompleteResult<T> extends IAutocompleteCommon {
     lastUsedItemList: T[];
 }
 
-export class IAutocompleteResultHelper {
+export class AutocompleteResultHelper {
     static mapFromAutocompleteSearch<T>(
         autocompleteSearch: IAutocompleteSearch,
         itemList: T[],
