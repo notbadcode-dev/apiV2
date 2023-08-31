@@ -3,6 +3,7 @@ import { ERROR_MESSAGE_UTIL } from '@constant/error-message/error-message-util.c
 import { TagEntity } from '@entity/tag.entity';
 import { ArgumentError } from '@error/argument.error';
 import { InternalServerError } from '@error/internal-server.error';
+import { AutocompleteResultHelper, IAutocompleteResult } from '@model/autocomplete/autocomplete-result.model';
 import { AutocompleteSearchHelper, IAutocompleteSearch } from '@model/autocomplete/autocomplete-search.model';
 import { ITagCreate } from '@model/tag/tag-create.model';
 import { ITag } from '@model/tag/tag.model';
@@ -59,8 +60,8 @@ export class TagServiceTestData {
 
     public getTag(): ITag {
         return {
-            ...this.getTagCreateWithEmptyName(),
             id: 1,
+            name: 'Test Tag',
         };
     }
 
@@ -75,13 +76,25 @@ export class TagServiceTestData {
     public getAutocompleteSearchWithSearchText(): IAutocompleteSearch {
         return {
             ...AutocompleteSearchHelper.getDefault(),
-            search: 'Test text',
+            search: this.getTag().name,
         };
     }
 
     //#endregion
 
     //#region return IAutocompleteResult<ITag>
+
+    public getDefaultAutocompleteResult(): IAutocompleteResult<ITag> {
+        return AutocompleteResultHelper.mapFromAutocompleteSearch(this.getDefaultAutocompleteSearch(), [], []);
+    }
+
+    public getAutocompleteResultWhenExistTagNameContainsSearchText(): IAutocompleteResult<ITag> {
+        return {
+            ...this.getDefaultAutocompleteResult(),
+            search: this.getTag().name,
+            itemList: [this.getTag()],
+        };
+    }
 
     //#endregion
 

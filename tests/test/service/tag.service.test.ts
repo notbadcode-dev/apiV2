@@ -160,8 +160,21 @@ describe('getAutocomplete', () => {
             expect(RESULT.lastUsedItemList?.length).toStrictEqual(0);
         });
 
-        it('Should return all tags when search text is empty and returnExcludedList is true', async () => {
-            // TODO: Implementar prueba: Debería devolver todas las etiquetas cuando el texto de búsqueda está vacío y returnExcludedList es true
+        it('Should return autocomplete result tag list when any tag name contains search text', async () => {
+            // Arrange
+            when(_tagRepositoryMock.getAll()).thenResolve([TAG_SERVICE_TEST_DATA.getTagEntity()]);
+            when(_tagEntityToTagMapperMock.mapToList(anything())).thenReturn([TAG_SERVICE_TEST_DATA.getTag()]);
+
+            // Act
+            const RESULT: IAutocompleteResult<ITag> = await _tagServiceMock.getAutocomplete(
+                TAG_SERVICE_TEST_DATA.getAutocompleteSearchWithSearchText()
+            );
+
+            // Assert
+            expect(RESULT.search?.length).toBeGreaterThan(0);
+            expect(RESULT.itemList?.length).toStrictEqual(1);
+            expect(RESULT.itemList.at(0)?.name).toStrictEqual(TAG_SERVICE_TEST_DATA.getTag().name);
+            expect(RESULT.itemList.at(0)?.id).toStrictEqual(TAG_SERVICE_TEST_DATA.getTag().id);
         });
 
         it('Should filter excluded items and return last used items when configured', async () => {
