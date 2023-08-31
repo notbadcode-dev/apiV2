@@ -144,15 +144,17 @@ export class TagService implements ITagService {
 
     @LoggerMethodDecorator
     private getTagListFilteredWithTagNameContainsText(tagList: ITag[], excludedItemContainTextList: string[]): ITag[] {
-        if (!excludedItemContainTextList?.length) {
+        const CLEAN_EXCLUDED_TEXT_LIST = excludedItemContainTextList
+            .map((text: string) => text.trim().toLowerCase())
+            .filter((text: string) => text.length > 0);
+
+        if (CLEAN_EXCLUDED_TEXT_LIST.length === 0) {
             return tagList;
         }
 
-        const EXCLUDED_TEXT_LIST: string[] = excludedItemContainTextList.map((text: string) => text.trim().toLowerCase());
-
         let tagContainTextList: ITag[] = tagList;
 
-        for (const EXCLUDED_TEXT of EXCLUDED_TEXT_LIST) {
+        for (const EXCLUDED_TEXT of CLEAN_EXCLUDED_TEXT_LIST) {
             tagContainTextList = tagContainTextList.filter((tag: ITag) => !tag?.name.trim().toLowerCase().includes(EXCLUDED_TEXT));
         }
 
