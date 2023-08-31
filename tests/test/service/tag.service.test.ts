@@ -1,4 +1,6 @@
 import { TagEntity } from '@entity/tag.entity';
+import { ArgumentError } from '@error/argument.error';
+import { InternalServerError } from '@error/internal-server.error';
 import { TagEntityToTagMapper } from '@mapper/tag/tagEntityToTag.mapper/tagEntityToTag.mapper';
 import { ITagCreate } from '@model/tag/tag-create.model';
 import { ITag } from '@model/tag/tag.model';
@@ -8,7 +10,7 @@ import { TagService } from '@service/tag.service/tag.service';
 import { ITagService } from '@service/tag.service/tag.service.interface';
 import { GenericTestData } from '@testData/service/generic.test.data';
 import { TagServiceTestData } from '@testData/service/tag.service.test.data';
-import { anything, instance, mock, when } from 'ts-mockito';
+import { anyNumber, anything, instance, mock, when } from 'ts-mockito';
 
 //#region Attributes
 
@@ -44,6 +46,7 @@ const TAG: ITag = TAG_SERVICE_TEST_DATA.getTag();
 const TAG_ENTITY: TagEntity = TAG_SERVICE_TEST_DATA.getTagEntity();
 const TAG_EMPTY_NAME_ARGUMENT_ERROR = TAG_SERVICE_TEST_DATA.getArgumentErrorEmptyTagName();
 const TAG_LINK_ID_ARGUMENT_ERROR = TAG_SERVICE_TEST_DATA.getArgumentErrorWrongLinkId();
+const TAG_WRONG_ID_ARGUMENT_ERROR: ArgumentError = TAG_SERVICE_TEST_DATA.getArgumentErrorWrongId();
 const USER_ID = GENERIC_TEST_DATA.getUserId();
 
 //#endregion
@@ -88,5 +91,41 @@ describe('createTag', () => {
         expect(RESULT?.id).not.toBeNull();
         expect(RESULT?.id).toBeGreaterThan(0);
         expect(RESULT?.id).toEqual(TAG.id);
+    });
+});
+
+describe('deleteLink', () => {
+    const INTERNAL_SERVER_ERROR_DELETE_LINK: InternalServerError = TAG_SERVICE_TEST_DATA.getInternalServerErrorNotDeleteLink(
+        TAG_ENTITY.name
+    );
+
+    it('Deleting a tag with zero ID should throw an argument error', async () => {
+        // Act & Assert
+        await expect(_tagServiceMock.deleteTag(anyNumber())).rejects.toThrow(TAG_WRONG_ID_ARGUMENT_ERROR);
+    });
+
+    it('Deleting a tag with nullish Id should throw an argument error', async () => {
+        // Act & Assert
+        await expect(_tagServiceMock.deleteTag(Number(null))).rejects.toThrow(TAG_WRONG_ID_ARGUMENT_ERROR);
+    });
+
+    it('Should throw error when delete operation fails', async () => {
+        // Arrange
+        when(_tagRepositoryMock.delete(TAG_ENTITY.id)).thenReject(INTERNAL_SERVER_ERROR_DELETE_LINK);
+
+        // Act & Assert
+        await expect(_tagServiceMock.deleteTag(TAG_ENTITY.id)).rejects.toThrowError(INTERNAL_SERVER_ERROR_DELETE_LINK);
+    });
+
+    it('Should delete existing tag and return true', async () => {
+        // Arrange
+        when(_tagRepositoryMock.getById(TAG_ENTITY.id)).thenResolve(TAG_ENTITY);
+        when(_tagRepositoryMock.delete(TAG_ENTITY.id)).thenResolve(true);
+
+        // Act
+        const RESULT: boolean = await _tagServiceMock.deleteTag(TAG_ENTITY.id);
+
+        // Assert
+        expect(RESULT).toBe(true);
     });
 });

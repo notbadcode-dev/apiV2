@@ -3,7 +3,7 @@ import { ITag } from '@model/tag/tag.model';
 import { Authority } from '@service/decorator/authority.decorator';
 import { TagService, TAG_SERVICE_TOKEN } from '@service/tag.service/tag.service';
 import { Request } from 'express';
-import { Body, JsonController, Post, Req } from 'routing-controllers';
+import { Body, Delete, JsonController, Param, Post, Req } from 'routing-controllers';
 import { Inject, Service } from 'typedi';
 
 @Service()
@@ -26,10 +26,10 @@ export class UserController {
     //     return RESULT;
     // }
 
-    // @Authority
-    // @Delete('/:id')
-    // async deleteLink(@Req() req: Request, @Param('id') linkId: number): Promise<boolean> {
-    //     const RESULT: boolean = await this._linkService.deleteLink(linkId);
-    //     return RESULT;
-    // }
+    @Authority
+    @Delete('/:id')
+    async deleteLink(@Req() req: Request, @Param('id') tagId: number): Promise<boolean> {
+        const RESULT: boolean = await this._tagService.deleteTag(tagId);
+        return RESULT;
+    }
 }

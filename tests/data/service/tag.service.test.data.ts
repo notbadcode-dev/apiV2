@@ -83,6 +83,10 @@ export class TagServiceTestData {
         return new InternalServerError(ERROR_MESSAGE_UTIL.NOT_MATCH_PARAM_ID_BODY_ID);
     }
 
+    public getInternalServerErrorNotDeleteLink(tagName: string): InternalServerError {
+        return new InternalServerError(ERROR_MESSAGE_TAG.COULD_NOT_DELETE_TAG(tagName));
+    }
+
     //#endregion
 
     //#endregion

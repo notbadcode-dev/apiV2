@@ -6,7 +6,7 @@ import { ITagRepository } from '@repository/tag.repository/tag.repository.interf
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
 import { TokenService, TOKEN_SERVICE_TOKEN } from '@service/middleware/token.service/token.service';
 import { Inject, Service, Token } from 'typedi';
-import { DataSource, QueryRunner, Repository } from 'typeorm';
+import { DataSource, DeleteResult, QueryRunner, Repository } from 'typeorm';
 
 export const TAG_REPOSITORY_TOKEN = new Token<ITagRepository>('TagRepository');
 export const TAG_ENTITY_REPOSITORY_TOKEN = TagEntity.name;
@@ -47,12 +47,8 @@ export class TagRepository {
         return CREATED_LINK_ENTITY;
     }
 
-    //#endregion
-
-    //#region Private methods
-
     @LoggerMethodDecorator
-    private async getById(tagId: number): Promise<TagEntity> {
+    public async getById(tagId: number): Promise<TagEntity> {
         const USER_ID: number = this._tokenService.getCurrentUserId();
         const TAG_ENTITY: TagEntity | null = await this._tagRepository.findOne({
             where: {
@@ -66,6 +62,31 @@ export class TagRepository {
         }
 
         return TAG_ENTITY;
+    }
+
+    @LoggerMethodDecorator
+    public async delete(deleteTagId: number): Promise<boolean> {
+        const DELETE_TAG_ENTITY: TagEntity | null = await this.getById(deleteTagId);
+
+        if (!DELETE_TAG_ENTITY || !DELETE_TAG_ENTITY?.id) {
+            throw new NotFountError(ERROR_MESSAGE_TAG.TAG_WITH_ID_NOT_FOUND(deleteTagId));
+        }
+
+        const QUERY_RUNNER: QueryRunner = this._dataSource.createQueryRunner();
+        QUERY_RUNNER.connect();
+        QUERY_RUNNER.startTransaction();
+
+        const DELETED_TAG: DeleteResult = await QUERY_RUNNER.manager.delete(TagEntity, DELETE_TAG_ENTITY?.id);
+
+        if (!DELETED_TAG || !DELETED_TAG?.affected) {
+            await QUERY_RUNNER.rollbackTransaction();
+            throw new InternalServerError(ERROR_MESSAGE_TAG.COULD_NOT_DELETE_TAG(DELETE_TAG_ENTITY?.name ?? ''));
+        }
+
+        await QUERY_RUNNER.commitTransaction();
+        await QUERY_RUNNER.release();
+
+        return DELETED_TAG?.affected > 0;
     }
 
     //#endregion

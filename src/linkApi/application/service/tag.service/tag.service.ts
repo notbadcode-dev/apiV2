@@ -44,6 +44,14 @@ export class TagService implements ITagService {
         return TAG;
     }
 
+    @LoggerMethodDecorator
+    public async deleteTag(deleteTagId: number): Promise<boolean> {
+        this.validateId(deleteTagId);
+
+        const SUCCESSFULLY_DELETE_TAG = await this._tagRepository.delete(deleteTagId);
+        return SUCCESSFULLY_DELETE_TAG;
+    }
+
     //#region Private methods
 
     @LoggerMethodDecorator

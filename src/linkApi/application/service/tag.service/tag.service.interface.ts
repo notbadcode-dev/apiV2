@@ -3,4 +3,6 @@ import { ITag } from '@model/tag/tag.model';
 
 export interface ITagService {
     createTag(createTag: ITagCreate): Promise<ITag>;
+
+    deleteTag(deleteTagId: number): Promise<boolean>;
 }
