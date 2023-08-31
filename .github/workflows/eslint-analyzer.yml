@@ -18,9 +18,7 @@ jobs:
               uses: actions/cache@v3
               with:
                   path: ~/.npm
-                  key: ${{ runner.os }}-node-${{
-                      hashFiles('**/package-lock.json')
-                      }}
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
                   restore-keys: |
                       ${{ runner.os }}-node-
             - name: Use Node.js ${{ matrix.node-version }}
@@ -28,7 +26,7 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
             - run: npm install
-            - run: npm run lint > eslint-report.txt 2>&1 || true
+            - run: npm run lint > eslint-report.txt 2>&1 || echo "All right here 👌" > eslint-report.txt
             - run: |
                   sed -i 's/src\//\nFile: src\//g' eslint-report.txt
                   sed -i 's/  \([0-9]\+\):\([0-9]\+\)/  Line \1, Column \2:/g' eslint-report.txt
