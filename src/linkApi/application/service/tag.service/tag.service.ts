@@ -3,6 +3,8 @@ import { ERROR_MESSAGE_TAG } from '@constant/error-message/error-message-tag.con
 import { TagEntity } from '@entity/tag.entity';
 import { ArgumentError } from '@error/argument.error';
 import { TagEntityToTagMapper, TAG_ENTITY_TO_TAG_MAPPER } from '@mapper/tag/tagEntityToTag.mapper/tagEntityToTag.mapper';
+import { IAutocompleteResult, IAutocompleteResultHelper } from '@model/autocomplete/autocomplete-result.model';
+import { IAutocompleteSearch } from '@model/autocomplete/autocomplete-search.model';
 import { ITagCreate } from '@model/tag/tag-create.model';
 import { ITag } from '@model/tag/tag.model';
 import { TagRepository, TAG_REPOSITORY_TOKEN } from '@repository/tag.repository/tag.repository';
@@ -45,6 +47,42 @@ export class TagService implements ITagService {
     }
 
     @LoggerMethodDecorator
+    public async getAutocomplete(tagAutocompleteSearch: IAutocompleteSearch): Promise<IAutocompleteResult<ITag>> {
+        const SEARCH_TEXT: string = tagAutocompleteSearch?.search ?? '';
+
+        if (!SEARCH_TEXT?.length) {
+            return IAutocompleteResultHelper.mapFromAutocompleteSearch(tagAutocompleteSearch, new Array<ITag>());
+        }
+
+        const TAG_ENTITY_LIST = await this._tagRepository.getAll();
+
+        if (!TAG_ENTITY_LIST?.length) {
+            return IAutocompleteResultHelper.mapFromAutocompleteSearch(tagAutocompleteSearch, new Array<ITag>());
+        }
+
+        let tagListFilteredWithSearchText: ITag[] = this.getTagListFilteredWithSearchText(
+            this._tagEntityToTagMapper.mapToList(TAG_ENTITY_LIST),
+            SEARCH_TEXT
+        );
+
+        tagListFilteredWithSearchText = this.getTagListFiltered(tagListFilteredWithSearchText, tagAutocompleteSearch);
+
+        const AUTOCOMPLETE_RESULT = IAutocompleteResultHelper.mapFromAutocompleteSearch(
+            tagAutocompleteSearch,
+            tagListFilteredWithSearchText
+        );
+
+        if (tagAutocompleteSearch.returnedLastUsedItems) {
+            const LAST_USED_ITEMS: TagEntity[] = await this._tagRepository.getLastUsedTagList();
+            const LAST_USED_TAG_LIST = this._tagEntityToTagMapper.mapToList(LAST_USED_ITEMS);
+
+            AUTOCOMPLETE_RESULT.lastUsedItemList = this.getTagListFiltered(LAST_USED_TAG_LIST, tagAutocompleteSearch);
+        }
+
+        return AUTOCOMPLETE_RESULT;
+    }
+
+    @LoggerMethodDecorator
     public async deleteTag(deleteTagId: number): Promise<boolean> {
         this.validateId(deleteTagId);
 
@@ -82,9 +120,57 @@ export class TagService implements ITagService {
     }
 
     @LoggerMethodDecorator
-    private validateArgumentForUpdateLink(updateTag: ITag): void {
-        this.validateName(updateTag?.name?.trim());
-        this.validateId(updateTag?.id);
+    private getTagListFilteredWithSearchText(tagList: ITag[], searchText: string): ITag[] {
+        if (!tagList?.length || !searchText?.length) {
+            return new Array<ITag>();
+        }
+
+        return tagList.filter((tag: ITag) =>
+            tag.name
+                .trim()
+                .toLowerCase()
+                .includes(searchText?.trim().toLowerCase() ?? '')
+        );
+    }
+
+    @LoggerMethodDecorator
+    private getTagListFilteredWithExcludedItemIdList(tagList: ITag[], excludedItemIdList: number[]): ITag[] {
+        if (!excludedItemIdList?.length) {
+            return tagList;
+        }
+
+        return tagList.filter((tag: ITag) => !excludedItemIdList?.includes(tag?.id ?? 0));
+    }
+
+    @LoggerMethodDecorator
+    private getTagListFilteredWithTagNameContainsText(tagList: ITag[], excludedItemContainTextList: string[]): ITag[] {
+        if (!excludedItemContainTextList?.length) {
+            return tagList;
+        }
+
+        const EXCLUDED_TEXT_LIST: string[] = excludedItemContainTextList.map((text: string) => text.trim().toLowerCase());
+
+        let tagContainTextList: ITag[] = tagList;
+
+        for (const EXCLUDED_TEXT of EXCLUDED_TEXT_LIST) {
+            tagContainTextList = tagContainTextList.filter((tag: ITag) => !tag?.name.trim().toLowerCase().includes(EXCLUDED_TEXT));
+        }
+
+        return tagContainTextList;
+    }
+
+    @LoggerMethodDecorator
+    private getTagListFiltered(tagListFilteredWithSearchText: ITag[], tagAutocompleteSearch: IAutocompleteSearch): ITag[] {
+        tagListFilteredWithSearchText = this.getTagListFilteredWithExcludedItemIdList(
+            tagListFilteredWithSearchText,
+            tagAutocompleteSearch?.excludedItemIdList ?? []
+        );
+
+        tagListFilteredWithSearchText = this.getTagListFilteredWithTagNameContainsText(
+            tagListFilteredWithSearchText,
+            tagAutocompleteSearch?.excludedItemContainTextList ?? []
+        );
+        return tagListFilteredWithSearchText;
     }
 
     //#endregion

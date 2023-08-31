@@ -1,3 +1,5 @@
+import { IAutocompleteResult } from '@model/autocomplete/autocomplete-result.model';
+import { IAutocompleteSearch } from '@model/autocomplete/autocomplete-search.model';
 import { ITagCreate } from '@model/tag/tag-create.model';
 import { ITag } from '@model/tag/tag.model';
 import { Authority } from '@service/decorator/authority.decorator';
@@ -18,13 +20,12 @@ export class UserController {
         return RESULT;
     }
 
-    // @Authority
-    // @Get('/')
-    // // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
-    // async getLinkList(@Req() req: Request): Promise<ILink[]> {
-    //     const RESULT: ILink[] = await this._linkService.getLinkList();
-    //     return RESULT;
-    // }
+    @Authority
+    @Post('/autocomplete/')
+    async getAutocomplete(@Req() req: Request, @Body() tagAutocompleteSearch: IAutocompleteSearch): Promise<IAutocompleteResult<ITag>> {
+        const RESULT: IAutocompleteResult<ITag> = await this._tagService.getAutocomplete(tagAutocompleteSearch);
+        return RESULT;
+    }
 
     @Authority
     @Delete('/:id')

@@ -1,5 +1,4 @@
-export interface IAutocompleteCommon<T> {
-    excludedItemList?: T[];
+export interface IAutocompleteCommon {
     excludedItemIdList?: number[];
     excludedItemContainTextList?: string[];
 }

@@ -1,3 +1,5 @@
+import { AUTOCOMPLETE_CONSTANT } from '@constant/autocomplete.constant';
+import { ENTITY_CONSTANT } from '@constant/entity.constant';
 import { ERROR_MESSAGE_TAG } from '@constant/error-message/error-message-tag.constant';
 import { TagEntity } from '@entity/tag.entity';
 import { InternalServerError } from '@error/internal-server.error';
@@ -45,6 +47,30 @@ export class TagRepository {
 
         const CREATED_LINK_ENTITY: TagEntity = await this.getById(SAVED_CREATED_LINK?.id);
         return CREATED_LINK_ENTITY;
+    }
+
+    @LoggerMethodDecorator
+    public async getAll(): Promise<TagEntity[]> {
+        const USER_ID = this._tokenService.getCurrentUserId();
+
+        const TAG_ENTITY_LIST = await this._tagRepository.find({
+            where: { userId: USER_ID },
+        });
+
+        const RESULT: TagEntity[] = TAG_ENTITY_LIST ?? new Array<TagEntity>();
+        return RESULT;
+    }
+
+    @LoggerMethodDecorator
+    public async getLastUsedTagList(numberOfLastUsedItems = AUTOCOMPLETE_CONSTANT.DEFAULT_NUMBER_OF_USED_ITEMS): Promise<TagEntity[]> {
+        const USER_ID = this._tokenService.getCurrentUserId();
+        const TAG_ENTITY_LIST = await this._tagRepository.find({
+            where: { userId: USER_ID },
+            order: { createdAt: ENTITY_CONSTANT.FIND_DESCENDING_ORDER },
+            take: numberOfLastUsedItems,
+        });
+
+        return TAG_ENTITY_LIST;
     }
 
     @LoggerMethodDecorator
