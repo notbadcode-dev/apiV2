@@ -177,56 +177,149 @@ describe('getAutocomplete', () => {
             expect(RESULT.itemList.at(0)?.id).toStrictEqual(TAG_SERVICE_TEST_DATA.getTag().id);
         });
 
-        it('Should filter excluded items and return last used items when configured', async () => {
-            // TODO: Implementar prueba: Debería filtrar elementos excluidos y devolver elementos utilizados recientemente cuando está configurado
+        it('Should return autocomplete result tag list and filter excluded item id when returned excluded item is TRUE and match item id', async () => {
+            // Arrange
+            when(_tagRepositoryMock.getAll()).thenResolve([TAG_SERVICE_TEST_DATA.getTagEntity()]);
+            when(_tagEntityToTagMapperMock.mapToList(anything())).thenReturn(TAG_SERVICE_TEST_DATA.getTagList());
+
+            // Act
+            const RESULT: IAutocompleteResult<ITag> = await _tagServiceMock.getAutocomplete(
+                TAG_SERVICE_TEST_DATA.getAutocompleteSearchWithReturnedExcludedListIsFalseAndExcludedItemIdListInformedAndMatch()
+            );
+
+            // Assert
+            expect(RESULT.search?.length).toBeGreaterThan(0);
+            expect(RESULT.itemList?.length).toStrictEqual(2);
+            expect(RESULT.excludedItemIdList?.length).toStrictEqual(0);
         });
 
-        it('Should return filtered and mapped results when search text is provided', async () => {
-            // TODO: Implementar prueba: Debería devolver resultados filtrados y mapeados cuando se proporciona el texto de búsqueda
+        it('Should return autocomplete result tag list and filter excluded item id when returned excluded item is FALSE and match item id', async () => {
+            // Arrange
+            when(_tagRepositoryMock.getAll()).thenResolve([TAG_SERVICE_TEST_DATA.getTagEntity()]);
+            when(_tagEntityToTagMapperMock.mapToList(anything())).thenReturn(TAG_SERVICE_TEST_DATA.getTagList());
+
+            // Act
+            const RESULT: IAutocompleteResult<ITag> = await _tagServiceMock.getAutocomplete(
+                TAG_SERVICE_TEST_DATA.getAutocompleteSearchWithReturnedExcludedListIsTrueAndExcludedItemIdListInformedAndMatch()
+            );
+
+            // Assert
+            expect(RESULT.search?.length).toBeGreaterThan(0);
+            expect(RESULT.itemList?.length).toStrictEqual(2);
+            expect(RESULT.excludedItemIdList?.length).toStrictEqual(1);
         });
 
-        it('Should filter excluded items when returnExcludedList is true', async () => {
-            // TODO: Implementar prueba: Debería filtrar elementos excluidos cuando returnExcludedList es true
+        it('Should return autocomplete result tag list and filter excluded item id when returned excluded item is FALSE and NOT match item id', async () => {
+            // Arrange
+            when(_tagRepositoryMock.getAll()).thenResolve([TAG_SERVICE_TEST_DATA.getTagEntity()]);
+            when(_tagEntityToTagMapperMock.mapToList(anything())).thenReturn(TAG_SERVICE_TEST_DATA.getTagList());
+
+            // Act
+            const RESULT: IAutocompleteResult<ITag> = await _tagServiceMock.getAutocomplete(
+                TAG_SERVICE_TEST_DATA.getAutocompleteSearchWithReturnedExcludedListIsTrueAndExcludedItemIdListInformedButNotMatch()
+            );
+
+            // Assert
+            expect(RESULT.search?.length).toBeGreaterThan(0);
+            expect(RESULT.itemList?.length).toStrictEqual(3);
         });
 
-        it('Should return last used items when returnedLastUsedItems is true', async () => {
-            // TODO: Implementar prueba: Debería devolver elementos utilizados recientemente cuando returnedLastUsedItems es true
+        it('Should return autocomplete result tag list and filter excluded contains text when returned excluded item is TRUE and match contains text', async () => {
+            // Arrange
+            when(_tagRepositoryMock.getAll()).thenResolve([TAG_SERVICE_TEST_DATA.getTagEntity()]);
+            when(_tagEntityToTagMapperMock.mapToList(anything())).thenReturn(TAG_SERVICE_TEST_DATA.getTagList());
+
+            // Act
+            const RESULT: IAutocompleteResult<ITag> = await _tagServiceMock.getAutocomplete(
+                TAG_SERVICE_TEST_DATA.getAutocompleteSearchWithReturnedExcludedListIsFalseAndExcludedContainsTextListInformedAndMatch()
+            );
+
+            // Assert
+            expect(RESULT.search?.length).toBeGreaterThan(0);
+            expect(RESULT.itemList?.length).toStrictEqual(2);
+            expect(RESULT.excludedItemContainTextList?.length).toStrictEqual(0);
         });
 
-        it('Should filter excluded items and return last used items when both configurations are true', async () => {
-            // TODO: Implementar prueba: Debería filtrar elementos excluidos y devolver elementos utilizados recientemente cuando ambas configuraciones son true
+        it('Should return autocomplete result tag list and filter excluded contains text when returned excluded item is FALSE and match contains text', async () => {
+            // Arrange
+            when(_tagRepositoryMock.getAll()).thenResolve([TAG_SERVICE_TEST_DATA.getTagEntity()]);
+            when(_tagEntityToTagMapperMock.mapToList(anything())).thenReturn(TAG_SERVICE_TEST_DATA.getTagList());
+
+            // Act
+            const RESULT: IAutocompleteResult<ITag> = await _tagServiceMock.getAutocomplete(
+                TAG_SERVICE_TEST_DATA.getAutocompleteSearchWithReturnedExcludedListIsTrueAndExcludedContainsTextInformedAndMatch()
+            );
+
+            // Assert
+            expect(RESULT.search?.length).toBeGreaterThan(0);
+            expect(RESULT.itemList?.length).toStrictEqual(2);
+            expect(RESULT.excludedItemContainTextList?.length).toStrictEqual(1);
         });
 
-        it('Should return last used items even if no other results match', async () => {
-            // TODO: Implementar prueba: Debería devolver elementos utilizados recientemente incluso si no coinciden con otros resultados
+        it('Should return autocomplete result tag list and filter excluded contains text when returned excluded item is FALSE and NOT match contains text', async () => {
+            // Arrange
+            when(_tagRepositoryMock.getAll()).thenResolve([TAG_SERVICE_TEST_DATA.getTagEntity()]);
+            when(_tagEntityToTagMapperMock.mapToList(anything())).thenReturn(TAG_SERVICE_TEST_DATA.getTagList());
+
+            // Act
+            const RESULT: IAutocompleteResult<ITag> = await _tagServiceMock.getAutocomplete(
+                TAG_SERVICE_TEST_DATA.getAutocompleteSearchWithReturnedExcludedListIsTrueAndExcludedContainsTextInformedButNotMatch()
+            );
+
+            // Assert
+            expect(RESULT.search?.length).toBeGreaterThan(0);
+            expect(RESULT.itemList?.length).toStrictEqual(3);
         });
 
-        it('Should skip specified number of items', async () => {
-            // TODO: Implementar prueba: Debería omitir el número especificado de elementos
+        it('Should return autocomplete result tag list when returned excluded item is TRUE and exists last used item list', async () => {
+            // Arrange
+            when(_tagRepositoryMock.getAll()).thenResolve(TAG_SERVICE_TEST_DATA.getTagEntityList());
+            when(_tagEntityToTagMapperMock.mapToList(anything())).thenReturn(TAG_SERVICE_TEST_DATA.getTagList());
+            when(_tagRepositoryMock.getLastUsedTagList()).thenResolve([TAG_SERVICE_TEST_DATA.getTagEntity()]);
+            when(_tagEntityToTagMapperMock.mapToList(anything())).thenReturn(TAG_SERVICE_TEST_DATA.getTagList());
+
+            // Act
+            const RESULT: IAutocompleteResult<ITag> = await _tagServiceMock.getAutocomplete(
+                TAG_SERVICE_TEST_DATA.getAutocompleteSearchWithReturnedExcludedListIsTrueAndExcludedItemIdListInformedButNotMatch()
+            );
+
+            // Assert
+            expect(RESULT.search?.length).toBeGreaterThan(0);
+            expect(RESULT.lastUsedItemList?.length).toStrictEqual(3);
         });
 
-        it('Should take specified number of items', async () => {
-            // TODO: Implementar prueba: Debería tomar el número especificado de elementos
+        it('Should return autocomplete result tag list when returned excluded item is FALSE and exists last used item list', async () => {
+            // Arrange
+            when(_tagRepositoryMock.getAll()).thenResolve(TAG_SERVICE_TEST_DATA.getTagEntityList());
+            when(_tagEntityToTagMapperMock.mapToList(anything())).thenReturn(TAG_SERVICE_TEST_DATA.getTagList());
+            when(_tagRepositoryMock.getLastUsedTagList()).thenResolve([TAG_SERVICE_TEST_DATA.getTagEntity()]);
+            when(_tagEntityToTagMapperMock.mapToList(anything())).thenReturn(TAG_SERVICE_TEST_DATA.getTagList());
+
+            // Act
+            const RESULT: IAutocompleteResult<ITag> = await _tagServiceMock.getAutocomplete(
+                TAG_SERVICE_TEST_DATA.getAutocompleteSearchWithReturnedExcludedListIsFalseAndExcludedItemIdListInformedAndMatch()
+            );
+
+            // Assert
+            expect(RESULT.search?.length).toBeGreaterThan(0);
+            expect(RESULT?.lastUsedItemList?.length).toStrictEqual(0);
         });
 
-        it('Should return correct results when both skip and take are specified', async () => {
-            // TODO: Implementar prueba: Debería devolver resultados correctos cuando se especifican ambos omitir y tomar
-        });
+        it('Should return autocomplete result tag list when returned excluded item is TRUE and NOT exists last used item list', async () => {
+            // Arrange
+            when(_tagRepositoryMock.getAll()).thenResolve(TAG_SERVICE_TEST_DATA.getTagEntityList());
+            when(_tagEntityToTagMapperMock.mapToList(anything())).thenReturn(TAG_SERVICE_TEST_DATA.getTagList());
+            when(_tagRepositoryMock.getLastUsedTagList()).thenResolve([]);
+            when(_tagEntityToTagMapperMock.mapToList(anything())).thenReturn([]);
 
-        it('Should take default "take" value if not provided', async () => {
-            // TODO: Implementar prueba: Debería tomar el valor predeterminado de "take" si no se proporciona
-        });
+            // Act
+            const RESULT: IAutocompleteResult<ITag> = await _tagServiceMock.getAutocomplete(
+                TAG_SERVICE_TEST_DATA.getAutocompleteSearchWithReturnedExcludedListIsTrueAndExcludedItemIdListInformedAndMatch()
+            );
 
-        it('Should skip default "skip" value if not provided', async () => {
-            // TODO: Implementar prueba: Debería omitir el valor predeterminado de "skip" si no se proporciona
-        });
-
-        it('Last used items list should have a maximum of 3 items', async () => {
-            // TODO: Implementar prueba: La lista de elementos utilizados recientemente debería tener un máximo de 3 elementos
-        });
-
-        it('Should not consider excluded items if they are part of excludedItemContainTextList', async () => {
-            // TODO: Implementar prueba: No debería considerar elementos excluidos si están en excludedItemContainTextList y buscarlos de todos modos
+            // Assert
+            expect(RESULT.search?.length).toBeGreaterThan(0);
+            expect(RESULT?.lastUsedItemList?.length).toStrictEqual(0);
         });
     });
 });

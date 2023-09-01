@@ -25,10 +25,10 @@ export class AutocompleteResultHelper {
             lastUsedItemList,
         };
 
-        if (autocompleteSearch?.returnExcludedList ?? false) {
-            AUTOCOMPLETE_RESULT.excludedItemIdList = autocompleteSearch.excludedItemIdList;
-            AUTOCOMPLETE_RESULT.excludedItemContainTextList = autocompleteSearch.excludedItemContainTextList;
-        }
+        AUTOCOMPLETE_RESULT.excludedItemIdList = autocompleteSearch?.returnExcludedList ? autocompleteSearch.excludedItemIdList : [];
+        AUTOCOMPLETE_RESULT.excludedItemContainTextList = autocompleteSearch?.returnExcludedList
+            ? autocompleteSearch.excludedItemContainTextList
+            : [];
 
         return AUTOCOMPLETE_RESULT;
     }

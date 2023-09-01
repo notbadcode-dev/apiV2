@@ -21,6 +21,29 @@ export class TagServiceTestData {
         return GROUP_LINK_ENTITY;
     }
 
+    public getTagEntityList(): TagEntity[] {
+        return [
+            {
+                ...new TagEntity(),
+                id: 1,
+                name: 'Test Tag one',
+                linkId: 1,
+            },
+            {
+                ...new TagEntity(),
+                id: 2,
+                name: 'Test Tag two',
+                linkId: 1,
+            },
+            {
+                ...new TagEntity(),
+                id: 3,
+                name: 'Test Tag three',
+                linkId: 1,
+            },
+        ];
+    }
+
     //#endregion
 
     //#region return ITagCreate
@@ -65,6 +88,23 @@ export class TagServiceTestData {
         };
     }
 
+    public getTagList(): ITag[] {
+        return [
+            {
+                id: 1,
+                name: 'Test Tag',
+            },
+            {
+                id: 2,
+                name: 'Test Tag two',
+            },
+            {
+                id: 3,
+                name: 'Test Tag three',
+            },
+        ];
+    }
+
     //#endregion
 
     //#region return IAutocompleteSearch
@@ -77,6 +117,63 @@ export class TagServiceTestData {
         return {
             ...AutocompleteSearchHelper.getDefault(),
             search: this.getTag().name,
+        };
+    }
+
+    public getAutocompleteSearchWithReturnedExcludedListIsFalseAndExcludedItemIdListInformedAndMatch(): IAutocompleteSearch {
+        return {
+            ...AutocompleteSearchHelper.getDefault(),
+            search: this.getTag().name,
+            returnExcludedList: false,
+            returnedLastUsedItems: false,
+            excludedItemIdList: [this.getTag()?.id ?? 0],
+        };
+    }
+
+    public getAutocompleteSearchWithReturnedExcludedListIsTrueAndExcludedItemIdListInformedAndMatch(): IAutocompleteSearch {
+        return {
+            ...AutocompleteSearchHelper.getDefault(),
+            search: this.getTag().name,
+            returnExcludedList: true,
+            returnedLastUsedItems: true,
+            excludedItemIdList: [this.getTag()?.id ?? 0],
+        };
+    }
+
+    public getAutocompleteSearchWithReturnedExcludedListIsTrueAndExcludedItemIdListInformedButNotMatch(): IAutocompleteSearch {
+        return {
+            ...AutocompleteSearchHelper.getDefault(),
+            search: this.getTag().name,
+            returnExcludedList: true,
+            returnedLastUsedItems: true,
+            excludedItemIdList: [0],
+        };
+    }
+
+    public getAutocompleteSearchWithReturnedExcludedListIsFalseAndExcludedContainsTextListInformedAndMatch(): IAutocompleteSearch {
+        return {
+            ...AutocompleteSearchHelper.getDefault(),
+            search: this.getTag().name,
+            returnExcludedList: false,
+            excludedItemContainTextList: ['two'],
+        };
+    }
+
+    public getAutocompleteSearchWithReturnedExcludedListIsTrueAndExcludedContainsTextInformedAndMatch(): IAutocompleteSearch {
+        return {
+            ...AutocompleteSearchHelper.getDefault(),
+            search: this.getTag().name,
+            returnExcludedList: true,
+            excludedItemContainTextList: ['two'],
+        };
+    }
+
+    public getAutocompleteSearchWithReturnedExcludedListIsTrueAndExcludedContainsTextInformedButNotMatch(): IAutocompleteSearch {
+        return {
+            ...AutocompleteSearchHelper.getDefault(),
+            search: this.getTag().name,
+            returnExcludedList: true,
+            excludedItemContainTextList: ['not match'],
         };
     }
 
