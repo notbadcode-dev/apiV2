@@ -1,8 +1,9 @@
+import { Authority } from '@decorator/authority.decorator';
+import { CacheDecorator } from '@decorator/cache.decorator';
 import { IAutocompleteResult } from '@model/autocomplete/autocomplete-result.model';
 import { IAutocompleteSearch } from '@model/autocomplete/autocomplete-search.model';
 import { ITagCreate } from '@model/tag/tag-create.model';
 import { ITag } from '@model/tag/tag.model';
-import { Authority } from '@service/decorator/authority.decorator';
 import { TagService, TAG_SERVICE_TOKEN } from '@service/tag.service/tag.service';
 import { Request } from 'express';
 import { Body, Delete, JsonController, Param, Post, Req } from 'routing-controllers';
@@ -21,6 +22,7 @@ export class UserController {
     }
 
     @Authority
+    @CacheDecorator()
     @Post('/autocomplete/')
     async getAutocomplete(@Req() req: Request, @Body() tagAutocompleteSearch: IAutocompleteSearch): Promise<IAutocompleteResult<ITag>> {
         const RESULT: IAutocompleteResult<ITag> = await this._tagService.getAutocomplete(tagAutocompleteSearch);

@@ -1,7 +1,8 @@
+import { Authority } from '@decorator/authority.decorator';
+import { CacheDecorator } from '@decorator/cache.decorator';
 import { IDeleteGroup } from '@model/group/delete-group.model';
 import { IGroupLink } from '@model/group/group-link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
-import { Authority } from '@service/decorator/authority.decorator';
 import { GroupLinkService, GROUP_LINK_SERVICE_TOKEN } from '@service/group-link.service/group-link.service';
 import { Request } from 'express';
 import { Body, Delete, Get, JsonController, Param, Patch, Post, Req } from 'routing-controllers';
@@ -27,6 +28,7 @@ export class GroupLinkController {
     }
 
     @Authority
+    @CacheDecorator()
     @Get('/:id')
     async getGroupLink(@Req() req: Request, @Param('id') groupLinkId: number): Promise<IGroupLink | null> {
         const RESULT: IGroupLink | null = await this._groupLinkService.getGroupLink(groupLinkId);
@@ -34,6 +36,7 @@ export class GroupLinkController {
     }
 
     @Authority
+    @CacheDecorator()
     @Get('/')
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
     async getLinkList(@Req() req: Request): Promise<(IGroupLink | null)[]> {
@@ -42,6 +45,7 @@ export class GroupLinkController {
     }
 
     @Authority
+    @CacheDecorator()
     @Post('/paginate/')
     async getPaginateLinkList(
         @Req() req: Request,

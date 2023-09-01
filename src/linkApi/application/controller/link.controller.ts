@@ -1,7 +1,8 @@
+import { Authority } from '@decorator/authority.decorator';
+import { CacheDecorator } from '@decorator/cache.decorator';
 import { ILinkCreate } from '@model/link/link-create.model';
 import { ILink } from '@model/link/link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
-import { Authority } from '@service/decorator/authority.decorator';
 import { LinkService, LINK_SERVICE_TOKEN } from '@service/link.service/link.service';
 import { Request } from 'express';
 import { Body, Delete, Get, JsonController, Param, Patch, Post, Req } from 'routing-controllers';
@@ -27,6 +28,7 @@ export class UserController {
     }
 
     @Authority
+    @CacheDecorator()
     @Get('/:id')
     async getLink(@Req() req: Request, @Param('id') linkId: number): Promise<ILink> {
         const RESULT: ILink = await this._linkService.getLink(linkId);
@@ -34,6 +36,7 @@ export class UserController {
     }
 
     @Authority
+    @CacheDecorator()
     @Get('/')
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
     async getLinkList(@Req() req: Request): Promise<ILink[]> {
@@ -42,6 +45,7 @@ export class UserController {
     }
 
     @Authority
+    @CacheDecorator()
     @Post('/paginate/')
     async getPaginateLinkList(@Req() req: Request, @Body() paginateLinkList: IPaginateItem<ILink>): Promise<IPaginateItem<ILink>> {
         const RESULT: IPaginateItem<ILink> = await this._linkService.getPaginateLinkList(paginateLinkList);
