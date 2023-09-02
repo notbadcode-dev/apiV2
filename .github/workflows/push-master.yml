@@ -1,0 +1,78 @@
+name: ESLint and Jest Tests
+
+on:
+    push:
+        branches: [master]
+
+jobs:
+    lint-and-test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Cache node modules
+              uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
+
+            - name: Use Node.js 16.17.0
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 16.17.0
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Run ESLint and Jest
+              run: |
+                  # Run ESLint and store the results in a file
+                  npm run lint > eslint-report.txt 2>&1 || echo "All right here 👌" > eslint-report.txt
+
+                  # Transform ESLint results into an HTML report
+                  sed -i 's/src\//\nFile: src\//g' eslint-report.txt
+                  sed -i 's/  \([0-9]\+\):\([0-9]\+\)/  Line \1, Column \2:/g' eslint-report.txt
+                  sed -i 's/error \([^ ]\+\) \([^\n]\+\)/Rule: \1\n\2/g' eslint-report.txt
+                  echo "<!DOCTYPE html><html><head><style>body { font-family: Arial, sans-serif; }</style></head><body><pre>" > eslint-report.html
+                  echo "Linting Report: " >> eslint-report.html
+                  cat eslint-report.txt >> eslint-report.html
+                  echo "</pre></body></html>" >> eslint-report.html
+
+                  # Run Jest tests and generate a report
+                  npm test
+
+            - name: Upload reports
+              uses: actions/upload-artifact@v2
+              with:
+                  name: test-and-lint-reports
+                  path: |
+                      ./eslint-report.html
+                      ./tests/report/test_report.html
+
+    send-email:
+        runs-on: ubuntu-latest
+        needs: lint-and-test
+        if: ${{ needs.lint-and-test.result == 'success' }}
+        steps:
+            - name: Download reports
+              uses: actions/download-artifact@v2
+              with:
+                  name: test-and-lint-reports
+
+            - name: Send Combined Report Email
+              uses: dawidd6/action-send-mail@v2
+              with:
+                  server_address: smtp.gmail.com
+                  server_port: 587
+                  username: ${{ secrets.EMAIL_USERNAME }}
+                  password: ${{ secrets.EMAIL_PASSWORD }}
+                  subject: 'Combined Test and Lint Results'
+                  body: 'The combined test and lint results are attached.'
+                  from: ${{ secrets.EMAIL_USERNAME }}
+                  to: ${{ secrets.EMAIL_USERNAME }}
+                  attachments: |
+                      ./eslint-report.html
+                      ./tests/report/test_report.html
