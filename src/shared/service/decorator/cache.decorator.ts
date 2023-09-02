@@ -14,16 +14,18 @@ export function CacheDecorator(ttlSeconds = CACHE_CONSTANT.TTL_DEFAULT): MethodD
             );
 
             const CONTROLLER_NAME = target.constructor.name;
-
             const CACHE_KEY = `${CONTROLLER_NAME}_${propertyKey.toString()}_${JSON.stringify(SERIALIZABLE_ARGUMENTS[1])}`;
+
             const CACHED_RESULT = cacheService.get(CACHE_KEY);
             if (CACHED_RESULT) {
-                LOGGER_SERVICE.infoLogger(`Serving cached result for ${CACHE_KEY}`);
+                LOGGER_SERVICE.infoLogger(CACHE_CONSTANT.SERVING_CACHED_RESULT(CACHE_KEY));
                 return CACHED_RESULT;
             }
-            LOGGER_SERVICE.infoLogger(`Executing method ${propertyKey.toString()} and caching result for ${CACHE_KEY}`);
+
+            LOGGER_SERVICE.infoLogger(CACHE_CONSTANT.EXECUTING_AND_CACHING_MESSAGE(propertyKey ?? '', CACHE_KEY));
             const RESULT = await ORIGINAL_METHOD.apply(this, args);
-            cacheService.put(CACHE_KEY, RESULT, ttlSeconds * 1000);
+            cacheService.put(CACHE_KEY, RESULT, ttlSeconds * CACHE_CONSTANT.MILLISECONDS_PER_SECOND);
+
             return RESULT;
         };
     };

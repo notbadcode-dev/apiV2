@@ -1,7 +1,18 @@
 {
     "name": "apiV2",
+    "description": "API for NotBadCode services",
     "version": "1.0.0",
-    "description": "",
+    "license": "ISC",
+    "private": true,
+    "author": {
+        "name": "Carlos Balaguer · Alias: NotBadCode",
+        "email": "notbadcode.dev@gmail.com",
+        "url": "https://github.com/notbadcode-dev/api"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/notbadcode-dev/api.git"
+    },
     "main": "index.js",
     "scripts": {
         "dev:auth": "ts-node-dev -r tsconfig-paths/register src/authApi/auth.index.ts",
@@ -20,9 +31,7 @@
         "verify-jest-test-yml": "yamllint ./.github/workflows/jest-test.yml",
         "verify-eslint-analyzer-yml": "yamllint ./.github/workflows/eslint-analyzer.yml"
     },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
+    "homepage": "https://notBadCode.api",
     "dependencies": {
         "@types/i18n": "^0.13.6",
         "bcrypt": "^5.1.0",
@@ -83,5 +92,7 @@
         "ts-node-dev": "^2.0.0",
         "tsconfig-paths": "^4.1.2",
         "typescript": "^4.9.5"
-    }
+    },
+    "tsconfig": "./tsconfig.json",
+    "keywords": []
 }
