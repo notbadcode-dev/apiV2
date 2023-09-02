@@ -1,9 +1,12 @@
 import { ERROR_MESSAGE_APPLICATION } from '@constant/error-message/error-message-application.constant';
+import { ERROR_MESSAGE_TOKEN } from '@constant/error-message/error-message-token.constant';
 import { ERROR_MESSAGE_USER } from '@constant/error-message/error-message-user.constant';
 import { UserEntity } from '@entity/user.entity';
 import { AlreadyExistsError } from '@error/already-exists.error';
 import { ArgumentError } from '@error/argument.error';
 import { NotFountError } from '@error/not-found.error';
+import { UnauthorizedError } from '@error/unauthorized.error';
+import { IGetUserByToken } from '@model/user/get-user-by-token.model';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
 import { TUserUpdater } from '@model/user/user-update.model';
 import { IUser } from '@model/user/user.model';
@@ -49,7 +52,6 @@ export class UserServiceTestData {
         return {
             id: this.getUserId(),
             username: this.getUsername(),
-            password: this.getUserPassword(),
         };
     }
 
@@ -120,6 +122,7 @@ export class UserServiceTestData {
         return {
             ...this.getUserUpdated(),
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            password: this.getUserPassword(),
             applicationId: null as any,
         };
     }
@@ -127,6 +130,7 @@ export class UserServiceTestData {
     public getUserCreatedWithApplicationIdIsZero(): IUserCreate {
         return {
             ...this.getUserUpdated(),
+            password: this.getUserPassword(),
             applicationId: 0,
         };
     }
@@ -134,6 +138,7 @@ export class UserServiceTestData {
     public getUserCreatedWithUsernameIsEmpty(): IUserCreate {
         return {
             ...this.getUserUpdated(),
+            password: this.getUserPassword(),
             applicationId: 10,
             username: '',
         };
@@ -175,8 +180,32 @@ export class UserServiceTestData {
         return {
             id: this.getUserId(),
             username: this.getUsername(),
-            password: this.getUserPassword(),
             applicationId: this.getApplicationId(),
+        };
+    }
+
+    //#endregion
+
+    //#region return IGetUserByToken
+
+    public getGetUserByToken(): IGetUserByToken {
+        return {
+            token: 'test',
+            applicationId: 1,
+        };
+    }
+
+    public getGetUserByTokenWithApplicationIdIsNull(): IGetUserByToken {
+        return {
+            ...this.getGetUserByToken(),
+            applicationId: null as any,
+        };
+    }
+
+    public getGetUserByTokenWithApplicationIdIsZero(): IGetUserByToken {
+        return {
+            ...this.getGetUserByToken(),
+            applicationId: 0,
         };
     }
 
@@ -210,6 +239,10 @@ export class UserServiceTestData {
 
     public getUserIdNotFoundError(userId: number): NotFountError {
         return new NotFountError(ERROR_MESSAGE_USER.USER_WITH_ID_NOT_FOUND(userId));
+    }
+
+    public getFailedVerifyTokenUnauthorizedError(): UnauthorizedError {
+        return new UnauthorizedError(ERROR_MESSAGE_TOKEN.FAILED_TO_VERIFY_TOKEN);
     }
 
     //#endregion

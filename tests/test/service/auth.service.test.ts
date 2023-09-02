@@ -1,7 +1,9 @@
 import { UserEntity } from '@entity/user.entity';
 import { UnauthorizedError } from '@error/unauthorized.error';
 import { TAuthSignIn } from '@model/auth/auth-sign-in.model';
+import { IGetUserByToken } from '@model/user/get-user-by-token.model';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
+import { IUser } from '@model/user/user.model';
 import { UserRepository } from '@repository/user.repository/user.repository';
 import { AuthService } from '@service/auth.service/auth.service';
 import { IAuthService } from '@service/auth.service/auth.service.interface';
@@ -11,7 +13,7 @@ import { UserService } from '@service/user.service/user.service';
 import { IUserService } from '@service/user.service/user.service.interface';
 import { AuthServiceTestData } from '@testData/service/auth.service.test.data';
 import { UserServiceTestData } from '@testData/service/user.service.test.data';
-import { anyString, anything, instance, mock, when } from 'ts-mockito';
+import { anyNumber, anyString, anything, instance, mock, when } from 'ts-mockito';
 
 //#region Attributes
 
@@ -217,5 +219,62 @@ describe('signIn', () => {
 
         // Assert
         expect(RESULT).toBe(TOKEN);
+    });
+});
+
+describe('getUserByToken', () => {
+    const GET_USER_BY_TOKEN: IGetUserByToken = USER_SERVICE_TEST_DATA.getGetUserByToken();
+    const USER_ENTITY: UserEntity = USER_SERVICE_TEST_DATA.getUserEntity();
+    const USER: IUser = USER_SERVICE_TEST_DATA.getUser();
+
+    it('Should throw an ArgumentError when application id is null', async () => {
+        // Arrange
+        const USER_BY_TOKEN_WITH_APPLICATION_ID_NULL: IGetUserByToken = USER_SERVICE_TEST_DATA.getGetUserByTokenWithApplicationIdIsNull();
+
+        // Act & Assert
+        await expect(_authService.getUserByToken(USER_BY_TOKEN_WITH_APPLICATION_ID_NULL)).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getArgumentErrorInvalidApplicationId()
+        );
+    });
+
+    it('Should throw an ArgumentError when application id is zero', async () => {
+        // Arrange
+        const USER_BY_TOKEN_WITH_APPLICATION_ID_ZERO: IGetUserByToken = USER_SERVICE_TEST_DATA.getGetUserByTokenWithApplicationIdIsZero();
+
+        // Act & Assert
+        await expect(_authService.getUserByToken(USER_BY_TOKEN_WITH_APPLICATION_ID_ZERO)).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getArgumentErrorInvalidApplicationId()
+        );
+    });
+
+    it('Should throw an UnauthorizedError when userId is not found', async () => {
+        // Arrange
+        when(_tokenServiceMock.decode(GET_USER_BY_TOKEN.token)).thenCall(async () => null);
+
+        // Act & Assert
+        await expect(_authService.getUserByToken(USER_SERVICE_TEST_DATA.getGetUserByToken())).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getFailedVerifyTokenUnauthorizedError()
+        );
+    });
+
+    it('Should throw an UnauthorizedError when user is not found', async () => {
+        // Arrange
+        when(_userRepositoryMock.getById(USER_ENTITY.id)).thenCall(async () => null);
+
+        // Act & Assert
+        await expect(_authService.getUserByToken(USER_SERVICE_TEST_DATA.getGetUserByToken())).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getFailedVerifyTokenUnauthorizedError()
+        );
+    });
+
+    it('Should return a user when token are correct', async () => {
+        // Arrange
+        when(_tokenServiceMock.decode(GET_USER_BY_TOKEN.token)).thenCall(async () => USER_SERVICE_TEST_DATA.getUser().id);
+        when(_userServiceMock.getUser(anyNumber())).thenCall(async () => USER);
+
+        // Act & Assert
+        await expect(_authService.getUserByToken(USER_SERVICE_TEST_DATA.getGetUserByToken())).rejects.toThrow(
+            USER_SERVICE_TEST_DATA.getFailedVerifyTokenUnauthorizedError()
+        );
     });
 });

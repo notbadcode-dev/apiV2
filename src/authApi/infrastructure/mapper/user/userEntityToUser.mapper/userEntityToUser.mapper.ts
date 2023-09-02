@@ -11,7 +11,6 @@ export class UserEntityToUserMapper implements IUserEntityToUserMapper {
         const USER: IUser = {
             id: userEntity.id,
             username: userEntity.username,
-            password: userEntity.password,
         };
 
         return USER;

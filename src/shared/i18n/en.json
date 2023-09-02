@@ -32,6 +32,9 @@
             "failed_encrypt": "Failed to encrypt password.",
             "failed_verify": "Failed to verify password."
         },
+        "token": {
+            "failed_verify": "Failed to verify token."
+        },
         "application": {
             "there_is_not_application_with_id": "There is no application with the id: {0}.",
             "application_with_id_not_found": "Application with id: {0}, not found.",
@@ -45,6 +48,7 @@
             "invalid_user_id": "User ID cannot be null or less than 0.",
             "empty_username": "Username cannot be empty.",
             "empty_password": "Password cannot be empty.",
+            "token_password": "Token cannot be empty.",
             "already_exist_user_same_password": "Already exists user with same username.'",
             "could_not_created_user_with_username": "Could not created user with username: {0}.",
             "user_with_id_not_found": "User with id: {0}, not found.",

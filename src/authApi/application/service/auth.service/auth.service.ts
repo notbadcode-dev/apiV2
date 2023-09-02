@@ -1,10 +1,13 @@
 import { ERROR_MESSAGE_PASSWORD } from '@constant/error-message/error-message-password.constant';
+import { ERROR_MESSAGE_TOKEN } from '@constant/error-message/error-message-token.constant';
 import { ERROR_MESSAGE_USER } from '@constant/error-message/error-message-user.constant';
 import { UserEntity } from '@entity/user.entity';
 import { ArgumentError } from '@error/argument.error';
 import { UnauthorizedError } from '@error/unauthorized.error';
 import { TAuthSignIn } from '@model/auth/auth-sign-in.model';
+import { IGetUserByToken } from '@model/user/get-user-by-token.model';
 import { IUserCreate, IUserCreated } from '@model/user/user-create.model';
+import { IUser } from '@model/user/user.model';
 import { UserRepository, USER_REPOSITORY_TOKEN } from '@repository/user.repository/user.repository';
 import { IAuthService } from '@service/auth.service/auth.service.interface';
 import { LoggerMethodDecorator } from '@service/decorator/logger-method.decorator';
@@ -56,6 +59,25 @@ export class AuthService implements IAuthService {
     }
 
     @LoggerMethodDecorator
+    public async getUserByToken(getUserByToken: IGetUserByToken): Promise<IUser> {
+        this.validateArgumentsGetUserByToken(getUserByToken);
+
+        const USER_ID: number = this._tokenService.decode(getUserByToken.token)?.userId ?? 0;
+
+        if (!USER_ID) {
+            throw new UnauthorizedError(ERROR_MESSAGE_TOKEN.FAILED_TO_VERIFY_TOKEN);
+        }
+
+        const USER: IUser = await this._userService.getUser(USER_ID);
+
+        if (!USER) {
+            throw new UnauthorizedError(ERROR_MESSAGE_TOKEN.FAILED_TO_VERIFY_TOKEN);
+        }
+
+        return USER;
+    }
+
+    @LoggerMethodDecorator
     private validateArgumentsOnSignUp(createUser: IUserCreate): void {
         this.validateApplicationId(createUser?.applicationId ?? null);
         this.validateUsername(createUser?.username ?? '');
@@ -67,6 +89,11 @@ export class AuthService implements IAuthService {
         this.validateApplicationId(authSignIn?.applicationId ?? null);
         this.validateUsername(authSignIn?.username ?? '');
         this.validatePassword(authSignIn?.password ?? '');
+    }
+
+    private validateArgumentsGetUserByToken(getUserByToken: IGetUserByToken): void {
+        this.validateApplicationId(getUserByToken?.applicationId ?? null);
+        this.validateToken(getUserByToken?.token ?? '');
     }
 
     @LoggerMethodDecorator
@@ -87,6 +114,13 @@ export class AuthService implements IAuthService {
     private validatePassword(password: string): void {
         if (!password?.trim().length) {
             throw new ArgumentError(ERROR_MESSAGE_USER.PASSWORD_CANNOT_BE_EMPTY);
+        }
+    }
+
+    @LoggerMethodDecorator
+    private validateToken(token: string): void {
+        if (!token?.trim().length) {
+            throw new ArgumentError(ERROR_MESSAGE_USER.TOKEN_CANNOT_BE_EMPTY);
         }
     }
 }

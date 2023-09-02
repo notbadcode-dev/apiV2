@@ -11,7 +11,6 @@ export class UserUpdaterToUserEntityMapper implements IUserUpdaterToUserEntityMa
         const USER_ENTITY: UserEntity = new UserEntity();
         USER_ENTITY.id = userUpdate.id;
         USER_ENTITY.username = userUpdate.username;
-        USER_ENTITY.password = userUpdate.password;
 
         return USER_ENTITY;
     }

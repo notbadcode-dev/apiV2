@@ -5,6 +5,7 @@ export const ERROR_MESSAGE_USER = {
     INVALID_USER_ID: TranslationService.translate('error_message.user.invalid_user_id'),
     USERNAME_CANNOT_BE_EMPTY: TranslationService.translate('error_message.user.empty_username'),
     PASSWORD_CANNOT_BE_EMPTY: TranslationService.translate('error_message.user.empty_password'),
+    TOKEN_CANNOT_BE_EMPTY: TranslationService.translate('error_message.user.empty_token'),
     ALREADY_EXIST_USER_SAME_USERNAME: TranslationService.translate('error_message.user.already_exist_user_same_password'),
     COULD_NOT_CREATED_USER_WITH_USERNAME: (username: string): string => {
         return TranslationService.translateWithParameters('error_message.user.could_not_created_user_with_username', [username.toString()]);
