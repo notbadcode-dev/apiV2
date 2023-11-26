@@ -38,7 +38,7 @@ export class AuthService implements IAuthService {
     }
 
     @LoggerMethodDecorator
-    public async signIn(authSignIn: TAuthSignIn): Promise<string> {
+    public async signIn(authSignIn: TAuthSignIn, currentToken = ''): Promise<string> {
         this.validateArgumentsOnSignIn(authSignIn);
 
         const USER_ENTITY: UserEntity | null = await this._userRepository.getByName(authSignIn.username, false);
@@ -55,7 +55,32 @@ export class AuthService implements IAuthService {
 
         const TOKEN = this._tokenService.sign(USER_ENTITY?.id);
 
+        if (currentToken.length) {
+            this._tokenService.expireToken(currentToken);
+        }
+
         return TOKEN;
+    }
+
+    @LoggerMethodDecorator
+    public async signOut(authSignIn: TAuthSignIn, currentToken = ''): Promise<boolean> {
+        this.validateArgumentsOnSignIn(authSignIn);
+
+        const USER_ENTITY: UserEntity | null = await this._userRepository.getByName(authSignIn.username, false);
+
+        if (!USER_ENTITY || !USER_ENTITY?.id) {
+            throw new UnauthorizedError(ERROR_MESSAGE_USER.USER_WITH_USERNAME_NOT_FOUND(authSignIn.username));
+        }
+
+        const DECRYPTED_PASSWORD: boolean = await this._passwordService.verifyPassword(authSignIn.password, USER_ENTITY?.password);
+
+        if (!DECRYPTED_PASSWORD) {
+            throw new UnauthorizedError(ERROR_MESSAGE_PASSWORD.FAILED_TO_VERIFY_PASSWORD);
+        } else {
+            this._tokenService.expireToken(currentToken);
+        }
+
+        return true;
     }
 
     @LoggerMethodDecorator

@@ -4,6 +4,7 @@ import { LINK_CONSTANT } from '@constant/link.constant copy';
 import { LinkEntity } from '@entity/link.entity';
 import { ArgumentError } from '@error/argument.error';
 import { LinkEntityToLinkMapper, LINK_ENTITY_TO_LINK_MAPPER } from '@mapper/link/linkEntityToLink.mapper/linkEntityToLink.mapper';
+import { IGroupLink } from '@model/group/group-link.model';
 import { ILinkCreate } from '@model/link/link-create.model';
 import { ILink } from '@model/link/link.model';
 import { IPaginateItem } from '@model/pagination-item/pagination-item.model';
@@ -45,6 +46,7 @@ export class LinkService implements ILinkService {
         LINK_ENTITY.url = linkCreate.url;
         LINK_ENTITY.favorite = linkCreate?.favorite ?? LINK_CONSTANT.DEFAULT_FAVORITE;
         LINK_ENTITY.active = linkCreate?.active ?? LINK_CONSTANT.DEFAULT_FAVORITE;
+        LINK_ENTITY.groupLinkId = Number(linkCreate.groupLinkId);
         LINK_ENTITY.userId = USER_ID;
 
         const LINK_CREATED_SAVED = await this._linkRepository.create(LINK_ENTITY);
@@ -204,6 +206,117 @@ export class LinkService implements ILinkService {
         if (!linkUrl?.trim().length) {
             throw new ArgumentError(ERROR_MESSAGE_LINK.WRONG_URL_ARGUMENT);
         }
+
+        const GROUP_LINK_LIST: IGroupLink[] = [
+            {
+                id: 1,
+                displayOrder: 1,
+                name: 'Multimedia',
+                colorFrom: '833AB4',
+                colorTo: 'FD1D1D',
+                gradientType: 'linear',
+                linkList: [
+                    {
+                        id: 1,
+                        name: 'Apple music',
+                        url: 'https://music.apple.com/',
+                        linkGroupId: 1,
+                        displayOrder: 1,
+                        favorite: false,
+                        active: true,
+                        tagList: [
+                            {
+                                id: 1,
+                                name: 'Apple',
+                            },
+                            {
+                                id: 2,
+                                name: 'Music',
+                            },
+                            {
+                                id: 3,
+                                name: 'Online',
+                            },
+                        ],
+                    },
+                    {
+                        id: 2,
+                        name: 'Spotify',
+                        url: 'https://open.spotify.com/',
+                        linkGroupId: 1,
+                        displayOrder: 2,
+                        favorite: false,
+                        active: true,
+                        tagList: [
+                            {
+                                id: 4,
+                                name: 'Music',
+                            },
+                        ],
+                    },
+                    {
+                        id: 3,
+                        name: 'Pocket Casts',
+                        url: 'https://pocketcasts.com/',
+                        linkGroupId: 1,
+                        displayOrder: 4,
+                        favorite: false,
+                        active: true,
+                        tagList: [
+                            {
+                                id: 5,
+                                name: 'Podcast',
+                            },
+                            {
+                                id: 6,
+                                name: 'Online',
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                id: 2,
+                displayOrder: 2,
+                name: 'Sport',
+                colorFrom: '22C1C3',
+                colorTo: 'fDBB2D',
+                gradientType: 'linear',
+                linkList: [
+                    {
+                        id: 4,
+                        name: 'Sport',
+                        url: 'https://www.sport.es/es/',
+                        linkGroupId: 1,
+                        displayOrder: 1,
+                        favorite: false,
+                        active: true,
+                        tagList: [
+                            {
+                                id: 7,
+                                name: 'Futbol',
+                            },
+                        ],
+                    },
+                    {
+                        id: 5,
+                        name: 'Marca',
+                        url: 'https://www.marca.com/',
+                        linkGroupId: 1,
+                        displayOrder: 1,
+                        favorite: false,
+                        active: true,
+                        tagList: [
+                            {
+                                id: 8,
+                                name: 'Futbol',
+                            },
+                        ],
+                    },
+                ],
+            },
+        ];
+        console.log(GROUP_LINK_LIST);
     }
 
     //#endregion

@@ -1,4 +1,4 @@
-import { EHttpResponseMessageType } from '../../shared/enum/http-response-message.enum';
+import { EHttpResponseMessageType } from '@enum/http-response-message.enum';
 
 export const HTTP_RESPONSE_STATUS = {
     SUCCESS: 200,
@@ -40,3 +40,5 @@ export const HTTP_RESPONSE_MESSAGE_TYPE = {
     [HTTP_RESPONSE_STATUS.INTERNAL_SERVER_ERROR]: EHttpResponseMessageType.error,
     [HTTP_RESPONSE_STATUS.CRITICAL_SERVER_ERROR]: EHttpResponseMessageType.critical,
 };
+
+export const BEARER = 'Bearer';

@@ -1,5 +1,5 @@
+import { AUTH_API_ENTITY_LIST } from '@entity/_auth.entity.index';
 import { DataSource } from 'typeorm';
-import { AUTH_API_ENTITY_LIST } from '../../authApi/domain/entity/_auth.entity.index';
 
 export const AUTH_DATA_SOURCE = new DataSource({
     type: 'mariadb',

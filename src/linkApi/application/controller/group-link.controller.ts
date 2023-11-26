@@ -45,13 +45,12 @@ export class GroupLinkController {
     }
 
     @Authority
-    @CacheDecorator()
     @Post('/paginate/')
-    async getPaginateLinkList(
+    async getPaginateGroupLinkList(
         @Req() req: Request,
-        @Body() paginateLinkList: IPaginateItem<IGroupLink>
+        @Body() paginateGroupLinkList: IPaginateItem<IGroupLink>
     ): Promise<IPaginateItem<IGroupLink | null>> {
-        const RESULT: IPaginateItem<IGroupLink | null> = await this._groupLinkService.getPaginateGroupLinkList(paginateLinkList);
+        const RESULT: IPaginateItem<IGroupLink | null> = await this._groupLinkService.getPaginateGroupLinkList(paginateGroupLinkList);
         return RESULT;
     }
 

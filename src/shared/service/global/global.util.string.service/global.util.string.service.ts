@@ -1,8 +1,8 @@
 import { FORMAT_DATE } from '@constant/format/format-date.constant';
 import { Inject, Service, Token } from 'typedi';
 
+import { GlobalUtilDateService, GLOBAL_UTIL_DATE_SERVICE } from '@service/global/global.util.date.service/global.util.date.service';
 import { IGlobalUtilStringService } from '@service/global/global.util.string.service/global.util.string.service.interface';
-import { GlobalUtilDateService, GLOBAL_UTIL_DATE_SERVICE } from '../global.util.date.service/global.util.date.service';
 
 export const GLOBAL_UTIL_STRING_SERVICE = new Token<IGlobalUtilStringService>('GlobalUtilStringService');
 

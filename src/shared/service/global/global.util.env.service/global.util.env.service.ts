@@ -4,6 +4,7 @@ import { Service, Token } from 'typedi';
 
 import { ERROR_MESSAGE_API } from '@constant/error-message/error-message-api.constant';
 import { IGlobalUtilEnvService } from '@service/global/global.util.env.service/global.util.env.service.interface';
+import { Algorithm } from 'jsonwebtoken';
 
 export const GLOBAL_UTIL_ENV_SERVICE_TOKEN = new Token<IGlobalUtilEnvService>('GlobalUtilEnvService');
 
@@ -21,6 +22,10 @@ export class GlobalUtilEnvService implements IGlobalUtilEnvService {
 
     public getSessionExpiresIn(): string {
         return this.getStringEnvironmentVariable(process.env.SESSION_EXPIRES_IN);
+    }
+
+    public getHashedAlgorithm(): Algorithm {
+        return this.getStringEnvironmentVariable(process.env.HASHED_ALGORITHM) as Algorithm;
     }
 
     public getRunTest(): boolean {

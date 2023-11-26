@@ -7,7 +7,9 @@ import 'reflect-metadata';
 export interface IAuthService {
     signUp(userCreate: IUserCreate): Promise<boolean>;
 
-    signIn(authSignIn: TAuthSignIn): Promise<string>;
+    signIn(authSignIn: TAuthSignIn, currentToken: string): Promise<string>;
+
+    signOut(authSignIn: TAuthSignIn, currentToken: string): Promise<boolean>;
 
     getUserByToken(getUserByToken: IGetUserByToken): Promise<IUser>;
 }

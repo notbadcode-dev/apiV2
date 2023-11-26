@@ -1,4 +1,5 @@
 import { IEnvironment } from '@model/environment/environment';
+import { Algorithm } from 'jsonwebtoken';
 
 export interface IGlobalUtilEnvService {
     getLoggingEnabled(): boolean;
@@ -6,6 +7,8 @@ export interface IGlobalUtilEnvService {
     getSessionSecret(): string;
 
     getSessionExpiresIn(): string;
+
+    getHashedAlgorithm(): Algorithm;
 
     getRunTest(): boolean;
 

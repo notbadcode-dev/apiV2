@@ -123,6 +123,7 @@ export class GroupLinkRepository implements IGroupLinkRepository {
 
         const GROUP_LINK_ENTITY_LIST = await this._linkGroupRepository.find({
             where: { userId: USER_ID },
+            relations: ['linkList'],
             skip: PAGINATE_INFO.currentPageStartIndex,
             take: PAGINATE_INFO.currentPageTotal,
         });

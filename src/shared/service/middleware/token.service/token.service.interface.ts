@@ -14,4 +14,6 @@ export interface ITokenService {
     getCurrentUserId(): number;
 
     verify(token: string): number | null;
+
+    expireToken(token: string): void;
 }
