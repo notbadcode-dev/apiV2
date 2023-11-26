@@ -30,7 +30,7 @@ module.exports = {
             '<rootDir>/src/linkApi/infrastructure/constant/$1'
         ],
         '^@enum/(.*)$': [
-            '<rootDir>/src/shared/constant/$1',
+            '<rootDir>/src/shared/enum/$1',
             '<rootDir>/src/linkApi/infrastructure/enum/$1'
         ],
         '^@service/(.*)$': [

@@ -136,7 +136,7 @@ describe('signIn', () => {
         const USER_CREATED_WITH_APPLICATION_ID_NULL: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreatedWithApplicationIdIsNull();
 
         // Act & Assert
-        await expect(_authService.signIn(USER_CREATED_WITH_APPLICATION_ID_NULL)).rejects.toThrow(
+        await expect(_authService.signIn(USER_CREATED_WITH_APPLICATION_ID_NULL, '')).rejects.toThrow(
             USER_SERVICE_TEST_DATA.getArgumentErrorInvalidApplicationId()
         );
     });
@@ -146,7 +146,7 @@ describe('signIn', () => {
         const USER_CREATED_WITH_APPLICATION_ID_ZERO: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreatedWithApplicationIdIsZero();
 
         // Act & Assert
-        await expect(_authService.signIn(USER_CREATED_WITH_APPLICATION_ID_ZERO)).rejects.toThrow(
+        await expect(_authService.signIn(USER_CREATED_WITH_APPLICATION_ID_ZERO, '')).rejects.toThrow(
             USER_SERVICE_TEST_DATA.getArgumentErrorInvalidApplicationId()
         );
     });
@@ -156,7 +156,7 @@ describe('signIn', () => {
         const USER_CREATED_WITH_USERNAME_IS_EMPTY: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreatedWithUsernameIsEmpty();
 
         // Act & Assert
-        await expect(_authService.signIn(USER_CREATED_WITH_USERNAME_IS_EMPTY)).rejects.toThrow(
+        await expect(_authService.signIn(USER_CREATED_WITH_USERNAME_IS_EMPTY, '')).rejects.toThrow(
             USER_SERVICE_TEST_DATA.getArgumentErrorInvalidUsernameCannotBeEmpty()
         );
     });
@@ -166,7 +166,7 @@ describe('signIn', () => {
         const USER_CREATED_WITH_PASSWORD_IS_EMPTY: IUserCreate = USER_SERVICE_TEST_DATA.getUserCreatedWithPasswordIsEmpty();
 
         // Act & Assert
-        await expect(_authService.signIn(USER_CREATED_WITH_PASSWORD_IS_EMPTY)).rejects.toThrow(
+        await expect(_authService.signIn(USER_CREATED_WITH_PASSWORD_IS_EMPTY, '')).rejects.toThrow(
             USER_SERVICE_TEST_DATA.getArgumentErrorInvalidPasswordCannotBeEmpty()
         );
     });
@@ -178,7 +178,7 @@ describe('signIn', () => {
         when(_userRepositoryMock.getByName(anyString(), CONTROL_EXISTS_USER)).thenCall(async () => null);
 
         // Act & Assert
-        await expect(_authService.signIn(AUTH_SIGN_IN)).rejects.toThrow(USER_ID_UNAUTHORIZED_ERROR);
+        await expect(_authService.signIn(AUTH_SIGN_IN, '')).rejects.toThrow(USER_ID_UNAUTHORIZED_ERROR);
     });
 
     it('Should throw an UnauthorizedError when userId is not found', async () => {
@@ -190,7 +190,7 @@ describe('signIn', () => {
         );
 
         // Act & Assert
-        await expect(_authService.signIn(AUTH_SIGN_IN)).rejects.toThrow(USER_ID_UNAUTHORIZED_ERROR);
+        await expect(_authService.signIn(AUTH_SIGN_IN, '')).rejects.toThrow(USER_ID_UNAUTHORIZED_ERROR);
     });
 
     it('Should throw an UnauthorizedError when password is incorrect', async () => {
@@ -202,7 +202,7 @@ describe('signIn', () => {
         when(_passwordServiceMock.verifyPassword(AUTH_SIGN_IN.password, USER_ENTITY.password)).thenCall(async () => NOT_VERIFY_PASSWORD);
 
         // Act & Assert
-        await expect(_authService.signIn(AUTH_SIGN_IN)).rejects.toThrow(UNAUTHORIZED_ERROR);
+        await expect(_authService.signIn(AUTH_SIGN_IN, '')).rejects.toThrow(UNAUTHORIZED_ERROR);
     });
 
     it('Should return a token when username and password are correct', async () => {
@@ -215,7 +215,7 @@ describe('signIn', () => {
         when(_tokenServiceMock.sign(USER_ENTITY.id)).thenCall(async () => TOKEN);
 
         // Act
-        const RESULT = await _authService.signIn(AUTH_SIGN_IN);
+        const RESULT = await _authService.signIn(AUTH_SIGN_IN, '');
 
         // Assert
         expect(RESULT).toBe(TOKEN);
