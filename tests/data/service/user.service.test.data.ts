@@ -121,8 +121,8 @@ export class UserServiceTestData {
     public getUserCreatedWithApplicationIdIsNull(): IUserCreate {
         return {
             ...this.getUserUpdated(),
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             password: this.getUserPassword(),
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             applicationId: null as any,
         };
     }
@@ -198,6 +198,7 @@ export class UserServiceTestData {
     public getGetUserByTokenWithApplicationIdIsNull(): IGetUserByToken {
         return {
             ...this.getGetUserByToken(),
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             applicationId: null as any,
         };
     }
